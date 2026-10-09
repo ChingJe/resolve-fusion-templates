@@ -8,7 +8,7 @@
 
 下次有機會就測，測完把結果寫進 SKILL.md。
 
-- 這天做的六個範本（Time Slice、Video Wall、Photo Stack、Chapter Bar、Number Counter、Line Art Reveal）都只驗證到「貼進 Fusion 合成能載入、算圖正確」。從 Edit 頁面的特效庫拖到時間軸上，一個都還沒試過。
+- 這天做的五個範本（Time Slice、Video Wall、Photo Stack、Chapter Bar、Number Counter）都只驗證到「貼進 Fusion 合成能載入、算圖正確」。從 Edit 頁面的特效庫拖到時間軸上，一個都還沒試過。
 - Video Wall 是第一個轉場。不確定 `MacroOperator` 包的轉場能不能從特效庫拖到剪接點上；不行的話把最外層改成 `GroupOperator`。
 - Video Wall 的其他螢幕會取前一段更早、後一段更晚的畫格。轉場合成裡拿不拿得到這些畫格不知道，拿不到的話螢幕會是黑的或定格，把 `Time Offset` 調成 0 可以避開。
 - Photo Stack 的靜態照片取自整支來源影片（用 `Stills From`、`Stills To` 控制範圍），和影片版 Comic Intro 有同樣的疑問。
@@ -30,11 +30,11 @@
 
 ### 效能
 
-- Line Art Reveal 的 `Custom` 每個像素取樣 12 次，1080p 一格大約 0.8 秒，在 Edit 頁面不會即時播放，需要算圖快取。要加速就改用內建的邊緣偵測節點取代取樣。
+- 在 `Custom` 裡對鄰近像素多次取樣很慢。做過一個線稿特效（每像素取樣 12 次），1080p 一格約 0.8 秒，Edit 頁面無法即時播放。使用者看過後不喜歡，已移除；以後要做邊緣偵測先找內建節點。
 
 ### Resolve 沒回應時
 
-- 做完六個範本後，`OpenPage("edit")`、`SetCurrentTimeline()`、`GetCurrentPage()` 都不回傳值，時間軸停在 `FX Lab` 切不回去。前面的建置和算圖都正常。原因沒查出來，多半是 Resolve 跳了對話框。遇到就不要重試，請使用者看一下畫面。
+- 做完範本後，`OpenPage("edit")`、`SetCurrentTimeline()`、`GetCurrentPage()` 都不回傳值，時間軸停在 `FX Lab` 切不回去。前面的建置和算圖都正常。原因沒查出來，多半是 Resolve 跳了對話框。遇到就不要重試，請使用者看一下畫面。
 
 ### 雜項
 
