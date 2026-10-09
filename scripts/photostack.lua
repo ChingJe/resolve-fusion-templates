@@ -1,17 +1,11 @@
--- Photo Stack intro: stills from the clip slide onto a table one by one, the last photo is the live clip
+-- Photo Stack intro: moments from the clip slide onto a table one by one, the last photo is the live clip
 -- and grows until it fills the frame. FX_SRC=media uses the clip. FX_EXPORT=1 dumps the macro source.
+-- FX_SET="PsCount=9 PsSlide=0.3" overrides controls for a test render.
 local L = dofile("D:/davinci/scripts/lib.lua")
 local comp = L.comp()
 if not comp then return end
 local useMedia = os.getenv("FX_SRC") == "media"
-
--- every photo: resting offset from the centre (x, y), resting angle, and the direction it slides in from
-local PHOTOS = {
-  {-0.22, 0.13, -9, -0.9, 0.3}, {0.21, 0.15, 7, 0.9, 0.35}, {-0.17, -0.14, 5, -0.85, -0.5},
-  {0.23, -0.11, -6, 0.9, -0.4}, {-0.04, 0.06, 11, 0.15, 1.0}, {0.02, -0.01, -3, -0.1, -1.0},
-}
-local N = #PHOTOS
-local SLIDE, STAGGER = 0.2, 0.085 -- how long one photo takes to arrive, and the gap between photos (in P)
+local MAX = 12 -- most photos the node graph can show, the live one included
 
 comp:Lock()
 comp:StartUndo("Build Photo Stack")
@@ -20,7 +14,12 @@ local add, expr = L.adder(comp), L.expr
 
 local ctrl = add("Background", "StackCtrl", -5, -3)
 ctrl.UserControls = {
-  PhotoSize  = L.num("Photo Size", 0.42, 0.2, 0.7),
+  PsCount    = L.num("Photo Count", 6, 1, MAX, nil, true),
+  PsSlide    = L.num("Slide Time", 0.2, 0.03, 0.6),
+  PsDone     = L.num("Stack Complete At", 0.67, 0.2, 0.9),
+  PsSeed     = L.num("Layout Seed", 1, 0, 50, nil, true),
+  PsPlay     = L.check("Photos Play As Video", 1),
+  PhotoSize  = L.num("Photo Size", 0.42, 0.15, 0.7),
   Spread     = L.num("Spread", 1, 0, 1.6),
   Tilt       = L.num("Tilt", 1, 0, 3),
   Border     = L.num("Border", 0.022, 0, 0.06),
@@ -35,6 +34,7 @@ ctrl.UserControls = {
   StillsTo   = L.num("Stills To", 0.95, 0, 1),
   P = L.num("P", 0, 0, 1, "Driver"),
   Z = L.num("Z", 0, 0, 1, "Driver"),
+  Gap = L.num("Gap", 0.085, 0, 1, "Driver"),
   Aspect = L.num("Aspect", 1.7778, 0.2, 5, "Driver"),
   Inner = L.num("Inner", 0.9, 0, 1, "Driver"),
 }
@@ -42,7 +42,10 @@ ctrl = ctrl:Refresh()
 ctrl:SetInput("UseFrameFormatSettings", 1)
 expr(ctrl, "P", L.P)
 -- Z: the live photo growing to full frame at the end, eased at both ends
-expr(ctrl, "Z", "(function(t) return t*t*t*(t*(6*t - 15) + 10) end)(min(max((P - 0.67)/0.28, 0), 1))")
+expr(ctrl, "Z", "(function(t) return t*t*t*(t*(6*t - 15) + 10) end)(min(max((P - PsDone)/max(0.95 - PsDone, 0.01), 0), 1))")
+-- Gap: time between two photos setting off, so that the last one has landed when the stack is complete.
+-- A long Slide Time with many photos leaves no room and everything sets off at once.
+expr(ctrl, "Gap", "max(PsDone - 0.03 - PsSlide, 0) / max(PsCount - 1, 1)")
 expr(ctrl, "Aspect", "Width/Height")
 -- Inner: how much of the card the picture takes up; the paper border is the same width on all four sides
 expr(ctrl, "Inner", "1 - 2*Border*Aspect")
@@ -50,6 +53,12 @@ expr(ctrl, "Inner", "1 - 2*Border*Aspect")
 local src = add("BrightnessContrast", "Src", -5, 0)
 local source = useMedia and mediaIn.Output or L.testsource(comp).Output
 src.Input = source
+
+-- the photos are shown small, so they are cut from a half size copy to keep playback bearable
+local SMALL = 960
+local small = add("BetterResize", "SmallSrc", -5, 1)
+small.Input = src.Output
+small:SetInput("Width", SMALL); small:SetInput("Height", SMALL * 9 / 16); small:SetInput("KeepAspect", 0)
 
 -- table: the clip itself, blurred and darkened
 local blur = add("Blur", "TableBlur", -4, 5)
@@ -68,32 +77,52 @@ L.color(paper, 0.97, 0.96, 0.93)
 paper:SetInput("UseFrameFormatSettings", 1)
 paper.EffectMask = paperMask.Mask
 
+-- Layers 1..MAX-1 are stills and only the first PsCount-1 of them are used; the last layer is the live clip.
 local last = table_
-for k, ph in ipairs(PHOTOS) do
-  local live = (k == N)
+for k = 1, MAX do
+  local live = (k == MAX)
   local image = src
+  local slot = live and "(StackCtrl.PsCount - 1)" or tostring(k - 1) -- position in the arrival order
   if not live then
     image = add("TimeStretcher", "Still" .. k, -4 + k, 0)
-    image.Input = src.Output
+    image.Input = small.Output
     image:SetInput("InterpolateBetweenFrames", 0)
-    expr(image, "SourceTime", string.format(
-      "floor(comp.GlobalStart + (StackCtrl.StillsFrom + (StackCtrl.StillsTo - StackCtrl.StillsFrom) * %g) * (comp.GlobalEnd - comp.GlobalStart))",
-      (k - 1) / (N - 2)))
+    -- each photo starts from its own spot in the source; it either stays there or plays on from it, wrapping at the end
+    expr(image, "SourceTime", string.format([[(function(first, len, at)
+  local start = floor(at * (len - 1))
+  return first + iif(StackCtrl.PsPlay == 1, (start + time - comp.RenderStart) %% len, start)
+end)(comp.GlobalStart, comp.GlobalEnd - comp.GlobalStart + 1,
+  StackCtrl.StillsFrom + (StackCtrl.StillsTo - StackCtrl.StillsFrom) * min(%d/max(StackCtrl.PsCount - 2, 1), 1))]], k - 1))
   end
   local card = add("Merge", "Card" .. k, -4 + k, 1)
   card.Background = paper.Output
   card.Foreground = image.Output
-  expr(card, "Size", "StackCtrl.Inner")
+  expr(card, "Size", live and "StackCtrl.Inner" or string.format("StackCtrl.Inner * StackCtrl.Width/%d", SMALL))
+
+  -- Resting place. Stills sit on a sunflower spiral, outer ones first so later photos pile up towards
+  -- the middle; the seed turns the whole spiral. The live photo rests just off centre.
+  local px, py, tilt, fx, fy
+  if live then
+    px, py, tilt, fx, fy = "0.02", "-0.01", "-3", "-0.1", "-1.1"
+  else
+    local th = string.format("(%d*2.39996 + StackCtrl.PsSeed*1.7)", k)
+    local r = string.format("sqrt(max(StackCtrl.PsCount - %d - 0.5, 0)/max(StackCtrl.PsCount - 1, 1))", k)
+    px = string.format("0.27*%s*cos(%s)", r, th)
+    py = string.format("0.17*%s*sin(%s)", r, th)
+    tilt = string.format("13*sin(%d*7.31 + StackCtrl.PsSeed*3.1)", k)
+    fx = string.format("1.1*cos(%s)", th)
+    fy = string.format("1.1*sin(%s)", th)
+  end
 
   -- fall: 1 while the photo is still outside the frame, easing down to 0 once it has come to rest
-  local t0 = 0.02 + (k - 1) * STAGGER
-  local fall = string.format("((1 - min(max((StackCtrl.P - %g)/%g, 0), 1))^4)", t0, SLIDE)
+  local t0 = string.format("(0.02 + %s*StackCtrl.Gap)", slot)
+  local fall = string.format("((1 - min(max((StackCtrl.P - %s)/StackCtrl.PsSlide, 0), 1))^4)", t0)
   local drop = add("Transform", "Drop" .. k, -4 + k, 2)
   drop.Input = card.Output
   local size = string.format("StackCtrl.PhotoSize * (1 + 0.25*%s)", fall)
-  local angle = string.format("%g*StackCtrl.Tilt + %g*%s", ph[3], ph[3] > 0 and 38 or -38, fall)
-  local cx = string.format("0.5 + %g*StackCtrl.Spread + %g*%s", ph[1], ph[4], fall)
-  local cy = string.format("0.5 + %g*StackCtrl.Spread + %g*%s", ph[2], ph[5], fall)
+  local angle = string.format("(%s)*StackCtrl.Tilt + %d*%s", tilt, (k % 2 == 0) and 38 or -38, fall)
+  local cx = string.format("0.5 + (%s)*StackCtrl.Spread + (%s)*%s", px, fx, fall)
+  local cy = string.format("0.5 + (%s)*StackCtrl.Spread + (%s)*%s", py, fy, fall)
   local lift = fall -- how far above the table the photo is, for the shadow
   if live then
     -- grow until the picture area (not the paper border) covers the frame exactly
@@ -120,7 +149,8 @@ for k, ph in ipairs(PHOTOS) do
   local lay = add("Merge", "Lay" .. k, -4 + k, 5)
   lay.Background = last.Output
   lay.Foreground = shadow.Output
-  expr(lay, "Blend", string.format("iif(StackCtrl.P >= %g, 1, 0)", t0))
+  local used = live and "1" or string.format("iif(%d <= StackCtrl.PsCount - 1, 1, 0)", k)
+  expr(lay, "Blend", string.format("%s * iif(StackCtrl.P >= %s, 1, 0)", used, t0))
   last = lay
 end
 
@@ -140,6 +170,11 @@ if os.getenv("FX_EXPORT") == "1" then
     {"NAME", "PhotoStack"},
     {"MAIN", "Src", "Input"},
     {"OUT", "Finish", "Output"},
+    {"CTL", "StackCtrl", "PsCount", "Photo Count"},
+    {"CTL", "StackCtrl", "PsSlide", "Slide Time"},
+    {"CTL", "StackCtrl", "PsDone", "Stack Complete At"},
+    {"CTL", "StackCtrl", "PsSeed", "Layout Seed"},
+    {"CTL", "StackCtrl", "PsPlay", "Photos Play As Video"},
     {"CTL", "StackCtrl", "PhotoSize", "Photo Size"},
     {"CTL", "StackCtrl", "Spread", "Spread"},
     {"CTL", "StackCtrl", "Tilt", "Tilt"},
@@ -159,5 +194,6 @@ if os.getenv("FX_EXPORT") == "1" then
   })
   src.Input = source
 else
+  for name, value in string.gmatch(os.getenv("FX_SET") or "", "(%w+)=([%d%.%-]+)") do ctrl:SetInput(name, tonumber(value)) end
   L.render(comp, finish.Output, os.getenv("FX_PREFIX") or "ps", tonumber(os.getenv("FX_STEPS") or "12"))
 end

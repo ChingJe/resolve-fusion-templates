@@ -101,6 +101,8 @@ FX_TEMPLATE="D:/davinci/templates/Time Slice.setting" FX_INPUTS=1 "$FU" -l lua c
 - 巨集需要單一輸入點時，放一個不改任何設定的 `BrightnessContrast` 當入口，其他節點都接它。
 - `tool:AddModifier("輸入ID", "修改器ID")` 可以掛修改器，再用 `tool.輸入:GetConnectedOutput():GetTool()` 取得它。
 - `GetToolList(false)` 會連巨集裡面的節點一起列出來，要分辨就看 `tool.ParentTool`。
+- **數量可調的元素**：節點數不能在執行時改變，所以照最大數量建好，用控制項決定用幾個。沒用到的那幾層把 `Merge` 的 `Blend` 設成 0。位置不要寫死，用運算式依序號和數量算出來（Photo Stack 用向日葵螺旋：角度 `k*2.39996`、半徑 `sqrt(k/n)`），再加一個種子控制項轉動整個排列。
+- 小尺寸顯示的影像先用 `BetterResize` 縮小再接 `TimeStretcher`。接到全尺寸畫布的 `Merge` 時，`Size` 要乘上「畫布寬 ÷ 小圖寬」。
 - `comp:Paste()` 在有節點被選取時會自動多插一個 `Merge`。貼之前先呼叫 `comp:SetActiveTool(nil)` 和 `comp.CurrentFrame.FlowView:Select()`，貼完檢查有沒有多出來的節點。
 
 ## 影片輸入的坑

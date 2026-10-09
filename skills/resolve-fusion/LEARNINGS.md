@@ -32,6 +32,8 @@
 
 - 在 `Custom` 裡對鄰近像素多次取樣很慢。做過一個線稿特效（每像素取樣 12 次），1080p 一格約 0.8 秒，Edit 頁面無法即時播放。使用者看過後不喜歡，已移除；以後要做邊緣偵測先找內建節點。
 
+- Photo Stack 算圖偏慢：12 層 `Transform` 開動態模糊，加上每張照片各自播放影片，1080p 一格大約 1.2 到 1.5 秒。要快就關 `Motion Blur` 或關 `Photos Play As Video`。
+
 ### Resolve 沒回應時
 
 - 做完範本後，`OpenPage("edit")`、`SetCurrentTimeline()`、`GetCurrentPage()` 都不回傳值，時間軸停在 `FX Lab` 切不回去。前面的建置和算圖都正常。原因沒查出來，多半是 Resolve 跳了對話框。遇到就不要重試，請使用者看一下畫面。
