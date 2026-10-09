@@ -1,0 +1,989 @@
+{
+	Tools = ordered() {
+		TimeSlice = MacroOperator {
+			CtrlWZoom = false,
+			Inputs = ordered() {
+				MainInput1 = InstanceInput { SourceOp = "Src", Source = "Input" },
+				Input1 = InstanceInput { SourceOp = "SliceCtrl", Source = "Slices", Name = "Slices" },
+				Input2 = InstanceInput { SourceOp = "SliceCtrl", Source = "Delay", Name = "Delay Per Slice" },
+				Input3 = InstanceInput { SourceOp = "SliceCtrl", Source = "Horizontal", Name = "Horizontal Strips" },
+				Input4 = InstanceInput { SourceOp = "SliceCtrl", Source = "FromCenter", Name = "From Center" },
+				Input5 = InstanceInput { SourceOp = "SliceCtrl", Source = "Reverse", Name = "Reverse" },
+				Input6 = InstanceInput { SourceOp = "SliceCtrl", Source = "Soft", Name = "Edge Softness" },
+			},
+			Outputs = {
+				MainOutput1 = InstanceOutput { SourceOp = "Slice16", Source = "Output" }
+			},
+			ViewInfo = GroupInfo { Pos = { 0, 0 } },
+			Tools = ordered() {
+				SliceCtrl = Background {
+					CtrlWZoom = false,
+					Inputs = {
+						GlobalIn = Input { Value = -480 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						GlobalOut = Input { Value = 3534 },
+						Width = Input { Value = 1920 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Height = Input { Value = 1080 }
+					},
+					UserControls = {
+						Slices = {
+							INP_MinScale = 2,
+							INP_MaxScale = 16,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = true,
+							LINKS_Name = "Slices",
+							INP_Default = 12
+						},
+						Delay = {
+							INP_MinScale = 0,
+							INP_MaxScale = 12,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Delay Per Slice",
+							INP_Default = 3
+						},
+						Horizontal = {
+							INP_Integer = true,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "CheckboxControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Horizontal Strips",
+							INP_Default = 0
+						},
+						Soft = {
+							INP_MinScale = 0,
+							INP_MaxScale = 0.05,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Edge Softness",
+							INP_Default = 0
+						},
+						Reverse = {
+							INP_Integer = true,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "CheckboxControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Reverse",
+							INP_Default = 0
+						},
+						FromCenter = {
+							INP_Integer = true,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "CheckboxControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "From Center",
+							INP_Default = 0
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } }
+				},
+				Src = BrightnessContrast {
+					ViewInfo = OperatorInfo { Pos = { -495, 16.5 } }
+				},
+				Lag16 = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { 1265, 16.5 } },
+					Inputs = {
+						SampleSpread = Input { Disabled = true },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "Src"
+						},
+						SourceTime = Input {
+							Source = "Value",
+							Expression = "max(comp.GlobalStart, time - floor(iif(SliceCtrl.Reverse == 1, iif(SliceCtrl.FromCenter == 1, (SliceCtrl.Slices - 1)/2, SliceCtrl.Slices - 1) - iif(SliceCtrl.FromCenter == 1, abs(15 - (SliceCtrl.Slices - 1)/2), 15), iif(SliceCtrl.FromCenter == 1, abs(15 - (SliceCtrl.Slices - 1)/2), 15)) * SliceCtrl.Delay))",
+							SourceOp = "TimeStretcher1源时间15"
+						},
+						InterpolateBetweenFrames = Input { Value = 0 }
+					}
+				},
+				["TimeStretcher1源时间15"] = BezierSpline {
+					SplineColor = { Green = 217, Blue = 243, Red = 233 },
+					NameSet = true,
+					KeyFrames = {
+						[216] = { 0, Flags = { Linear = true } }
+					},
+					CtrlWZoom = false
+				},
+				Lag15 = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { 1155, 16.5 } },
+					Inputs = {
+						SampleSpread = Input { Disabled = true },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "Src"
+						},
+						SourceTime = Input {
+							Source = "Value",
+							Expression = "max(comp.GlobalStart, time - floor(iif(SliceCtrl.Reverse == 1, iif(SliceCtrl.FromCenter == 1, (SliceCtrl.Slices - 1)/2, SliceCtrl.Slices - 1) - iif(SliceCtrl.FromCenter == 1, abs(14 - (SliceCtrl.Slices - 1)/2), 14), iif(SliceCtrl.FromCenter == 1, abs(14 - (SliceCtrl.Slices - 1)/2), 14)) * SliceCtrl.Delay))",
+							SourceOp = "TimeStretcher1源时间14"
+						},
+						InterpolateBetweenFrames = Input { Value = 0 }
+					}
+				},
+				["TimeStretcher1源时间14"] = BezierSpline {
+					SplineColor = { Green = 217, Blue = 243, Red = 233 },
+					NameSet = true,
+					KeyFrames = {
+						[216] = { 0, Flags = { Linear = true } }
+					},
+					CtrlWZoom = false
+				},
+				Lag14 = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { 1045, 16.5 } },
+					Inputs = {
+						SampleSpread = Input { Disabled = true },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "Src"
+						},
+						SourceTime = Input {
+							Source = "Value",
+							Expression = "max(comp.GlobalStart, time - floor(iif(SliceCtrl.Reverse == 1, iif(SliceCtrl.FromCenter == 1, (SliceCtrl.Slices - 1)/2, SliceCtrl.Slices - 1) - iif(SliceCtrl.FromCenter == 1, abs(13 - (SliceCtrl.Slices - 1)/2), 13), iif(SliceCtrl.FromCenter == 1, abs(13 - (SliceCtrl.Slices - 1)/2), 13)) * SliceCtrl.Delay))",
+							SourceOp = "TimeStretcher1源时间13"
+						},
+						InterpolateBetweenFrames = Input { Value = 0 }
+					}
+				},
+				["TimeStretcher1源时间13"] = BezierSpline {
+					SplineColor = { Green = 217, Blue = 243, Red = 233 },
+					NameSet = true,
+					KeyFrames = {
+						[216] = { 0, Flags = { Linear = true } }
+					},
+					CtrlWZoom = false
+				},
+				Lag13 = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { 935, 16.5 } },
+					Inputs = {
+						SampleSpread = Input { Disabled = true },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "Src"
+						},
+						SourceTime = Input {
+							Source = "Value",
+							Expression = "max(comp.GlobalStart, time - floor(iif(SliceCtrl.Reverse == 1, iif(SliceCtrl.FromCenter == 1, (SliceCtrl.Slices - 1)/2, SliceCtrl.Slices - 1) - iif(SliceCtrl.FromCenter == 1, abs(12 - (SliceCtrl.Slices - 1)/2), 12), iif(SliceCtrl.FromCenter == 1, abs(12 - (SliceCtrl.Slices - 1)/2), 12)) * SliceCtrl.Delay))",
+							SourceOp = "TimeStretcher1源时间12"
+						},
+						InterpolateBetweenFrames = Input { Value = 0 }
+					}
+				},
+				["TimeStretcher1源时间12"] = BezierSpline {
+					SplineColor = { Green = 217, Blue = 243, Red = 233 },
+					NameSet = true,
+					KeyFrames = {
+						[216] = { 0, Flags = { Linear = true } }
+					},
+					CtrlWZoom = false
+				},
+				Lag12 = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { 825, 16.5 } },
+					Inputs = {
+						SampleSpread = Input { Disabled = true },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "Src"
+						},
+						SourceTime = Input {
+							Source = "Value",
+							Expression = "max(comp.GlobalStart, time - floor(iif(SliceCtrl.Reverse == 1, iif(SliceCtrl.FromCenter == 1, (SliceCtrl.Slices - 1)/2, SliceCtrl.Slices - 1) - iif(SliceCtrl.FromCenter == 1, abs(11 - (SliceCtrl.Slices - 1)/2), 11), iif(SliceCtrl.FromCenter == 1, abs(11 - (SliceCtrl.Slices - 1)/2), 11)) * SliceCtrl.Delay))",
+							SourceOp = "TimeStretcher1源时间11"
+						},
+						InterpolateBetweenFrames = Input { Value = 0 }
+					}
+				},
+				["TimeStretcher1源时间11"] = BezierSpline {
+					SplineColor = { Green = 217, Blue = 243, Red = 233 },
+					NameSet = true,
+					KeyFrames = {
+						[216] = { 0, Flags = { Linear = true } }
+					},
+					CtrlWZoom = false
+				},
+				Lag11 = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { 715, 16.5 } },
+					Inputs = {
+						SampleSpread = Input { Disabled = true },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "Src"
+						},
+						SourceTime = Input {
+							Source = "Value",
+							Expression = "max(comp.GlobalStart, time - floor(iif(SliceCtrl.Reverse == 1, iif(SliceCtrl.FromCenter == 1, (SliceCtrl.Slices - 1)/2, SliceCtrl.Slices - 1) - iif(SliceCtrl.FromCenter == 1, abs(10 - (SliceCtrl.Slices - 1)/2), 10), iif(SliceCtrl.FromCenter == 1, abs(10 - (SliceCtrl.Slices - 1)/2), 10)) * SliceCtrl.Delay))",
+							SourceOp = "TimeStretcher1源时间10"
+						},
+						InterpolateBetweenFrames = Input { Value = 0 }
+					}
+				},
+				["TimeStretcher1源时间10"] = BezierSpline {
+					SplineColor = { Green = 217, Blue = 243, Red = 233 },
+					NameSet = true,
+					KeyFrames = {
+						[216] = { 0, Flags = { Linear = true } }
+					},
+					CtrlWZoom = false
+				},
+				Lag10 = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { 605, 16.5 } },
+					Inputs = {
+						SampleSpread = Input { Disabled = true },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "Src"
+						},
+						SourceTime = Input {
+							Source = "Value",
+							Expression = "max(comp.GlobalStart, time - floor(iif(SliceCtrl.Reverse == 1, iif(SliceCtrl.FromCenter == 1, (SliceCtrl.Slices - 1)/2, SliceCtrl.Slices - 1) - iif(SliceCtrl.FromCenter == 1, abs(9 - (SliceCtrl.Slices - 1)/2), 9), iif(SliceCtrl.FromCenter == 1, abs(9 - (SliceCtrl.Slices - 1)/2), 9)) * SliceCtrl.Delay))",
+							SourceOp = "TimeStretcher1源时间9"
+						},
+						InterpolateBetweenFrames = Input { Value = 0 }
+					}
+				},
+				["TimeStretcher1源时间9"] = BezierSpline {
+					SplineColor = { Green = 217, Blue = 243, Red = 233 },
+					NameSet = true,
+					KeyFrames = {
+						[216] = { 0, Flags = { Linear = true } }
+					},
+					CtrlWZoom = false
+				},
+				Lag9 = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { 495, 16.5 } },
+					Inputs = {
+						SampleSpread = Input { Disabled = true },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "Src"
+						},
+						SourceTime = Input {
+							Source = "Value",
+							Expression = "max(comp.GlobalStart, time - floor(iif(SliceCtrl.Reverse == 1, iif(SliceCtrl.FromCenter == 1, (SliceCtrl.Slices - 1)/2, SliceCtrl.Slices - 1) - iif(SliceCtrl.FromCenter == 1, abs(8 - (SliceCtrl.Slices - 1)/2), 8), iif(SliceCtrl.FromCenter == 1, abs(8 - (SliceCtrl.Slices - 1)/2), 8)) * SliceCtrl.Delay))",
+							SourceOp = "TimeStretcher1源时间8"
+						},
+						InterpolateBetweenFrames = Input { Value = 0 }
+					}
+				},
+				["TimeStretcher1源时间8"] = BezierSpline {
+					SplineColor = { Green = 217, Blue = 243, Red = 233 },
+					NameSet = true,
+					KeyFrames = {
+						[216] = { 0, Flags = { Linear = true } }
+					},
+					CtrlWZoom = false
+				},
+				Lag8 = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { 385, 16.5 } },
+					Inputs = {
+						SampleSpread = Input { Disabled = true },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "Src"
+						},
+						SourceTime = Input {
+							Source = "Value",
+							Expression = "max(comp.GlobalStart, time - floor(iif(SliceCtrl.Reverse == 1, iif(SliceCtrl.FromCenter == 1, (SliceCtrl.Slices - 1)/2, SliceCtrl.Slices - 1) - iif(SliceCtrl.FromCenter == 1, abs(7 - (SliceCtrl.Slices - 1)/2), 7), iif(SliceCtrl.FromCenter == 1, abs(7 - (SliceCtrl.Slices - 1)/2), 7)) * SliceCtrl.Delay))",
+							SourceOp = "TimeStretcher1源时间7"
+						},
+						InterpolateBetweenFrames = Input { Value = 0 }
+					}
+				},
+				["TimeStretcher1源时间7"] = BezierSpline {
+					SplineColor = { Green = 217, Blue = 243, Red = 233 },
+					NameSet = true,
+					KeyFrames = {
+						[216] = { 0, Flags = { Linear = true } }
+					},
+					CtrlWZoom = false
+				},
+				Lag7 = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { 275, 16.5 } },
+					Inputs = {
+						SampleSpread = Input { Disabled = true },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "Src"
+						},
+						SourceTime = Input {
+							Source = "Value",
+							Expression = "max(comp.GlobalStart, time - floor(iif(SliceCtrl.Reverse == 1, iif(SliceCtrl.FromCenter == 1, (SliceCtrl.Slices - 1)/2, SliceCtrl.Slices - 1) - iif(SliceCtrl.FromCenter == 1, abs(6 - (SliceCtrl.Slices - 1)/2), 6), iif(SliceCtrl.FromCenter == 1, abs(6 - (SliceCtrl.Slices - 1)/2), 6)) * SliceCtrl.Delay))",
+							SourceOp = "TimeStretcher1源时间6"
+						},
+						InterpolateBetweenFrames = Input { Value = 0 }
+					}
+				},
+				["TimeStretcher1源时间6"] = BezierSpline {
+					SplineColor = { Green = 217, Blue = 243, Red = 233 },
+					NameSet = true,
+					KeyFrames = {
+						[216] = { 0, Flags = { Linear = true } }
+					},
+					CtrlWZoom = false
+				},
+				Lag6 = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { 165, 16.5 } },
+					Inputs = {
+						SampleSpread = Input { Disabled = true },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "Src"
+						},
+						SourceTime = Input {
+							Source = "Value",
+							Expression = "max(comp.GlobalStart, time - floor(iif(SliceCtrl.Reverse == 1, iif(SliceCtrl.FromCenter == 1, (SliceCtrl.Slices - 1)/2, SliceCtrl.Slices - 1) - iif(SliceCtrl.FromCenter == 1, abs(5 - (SliceCtrl.Slices - 1)/2), 5), iif(SliceCtrl.FromCenter == 1, abs(5 - (SliceCtrl.Slices - 1)/2), 5)) * SliceCtrl.Delay))",
+							SourceOp = "TimeStretcher1源时间5"
+						},
+						InterpolateBetweenFrames = Input { Value = 0 }
+					}
+				},
+				["TimeStretcher1源时间5"] = BezierSpline {
+					SplineColor = { Green = 217, Blue = 243, Red = 233 },
+					NameSet = true,
+					KeyFrames = {
+						[216] = { 0, Flags = { Linear = true } }
+					},
+					CtrlWZoom = false
+				},
+				Lag5 = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { 55, 16.5 } },
+					Inputs = {
+						SampleSpread = Input { Disabled = true },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "Src"
+						},
+						SourceTime = Input {
+							Source = "Value",
+							Expression = "max(comp.GlobalStart, time - floor(iif(SliceCtrl.Reverse == 1, iif(SliceCtrl.FromCenter == 1, (SliceCtrl.Slices - 1)/2, SliceCtrl.Slices - 1) - iif(SliceCtrl.FromCenter == 1, abs(4 - (SliceCtrl.Slices - 1)/2), 4), iif(SliceCtrl.FromCenter == 1, abs(4 - (SliceCtrl.Slices - 1)/2), 4)) * SliceCtrl.Delay))",
+							SourceOp = "TimeStretcher1源时间4"
+						},
+						InterpolateBetweenFrames = Input { Value = 0 }
+					}
+				},
+				["TimeStretcher1源时间4"] = BezierSpline {
+					SplineColor = { Green = 217, Blue = 243, Red = 233 },
+					NameSet = true,
+					KeyFrames = {
+						[216] = { 0, Flags = { Linear = true } }
+					},
+					CtrlWZoom = false
+				},
+				Lag4 = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { -55, 16.5 } },
+					Inputs = {
+						SampleSpread = Input { Disabled = true },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "Src"
+						},
+						SourceTime = Input {
+							Source = "Value",
+							Expression = "max(comp.GlobalStart, time - floor(iif(SliceCtrl.Reverse == 1, iif(SliceCtrl.FromCenter == 1, (SliceCtrl.Slices - 1)/2, SliceCtrl.Slices - 1) - iif(SliceCtrl.FromCenter == 1, abs(3 - (SliceCtrl.Slices - 1)/2), 3), iif(SliceCtrl.FromCenter == 1, abs(3 - (SliceCtrl.Slices - 1)/2), 3)) * SliceCtrl.Delay))",
+							SourceOp = "TimeStretcher1源时间3"
+						},
+						InterpolateBetweenFrames = Input { Value = 0 }
+					}
+				},
+				["TimeStretcher1源时间3"] = BezierSpline {
+					SplineColor = { Green = 217, Blue = 243, Red = 233 },
+					NameSet = true,
+					KeyFrames = {
+						[216] = { 0, Flags = { Linear = true } }
+					},
+					CtrlWZoom = false
+				},
+				Lag3 = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { -165, 16.5 } },
+					Inputs = {
+						SampleSpread = Input { Disabled = true },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "Src"
+						},
+						SourceTime = Input {
+							Source = "Value",
+							Expression = "max(comp.GlobalStart, time - floor(iif(SliceCtrl.Reverse == 1, iif(SliceCtrl.FromCenter == 1, (SliceCtrl.Slices - 1)/2, SliceCtrl.Slices - 1) - iif(SliceCtrl.FromCenter == 1, abs(2 - (SliceCtrl.Slices - 1)/2), 2), iif(SliceCtrl.FromCenter == 1, abs(2 - (SliceCtrl.Slices - 1)/2), 2)) * SliceCtrl.Delay))",
+							SourceOp = "TimeStretcher1源时间2"
+						},
+						InterpolateBetweenFrames = Input { Value = 0 }
+					}
+				},
+				["TimeStretcher1源时间2"] = BezierSpline {
+					SplineColor = { Green = 217, Blue = 243, Red = 233 },
+					NameSet = true,
+					KeyFrames = {
+						[216] = { 0, Flags = { Linear = true } }
+					},
+					CtrlWZoom = false
+				},
+				Lag2 = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { -275, 16.5 } },
+					Inputs = {
+						SampleSpread = Input { Disabled = true },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "Src"
+						},
+						SourceTime = Input {
+							Source = "Value",
+							Expression = "max(comp.GlobalStart, time - floor(iif(SliceCtrl.Reverse == 1, iif(SliceCtrl.FromCenter == 1, (SliceCtrl.Slices - 1)/2, SliceCtrl.Slices - 1) - iif(SliceCtrl.FromCenter == 1, abs(1 - (SliceCtrl.Slices - 1)/2), 1), iif(SliceCtrl.FromCenter == 1, abs(1 - (SliceCtrl.Slices - 1)/2), 1)) * SliceCtrl.Delay))",
+							SourceOp = "TimeStretcher1源时间1"
+						},
+						InterpolateBetweenFrames = Input { Value = 0 }
+					}
+				},
+				["TimeStretcher1源时间1"] = BezierSpline {
+					SplineColor = { Green = 217, Blue = 243, Red = 233 },
+					NameSet = true,
+					KeyFrames = {
+						[216] = { 0, Flags = { Linear = true } }
+					},
+					CtrlWZoom = false
+				},
+				Lag1 = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { -385, 16.5 } },
+					Inputs = {
+						SampleSpread = Input { Disabled = true },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "Src"
+						},
+						SourceTime = Input {
+							Source = "Value",
+							Expression = "max(comp.GlobalStart, time - floor(iif(SliceCtrl.Reverse == 1, iif(SliceCtrl.FromCenter == 1, (SliceCtrl.Slices - 1)/2, SliceCtrl.Slices - 1) - iif(SliceCtrl.FromCenter == 1, abs(0 - (SliceCtrl.Slices - 1)/2), 0), iif(SliceCtrl.FromCenter == 1, abs(0 - (SliceCtrl.Slices - 1)/2), 0)) * SliceCtrl.Delay))",
+							SourceOp = "TimeStretcher1源时间"
+						},
+						InterpolateBetweenFrames = Input { Value = 0 }
+					}
+				},
+				["TimeStretcher1源时间"] = BezierSpline {
+					SplineColor = { Green = 217, Blue = 243, Red = 233 },
+					NameSet = true,
+					KeyFrames = {
+						[216] = { 0, Flags = { Linear = true } }
+					},
+					CtrlWZoom = false
+				},
+				Strip2 = RectangleMask {
+					ViewInfo = OperatorInfo { Pos = { -275, 49.5 } },
+					Inputs = {
+						SoftEdge = Input { Expression = "SliceCtrl.Soft" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						UseFrameFormatSettings = Input { Value = 1 },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						Center = Input { Expression = "iif(SliceCtrl.Horizontal == 1, Point(0.5, 1 - 1.5/SliceCtrl.Slices), Point(1.5/SliceCtrl.Slices, 0.5))" },
+						Width = Input { Expression = "iif(SliceCtrl.Horizontal == 1, 2, 1/SliceCtrl.Slices + 0.001)" },
+						Height = Input { Expression = "iif(SliceCtrl.Horizontal == 1, 1/SliceCtrl.Slices + 0.001, 2)" }
+					}
+				},
+				Slice2 = Merge {
+					ViewInfo = OperatorInfo { Pos = { -275, 82.5 } },
+					Inputs = {
+						Blend = Input { Expression = "iif(1 < SliceCtrl.Slices, 1, 0)" },
+						PerformDepthMerge = Input { Value = 0 },
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "Lag2"
+						},
+						Background = Input {
+							Source = "Output",
+							SourceOp = "Lag1"
+						},
+						EffectMask = Input {
+							Source = "Mask",
+							SourceOp = "Strip2"
+						}
+					}
+				},
+				Strip3 = RectangleMask {
+					ViewInfo = OperatorInfo { Pos = { -165, 49.5 } },
+					Inputs = {
+						SoftEdge = Input { Expression = "SliceCtrl.Soft" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						UseFrameFormatSettings = Input { Value = 1 },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						Center = Input { Expression = "iif(SliceCtrl.Horizontal == 1, Point(0.5, 1 - 2.5/SliceCtrl.Slices), Point(2.5/SliceCtrl.Slices, 0.5))" },
+						Width = Input { Expression = "iif(SliceCtrl.Horizontal == 1, 2, 1/SliceCtrl.Slices + 0.001)" },
+						Height = Input { Expression = "iif(SliceCtrl.Horizontal == 1, 1/SliceCtrl.Slices + 0.001, 2)" }
+					}
+				},
+				Slice3 = Merge {
+					ViewInfo = OperatorInfo { Pos = { -165, 82.5 } },
+					Inputs = {
+						Blend = Input { Expression = "iif(2 < SliceCtrl.Slices, 1, 0)" },
+						PerformDepthMerge = Input { Value = 0 },
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "Lag3"
+						},
+						Background = Input {
+							Source = "Output",
+							SourceOp = "Slice2"
+						},
+						EffectMask = Input {
+							Source = "Mask",
+							SourceOp = "Strip3"
+						}
+					}
+				},
+				Strip4 = RectangleMask {
+					ViewInfo = OperatorInfo { Pos = { -55, 49.5 } },
+					Inputs = {
+						SoftEdge = Input { Expression = "SliceCtrl.Soft" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						UseFrameFormatSettings = Input { Value = 1 },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						Center = Input { Expression = "iif(SliceCtrl.Horizontal == 1, Point(0.5, 1 - 3.5/SliceCtrl.Slices), Point(3.5/SliceCtrl.Slices, 0.5))" },
+						Width = Input { Expression = "iif(SliceCtrl.Horizontal == 1, 2, 1/SliceCtrl.Slices + 0.001)" },
+						Height = Input { Expression = "iif(SliceCtrl.Horizontal == 1, 1/SliceCtrl.Slices + 0.001, 2)" }
+					}
+				},
+				Slice4 = Merge {
+					ViewInfo = OperatorInfo { Pos = { -55, 82.5 } },
+					Inputs = {
+						Blend = Input { Expression = "iif(3 < SliceCtrl.Slices, 1, 0)" },
+						PerformDepthMerge = Input { Value = 0 },
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "Lag4"
+						},
+						Background = Input {
+							Source = "Output",
+							SourceOp = "Slice3"
+						},
+						EffectMask = Input {
+							Source = "Mask",
+							SourceOp = "Strip4"
+						}
+					}
+				},
+				Strip5 = RectangleMask {
+					ViewInfo = OperatorInfo { Pos = { 55, 49.5 } },
+					Inputs = {
+						SoftEdge = Input { Expression = "SliceCtrl.Soft" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						UseFrameFormatSettings = Input { Value = 1 },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						Center = Input { Expression = "iif(SliceCtrl.Horizontal == 1, Point(0.5, 1 - 4.5/SliceCtrl.Slices), Point(4.5/SliceCtrl.Slices, 0.5))" },
+						Width = Input { Expression = "iif(SliceCtrl.Horizontal == 1, 2, 1/SliceCtrl.Slices + 0.001)" },
+						Height = Input { Expression = "iif(SliceCtrl.Horizontal == 1, 1/SliceCtrl.Slices + 0.001, 2)" }
+					}
+				},
+				Slice5 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 55, 82.5 } },
+					Inputs = {
+						Blend = Input { Expression = "iif(4 < SliceCtrl.Slices, 1, 0)" },
+						PerformDepthMerge = Input { Value = 0 },
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "Lag5"
+						},
+						Background = Input {
+							Source = "Output",
+							SourceOp = "Slice4"
+						},
+						EffectMask = Input {
+							Source = "Mask",
+							SourceOp = "Strip5"
+						}
+					}
+				},
+				Strip6 = RectangleMask {
+					ViewInfo = OperatorInfo { Pos = { 165, 49.5 } },
+					Inputs = {
+						SoftEdge = Input { Expression = "SliceCtrl.Soft" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						UseFrameFormatSettings = Input { Value = 1 },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						Center = Input { Expression = "iif(SliceCtrl.Horizontal == 1, Point(0.5, 1 - 5.5/SliceCtrl.Slices), Point(5.5/SliceCtrl.Slices, 0.5))" },
+						Width = Input { Expression = "iif(SliceCtrl.Horizontal == 1, 2, 1/SliceCtrl.Slices + 0.001)" },
+						Height = Input { Expression = "iif(SliceCtrl.Horizontal == 1, 1/SliceCtrl.Slices + 0.001, 2)" }
+					}
+				},
+				Slice6 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 165, 82.5 } },
+					Inputs = {
+						Blend = Input { Expression = "iif(5 < SliceCtrl.Slices, 1, 0)" },
+						PerformDepthMerge = Input { Value = 0 },
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "Lag6"
+						},
+						Background = Input {
+							Source = "Output",
+							SourceOp = "Slice5"
+						},
+						EffectMask = Input {
+							Source = "Mask",
+							SourceOp = "Strip6"
+						}
+					}
+				},
+				Strip7 = RectangleMask {
+					ViewInfo = OperatorInfo { Pos = { 275, 49.5 } },
+					Inputs = {
+						SoftEdge = Input { Expression = "SliceCtrl.Soft" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						UseFrameFormatSettings = Input { Value = 1 },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						Center = Input { Expression = "iif(SliceCtrl.Horizontal == 1, Point(0.5, 1 - 6.5/SliceCtrl.Slices), Point(6.5/SliceCtrl.Slices, 0.5))" },
+						Width = Input { Expression = "iif(SliceCtrl.Horizontal == 1, 2, 1/SliceCtrl.Slices + 0.001)" },
+						Height = Input { Expression = "iif(SliceCtrl.Horizontal == 1, 1/SliceCtrl.Slices + 0.001, 2)" }
+					}
+				},
+				Slice7 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 275, 82.5 } },
+					Inputs = {
+						Blend = Input { Expression = "iif(6 < SliceCtrl.Slices, 1, 0)" },
+						PerformDepthMerge = Input { Value = 0 },
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "Lag7"
+						},
+						Background = Input {
+							Source = "Output",
+							SourceOp = "Slice6"
+						},
+						EffectMask = Input {
+							Source = "Mask",
+							SourceOp = "Strip7"
+						}
+					}
+				},
+				Strip8 = RectangleMask {
+					ViewInfo = OperatorInfo { Pos = { 385, 49.5 } },
+					Inputs = {
+						SoftEdge = Input { Expression = "SliceCtrl.Soft" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						UseFrameFormatSettings = Input { Value = 1 },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						Center = Input { Expression = "iif(SliceCtrl.Horizontal == 1, Point(0.5, 1 - 7.5/SliceCtrl.Slices), Point(7.5/SliceCtrl.Slices, 0.5))" },
+						Width = Input { Expression = "iif(SliceCtrl.Horizontal == 1, 2, 1/SliceCtrl.Slices + 0.001)" },
+						Height = Input { Expression = "iif(SliceCtrl.Horizontal == 1, 1/SliceCtrl.Slices + 0.001, 2)" }
+					}
+				},
+				Slice8 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 385, 82.5 } },
+					Inputs = {
+						Blend = Input { Expression = "iif(7 < SliceCtrl.Slices, 1, 0)" },
+						PerformDepthMerge = Input { Value = 0 },
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "Lag8"
+						},
+						Background = Input {
+							Source = "Output",
+							SourceOp = "Slice7"
+						},
+						EffectMask = Input {
+							Source = "Mask",
+							SourceOp = "Strip8"
+						}
+					}
+				},
+				Strip9 = RectangleMask {
+					ViewInfo = OperatorInfo { Pos = { 495, 49.5 } },
+					Inputs = {
+						SoftEdge = Input { Expression = "SliceCtrl.Soft" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						UseFrameFormatSettings = Input { Value = 1 },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						Center = Input { Expression = "iif(SliceCtrl.Horizontal == 1, Point(0.5, 1 - 8.5/SliceCtrl.Slices), Point(8.5/SliceCtrl.Slices, 0.5))" },
+						Width = Input { Expression = "iif(SliceCtrl.Horizontal == 1, 2, 1/SliceCtrl.Slices + 0.001)" },
+						Height = Input { Expression = "iif(SliceCtrl.Horizontal == 1, 1/SliceCtrl.Slices + 0.001, 2)" }
+					}
+				},
+				Slice9 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 495, 82.5 } },
+					Inputs = {
+						Blend = Input { Expression = "iif(8 < SliceCtrl.Slices, 1, 0)" },
+						PerformDepthMerge = Input { Value = 0 },
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "Lag9"
+						},
+						Background = Input {
+							Source = "Output",
+							SourceOp = "Slice8"
+						},
+						EffectMask = Input {
+							Source = "Mask",
+							SourceOp = "Strip9"
+						}
+					}
+				},
+				Strip10 = RectangleMask {
+					ViewInfo = OperatorInfo { Pos = { 605, 49.5 } },
+					Inputs = {
+						SoftEdge = Input { Expression = "SliceCtrl.Soft" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						UseFrameFormatSettings = Input { Value = 1 },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						Center = Input { Expression = "iif(SliceCtrl.Horizontal == 1, Point(0.5, 1 - 9.5/SliceCtrl.Slices), Point(9.5/SliceCtrl.Slices, 0.5))" },
+						Width = Input { Expression = "iif(SliceCtrl.Horizontal == 1, 2, 1/SliceCtrl.Slices + 0.001)" },
+						Height = Input { Expression = "iif(SliceCtrl.Horizontal == 1, 1/SliceCtrl.Slices + 0.001, 2)" }
+					}
+				},
+				Slice10 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 605, 82.5 } },
+					Inputs = {
+						Blend = Input { Expression = "iif(9 < SliceCtrl.Slices, 1, 0)" },
+						PerformDepthMerge = Input { Value = 0 },
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "Lag10"
+						},
+						Background = Input {
+							Source = "Output",
+							SourceOp = "Slice9"
+						},
+						EffectMask = Input {
+							Source = "Mask",
+							SourceOp = "Strip10"
+						}
+					}
+				},
+				Strip11 = RectangleMask {
+					ViewInfo = OperatorInfo { Pos = { 715, 49.5 } },
+					Inputs = {
+						SoftEdge = Input { Expression = "SliceCtrl.Soft" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						UseFrameFormatSettings = Input { Value = 1 },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						Center = Input { Expression = "iif(SliceCtrl.Horizontal == 1, Point(0.5, 1 - 10.5/SliceCtrl.Slices), Point(10.5/SliceCtrl.Slices, 0.5))" },
+						Width = Input { Expression = "iif(SliceCtrl.Horizontal == 1, 2, 1/SliceCtrl.Slices + 0.001)" },
+						Height = Input { Expression = "iif(SliceCtrl.Horizontal == 1, 1/SliceCtrl.Slices + 0.001, 2)" }
+					}
+				},
+				Slice11 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 715, 82.5 } },
+					Inputs = {
+						Blend = Input { Expression = "iif(10 < SliceCtrl.Slices, 1, 0)" },
+						PerformDepthMerge = Input { Value = 0 },
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "Lag11"
+						},
+						Background = Input {
+							Source = "Output",
+							SourceOp = "Slice10"
+						},
+						EffectMask = Input {
+							Source = "Mask",
+							SourceOp = "Strip11"
+						}
+					}
+				},
+				Strip12 = RectangleMask {
+					ViewInfo = OperatorInfo { Pos = { 825, 49.5 } },
+					Inputs = {
+						SoftEdge = Input { Expression = "SliceCtrl.Soft" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						UseFrameFormatSettings = Input { Value = 1 },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						Center = Input { Expression = "iif(SliceCtrl.Horizontal == 1, Point(0.5, 1 - 11.5/SliceCtrl.Slices), Point(11.5/SliceCtrl.Slices, 0.5))" },
+						Width = Input { Expression = "iif(SliceCtrl.Horizontal == 1, 2, 1/SliceCtrl.Slices + 0.001)" },
+						Height = Input { Expression = "iif(SliceCtrl.Horizontal == 1, 1/SliceCtrl.Slices + 0.001, 2)" }
+					}
+				},
+				Slice12 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 825, 82.5 } },
+					Inputs = {
+						Blend = Input { Expression = "iif(11 < SliceCtrl.Slices, 1, 0)" },
+						PerformDepthMerge = Input { Value = 0 },
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "Lag12"
+						},
+						Background = Input {
+							Source = "Output",
+							SourceOp = "Slice11"
+						},
+						EffectMask = Input {
+							Source = "Mask",
+							SourceOp = "Strip12"
+						}
+					}
+				},
+				Strip13 = RectangleMask {
+					ViewInfo = OperatorInfo { Pos = { 935, 49.5 } },
+					Inputs = {
+						SoftEdge = Input { Expression = "SliceCtrl.Soft" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						UseFrameFormatSettings = Input { Value = 1 },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						Center = Input { Expression = "iif(SliceCtrl.Horizontal == 1, Point(0.5, 1 - 12.5/SliceCtrl.Slices), Point(12.5/SliceCtrl.Slices, 0.5))" },
+						Width = Input { Expression = "iif(SliceCtrl.Horizontal == 1, 2, 1/SliceCtrl.Slices + 0.001)" },
+						Height = Input { Expression = "iif(SliceCtrl.Horizontal == 1, 1/SliceCtrl.Slices + 0.001, 2)" }
+					}
+				},
+				Slice13 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 935, 82.5 } },
+					Inputs = {
+						Blend = Input { Expression = "iif(12 < SliceCtrl.Slices, 1, 0)" },
+						PerformDepthMerge = Input { Value = 0 },
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "Lag13"
+						},
+						Background = Input {
+							Source = "Output",
+							SourceOp = "Slice12"
+						},
+						EffectMask = Input {
+							Source = "Mask",
+							SourceOp = "Strip13"
+						}
+					}
+				},
+				Strip14 = RectangleMask {
+					ViewInfo = OperatorInfo { Pos = { 1045, 49.5 } },
+					Inputs = {
+						SoftEdge = Input { Expression = "SliceCtrl.Soft" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						UseFrameFormatSettings = Input { Value = 1 },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						Center = Input { Expression = "iif(SliceCtrl.Horizontal == 1, Point(0.5, 1 - 13.5/SliceCtrl.Slices), Point(13.5/SliceCtrl.Slices, 0.5))" },
+						Width = Input { Expression = "iif(SliceCtrl.Horizontal == 1, 2, 1/SliceCtrl.Slices + 0.001)" },
+						Height = Input { Expression = "iif(SliceCtrl.Horizontal == 1, 1/SliceCtrl.Slices + 0.001, 2)" }
+					}
+				},
+				Slice14 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 1045, 82.5 } },
+					Inputs = {
+						Blend = Input { Expression = "iif(13 < SliceCtrl.Slices, 1, 0)" },
+						PerformDepthMerge = Input { Value = 0 },
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "Lag14"
+						},
+						Background = Input {
+							Source = "Output",
+							SourceOp = "Slice13"
+						},
+						EffectMask = Input {
+							Source = "Mask",
+							SourceOp = "Strip14"
+						}
+					}
+				},
+				Strip15 = RectangleMask {
+					ViewInfo = OperatorInfo { Pos = { 1155, 49.5 } },
+					Inputs = {
+						SoftEdge = Input { Expression = "SliceCtrl.Soft" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						UseFrameFormatSettings = Input { Value = 1 },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						Center = Input { Expression = "iif(SliceCtrl.Horizontal == 1, Point(0.5, 1 - 14.5/SliceCtrl.Slices), Point(14.5/SliceCtrl.Slices, 0.5))" },
+						Width = Input { Expression = "iif(SliceCtrl.Horizontal == 1, 2, 1/SliceCtrl.Slices + 0.001)" },
+						Height = Input { Expression = "iif(SliceCtrl.Horizontal == 1, 1/SliceCtrl.Slices + 0.001, 2)" }
+					}
+				},
+				Slice15 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 1155, 82.5 } },
+					Inputs = {
+						Blend = Input { Expression = "iif(14 < SliceCtrl.Slices, 1, 0)" },
+						PerformDepthMerge = Input { Value = 0 },
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "Lag15"
+						},
+						Background = Input {
+							Source = "Output",
+							SourceOp = "Slice14"
+						},
+						EffectMask = Input {
+							Source = "Mask",
+							SourceOp = "Strip15"
+						}
+					}
+				},
+				Strip16 = RectangleMask {
+					ViewInfo = OperatorInfo { Pos = { 1265, 49.5 } },
+					Inputs = {
+						SoftEdge = Input { Expression = "SliceCtrl.Soft" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						UseFrameFormatSettings = Input { Value = 1 },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						Center = Input { Expression = "iif(SliceCtrl.Horizontal == 1, Point(0.5, 1 - 15.5/SliceCtrl.Slices), Point(15.5/SliceCtrl.Slices, 0.5))" },
+						Width = Input { Expression = "iif(SliceCtrl.Horizontal == 1, 2, 1/SliceCtrl.Slices + 0.001)" },
+						Height = Input { Expression = "iif(SliceCtrl.Horizontal == 1, 1/SliceCtrl.Slices + 0.001, 2)" }
+					}
+				},
+				Slice16 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 1265, 82.5 } },
+					Inputs = {
+						Blend = Input { Expression = "iif(15 < SliceCtrl.Slices, 1, 0)" },
+						PerformDepthMerge = Input { Value = 0 },
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "Lag16"
+						},
+						Background = Input {
+							Source = "Output",
+							SourceOp = "Slice15"
+						},
+						EffectMask = Input {
+							Source = "Mask",
+							SourceOp = "Strip16"
+						}
+					}
+				}
+			
+			}
+		}
+	},
+	ActiveTool = "TimeSlice"
+}

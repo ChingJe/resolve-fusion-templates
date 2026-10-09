@@ -17,6 +17,12 @@
 
 - 樞紐點不在字母筆畫上時，拉遠途中樞紐位置會短暫出現一個半透明小方塊。那是正在淡出的「頁面視窗」。可以試著讓 `WinFade` 更早結束，在視窗還大的時候就淡完。
 
+### 提新範本前先查內建的
+
+- Resolve 內建的 Fusion 範本打包在 `C:\Program Files\Blackmagic Design\DaVinci Resolve\Fusion\Templates\Templates.drfx`，是 zip 檔。用 `unzip -Z1 Templates.drfx | grep "^Edit/"` 可以列出所有內建的轉場、特效、標題、產生器名稱。
+- 提議做新範本前先對這份清單。故障、磁磚、雜訊溶解、甩鏡、鏡頭震動、漫畫濾鏡（`Comic Book`）、集中線（`Comic Speed Lines`）、擬聲字（`Pow!!`）內建都有，不必重做。
+- Resolve FX（Halftone、Analog Damage 之類）不在這個檔案裡，沒辦法用同樣方式列出。
+
 ### 雜項
 
 - 在 Git Bash 的 heredoc 裡寫 Lua 字串，Windows 路徑的反斜線會出問題，一律用正斜線（`D:/davinci/...`）。
