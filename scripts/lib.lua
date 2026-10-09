@@ -102,14 +102,16 @@ function L.testsource(comp, tag, hue)
   return m3
 end
 
--- Render the whole range through a temporary 640x360 saver. Frames land in scripts/out/<prefix>NNNN.png
+-- Render the whole range through a temporary small saver (FX_WIDTH wide, 640 by default).
+-- Frames land in scripts/out/<prefix>NNNN.png
 function L.render(comp, output, prefix, steps)
   local a = comp:GetAttrs()
   local rs, re = a.COMPN_RenderStart, a.COMPN_RenderEnd
   comp:Lock()
   local small = comp:AddTool("BetterResize", 6, 6)
   small.Input = output
-  small:SetInput("Width", 640); small:SetInput("Height", 360); small:SetInput("KeepAspect", 0)
+  local width = tonumber(os.getenv("FX_WIDTH") or "640")
+  small:SetInput("Width", width); small:SetInput("Height", math.floor(width * 9 / 16)); small:SetInput("KeepAspect", 0)
   local saver = comp:AddTool("Saver", 7, 6)
   saver.Input = small.Output
   saver:SetInput("Clip", L.OUT .. prefix .. ".png")

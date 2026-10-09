@@ -1,5 +1,5 @@
 -- Chapter Bar: a progress bar that runs for as long as the title clip does, split into named chapters.
--- A title, so it has no image input. FX_EXPORT=1 dumps the macro source.
+-- A title, so it has no image input. FX_SRC=media previews it over the clip. FX_EXPORT=1 dumps the macro source.
 local L = dofile("D:/davinci/scripts/lib.lua")
 local comp = L.comp()
 if not comp then return end
@@ -7,7 +7,7 @@ local MAXCH = 6
 
 comp:Lock()
 comp:StartUndo("Build Chapter Bar")
-local _, mediaOut = L.clear(comp)
+local mediaIn, mediaOut = L.clear(comp)
 local add, expr = L.adder(comp), L.expr
 
 local ctrl = add("Background", "BarCtrl", -5, -3)
@@ -138,7 +138,7 @@ if os.getenv("FX_EXPORT") == "1" then
 else
   -- preview over the procedural stand-in so the bar is seen in context
   comp:Lock()
-  local s = L.testsource(comp)
+  local s = os.getenv("FX_SRC") == "media" and mediaIn or L.testsource(comp)
   local pm = add("Merge", "PrevOver", 0, 3)
   pm.Background = s.Output; pm.Foreground = out.Output
   comp:Unlock()

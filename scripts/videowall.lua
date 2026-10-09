@@ -1,12 +1,13 @@
 -- Video Wall transition: pull back from clip A to a wall of screens, slide across, push into clip B.
--- Built in the lab clip comp with two procedural stand-ins. FX_EXPORT=1 dumps the macro source.
+-- Built in the lab clip comp with two procedural stand-ins. FX_SRC=media uses the clip for A and a later
+-- part of the same clip for B. FX_EXPORT=1 dumps the macro source.
 local L = dofile("D:/davinci/scripts/lib.lua")
 local comp = L.comp()
 if not comp then return end
 
 comp:Lock()
 comp:StartUndo("Build Video Wall")
-local _, mediaOut = L.clear(comp)
+local mediaIn, mediaOut = L.clear(comp)
 local add, expr = L.adder(comp), L.expr
 
 local ctrl = add("Background", "WallCtrl", -5, -3)
@@ -32,7 +33,16 @@ expr(ctrl, "CX", "1/6 + (4/6) * P*P*(3 - 2*P)")
 
 local srcA = add("BrightnessContrast", "SrcA", -5, 0)
 local srcB = add("BrightnessContrast", "SrcB", -5, 2)
-local a, b = L.testsource(comp, "A", 0), L.testsource(comp, "B", 1)
+local a, b
+if os.getenv("FX_SRC") == "media" then
+  a = mediaIn
+  b = add("TimeStretcher", "PrevLater", -6, 2)
+  b.Input = mediaIn.Output
+  b:SetInput("InterpolateBetweenFrames", 0)
+  expr(b, "SourceTime", "time + 1500")
+else
+  a, b = L.testsource(comp, "A", 0), L.testsource(comp, "B", 1)
+end
 srcA.Input = a.Output; srcB.Input = b.Output
 
 -- the other seven screens: small copies of A (earlier moments) and B (later moments)

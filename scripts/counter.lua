@@ -1,12 +1,12 @@
 -- Number Counter: counts from one value to another over the title clip, with separators, prefix and suffix.
--- A title, so it has no image input. FX_EXPORT=1 dumps the macro source.
+-- A title, so it has no image input. FX_SRC=media previews it over the clip. FX_EXPORT=1 dumps the macro source.
 local L = dofile("D:/davinci/scripts/lib.lua")
 local comp = L.comp()
 if not comp then return end
 
 comp:Lock()
 comp:StartUndo("Build Number Counter")
-local _, mediaOut = L.clear(comp)
+local mediaIn, mediaOut = L.clear(comp)
 local add, expr = L.adder(comp), L.expr
 
 local ctrl = add("Background", "CountCtrl", -5, -3)
@@ -69,7 +69,7 @@ else
   for name, value in string.gmatch(os.getenv("FX_SET") or "", "(%w+)=([%d%.%-]+)") do ctrl:SetInput(name, tonumber(value)) end
   for name, value in string.gmatch(os.getenv("FX_TEXT") or "", "(%w+)=([^;]+)") do ctrl:SetInput(name, value) end
   comp:Lock()
-  local s = L.testsource(comp)
+  local s = os.getenv("FX_SRC") == "media" and mediaIn or L.testsource(comp)
   local dim = add("BrightnessContrast", "PrevDim", -1, 3)
   dim.Input = s.Output; dim:SetInput("Gain", 0.35)
   local pm = add("Merge", "PrevOver", 0, 3)
