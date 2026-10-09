@@ -19,7 +19,7 @@ ctrl.UserControls = {
   PsDone     = L.num("Stack Complete At", 0.67, 0.2, 0.9),
   PsSeed     = L.num("Layout Seed", 1, 0, 50, nil, true),
   PsPlay     = L.check("Photos Play As Video", 1),
-  PhotoSize  = L.num("Photo Size", 0.42, 0.15, 0.7),
+  PhotoSize  = L.num("Photo Size", 0.36, 0.15, 0.7),
   Spread     = L.num("Spread", 1, 0, 1.6),
   Tilt       = L.num("Tilt", 1, 0, 3),
   Border     = L.num("Border", 0.022, 0, 0.06),
@@ -37,6 +37,7 @@ ctrl.UserControls = {
   Gap = L.num("Gap", 0.085, 0, 1, "Driver"),
   Aspect = L.num("Aspect", 1.7778, 0.2, 5, "Driver"),
   Inner = L.num("Inner", 0.9, 0, 1, "Driver"),
+  Fit = L.num("Fit", 0.36, 0, 1, "Driver"),
 }
 ctrl = ctrl:Refresh()
 ctrl:SetInput("UseFrameFormatSettings", 1)
@@ -46,6 +47,8 @@ expr(ctrl, "Z", "(function(t) return t*t*t*(t*(6*t - 15) + 10) end)(min(max((P -
 -- Gap: time between two photos setting off, so that the last one has landed when the stack is complete.
 -- A long Slide Time with many photos leaves no room and everything sets off at once.
 expr(ctrl, "Gap", "max(PsDone - 0.03 - PsSlide, 0) / max(PsCount - 1, 1)")
+-- Fit: the photo size actually used; beyond six photos they shrink a little so the pile stays readable
+expr(ctrl, "Fit", "PhotoSize * (6/max(PsCount, 6))^0.4")
 expr(ctrl, "Aspect", "Width/Height")
 -- Inner: how much of the card the picture takes up; the paper border is the same width on all four sides
 expr(ctrl, "Inner", "1 - 2*Border*Aspect")
@@ -99,16 +102,17 @@ end)(comp.GlobalStart, comp.GlobalEnd - comp.GlobalStart + 1,
   card.Foreground = image.Output
   expr(card, "Size", live and "StackCtrl.Inner" or string.format("StackCtrl.Inner * StackCtrl.Width/%d", SMALL))
 
-  -- Resting place. Stills sit on a sunflower spiral, outer ones first so later photos pile up towards
-  -- the middle; the seed turns the whole spiral. The live photo rests just off centre.
+  -- Resting place. Stills sit on a sunflower spiral that reaches close to the frame edges, outer ones
+  -- first so later photos pile up towards the middle; the seed turns the whole spiral. The live photo rests just off centre.
   local px, py, tilt, fx, fy
   if live then
     px, py, tilt, fx, fy = "0.02", "-0.01", "-3", "-0.1", "-1.1"
   else
     local th = string.format("(%d*2.39996 + StackCtrl.PsSeed*1.7)", k)
-    local r = string.format("sqrt(max(StackCtrl.PsCount - %d - 0.5, 0)/max(StackCtrl.PsCount - 1, 1))", k)
-    px = string.format("0.27*%s*cos(%s)", r, th)
-    py = string.format("0.17*%s*sin(%s)", r, th)
+    -- radius runs from 1 (first photo, outer edge) down to about 0.45: the middle is left for the live photo
+    local r = string.format("sqrt(0.2 + 0.8*max(StackCtrl.PsCount - %d - 0.5, 0)/max(StackCtrl.PsCount - 1, 1))", k)
+    px = string.format("0.40*%s*cos(%s)", r, th)
+    py = string.format("0.31*%s*sin(%s)", r, th)
     tilt = string.format("13*sin(%d*7.31 + StackCtrl.PsSeed*3.1)", k)
     fx = string.format("1.1*cos(%s)", th)
     fy = string.format("1.1*sin(%s)", th)
@@ -119,7 +123,7 @@ end)(comp.GlobalStart, comp.GlobalEnd - comp.GlobalStart + 1,
   local fall = string.format("((1 - min(max((StackCtrl.P - %s)/StackCtrl.PsSlide, 0), 1))^4)", t0)
   local drop = add("Transform", "Drop" .. k, -4 + k, 2)
   drop.Input = card.Output
-  local size = string.format("StackCtrl.PhotoSize * (1 + 0.25*%s)", fall)
+  local size = string.format("StackCtrl.Fit * (1 + 0.25*%s)", fall)
   local angle = string.format("(%s)*StackCtrl.Tilt + %d*%s", tilt, (k % 2 == 0) and 38 or -38, fall)
   local cx = string.format("0.5 + (%s)*StackCtrl.Spread + (%s)*%s", px, fx, fall)
   local cy = string.format("0.5 + (%s)*StackCtrl.Spread + (%s)*%s", py, fy, fall)
