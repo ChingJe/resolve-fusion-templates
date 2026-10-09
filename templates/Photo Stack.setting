@@ -8,14 +8,18 @@
 				Input2 = InstanceInput { SourceOp = "StackCtrl", Source = "Spread", Name = "Spread" },
 				Input3 = InstanceInput { SourceOp = "StackCtrl", Source = "Tilt", Name = "Tilt" },
 				Input4 = InstanceInput { SourceOp = "StackCtrl", Source = "Border", Name = "Border" },
-				Input5 = InstanceInput { SourceOp = "Paper", Source = "TopLeftRed", Name = "Paper Color", ControlGroup = 2 },
-				Input6 = InstanceInput { SourceOp = "Paper", Source = "TopLeftGreen", ControlGroup = 2 },
-				Input7 = InstanceInput { SourceOp = "Paper", Source = "TopLeftBlue", ControlGroup = 2 },
-				Input8 = InstanceInput { SourceOp = "StackCtrl", Source = "ShadowAmt", Name = "Shadow" },
-				Input9 = InstanceInput { SourceOp = "StackCtrl", Source = "TableGain", Name = "Backdrop Brightness" },
-				Input10 = InstanceInput { SourceOp = "StackCtrl", Source = "TableBlur", Name = "Backdrop Blur" },
-				Input11 = InstanceInput { SourceOp = "StackCtrl", Source = "StillsFrom", Name = "Stills From" },
-				Input12 = InstanceInput { SourceOp = "StackCtrl", Source = "StillsTo", Name = "Stills To" },
+				Input5 = InstanceInput { SourceOp = "StackCtrl", Source = "Corner", Name = "Corner Roundness" },
+				Input6 = InstanceInput { SourceOp = "Paper", Source = "TopLeftRed", Name = "Paper Color", ControlGroup = 2 },
+				Input7 = InstanceInput { SourceOp = "Paper", Source = "TopLeftGreen", ControlGroup = 2 },
+				Input8 = InstanceInput { SourceOp = "Paper", Source = "TopLeftBlue", ControlGroup = 2 },
+				Input9 = InstanceInput { SourceOp = "StackCtrl", Source = "ShadowAmt", Name = "Shadow" },
+				Input10 = InstanceInput { SourceOp = "StackCtrl", Source = "ShadowSoft", Name = "Shadow Softness" },
+				Input11 = InstanceInput { SourceOp = "StackCtrl", Source = "ShadowDist", Name = "Shadow Distance" },
+				Input12 = InstanceInput { SourceOp = "StackCtrl", Source = "Blur", Name = "Motion Blur" },
+				Input13 = InstanceInput { SourceOp = "StackCtrl", Source = "TableGain", Name = "Backdrop Brightness" },
+				Input14 = InstanceInput { SourceOp = "StackCtrl", Source = "TableBlur", Name = "Backdrop Blur" },
+				Input15 = InstanceInput { SourceOp = "StackCtrl", Source = "StillsFrom", Name = "Stills From" },
+				Input16 = InstanceInput { SourceOp = "StackCtrl", Source = "StillsTo", Name = "Stills To" },
 			},
 			Outputs = {
 				MainOutput1 = InstanceOutput { SourceOp = "Finish", Source = "Output" }
@@ -23,135 +27,196 @@
 			ViewInfo = GroupInfo { Pos = { 0, 0 } },
 			Tools = ordered() {
 				StackCtrl = Background {
-					CtrlWZoom = false,
-					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } },
 					UserControls = {
-						TableBlur = {
-							LINKID_DataType = "Number",
-							LINKS_Name = "Backdrop Blur",
-							INP_Default = 30,
-							INP_MinScale = 0,
-							INP_MaxScale = 80,
-							INP_Integer = false,
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl"
-						},
-						StillsFrom = {
-							LINKID_DataType = "Number",
-							LINKS_Name = "Stills From",
-							INP_Default = 0.05,
-							INP_MinScale = 0,
-							INP_MaxScale = 1,
-							INP_Integer = false,
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl"
-						},
-						StillsTo = {
-							LINKID_DataType = "Number",
-							LINKS_Name = "Stills To",
-							INP_Default = 0.95,
-							INP_MinScale = 0,
-							INP_MaxScale = 1,
-							INP_Integer = false,
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl"
-						},
-						P = {
-							LINKID_DataType = "Number",
-							LINKS_Name = "P",
-							INP_Default = 0,
-							INP_MinScale = 0,
-							INP_MaxScale = 1,
-							INP_Integer = false,
-							ICS_ControlPage = "Driver",
-							INPID_InputControl = "SliderControl"
-						},
 						PhotoSize = {
+							INP_MaxScale = 0.7,
 							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
 							LINKS_Name = "Photo Size",
 							INP_Default = 0.42,
-							INP_MinScale = 0.2,
-							INP_MaxScale = 0.7,
-							INP_Integer = false,
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl"
+							INP_MinScale = 0.2
 						},
 						Spread = {
+							INP_MaxScale = 1.6,
 							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
 							LINKS_Name = "Spread",
 							INP_Default = 1,
-							INP_MinScale = 0,
-							INP_MaxScale = 1.6,
-							INP_Integer = false,
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl"
+							INP_MinScale = 0
 						},
 						Tilt = {
+							INP_MaxScale = 3,
 							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
 							LINKS_Name = "Tilt",
 							INP_Default = 1,
-							INP_MinScale = 0,
-							INP_MaxScale = 3,
-							INP_Integer = false,
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl"
+							INP_MinScale = 0
 						},
-						Border = {
+						P = {
+							INP_MaxScale = 1,
 							LINKID_DataType = "Number",
-							LINKS_Name = "Border",
-							INP_Default = 0.04,
-							INP_MinScale = 0,
-							INP_MaxScale = 0.1,
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
 							INP_Integer = false,
+							LINKS_Name = "P",
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						Corner = {
+							INP_MaxScale = 0.1,
+							LINKID_DataType = "Number",
 							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl"
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Corner Roundness",
+							INP_Default = 0.012,
+							INP_MinScale = 0
+						},
+						Blur = {
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "CheckboxControl",
+							LINKS_Name = "Motion Blur",
+							INP_Default = 1,
+							INP_Integer = true
 						},
 						ShadowAmt = {
-							LINKID_DataType = "Number",
-							LINKS_Name = "Shadow",
-							INP_Default = 0.55,
-							INP_MinScale = 0,
 							INP_MaxScale = 1,
-							INP_Integer = false,
+							LINKID_DataType = "Number",
 							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl"
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Shadow",
+							INP_Default = 0.6,
+							INP_MinScale = 0
+						},
+						ShadowSoft = {
+							INP_MaxScale = 3,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Shadow Softness",
+							INP_Default = 1,
+							INP_MinScale = 0
+						},
+						ShadowDist = {
+							INP_MaxScale = 3,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Shadow Distance",
+							INP_Default = 1,
+							INP_MinScale = 0
 						},
 						TableGain = {
+							INP_MaxScale = 1,
 							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
 							LINKS_Name = "Backdrop Brightness",
 							INP_Default = 0.3,
-							INP_MinScale = 0,
-							INP_MaxScale = 1,
-							INP_Integer = false,
+							INP_MinScale = 0
+						},
+						TableBlur = {
+							INP_MaxScale = 80,
+							LINKID_DataType = "Number",
 							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl"
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Backdrop Blur",
+							INP_Default = 30,
+							INP_MinScale = 0
+						},
+						StillsFrom = {
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Stills From",
+							INP_Default = 0.05,
+							INP_MinScale = 0
+						},
+						StillsTo = {
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Stills To",
+							INP_Default = 0.95,
+							INP_MinScale = 0
+						},
+						Aspect = {
+							INP_MaxScale = 5,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Aspect",
+							INP_Default = 1.7778,
+							INP_MinScale = 0.2
+						},
+						Inner = {
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Inner",
+							INP_Default = 0.9,
+							INP_MinScale = 0
 						},
 						Z = {
+							INP_MaxScale = 1,
 							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
 							LINKS_Name = "Z",
 							INP_Default = 0,
-							INP_MinScale = 0,
-							INP_MaxScale = 1,
+							INP_MinScale = 0
+						},
+						Border = {
+							INP_MaxScale = 0.06,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
 							INP_Integer = false,
-							ICS_ControlPage = "Driver",
-							INPID_InputControl = "SliderControl"
+							LINKS_Name = "Border",
+							INP_Default = 0.022,
+							INP_MinScale = 0
 						}
 					},
+					CtrlWZoom = false,
+					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } },
 					Inputs = {
-						Z = Input { Expression = "(function(t) return t*t*(3 - 2*t) end)(min(max((P - 0.66)/0.29, 0), 1))" },
+						Z = Input { Expression = "(function(t) return t*t*t*(t*(6*t - 15) + 10) end)(min(max((P - 0.67)/0.28, 0), 1))" },
 						Width = Input { Value = 1920 },
 						Height = Input { Value = 1080 },
-						GlobalIn = Input { Value = -480 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Aspect = Input { Expression = "Width/Height" },
+						Inner = Input { Expression = "1 - 2*Border*Aspect" },
 						P = Input { Expression = "min(max((time - comp.RenderStart) / max(comp.RenderEnd - comp.RenderStart, 1), 0), 1)" },
 						GlobalOut = Input { Value = 3534 },
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						UseFrameFormatSettings = Input { Value = 1 }
+						UseFrameFormatSettings = Input { Value = 1 },
+						GlobalIn = Input { Value = -480 }
 					}
 				},
 				Src = BrightnessContrast {
 					ViewInfo = OperatorInfo { Pos = { -495, 16.5 } }
 				},
 				Still5 = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { 165, 16.5 } },
 					Inputs = {
 						SourceTime = Input {
 							Expression = "floor(comp.GlobalStart + (StackCtrl.StillsFrom + (StackCtrl.StillsTo - StackCtrl.StillsFrom) * 1) * (comp.GlobalEnd - comp.GlobalStart))",
@@ -164,8 +229,7 @@
 						},
 						SampleSpread = Input { Disabled = true },
 						InterpolateBetweenFrames = Input { Value = 0 }
-					},
-					ViewInfo = OperatorInfo { Pos = { 165, 16.5 } }
+					}
 				},
 				["TimeStretcher1源时间4"] = BezierSpline {
 					CtrlWZoom = false,
@@ -173,9 +237,10 @@
 					KeyFrames = {
 						[228] = { 0, Flags = { Linear = true } }
 					},
-					SplineColor = { Blue = 243, Green = 217, Red = 233 }
+					SplineColor = { Red = 233, Green = 217, Blue = 243 }
 				},
 				Still4 = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { 55, 16.5 } },
 					Inputs = {
 						SourceTime = Input {
 							Expression = "floor(comp.GlobalStart + (StackCtrl.StillsFrom + (StackCtrl.StillsTo - StackCtrl.StillsFrom) * 0.75) * (comp.GlobalEnd - comp.GlobalStart))",
@@ -188,8 +253,7 @@
 						},
 						SampleSpread = Input { Disabled = true },
 						InterpolateBetweenFrames = Input { Value = 0 }
-					},
-					ViewInfo = OperatorInfo { Pos = { 55, 16.5 } }
+					}
 				},
 				["TimeStretcher1源时间3"] = BezierSpline {
 					CtrlWZoom = false,
@@ -197,9 +261,10 @@
 					KeyFrames = {
 						[228] = { 0, Flags = { Linear = true } }
 					},
-					SplineColor = { Blue = 243, Green = 217, Red = 233 }
+					SplineColor = { Red = 233, Green = 217, Blue = 243 }
 				},
 				Still3 = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { -55, 16.5 } },
 					Inputs = {
 						SourceTime = Input {
 							Expression = "floor(comp.GlobalStart + (StackCtrl.StillsFrom + (StackCtrl.StillsTo - StackCtrl.StillsFrom) * 0.5) * (comp.GlobalEnd - comp.GlobalStart))",
@@ -212,8 +277,7 @@
 						},
 						SampleSpread = Input { Disabled = true },
 						InterpolateBetweenFrames = Input { Value = 0 }
-					},
-					ViewInfo = OperatorInfo { Pos = { -55, 16.5 } }
+					}
 				},
 				["TimeStretcher1源时间2"] = BezierSpline {
 					CtrlWZoom = false,
@@ -221,9 +285,10 @@
 					KeyFrames = {
 						[228] = { 0, Flags = { Linear = true } }
 					},
-					SplineColor = { Blue = 243, Green = 217, Red = 233 }
+					SplineColor = { Red = 233, Green = 217, Blue = 243 }
 				},
 				Still2 = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { -165, 16.5 } },
 					Inputs = {
 						SourceTime = Input {
 							Expression = "floor(comp.GlobalStart + (StackCtrl.StillsFrom + (StackCtrl.StillsTo - StackCtrl.StillsFrom) * 0.25) * (comp.GlobalEnd - comp.GlobalStart))",
@@ -236,8 +301,7 @@
 						},
 						SampleSpread = Input { Disabled = true },
 						InterpolateBetweenFrames = Input { Value = 0 }
-					},
-					ViewInfo = OperatorInfo { Pos = { -165, 16.5 } }
+					}
 				},
 				["TimeStretcher1源时间1"] = BezierSpline {
 					CtrlWZoom = false,
@@ -245,9 +309,10 @@
 					KeyFrames = {
 						[228] = { 0, Flags = { Linear = true } }
 					},
-					SplineColor = { Blue = 243, Green = 217, Red = 233 }
+					SplineColor = { Red = 233, Green = 217, Blue = 243 }
 				},
 				Still1 = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { -275, 16.5 } },
 					Inputs = {
 						SourceTime = Input {
 							Expression = "floor(comp.GlobalStart + (StackCtrl.StillsFrom + (StackCtrl.StillsTo - StackCtrl.StillsFrom) * 0) * (comp.GlobalEnd - comp.GlobalStart))",
@@ -260,8 +325,7 @@
 						},
 						SampleSpread = Input { Disabled = true },
 						InterpolateBetweenFrames = Input { Value = 0 }
-					},
-					ViewInfo = OperatorInfo { Pos = { -275, 16.5 } }
+					}
 				},
 				["TimeStretcher1源时间"] = BezierSpline {
 					CtrlWZoom = false,
@@ -269,387 +333,411 @@
 					KeyFrames = {
 						[228] = { 0, Flags = { Linear = true } }
 					},
-					SplineColor = { Blue = 243, Green = 217, Red = 233 }
+					SplineColor = { Red = 233, Green = 217, Blue = 243 }
 				},
 				TableBlur = Blur {
+					ViewInfo = OperatorInfo { Pos = { -385, 181.5 } },
 					Inputs = {
-						XBlurSize = Input { Expression = "StackCtrl.TableBlur" },
 						Input = Input {
 							SourceOp = "Src",
 							Source = "Output"
 						},
-						Filter = Input { Value = FuID { "Fast Gaussian" } }
-					},
-					ViewInfo = OperatorInfo { Pos = { -385, 181.5 } }
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						XBlurSize = Input { Expression = "StackCtrl.TableBlur" }
+					}
 				},
 				Table = BrightnessContrast {
+					ViewInfo = OperatorInfo { Pos = { -275, 181.5 } },
 					Inputs = {
 						Gain = Input { Expression = "StackCtrl.TableGain" },
 						Input = Input {
 							SourceOp = "TableBlur",
 							Source = "Output"
 						}
-					},
-					ViewInfo = OperatorInfo { Pos = { -275, 181.5 } }
+					}
+				},
+				PaperShape = RectangleMask {
+					ViewInfo = OperatorInfo { Pos = { -385, 82.5 } },
+					Inputs = {
+						Width = Input { Expression = "StackCtrl.Inner + 2*StackCtrl.Border" },
+						Height = Input { Value = 1 },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						UseFrameFormatSettings = Input { Value = 1 },
+						CornerRadius = Input { Expression = "StackCtrl.Corner" }
+					}
 				},
 				Paper = Background {
+					ViewInfo = OperatorInfo { Pos = { -385, 115.5 } },
 					Inputs = {
-						TopLeftGreen = Input { Value = 0.95 },
-						TopLeftBlue = Input { Value = 0.92 },
-						Width = Input { Value = 1920 },
+						TopLeftRed = Input { Value = 0.97 },
+						TopLeftGreen = Input { Value = 0.96 },
+						TopLeftBlue = Input { Value = 0.93 },
 						Height = Input { Value = 1080 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						EffectMask = Input {
+							SourceOp = "PaperShape",
+							Source = "Mask"
+						},
+						GlobalOut = Input { Value = 3534 },
 						GlobalIn = Input { Value = -480 },
 						UseFrameFormatSettings = Input { Value = 1 },
-						TopLeftRed = Input { Value = 0.96 },
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						GlobalOut = Input { Value = 3534 }
-					},
-					ViewInfo = OperatorInfo { Pos = { -385, 115.5 } }
+						Width = Input { Value = 1920 }
+					}
 				},
 				Card6 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 275, 49.5 } },
 					Inputs = {
 						PerformDepthMerge = Input { Value = 0 },
 						Foreground = Input {
 							SourceOp = "Src",
 							Source = "Output"
 						},
-						Size = Input { Expression = "1 - 2*StackCtrl.Border" },
 						Background = Input {
 							SourceOp = "Paper",
 							Source = "Output"
 						},
-						Center = Input { Expression = "Point(0.5, 0.5 + 0.5*StackCtrl.Border)" }
-					},
-					ViewInfo = OperatorInfo { Pos = { 275, 49.5 } }
+						Size = Input { Expression = "StackCtrl.Inner" }
+					}
 				},
 				Drop6 = Transform {
+					ViewInfo = OperatorInfo { Pos = { 275, 82.5 } },
 					Inputs = {
-						Center = Input { Expression = "Point((0.5 + 0.02*StackCtrl.Spread) + (0.5 - (0.5 + 0.02*StackCtrl.Spread))*StackCtrl.Z, (0.5 + -0.01*StackCtrl.Spread) + (0.5 - 0.5*StackCtrl.Border*(1/(1 - 2*StackCtrl.Border)) - (0.5 + -0.01*StackCtrl.Spread))*StackCtrl.Z)" },
+						Center = Input { Expression = "Point((0.5 + 0.02*StackCtrl.Spread + -0.1*((1 - min(max((StackCtrl.P - 0.445)/0.2, 0), 1))^4)) + (0.5 - (0.5 + 0.02*StackCtrl.Spread + -0.1*((1 - min(max((StackCtrl.P - 0.445)/0.2, 0), 1))^4)))*StackCtrl.Z, (0.5 + -0.01*StackCtrl.Spread + -1*((1 - min(max((StackCtrl.P - 0.445)/0.2, 0), 1))^4)) + (0.5 - (0.5 + -0.01*StackCtrl.Spread + -1*((1 - min(max((StackCtrl.P - 0.445)/0.2, 0), 1))^4)))*StackCtrl.Z)" },
+						Size = Input { Expression = "(StackCtrl.PhotoSize * (1 + 0.25*((1 - min(max((StackCtrl.P - 0.445)/0.2, 0), 1))^4))) + (1/StackCtrl.Inner - (StackCtrl.PhotoSize * (1 + 0.25*((1 - min(max((StackCtrl.P - 0.445)/0.2, 0), 1))^4))))*StackCtrl.Z" },
+						Quality = Input { Value = 4 },
 						Input = Input {
 							SourceOp = "Card6",
 							Source = "Output"
 						},
-						Size = Input { Expression = "(StackCtrl.PhotoSize * (1 + 0.9*((1 - min(max((StackCtrl.P - 0.49)/0.08, 0), 1))^3))) + ((1/(1 - 2*StackCtrl.Border)) - (StackCtrl.PhotoSize * (1 + 0.9*((1 - min(max((StackCtrl.P - 0.49)/0.08, 0), 1))^3))))*StackCtrl.Z" },
-						Angle = Input { Expression = "(-3*StackCtrl.Tilt + -16*((1 - min(max((StackCtrl.P - 0.49)/0.08, 0), 1))^3))*(1 - StackCtrl.Z)" }
-					},
-					ViewInfo = OperatorInfo { Pos = { 275, 82.5 } }
+						MotionBlur = Input { Expression = "StackCtrl.Blur" },
+						Angle = Input { Expression = "(-3*StackCtrl.Tilt + -38*((1 - min(max((StackCtrl.P - 0.445)/0.2, 0), 1))^4))*(1 - StackCtrl.Z)" }
+					}
 				},
 				Shade6 = Shadow {
+					ViewInfo = OperatorInfo { Pos = { 275, 115.5 } },
 					Inputs = {
-						Softness = Input { Value = 0.02 },
-						Alpha = Input { Expression = "StackCtrl.ShadowAmt" },
 						Input = Input {
 							SourceOp = "Drop6",
 							Source = "Output"
 						},
-						ShadowOffset = Input { Value = { 0.506, 0.488 } }
-					},
-					ViewInfo = OperatorInfo { Pos = { 275, 115.5 } }
+						Softness = Input { Expression = "0.04*StackCtrl.ShadowSoft*(1 + 2*(((1 - min(max((StackCtrl.P - 0.445)/0.2, 0), 1))^4) + 2*StackCtrl.Z))" },
+						Alpha = Input { Expression = "StackCtrl.ShadowAmt*(1 - StackCtrl.Z)" },
+						ShadowOffset = Input { Expression = "Point(0.5 + 0.004*StackCtrl.ShadowDist*(1 + 5*(((1 - min(max((StackCtrl.P - 0.445)/0.2, 0), 1))^4) + 2*StackCtrl.Z)), 0.5 - 0.007*StackCtrl.ShadowDist*(1 + 5*(((1 - min(max((StackCtrl.P - 0.445)/0.2, 0), 1))^4) + 2*StackCtrl.Z)))" }
+					}
 				},
 				Card5 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 165, 49.5 } },
 					Inputs = {
 						PerformDepthMerge = Input { Value = 0 },
 						Foreground = Input {
 							SourceOp = "Still5",
 							Source = "Output"
 						},
-						Size = Input { Expression = "1 - 2*StackCtrl.Border" },
 						Background = Input {
 							SourceOp = "Paper",
 							Source = "Output"
 						},
-						Center = Input { Expression = "Point(0.5, 0.5 + 0.5*StackCtrl.Border)" }
-					},
-					ViewInfo = OperatorInfo { Pos = { 165, 49.5 } }
+						Size = Input { Expression = "StackCtrl.Inner" }
+					}
 				},
 				Drop5 = Transform {
+					ViewInfo = OperatorInfo { Pos = { 165, 82.5 } },
 					Inputs = {
-						Center = Input { Expression = "Point(0.5 + -0.04*StackCtrl.Spread, 0.5 + 0.06*StackCtrl.Spread)" },
+						Center = Input { Expression = "Point(0.5 + -0.04*StackCtrl.Spread + 0.15*((1 - min(max((StackCtrl.P - 0.36)/0.2, 0), 1))^4), 0.5 + 0.06*StackCtrl.Spread + 1*((1 - min(max((StackCtrl.P - 0.36)/0.2, 0), 1))^4))" },
+						Size = Input { Expression = "StackCtrl.PhotoSize * (1 + 0.25*((1 - min(max((StackCtrl.P - 0.36)/0.2, 0), 1))^4))" },
+						Quality = Input { Value = 4 },
 						Input = Input {
 							SourceOp = "Card5",
 							Source = "Output"
 						},
-						Size = Input { Expression = "StackCtrl.PhotoSize * (1 + 0.9*((1 - min(max((StackCtrl.P - 0.4)/0.08, 0), 1))^3))" },
-						Angle = Input { Expression = "11*StackCtrl.Tilt + 16*((1 - min(max((StackCtrl.P - 0.4)/0.08, 0), 1))^3)" }
-					},
-					ViewInfo = OperatorInfo { Pos = { 165, 82.5 } }
+						MotionBlur = Input { Expression = "StackCtrl.Blur" },
+						Angle = Input { Expression = "11*StackCtrl.Tilt + 38*((1 - min(max((StackCtrl.P - 0.36)/0.2, 0), 1))^4)" }
+					}
 				},
 				Shade5 = Shadow {
+					ViewInfo = OperatorInfo { Pos = { 165, 115.5 } },
 					Inputs = {
-						Softness = Input { Value = 0.02 },
-						Alpha = Input { Expression = "StackCtrl.ShadowAmt" },
 						Input = Input {
 							SourceOp = "Drop5",
 							Source = "Output"
 						},
-						ShadowOffset = Input { Value = { 0.506, 0.488 } }
-					},
-					ViewInfo = OperatorInfo { Pos = { 165, 115.5 } }
+						Softness = Input { Expression = "0.04*StackCtrl.ShadowSoft*(1 + 2*((1 - min(max((StackCtrl.P - 0.36)/0.2, 0), 1))^4))" },
+						Alpha = Input { Expression = "StackCtrl.ShadowAmt" },
+						ShadowOffset = Input { Expression = "Point(0.5 + 0.004*StackCtrl.ShadowDist*(1 + 5*((1 - min(max((StackCtrl.P - 0.36)/0.2, 0), 1))^4)), 0.5 - 0.007*StackCtrl.ShadowDist*(1 + 5*((1 - min(max((StackCtrl.P - 0.36)/0.2, 0), 1))^4)))" }
+					}
 				},
 				Card4 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 55, 49.5 } },
 					Inputs = {
 						PerformDepthMerge = Input { Value = 0 },
 						Foreground = Input {
 							SourceOp = "Still4",
 							Source = "Output"
 						},
-						Size = Input { Expression = "1 - 2*StackCtrl.Border" },
 						Background = Input {
 							SourceOp = "Paper",
 							Source = "Output"
 						},
-						Center = Input { Expression = "Point(0.5, 0.5 + 0.5*StackCtrl.Border)" }
-					},
-					ViewInfo = OperatorInfo { Pos = { 55, 49.5 } }
+						Size = Input { Expression = "StackCtrl.Inner" }
+					}
 				},
 				Drop4 = Transform {
+					ViewInfo = OperatorInfo { Pos = { 55, 82.5 } },
 					Inputs = {
-						Center = Input { Expression = "Point(0.5 + 0.23*StackCtrl.Spread, 0.5 + -0.11*StackCtrl.Spread)" },
+						Center = Input { Expression = "Point(0.5 + 0.23*StackCtrl.Spread + 0.9*((1 - min(max((StackCtrl.P - 0.275)/0.2, 0), 1))^4), 0.5 + -0.11*StackCtrl.Spread + -0.4*((1 - min(max((StackCtrl.P - 0.275)/0.2, 0), 1))^4))" },
+						Size = Input { Expression = "StackCtrl.PhotoSize * (1 + 0.25*((1 - min(max((StackCtrl.P - 0.275)/0.2, 0), 1))^4))" },
+						Quality = Input { Value = 4 },
 						Input = Input {
 							SourceOp = "Card4",
 							Source = "Output"
 						},
-						Size = Input { Expression = "StackCtrl.PhotoSize * (1 + 0.9*((1 - min(max((StackCtrl.P - 0.31)/0.08, 0), 1))^3))" },
-						Angle = Input { Expression = "-6*StackCtrl.Tilt + -16*((1 - min(max((StackCtrl.P - 0.31)/0.08, 0), 1))^3)" }
-					},
-					ViewInfo = OperatorInfo { Pos = { 55, 82.5 } }
+						MotionBlur = Input { Expression = "StackCtrl.Blur" },
+						Angle = Input { Expression = "-6*StackCtrl.Tilt + -38*((1 - min(max((StackCtrl.P - 0.275)/0.2, 0), 1))^4)" }
+					}
 				},
 				Shade4 = Shadow {
+					ViewInfo = OperatorInfo { Pos = { 55, 115.5 } },
 					Inputs = {
-						Softness = Input { Value = 0.02 },
-						Alpha = Input { Expression = "StackCtrl.ShadowAmt" },
 						Input = Input {
 							SourceOp = "Drop4",
 							Source = "Output"
 						},
-						ShadowOffset = Input { Value = { 0.506, 0.488 } }
-					},
-					ViewInfo = OperatorInfo { Pos = { 55, 115.5 } }
+						Softness = Input { Expression = "0.04*StackCtrl.ShadowSoft*(1 + 2*((1 - min(max((StackCtrl.P - 0.275)/0.2, 0), 1))^4))" },
+						Alpha = Input { Expression = "StackCtrl.ShadowAmt" },
+						ShadowOffset = Input { Expression = "Point(0.5 + 0.004*StackCtrl.ShadowDist*(1 + 5*((1 - min(max((StackCtrl.P - 0.275)/0.2, 0), 1))^4)), 0.5 - 0.007*StackCtrl.ShadowDist*(1 + 5*((1 - min(max((StackCtrl.P - 0.275)/0.2, 0), 1))^4)))" }
+					}
 				},
 				Card3 = Merge {
+					ViewInfo = OperatorInfo { Pos = { -55, 49.5 } },
 					Inputs = {
 						PerformDepthMerge = Input { Value = 0 },
 						Foreground = Input {
 							SourceOp = "Still3",
 							Source = "Output"
 						},
-						Size = Input { Expression = "1 - 2*StackCtrl.Border" },
 						Background = Input {
 							SourceOp = "Paper",
 							Source = "Output"
 						},
-						Center = Input { Expression = "Point(0.5, 0.5 + 0.5*StackCtrl.Border)" }
-					},
-					ViewInfo = OperatorInfo { Pos = { -55, 49.5 } }
+						Size = Input { Expression = "StackCtrl.Inner" }
+					}
 				},
 				Drop3 = Transform {
+					ViewInfo = OperatorInfo { Pos = { -55, 82.5 } },
 					Inputs = {
-						Center = Input { Expression = "Point(0.5 + -0.17*StackCtrl.Spread, 0.5 + -0.14*StackCtrl.Spread)" },
+						Center = Input { Expression = "Point(0.5 + -0.17*StackCtrl.Spread + -0.85*((1 - min(max((StackCtrl.P - 0.19)/0.2, 0), 1))^4), 0.5 + -0.14*StackCtrl.Spread + -0.5*((1 - min(max((StackCtrl.P - 0.19)/0.2, 0), 1))^4))" },
+						Size = Input { Expression = "StackCtrl.PhotoSize * (1 + 0.25*((1 - min(max((StackCtrl.P - 0.19)/0.2, 0), 1))^4))" },
+						Quality = Input { Value = 4 },
 						Input = Input {
 							SourceOp = "Card3",
 							Source = "Output"
 						},
-						Size = Input { Expression = "StackCtrl.PhotoSize * (1 + 0.9*((1 - min(max((StackCtrl.P - 0.22)/0.08, 0), 1))^3))" },
-						Angle = Input { Expression = "5*StackCtrl.Tilt + 16*((1 - min(max((StackCtrl.P - 0.22)/0.08, 0), 1))^3)" }
-					},
-					ViewInfo = OperatorInfo { Pos = { -55, 82.5 } }
+						MotionBlur = Input { Expression = "StackCtrl.Blur" },
+						Angle = Input { Expression = "5*StackCtrl.Tilt + 38*((1 - min(max((StackCtrl.P - 0.19)/0.2, 0), 1))^4)" }
+					}
 				},
 				Shade3 = Shadow {
+					ViewInfo = OperatorInfo { Pos = { -55, 115.5 } },
 					Inputs = {
-						Softness = Input { Value = 0.02 },
-						Alpha = Input { Expression = "StackCtrl.ShadowAmt" },
 						Input = Input {
 							SourceOp = "Drop3",
 							Source = "Output"
 						},
-						ShadowOffset = Input { Value = { 0.506, 0.488 } }
-					},
-					ViewInfo = OperatorInfo { Pos = { -55, 115.5 } }
+						Softness = Input { Expression = "0.04*StackCtrl.ShadowSoft*(1 + 2*((1 - min(max((StackCtrl.P - 0.19)/0.2, 0), 1))^4))" },
+						Alpha = Input { Expression = "StackCtrl.ShadowAmt" },
+						ShadowOffset = Input { Expression = "Point(0.5 + 0.004*StackCtrl.ShadowDist*(1 + 5*((1 - min(max((StackCtrl.P - 0.19)/0.2, 0), 1))^4)), 0.5 - 0.007*StackCtrl.ShadowDist*(1 + 5*((1 - min(max((StackCtrl.P - 0.19)/0.2, 0), 1))^4)))" }
+					}
 				},
 				Card2 = Merge {
+					ViewInfo = OperatorInfo { Pos = { -165, 49.5 } },
 					Inputs = {
 						PerformDepthMerge = Input { Value = 0 },
 						Foreground = Input {
 							SourceOp = "Still2",
 							Source = "Output"
 						},
-						Size = Input { Expression = "1 - 2*StackCtrl.Border" },
 						Background = Input {
 							SourceOp = "Paper",
 							Source = "Output"
 						},
-						Center = Input { Expression = "Point(0.5, 0.5 + 0.5*StackCtrl.Border)" }
-					},
-					ViewInfo = OperatorInfo { Pos = { -165, 49.5 } }
+						Size = Input { Expression = "StackCtrl.Inner" }
+					}
 				},
 				Drop2 = Transform {
+					ViewInfo = OperatorInfo { Pos = { -165, 82.5 } },
 					Inputs = {
-						Center = Input { Expression = "Point(0.5 + 0.21*StackCtrl.Spread, 0.5 + 0.15*StackCtrl.Spread)" },
+						Center = Input { Expression = "Point(0.5 + 0.21*StackCtrl.Spread + 0.9*((1 - min(max((StackCtrl.P - 0.105)/0.2, 0), 1))^4), 0.5 + 0.15*StackCtrl.Spread + 0.35*((1 - min(max((StackCtrl.P - 0.105)/0.2, 0), 1))^4))" },
+						Size = Input { Expression = "StackCtrl.PhotoSize * (1 + 0.25*((1 - min(max((StackCtrl.P - 0.105)/0.2, 0), 1))^4))" },
+						Quality = Input { Value = 4 },
 						Input = Input {
 							SourceOp = "Card2",
 							Source = "Output"
 						},
-						Size = Input { Expression = "StackCtrl.PhotoSize * (1 + 0.9*((1 - min(max((StackCtrl.P - 0.13)/0.08, 0), 1))^3))" },
-						Angle = Input { Expression = "7*StackCtrl.Tilt + 16*((1 - min(max((StackCtrl.P - 0.13)/0.08, 0), 1))^3)" }
-					},
-					ViewInfo = OperatorInfo { Pos = { -165, 82.5 } }
+						MotionBlur = Input { Expression = "StackCtrl.Blur" },
+						Angle = Input { Expression = "7*StackCtrl.Tilt + 38*((1 - min(max((StackCtrl.P - 0.105)/0.2, 0), 1))^4)" }
+					}
 				},
 				Shade2 = Shadow {
+					ViewInfo = OperatorInfo { Pos = { -165, 115.5 } },
 					Inputs = {
-						Softness = Input { Value = 0.02 },
-						Alpha = Input { Expression = "StackCtrl.ShadowAmt" },
 						Input = Input {
 							SourceOp = "Drop2",
 							Source = "Output"
 						},
-						ShadowOffset = Input { Value = { 0.506, 0.488 } }
-					},
-					ViewInfo = OperatorInfo { Pos = { -165, 115.5 } }
+						Softness = Input { Expression = "0.04*StackCtrl.ShadowSoft*(1 + 2*((1 - min(max((StackCtrl.P - 0.105)/0.2, 0), 1))^4))" },
+						Alpha = Input { Expression = "StackCtrl.ShadowAmt" },
+						ShadowOffset = Input { Expression = "Point(0.5 + 0.004*StackCtrl.ShadowDist*(1 + 5*((1 - min(max((StackCtrl.P - 0.105)/0.2, 0), 1))^4)), 0.5 - 0.007*StackCtrl.ShadowDist*(1 + 5*((1 - min(max((StackCtrl.P - 0.105)/0.2, 0), 1))^4)))" }
+					}
 				},
 				Card1 = Merge {
+					ViewInfo = OperatorInfo { Pos = { -275, 49.5 } },
 					Inputs = {
 						PerformDepthMerge = Input { Value = 0 },
 						Foreground = Input {
 							SourceOp = "Still1",
 							Source = "Output"
 						},
-						Size = Input { Expression = "1 - 2*StackCtrl.Border" },
 						Background = Input {
 							SourceOp = "Paper",
 							Source = "Output"
 						},
-						Center = Input { Expression = "Point(0.5, 0.5 + 0.5*StackCtrl.Border)" }
-					},
-					ViewInfo = OperatorInfo { Pos = { -275, 49.5 } }
+						Size = Input { Expression = "StackCtrl.Inner" }
+					}
 				},
 				Drop1 = Transform {
+					ViewInfo = OperatorInfo { Pos = { -275, 82.5 } },
 					Inputs = {
-						Center = Input { Expression = "Point(0.5 + -0.22*StackCtrl.Spread, 0.5 + 0.13*StackCtrl.Spread)" },
+						Center = Input { Expression = "Point(0.5 + -0.22*StackCtrl.Spread + -0.9*((1 - min(max((StackCtrl.P - 0.02)/0.2, 0), 1))^4), 0.5 + 0.13*StackCtrl.Spread + 0.3*((1 - min(max((StackCtrl.P - 0.02)/0.2, 0), 1))^4))" },
+						Size = Input { Expression = "StackCtrl.PhotoSize * (1 + 0.25*((1 - min(max((StackCtrl.P - 0.02)/0.2, 0), 1))^4))" },
+						Quality = Input { Value = 4 },
 						Input = Input {
 							SourceOp = "Card1",
 							Source = "Output"
 						},
-						Size = Input { Expression = "StackCtrl.PhotoSize * (1 + 0.9*((1 - min(max((StackCtrl.P - 0.04)/0.08, 0), 1))^3))" },
-						Angle = Input { Expression = "-9*StackCtrl.Tilt + -16*((1 - min(max((StackCtrl.P - 0.04)/0.08, 0), 1))^3)" }
-					},
-					ViewInfo = OperatorInfo { Pos = { -275, 82.5 } }
+						MotionBlur = Input { Expression = "StackCtrl.Blur" },
+						Angle = Input { Expression = "-9*StackCtrl.Tilt + -38*((1 - min(max((StackCtrl.P - 0.02)/0.2, 0), 1))^4)" }
+					}
 				},
 				Shade1 = Shadow {
+					ViewInfo = OperatorInfo { Pos = { -275, 115.5 } },
 					Inputs = {
-						Softness = Input { Value = 0.02 },
-						Alpha = Input { Expression = "StackCtrl.ShadowAmt" },
 						Input = Input {
 							SourceOp = "Drop1",
 							Source = "Output"
 						},
-						ShadowOffset = Input { Value = { 0.506, 0.488 } }
-					},
-					ViewInfo = OperatorInfo { Pos = { -275, 115.5 } }
+						Softness = Input { Expression = "0.04*StackCtrl.ShadowSoft*(1 + 2*((1 - min(max((StackCtrl.P - 0.02)/0.2, 0), 1))^4))" },
+						Alpha = Input { Expression = "StackCtrl.ShadowAmt" },
+						ShadowOffset = Input { Expression = "Point(0.5 + 0.004*StackCtrl.ShadowDist*(1 + 5*((1 - min(max((StackCtrl.P - 0.02)/0.2, 0), 1))^4)), 0.5 - 0.007*StackCtrl.ShadowDist*(1 + 5*((1 - min(max((StackCtrl.P - 0.02)/0.2, 0), 1))^4)))" }
+					}
 				},
 				Lay1 = Merge {
+					ViewInfo = OperatorInfo { Pos = { -275, 181.5 } },
 					Inputs = {
+						Blend = Input { Expression = "iif(StackCtrl.P >= 0.02, 1, 0)" },
+						Foreground = Input {
+							SourceOp = "Shade1",
+							Source = "Output"
+						},
 						Background = Input {
 							SourceOp = "Table",
 							Source = "Output"
 						},
-						Blend = Input { Expression = "min(min(max((StackCtrl.P - 0.04)/0.08, 0), 1)*3, 1)" },
-						PerformDepthMerge = Input { Value = 0 },
-						Foreground = Input {
-							SourceOp = "Shade1",
-							Source = "Output"
-						}
-					},
-					ViewInfo = OperatorInfo { Pos = { -275, 181.5 } }
+						PerformDepthMerge = Input { Value = 0 }
+					}
 				},
 				Lay2 = Merge {
+					ViewInfo = OperatorInfo { Pos = { -165, 181.5 } },
 					Inputs = {
+						Blend = Input { Expression = "iif(StackCtrl.P >= 0.105, 1, 0)" },
+						Foreground = Input {
+							SourceOp = "Shade2",
+							Source = "Output"
+						},
 						Background = Input {
 							SourceOp = "Lay1",
 							Source = "Output"
 						},
-						Blend = Input { Expression = "min(min(max((StackCtrl.P - 0.13)/0.08, 0), 1)*3, 1)" },
-						PerformDepthMerge = Input { Value = 0 },
-						Foreground = Input {
-							SourceOp = "Shade2",
-							Source = "Output"
-						}
-					},
-					ViewInfo = OperatorInfo { Pos = { -165, 181.5 } }
+						PerformDepthMerge = Input { Value = 0 }
+					}
 				},
 				Lay3 = Merge {
+					ViewInfo = OperatorInfo { Pos = { -55, 181.5 } },
 					Inputs = {
+						Blend = Input { Expression = "iif(StackCtrl.P >= 0.19, 1, 0)" },
+						Foreground = Input {
+							SourceOp = "Shade3",
+							Source = "Output"
+						},
 						Background = Input {
 							SourceOp = "Lay2",
 							Source = "Output"
 						},
-						Blend = Input { Expression = "min(min(max((StackCtrl.P - 0.22)/0.08, 0), 1)*3, 1)" },
-						PerformDepthMerge = Input { Value = 0 },
-						Foreground = Input {
-							SourceOp = "Shade3",
-							Source = "Output"
-						}
-					},
-					ViewInfo = OperatorInfo { Pos = { -55, 181.5 } }
+						PerformDepthMerge = Input { Value = 0 }
+					}
 				},
 				Lay4 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 55, 181.5 } },
 					Inputs = {
+						Blend = Input { Expression = "iif(StackCtrl.P >= 0.275, 1, 0)" },
+						Foreground = Input {
+							SourceOp = "Shade4",
+							Source = "Output"
+						},
 						Background = Input {
 							SourceOp = "Lay3",
 							Source = "Output"
 						},
-						Blend = Input { Expression = "min(min(max((StackCtrl.P - 0.31)/0.08, 0), 1)*3, 1)" },
-						PerformDepthMerge = Input { Value = 0 },
-						Foreground = Input {
-							SourceOp = "Shade4",
-							Source = "Output"
-						}
-					},
-					ViewInfo = OperatorInfo { Pos = { 55, 181.5 } }
+						PerformDepthMerge = Input { Value = 0 }
+					}
 				},
 				Lay5 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 165, 181.5 } },
 					Inputs = {
+						Blend = Input { Expression = "iif(StackCtrl.P >= 0.36, 1, 0)" },
+						Foreground = Input {
+							SourceOp = "Shade5",
+							Source = "Output"
+						},
 						Background = Input {
 							SourceOp = "Lay4",
 							Source = "Output"
 						},
-						Blend = Input { Expression = "min(min(max((StackCtrl.P - 0.4)/0.08, 0), 1)*3, 1)" },
-						PerformDepthMerge = Input { Value = 0 },
-						Foreground = Input {
-							SourceOp = "Shade5",
-							Source = "Output"
-						}
-					},
-					ViewInfo = OperatorInfo { Pos = { 165, 181.5 } }
+						PerformDepthMerge = Input { Value = 0 }
+					}
 				},
 				Lay6 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 275, 181.5 } },
 					Inputs = {
+						Blend = Input { Expression = "iif(StackCtrl.P >= 0.445, 1, 0)" },
+						Foreground = Input {
+							SourceOp = "Shade6",
+							Source = "Output"
+						},
 						Background = Input {
 							SourceOp = "Lay5",
 							Source = "Output"
 						},
-						Blend = Input { Expression = "min(min(max((StackCtrl.P - 0.49)/0.08, 0), 1)*3, 1)" },
-						PerformDepthMerge = Input { Value = 0 },
-						Foreground = Input {
-							SourceOp = "Shade6",
-							Source = "Output"
-						}
-					},
-					ViewInfo = OperatorInfo { Pos = { 275, 181.5 } }
+						PerformDepthMerge = Input { Value = 0 }
+					}
 				},
 				Finish = Merge {
+					ViewInfo = OperatorInfo { Pos = { 495, 181.5 } },
 					Inputs = {
+						Blend = Input { Expression = "min(max((StackCtrl.P - 0.95)/0.04, 0), 1)" },
+						Foreground = Input {
+							SourceOp = "Src",
+							Source = "Output"
+						},
 						Background = Input {
 							SourceOp = "Lay6",
 							Source = "Output"
 						},
-						Blend = Input { Expression = "min(max((StackCtrl.P - 0.95)/0.04, 0), 1)" },
-						PerformDepthMerge = Input { Value = 0 },
-						Foreground = Input {
-							SourceOp = "Src",
-							Source = "Output"
-						}
-					},
-					ViewInfo = OperatorInfo { Pos = { 495, 181.5 } }
+						PerformDepthMerge = Input { Value = 0 }
+					}
 				}
 			
 			}
