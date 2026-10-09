@@ -1,0 +1,12 @@
+# source footage and other large media
+*.mp4
+*.mov
+*.mkv
+*.avi
+*.mxf
+
+# build intermediates and test renders
+scripts/out/
+scripts/raw.setting
+scripts/vraw.setting
+scripts/*.png

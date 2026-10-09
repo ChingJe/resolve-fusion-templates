@@ -1,0 +1,6 @@
+*.setting text eol=lf
+*.lua text eol=lf
+*.py text eol=lf
+.gitignore text eol=lf
+.gitattributes text eol=lf
+*.png binary
