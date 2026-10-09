@@ -1,0 +1,542 @@
+{
+	Tools = ordered() {
+		VideoWall = MacroOperator {
+			CtrlWZoom = false,
+			Inputs = ordered() {
+				MainInput1 = InstanceInput { SourceOp = "SrcA", Source = "Input" },
+				MainInput2 = InstanceInput { SourceOp = "SrcB", Source = "Input" },
+				Input1 = InstanceInput { SourceOp = "WallCtrl", Source = "PullBack", Name = "Pull Back" },
+				Input2 = InstanceInput { SourceOp = "WallCtrl", Source = "Gutter", Name = "Gap" },
+				Input3 = InstanceInput { SourceOp = "WallCtrl", Source = "TimeOffset", Name = "Time Offset" },
+				Input4 = InstanceInput { SourceOp = "WallCtrl", Source = "Dim", Name = "Other Screens Brightness" },
+			},
+			Outputs = {
+				MainOutput1 = InstanceOutput { SourceOp = "WallCam", Source = "Output" }
+			},
+			ViewInfo = GroupInfo { Pos = { 0, 0 } },
+			Tools = ordered() {
+				WallCtrl = Background {
+					CtrlWZoom = false,
+					Inputs = {
+						ViewS = Input { Expression = "(1 - 2*Gutter)/3 + (PullBack - (1 - 2*Gutter)/3) * sin(3.14159265*P)^2" },
+						CX = Input { Expression = "1/6 + (4/6) * P*P*(3 - 2*P)" },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Height = Input { Value = 1080 },
+						GlobalIn = Input { Value = -480 },
+						Width = Input { Value = 1920 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						P = Input {
+							Source = "Value",
+							SourceOp = "WallProgress"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } },
+					UserControls = {
+						Dim = {
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Other Screens Brightness",
+							INP_Default = 0.75,
+							INP_MinScale = 0
+						},
+						ViewS = {
+							INP_MaxScale = 2,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "ViewS",
+							INP_Default = 0.33,
+							INP_MinScale = 0
+						},
+						PullBack = {
+							INP_MaxScale = 2,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Pull Back",
+							INP_Default = 1,
+							INP_MinScale = 0.4
+						},
+						CX = {
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "CX",
+							INP_Default = 0.5,
+							INP_MinScale = 0
+						},
+						Gutter = {
+							INP_MaxScale = 0.08,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Gap",
+							INP_Default = 0.02,
+							INP_MinScale = 0
+						},
+						TimeOffset = {
+							INP_MaxScale = 60,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Time Offset",
+							INP_Default = 12,
+							INP_MinScale = 0
+						},
+						P = {
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "P",
+							INP_Default = 0,
+							INP_MinScale = 0
+						}
+					}
+				},
+				WallProgress = LUTLookup {
+					Inputs = {
+						Lookup = Input {
+							Source = "Value",
+							SourceOp = "AnimCurves1查找表"
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				["AnimCurves1查找表"] = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				SrcA = BrightnessContrast {
+					ViewInfo = OperatorInfo { Pos = { -495, 16.5 } }
+				},
+				SmallA = BetterResize {
+					ViewInfo = OperatorInfo { Pos = { -385, 16.5 } },
+					Inputs = {
+						Height = Input { Value = 540 },
+						Width = Input { Value = 960 },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "SrcA"
+						},
+						HiQOnly = Input { Value = 0 },
+						PixelAspect = Input { Value = { 1, 1 } }
+					}
+				},
+				Screen8 = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { 495, 16.5 } },
+					Inputs = {
+						SourceTime = Input {
+							Source = "Value",
+							Expression = "time - floor(4 * WallCtrl.TimeOffset)",
+							SourceOp = "TimeStretcher1源时间6"
+						},
+						Input = Input {
+							Source = "Output",
+							SourceOp = "SmallA"
+						},
+						SampleSpread = Input { Disabled = true },
+						InterpolateBetweenFrames = Input { Value = 0 }
+					}
+				},
+				["TimeStretcher1源时间6"] = BezierSpline {
+					CtrlWZoom = false,
+					SplineColor = { Red = 233, Green = 217, Blue = 243 },
+					KeyFrames = {
+						[228] = { 0, Flags = { Linear = true } }
+					},
+					NameSet = true
+				},
+				Screen6 = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { 275, 16.5 } },
+					Inputs = {
+						SourceTime = Input {
+							Source = "Value",
+							Expression = "time - floor(3 * WallCtrl.TimeOffset)",
+							SourceOp = "TimeStretcher1源时间4"
+						},
+						Input = Input {
+							Source = "Output",
+							SourceOp = "SmallA"
+						},
+						SampleSpread = Input { Disabled = true },
+						InterpolateBetweenFrames = Input { Value = 0 }
+					}
+				},
+				["TimeStretcher1源时间4"] = BezierSpline {
+					CtrlWZoom = false,
+					SplineColor = { Red = 233, Green = 217, Blue = 243 },
+					KeyFrames = {
+						[228] = { 0, Flags = { Linear = true } }
+					},
+					NameSet = true
+				},
+				Screen2 = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { 55, 16.5 } },
+					Inputs = {
+						SourceTime = Input {
+							Source = "Value",
+							Expression = "time - floor(2 * WallCtrl.TimeOffset)",
+							SourceOp = "TimeStretcher1源时间2"
+						},
+						Input = Input {
+							Source = "Output",
+							SourceOp = "SmallA"
+						},
+						SampleSpread = Input { Disabled = true },
+						InterpolateBetweenFrames = Input { Value = 0 }
+					}
+				},
+				["TimeStretcher1源时间2"] = BezierSpline {
+					CtrlWZoom = false,
+					SplineColor = { Red = 233, Green = 217, Blue = 243 },
+					KeyFrames = {
+						[228] = { 0, Flags = { Linear = true } }
+					},
+					NameSet = true
+				},
+				Screen0 = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { -165, 16.5 } },
+					Inputs = {
+						SourceTime = Input {
+							Source = "Value",
+							Expression = "time - floor(1 * WallCtrl.TimeOffset)",
+							SourceOp = "TimeStretcher1源时间"
+						},
+						Input = Input {
+							Source = "Output",
+							SourceOp = "SmallA"
+						},
+						SampleSpread = Input { Disabled = true },
+						InterpolateBetweenFrames = Input { Value = 0 }
+					}
+				},
+				["TimeStretcher1源时间"] = BezierSpline {
+					CtrlWZoom = false,
+					SplineColor = { Red = 233, Green = 217, Blue = 243 },
+					KeyFrames = {
+						[228] = { 0, Flags = { Linear = true } }
+					},
+					NameSet = true
+				},
+				SrcB = BrightnessContrast {
+					ViewInfo = OperatorInfo { Pos = { -495, 82.5 } }
+				},
+				SmallB = BetterResize {
+					ViewInfo = OperatorInfo { Pos = { -385, 82.5 } },
+					Inputs = {
+						Height = Input { Value = 540 },
+						Width = Input { Value = 960 },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "SrcB"
+						},
+						HiQOnly = Input { Value = 0 },
+						PixelAspect = Input { Value = { 1, 1 } }
+					}
+				},
+				Screen7 = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { 385, 82.5 } },
+					Inputs = {
+						SourceTime = Input {
+							Source = "Value",
+							Expression = "time + floor(3 * WallCtrl.TimeOffset)",
+							SourceOp = "TimeStretcher1源时间5"
+						},
+						Input = Input {
+							Source = "Output",
+							SourceOp = "SmallB"
+						},
+						SampleSpread = Input { Disabled = true },
+						InterpolateBetweenFrames = Input { Value = 0 }
+					}
+				},
+				["TimeStretcher1源时间5"] = BezierSpline {
+					CtrlWZoom = false,
+					SplineColor = { Red = 233, Green = 217, Blue = 243 },
+					KeyFrames = {
+						[228] = { 0, Flags = { Linear = true } }
+					},
+					NameSet = true
+				},
+				Screen4 = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { 165, 82.5 } },
+					Inputs = {
+						SourceTime = Input {
+							Source = "Value",
+							Expression = "time + floor(2 * WallCtrl.TimeOffset)",
+							SourceOp = "TimeStretcher1源时间3"
+						},
+						Input = Input {
+							Source = "Output",
+							SourceOp = "SmallB"
+						},
+						SampleSpread = Input { Disabled = true },
+						InterpolateBetweenFrames = Input { Value = 0 }
+					}
+				},
+				["TimeStretcher1源时间3"] = BezierSpline {
+					CtrlWZoom = false,
+					SplineColor = { Red = 233, Green = 217, Blue = 243 },
+					KeyFrames = {
+						[228] = { 0, Flags = { Linear = true } }
+					},
+					NameSet = true
+				},
+				Screen1 = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { -55, 82.5 } },
+					Inputs = {
+						SourceTime = Input {
+							Source = "Value",
+							Expression = "time + floor(1 * WallCtrl.TimeOffset)",
+							SourceOp = "TimeStretcher1源时间1"
+						},
+						Input = Input {
+							Source = "Output",
+							SourceOp = "SmallB"
+						},
+						SampleSpread = Input { Disabled = true },
+						InterpolateBetweenFrames = Input { Value = 0 }
+					}
+				},
+				["TimeStretcher1源时间1"] = BezierSpline {
+					CtrlWZoom = false,
+					SplineColor = { Red = 233, Green = 217, Blue = 243 },
+					KeyFrames = {
+						[228] = { 0, Flags = { Linear = true } }
+					},
+					NameSet = true
+				},
+				WallBase = Background {
+					ViewInfo = OperatorInfo { Pos = { -385, 214.5 } },
+					Inputs = {
+						Height = Input { Value = 1620 },
+						GlobalIn = Input { Value = -480 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						GlobalOut = Input { Value = 3534 },
+						Width = Input { Value = 2880 }
+					}
+				},
+				Place0 = Merge {
+					ViewInfo = OperatorInfo { Pos = { -165, 214.5 } },
+					Inputs = {
+						Background = Input {
+							Source = "Output",
+							SourceOp = "WallBase"
+						},
+						PerformDepthMerge = Input { Value = 0 },
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "Screen0"
+						},
+						Center = Input { Value = { 0.166666666666667, 0.166666666666667 } }
+					}
+				},
+				Place1 = Merge {
+					ViewInfo = OperatorInfo { Pos = { -55, 214.5 } },
+					Inputs = {
+						Background = Input {
+							Source = "Output",
+							SourceOp = "Place0"
+						},
+						PerformDepthMerge = Input { Value = 0 },
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "Screen1"
+						},
+						Center = Input { Value = { 0.5, 0.166666666666667 } }
+					}
+				},
+				Place2 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 55, 214.5 } },
+					Inputs = {
+						Background = Input {
+							Source = "Output",
+							SourceOp = "Place1"
+						},
+						PerformDepthMerge = Input { Value = 0 },
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "Screen2"
+						},
+						Center = Input { Value = { 0.833333333333333, 0.166666666666667 } }
+					}
+				},
+				Place4 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 165, 214.5 } },
+					Inputs = {
+						Background = Input {
+							Source = "Output",
+							SourceOp = "Place2"
+						},
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "Screen4"
+						},
+						PerformDepthMerge = Input { Value = 0 }
+					}
+				},
+				Place6 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 275, 214.5 } },
+					Inputs = {
+						Background = Input {
+							Source = "Output",
+							SourceOp = "Place4"
+						},
+						PerformDepthMerge = Input { Value = 0 },
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "Screen6"
+						},
+						Center = Input { Value = { 0.166666666666667, 0.833333333333333 } }
+					}
+				},
+				Place7 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 385, 214.5 } },
+					Inputs = {
+						Background = Input {
+							Source = "Output",
+							SourceOp = "Place6"
+						},
+						PerformDepthMerge = Input { Value = 0 },
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "Screen7"
+						},
+						Center = Input { Value = { 0.5, 0.833333333333333 } }
+					}
+				},
+				Place8 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 495, 214.5 } },
+					Inputs = {
+						Background = Input {
+							Source = "Output",
+							SourceOp = "Place7"
+						},
+						PerformDepthMerge = Input { Value = 0 },
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "Screen8"
+						},
+						Center = Input { Value = { 0.833333333333333, 0.833333333333333 } }
+					}
+				},
+				WallCam = Custom {
+					ViewInfo = OperatorInfo { Pos = { 715, 115.5 } },
+					Inputs = {
+						Intermediate3 = Input { Value = "floor(frac(i1)*3)" },
+						Intermediate4 = Input { Value = "floor(frac(i2)*3)" },
+						Intermediate5 = Input { Value = "(frac(frac(i1)*3) - n3)/(1 - 2*n3)" },
+						Intermediate6 = Input { Value = "(frac(frac(i2)*3) - n3)/(1 - 2*n3)" },
+						Intermediate7 = Input { Value = "i3 + i4*3" },
+						Intermediate8 = Input { Value = "if(min(min(i5, 1 - i5), min(i6, 1 - i6)) > 0, 1, 0)" },
+						LUTIn1 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn1"
+						},
+						LUTIn2 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn2"
+						},
+						LUTIn3 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn3"
+						},
+						LUTIn4 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn4"
+						},
+						Image2 = Input {
+							Source = "Output",
+							SourceOp = "SrcB"
+						},
+						GreenExpression = Input { Value = "if(n1 <= 0, g1, if(n1 >= 1, g2, if(i8 < 1, 0.03, if(abs(i7 - 3) < 0.5, getg1b(i5, i6), if(abs(i7 - 5) < 0.5, getg2b(i5, i6), getg3b((i3 + i5)/3, (i4 + i6)/3)*n6)))))" },
+						NumberIn1 = Input { Expression = "WallCtrl.P" },
+						BlueExpression = Input { Value = "if(n1 <= 0, b1, if(n1 >= 1, b2, if(i8 < 1, 0.03, if(abs(i7 - 3) < 0.5, getb1b(i5, i6), if(abs(i7 - 5) < 0.5, getb2b(i5, i6), getb3b((i3 + i5)/3, (i4 + i6)/3)*n6)))))" },
+						NumberIn2 = Input { Expression = "WallCtrl.ViewS" },
+						NumberIn3 = Input { Expression = "WallCtrl.Gutter" },
+						NumberIn4 = Input { Expression = "WallCtrl.CX" },
+						Image3 = Input {
+							Source = "Output",
+							SourceOp = "Place8"
+						},
+						NumberIn6 = Input { Expression = "WallCtrl.Dim" },
+						Image1 = Input {
+							Source = "Output",
+							SourceOp = "SrcA"
+						},
+						Intermediate1 = Input { Value = "10 + n4 + (x - 0.5)*n2" },
+						AlphaExpression = Input { Value = "1" },
+						Intermediate2 = Input { Value = "10.5 + (y - 0.5)*n2" },
+						RedExpression = Input { Value = "if(n1 <= 0, r1, if(n1 >= 1, r2, if(i8 < 1, 0.03, if(abs(i7 - 3) < 0.5, getr1b(i5, i6), if(abs(i7 - 5) < 0.5, getr2b(i5, i6), getr3b((i3 + i5)/3, (i4 + i6)/3)*n6)))))" }
+					}
+				},
+				CustomTool1LUTIn1 = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn2 = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn3 = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn4 = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				}
+			
+			}
+		}
+	},
+	ActiveTool = "VideoWall"
+}
