@@ -20,7 +20,8 @@ ctrl.UserControls = {
   PsDone     = L.num("Stack Complete At", 0.67, 0.2, 0.9),
   PsSeed     = L.num("Layout Seed", 1, 0, 50, nil, true),
   PsPlay     = L.check("Photos Play As Video", 1),
-  PsLive     = L.combo("Last Photo", {"Waits On The First Frame", "Plays Along", "Waits On The Last Frame"}, 0),
+  PsLive     = L.combo("Last Photo", {"Plays, Then Rewinds To The First Frame", "Plays The Moments Before The Clip",
+                                      "Waits On The First Frame", "Plays Along", "Waits On The Last Frame"}, 0),
   PhotoSize  = L.num("Photo Size", 0.36, 0.15, 0.7),
   Spread     = L.num("Spread", 1, 0, 1.6),
   Tilt       = L.num("Tilt", 1, 0, 3),
@@ -82,12 +83,21 @@ L.color(paper, 0.97, 0.96, 0.93)
 paper:SetInput("UseFrameFormatSettings", 1)
 paper.EffectMask = paperMask.Mask
 
--- What the last photo shows. Waiting on the first frame is for an intro piece placed in front of the clip:
--- the piece ends on the very frame the clip starts with, so nothing of the clip is used up by the intro.
+-- What the last photo shows. The first three choices are for an intro piece placed in front of the clip:
+-- they all end on the very frame the clip starts with, so nothing of the clip is used up by the intro.
+--   0 plays the opening of the clip while the stack builds, then winds back to the first frame as it grows
+--   1 plays the footage that comes just before the clip in the source and arrives at the first frame at the end
+--   2 stays on the first frame   3 plays along with the clip (and ends wherever the clip is)   4 stays on the last frame
 local liveSrc = add("TimeStretcher", "LiveFrame", -5, 2)
 liveSrc.Input = src.Output
 liveSrc:SetInput("InterpolateBetweenFrames", 0)
-expr(liveSrc, "SourceTime", "iif(StackCtrl.PsLive == 0, comp.RenderStart, iif(StackCtrl.PsLive == 2, comp.RenderEnd, time))")
+expr(liveSrc, "SourceTime", [[(function(m, rs, re, p, z, done)
+  if m == 0 then return rs + floor(min(p, done)*(re - rs)*(1 - z) + 0.5)
+  elseif m == 1 then return max(comp.GlobalStart, rs - (re - time))
+  elseif m == 2 then return rs
+  elseif m == 3 then return time end
+  return re
+end)(StackCtrl.PsLive, comp.RenderStart, comp.RenderEnd, StackCtrl.P, StackCtrl.Z, StackCtrl.PsDone)]])
 
 -- Layers 1..MAX-1 are stills and only the first PsCount-1 of them are used; the last layer is the live clip.
 local last = table_
