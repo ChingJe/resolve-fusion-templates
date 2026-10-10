@@ -77,6 +77,7 @@ end
 function L.adder(comp)
   return function(id, name, x, y)
     local t = comp:AddTool(id, x or 0, y or 0)
+    if not t then error("AddTool failed: " .. tostring(id) .. " " .. tostring(name)) end
     t:SetAttrs({TOOLS_Name = name})
     return t
   end

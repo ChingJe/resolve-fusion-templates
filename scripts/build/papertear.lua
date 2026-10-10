@@ -1,4 +1,4 @@
--- Paper Tear transition: clip A is ripped in two along a ragged line and the halves are pulled apart, clip B is underneath.
+-- Paper Tear transition: clip A is ripped in two along a ragged line and the halves swing away, clip B is underneath.
 -- Built in the lab clip comp with two procedural stand-ins. FX_SRC=media uses the clip for A and a later
 -- part of the same clip for B. FX_EXPORT=1 dumps the macro source.
 local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "../lib.lua")
@@ -22,10 +22,17 @@ ctrl.UserControls = {
   TearSeed   = L.num("Tear Shape", 0, 0, 20),
   TearRip    = L.num("Rip Time", 0.36, 0.02, 0.95),
   TearSteps  = L.num("Stop Motion Steps", 0, 0, 24, nil, true),
+  TearSwing  = L.num("Swing (degrees)", 14, 0, 45),
+  TearStagger = L.num("Second Half Delay", 0.15, 0, 0.6),
   P  = L.num("P", 0, 0, 1, "Driver"),
   Q  = L.num("Q", 0, 0, 1, "Driver"),
   F  = L.num("F", 0, -1, 20, "Driver"),
-  Slide = L.num("Slide", 0, 0, 3, "Driver"),
+  U  = L.num("U", 0, 0, 1, "Driver"),
+  EaseA = L.num("EaseA", 0, 0, 1, "Driver"),
+  EaseB = L.num("EaseB", 0, 0, 1, "Driver"),
+  Pivot = L.point("Pivot", "Driver"),
+  MoveA = L.point("MoveA", "Driver"),
+  MoveB = L.point("MoveB", "Driver"),
 }
 ctrl = ctrl:Refresh()
 ctrl:SetInput("UseFrameFormatSettings", 1)
@@ -37,9 +44,23 @@ curve:SetInput("Curve", "Linear")
 -- optionally held on a few steps so the tear jerks along like stop motion
 expr(ctrl, "Q", "iif(TearSteps >= 1, floor(P*TearSteps + 0.5)/max(TearSteps, 1), P)")
 -- F: how far the rip has travelled along its line (0 one end of the frame, 1 the other), done at Q = Rip Time.
--- Slide: how far each half has then been pulled away sideways; it starts while the rip is still running.
 expr(ctrl, "F", "Q/TearRip")
-expr(ctrl, "Slide", "(0.7 + abs(TearOffset) + TearRough) * (function(t) return t*t*(3 - 2*t) end)(min(max((Q - 0.7*TearRip)/(1 - 0.7*TearRip), 0), 1))")
+-- After the rip the two halves are pulled away. Each one swings about the end of the line the rip reached last, so the
+-- end where it started opens first, and it leaves slowly and keeps speeding up. The second half follows a little later.
+local ASP = "(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height'))"
+local EASE = "(function(t) t = min(max(t, 0), 1) return t*t*(2 - t) end)"
+expr(ctrl, "U", "min(max((Q - TearRip)/max(1 - TearRip, 0.001), 0), 1)")
+expr(ctrl, "EaseA", EASE .. "(U/(1 - TearStagger))")
+expr(ctrl, "EaseB", EASE .. "((U - TearStagger)/(1 - TearStagger))")
+expr(ctrl, "Pivot", "(function(a, asp) local s = 0.5*(abs(sin(a)) + abs(cos(a))/asp) "
+  .. "return Point(0.5 + cos(a)*TearOffset - sin(a)*s, 0.5 + (sin(a)*TearOffset + cos(a)*s)*asp) end)(math.rad(TearAngle), " .. ASP .. ")")
+local function move(sign, ease)
+  return "(function(a, asp, e, far) return Point(0.5 + (" .. sign .. "cos(a)*far + sin(a)*0.18)*e, "
+    .. "0.5 + (" .. sign .. "sin(a)*far - cos(a)*0.18)*e*asp) end)(math.rad(TearAngle), " .. ASP .. ", " .. ease
+    .. ", 0.5*(abs(cos(math.rad(TearAngle))) + abs(sin(math.rad(TearAngle)))/" .. ASP .. ") + abs(TearOffset) + TearRough + 0.05)"
+end
+expr(ctrl, "MoveA", move("", "EaseA"))
+expr(ctrl, "MoveB", move("-", "EaseB"))
 
 local srcA = add("BrightnessContrast", "SrcA", -5, 0)
 local srcB = add("BrightnessContrast", "SrcB", -5, 2)
@@ -66,48 +87,78 @@ noise:SetInput("XScale", 6)
 noise:SetInput("SeetheRate", 0)
 expr(noise, "Seethe", "TearCtrl.TearSeed")
 
-local cut = add("Custom", "TearCut", 2, 1)
-cut.Image1 = srcA.Output
-cut.Image2 = srcB.Output
-cut.Image3 = noise.Output
-expr(cut, "NumberIn1", "TearCtrl.P")
-expr(cut, "NumberIn2", "TearCtrl.TearAngle")
-expr(cut, "NumberIn3", "TearCtrl.TearRough")
-expr(cut, "NumberIn4", "TearCtrl.TearEdge")
-expr(cut, "NumberIn5", "TearCtrl.TearShadow")
-expr(cut, "NumberIn6", "TearCtrl.TearShadowW")
-expr(cut, "NumberIn7", "TearCtrl.F")
-expr(cut, "NumberIn8", "TearCtrl.TearGap")
-expr(cut, "PointIn1", "Point(TearCtrl.TearOffset, TearCtrl.Slide)")
--- The rip line stays where it is on the paper. The rip travels along it and leaves a narrow gap behind,
--- then the two halves of A slide apart without changing shape.
--- i1 position along the line (0..1 across the frame), i2 how far each half has been pulled here
-cut:SetInput("Intermediate1", "0.5 + ((y - 0.5)*(h/w)*cos(n2) - (x - 0.5)*sin(n2))/(abs(sin(n2)) + (h/w)*abs(cos(n2)))")
-cut:SetInput("Intermediate2", "n8*min(max((n7 - i1)/0.12, 0), 1) + p1y")
--- i3 distance across the line in units of the frame width, measured on the paper before it was pulled
-cut:SetInput("Intermediate3", "(x - 0.5)*cos(n2) + (y - 0.5)*(h/w)*sin(n2) - p1x - n3*2*(getr3b(0.27, 0.5 + 0.75*((y - 0.5)*(h/w)*cos(n2) - (x - 0.5)*sin(n2))) - 0.5)")
--- i4 > 0 inside the half that moves one way, i5 > 0 inside the other half, both negative in the gap
-cut:SetInput("Intermediate4", "i3 - i2")
-cut:SetInput("Intermediate5", "-i3 - i2")
--- i6 how far the white paper core shows at this spot, i7 paper grain, i8 shadow the halves cast on B
-cut:SetInput("Intermediate6", "n4*(0.25 + 1.5*getr3b(0.71, frac(i1*3.7)))*min(i2/0.004, 1)")
-cut:SetInput("Intermediate7", "0.9 + 0.1*getr3b(frac(x*5), frac(y*5))")
-cut:SetInput("Intermediate8", "1 - n5*max(0, 1 - max(min(-i4, -i5), 0)/max(n6, 0.0001))^2")
--- a half only covers the spots where the picture it carries exists; beyond the old frame edge B shows
-local function chan(c)
-  local function half(sign, inside, core)
-    local sx = string.format("(x %s i2*cos(n2))", sign)
-    local sy = string.format("(y %s i2*sin(n2)*w/h)", sign)
-    return string.format("if(min(min(%s, 1 - %s), min(%s, 1 - %s)) < 0, %s2, if(%s > %s, get%s1b(%s, %s), i7))",
-      sx, sx, sy, sy, c, inside, core, c, sx, sy)
+-- one still picture holds everything about the line that does not change: R distance across the line (in frame
+-- widths, with the ragged shape in it), G position along it (0..1), B how wide the white paper core is here, A grain
+local base = add("Background", "TearBase", -3, 3)
+base:SetInput("UseFrameFormatSettings", 1); base:SetInput("Depth", 4)
+local field = add("Custom", "TearField", -1, 3)
+field.Image1 = base.Output; field.Image2 = noise.Output
+expr(field, "NumberIn1", "TearCtrl.TearOffset")
+expr(field, "NumberIn2", "TearCtrl.TearAngle")
+expr(field, "NumberIn3", "TearCtrl.TearRough")
+L.cx(field, "Intermediate1", "(y - 0.5)*(h/w)*cos(n2) - (x - 0.5)*sin(n2)")
+L.cx(field, "Intermediate2", "0.5 + i1/(abs(sin(n2)) + (h/w)*abs(cos(n2)))")
+L.cx(field, "RedExpression", "(x - 0.5)*cos(n2) + (y - 0.5)*(h/w)*sin(n2) - n1 - n3*2*(getr2b(0.27, 0.5 + 0.75*i1) - 0.5)")
+L.cx(field, "GreenExpression", "i2")
+L.cx(field, "BlueExpression", "0.25 + 1.5*getr2b(0.71, frac(i2*3.7))")
+L.cx(field, "AlphaExpression", "0.9 + 0.1*getr2b(frac(x*5), frac(y*5))")
+
+-- each half of A on its own, still in place. The rip travels along the line and the gap behind it opens like a
+-- wedge, widest where the rip started. Ahead of the rip the far half runs on under the near one, so no seam shows.
+local function half(name, sign, under, core, row)
+  local t = add("Custom", name, 1, row)
+  t.Image1 = srcA.Output; t.Image2 = field.Output
+  expr(t, "NumberIn1", "TearCtrl.F")
+  expr(t, "NumberIn2", "TearCtrl.TearAngle")
+  t:SetInput("NumberIn3", under)
+  expr(t, "NumberIn4", "TearCtrl.TearEdge * " .. core)
+  expr(t, "NumberIn8", "TearCtrl.TearGap")
+  L.cx(t, "Intermediate1", "n8*(min(max((n1 - g2)/0.12, 0), 1) + 2*max(min(n1, 1) - g2, 0))")
+  L.cx(t, "Intermediate2", sign .. "r2 - i1 + n3*if(i1 <= 0, 9, 0)")
+  L.cx(t, "Intermediate3", "x - (" .. sign .. "i1)*cos(n2)")
+  L.cx(t, "Intermediate4", "y - (" .. sign .. "i1)*sin(n2)*w/h")
+  L.cx(t, "Intermediate5", "min(max(i2*w + 0.5, 0), 1)*if(min(min(i3, 1 - i3), min(i4, 1 - i4)) < 0, 0, 1)")
+  L.cx(t, "Intermediate6", "n4*b2*min(i1/0.004, 1)")
+  for _, c in ipairs({"r", "g", "b"}) do
+    L.cx(t, ({r = "Red", g = "Green", b = "Blue"})[c] .. "Expression", string.format("i5*if(i2 > i6, get%s1b(i3, i4), a2)", c))
   end
-  return string.format("if(n1 <= 0, %s1, if(n1 >= 1, %s2, if(i4 > 0, %s, if(i5 > 0, %s, %s2*i8))))",
-    c, c, half("-", "i4", "i6"), half("+", "i5", "i6*0.5"), c)
+  L.cx(t, "AlphaExpression", "i5")
+  local m = add("Transform", name .. "Move", 2, row)
+  m.Input = t.Output
+  expr(m, "Pivot", "TearCtrl.Pivot")
+  return m
 end
-cut:SetInput("RedExpression", chan("r"))
-cut:SetInput("GreenExpression", chan("g"))
-cut:SetInput("BlueExpression", chan("b"))
-cut:SetInput("AlphaExpression", "1")
+local moveA = half("TearHalfA", "", 0, "1", 0)
+local moveB = half("TearHalfB", "-", 1, "0.5", 1)
+expr(moveA, "Center", "TearCtrl.MoveA"); expr(moveA, "Angle", "TearCtrl.TearSwing * TearCtrl.EaseA")
+expr(moveB, "Center", "TearCtrl.MoveB"); expr(moveB, "Angle", "-TearCtrl.TearSwing * TearCtrl.EaseB")
+local paper = add("Merge", "TearPaper", 3, 0)
+paper.Background = moveB.Output; paper.Foreground = moveA.Output
+local room = add("SetDomain", "TearRoom", 4, 0)
+room.Input = paper.Output; room:SetInput("Mode", "Set")
+
+-- the shadow the halves cast on B: wider, softer and further off as they lift away
+local soft = add("Blur", "TearSoft", 4, 1)
+soft.Input = room.Output
+expr(soft, "XBlurSize", "TearCtrl.TearShadowW * 40 * (1 + 2*TearCtrl.EaseA)")
+local shade = add("Custom", "TearShade", 5, 2)
+shade.Image1 = srcB.Output; shade.Image2 = soft.Output
+expr(shade, "NumberIn1", "TearCtrl.TearShadow")
+expr(shade, "NumberIn2", "TearCtrl.TearShadowW * (0.15 + 0.6*TearCtrl.EaseA)")
+L.cx(shade, "Intermediate1", "1 - n1*geta2b(x - n2*h/w, y + n2)")
+for _, c in ipairs({"r", "g", "b"}) do L.cx(shade, ({r = "Red", g = "Green", b = "Blue"})[c] .. "Expression", c .. "1*i1") end
+L.cx(shade, "AlphaExpression", "1")
+local over = add("Merge", "TearOver", 5, 0)
+over.Background = shade.Output; over.Foreground = room.Output
+
+-- the first and the last frame are the clips themselves, untouched
+local cut = add("Custom", "TearCut", 6, 0)
+cut.Image1 = srcA.Output; cut.Image2 = srcB.Output; cut.Image3 = over.Output
+expr(cut, "NumberIn1", "TearCtrl.P")
+for _, c in ipairs({"r", "g", "b"}) do
+  L.cx(cut, ({r = "Red", g = "Green", b = "Blue"})[c] .. "Expression", string.format("if(n1 <= 0, %s1, if(n1 >= 1, %s2, %s3))", c, c, c))
+end
+L.cx(cut, "AlphaExpression", "1")
 
 mediaOut.Input = cut.Output
 comp:EndUndo(true)
@@ -129,6 +180,8 @@ if os.getenv("FX_EXPORT") == "1" then
     {"CTL", "TearCtrl", "TearShadow", "Shadow"},
     {"CTL", "TearCtrl", "TearShadowW", "Shadow Width"},
     {"CTL", "TearCtrl", "TearRip", "Rip Time"},
+    {"CTL", "TearCtrl", "TearSwing", "Swing (degrees)"},
+    {"CTL", "TearCtrl", "TearStagger", "Second Half Delay"},
     {"CTL", "TearCtrl", "TearSteps", "Stop Motion Steps"},
   })
   srcA.Input = a.Output; srcB.Input = b.Output
