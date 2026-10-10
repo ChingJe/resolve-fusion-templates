@@ -2,6 +2,8 @@
 
 Chapter Bar、Kinetic Lines、Punch Zoom 都用一個多行文字框來列時間點，寫法相同：一行一個，開頭寫時間，後面寫內容。Variety Caption 和 Side Note 勾選 `Lines Start With A Time` 之後也是同一種寫法。
 
+Photo Stack 的 `Last Photo Arrives After` 只填一個時間點，寫法也一樣。
+
 不想寫時間的話，Kinetic Lines、Variety Caption、Side Note 可以改用關鍵幀換句，做法見 [Variety Caption](templates/variety-caption.md)。
 
 ```

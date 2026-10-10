@@ -20,7 +20,9 @@ ctrl.UserControls = {
   PsDone     = L.num("Stack Complete At", 0.67, 0.2, 0.9),
   PsSeed     = L.num("Layout Seed", 1, 0, 50, nil, true),
   PsPlay     = L.check("Photos Play As Video", 1),
-  PsStart    = L.num("Last Photo Arrives After (seconds)", 2, 0, 10),
+  PsStart    = L.text("Last Photo Arrives After (2, 0:02.5, 48f or 40%)", "2"),
+  FpsOverride = L.num("Frame Rate Override", 0, 0, 120),
+  Arrive = L.num("Arrive", 0, -1, 1, "Driver"),
   PsLive     = L.combo("Last Photo", {"Plays Along", "Plays, Then Rewinds To The First Frame",
                                       "Waits On The First Frame", "Waits On The Last Frame"}, 0),
   Land = L.num("Land", 0, 0, 1, "Driver"),
@@ -52,8 +54,25 @@ expr(ctrl, "P", L.P)
 -- Land: when the last photo sets off, as a part of the clip. Given in seconds it is the one moment the user
 -- can count on: cut the piece that many seconds before the first frame they want to see in that photo.
 -- With 0 seconds it follows from Stack Complete At instead. Done: when the last photo has come to rest.
-expr(ctrl, "Land", "iif(PsStart > 0, min(PsStart*(comp:GetPrefs('Comp.FrameFormat.Rate') or 24)/max(comp.RenderEnd - comp.RenderStart, 1), 0.6), max(PsDone - 0.01 - PsSlide, 0.02))")
-expr(ctrl, "Done", "iif(PsStart > 0, min(Land + PsSlide + 0.01, 0.9), PsDone)")
+-- Arrive: the time the user wrote, as a part of the clip, or -1 when the box is empty, zero or unreadable.
+-- Same notation as the time lists (docs/time-list.md): seconds, m:ss, a frame count with f, or a percentage.
+expr(ctrl, "Arrive", [[(function(txt, fps, len)
+  local stamp = txt:match("^%s*(%S+)")
+  if not stamp then return -1 end
+  local f
+  local pct, fr = stamp:match("^([%d%.]+)%%$"), stamp:match("^([%d%.]+)[fF]$")
+  if pct then f = tonumber(pct) / 100 * len
+  elseif fr then f = tonumber(fr)
+  elseif stamp:match("^[%d:%.]+$") then
+    local sec = 0
+    for part in stamp:gmatch("[^:]+") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end
+    if sec then f = math.floor(sec * fps + 0.5) end
+  end
+  if not f or f <= 0 then return -1 end
+  return math.min(f / len, 0.6)
+end)(PsStart.Value, iif(FpsOverride > 0, FpsOverride, comp:GetPrefs("Comp.FrameFormat.Rate") or 24), max(comp.RenderEnd - comp.RenderStart, 1))]])
+expr(ctrl, "Land", "iif(Arrive > 0, Arrive, max(PsDone - 0.01 - PsSlide, 0.02))")
+expr(ctrl, "Done", "iif(Arrive > 0, min(Land + PsSlide + 0.01, 0.9), PsDone)")
 expr(ctrl, "Z", "(function(t) return t*t*t*(t*(6*t - 15) + 10) end)(min(max((P - Done)/max(0.95 - Done, 0.01), 0), 1))")
 -- Gap: time between two photos setting off, so that the last one has landed when the stack is complete.
 -- A long Slide Time with many photos leaves no room and everything sets off at once.
@@ -201,7 +220,8 @@ if os.getenv("FX_EXPORT") == "1" then
     {"NAME", "PhotoStack"},
     {"MAIN", "Src", "Input"},
     {"OUT", "Finish", "Output"},
-    {"CTL", "StackCtrl", "PsStart", "Last Photo Arrives After (seconds)"},
+    {"CTL", "StackCtrl", "PsStart", "Last Photo Arrives After (2, 0:02.5, 48f or 40%)"},
+    {"CTL", "StackCtrl", "FpsOverride", "Frame Rate Override"},
     {"CTL", "StackCtrl", "PsLive", "Last Photo"},
     {"CTL", "StackCtrl", "PsCount", "Photo Count"},
     {"CTL", "StackCtrl", "PsSlide", "Slide Time"},
@@ -228,5 +248,9 @@ if os.getenv("FX_EXPORT") == "1" then
   src.Input = source
 else
   for name, value in string.gmatch(os.getenv("FX_SET") or "", "(%w+)=([%d%.%-]+)") do ctrl:SetInput(name, tonumber(value)) end
+  if os.getenv("FX_ARRIVE") then ctrl:SetInput("PsStart", os.getenv("FX_ARRIVE")) end
+  local v = {}
+  for _, id in ipairs({"Arrive", "Land", "Done"}) do v[#v + 1] = id .. "=" .. tostring((ctrl:GetInput(id, 10))) end
+  print(table.concat(v, " "))
   L.render(comp, finish.Output, os.getenv("FX_PREFIX") or "ps", tonumber(os.getenv("FX_STEPS") or "12"))
 end
