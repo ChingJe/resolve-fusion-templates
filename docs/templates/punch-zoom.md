@@ -1,6 +1,6 @@
 # Punch Zoom
 
-特效 · 檔案 `templates//.setting` · [回到總覽](../../README.md)
+特效 · 檔案 `templates/Effects/Punch Zoom.setting` · [回到總覽](../../README.md)
 
 畫面在指定的時間點快速推近再彈回。每一下可以同時帶 RGB 分離、放射狀模糊、震動、扭轉、閃白，各自獨立開關。時間點可以自己列，也可以填 BPM 讓它照拍子打。
 

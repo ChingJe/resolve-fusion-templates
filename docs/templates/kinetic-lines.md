@@ -1,6 +1,6 @@
 # Kinetic Lines
 
-標題 · 檔案 `templates//.setting` · [回到總覽](../../README.md)
+標題 · 檔案 `templates/Titles/Kinetic Lines.setting` · [回到總覽](../../README.md)
 
 一行行文字照寫好的時間彈出來，後一行取代前一行。適合金句、歌詞、重點條列。
 

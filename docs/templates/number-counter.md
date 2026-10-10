@@ -1,6 +1,6 @@
 # Number Counter
 
-標題 · 檔案 `templates//.setting` · [回到總覽](../../README.md)
+標題 · 檔案 `templates/Titles/Number Counter.setting` · [回到總覽](../../README.md)
 
 數字從一個值跳到另一個值，數完時彈一下。
 

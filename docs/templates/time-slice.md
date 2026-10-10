@@ -1,6 +1,6 @@
 # Time Slice
 
-特效 · 檔案 `templates//.setting` · [回到總覽](../../README.md)
+特效 · 檔案 `templates/Effects/Time Slice.setting` · [回到總覽](../../README.md)
 
 畫面切成直條，每條比隔壁晚幾格。畫面裡有東西在動時，動作會像波浪一樣掃過去。
 

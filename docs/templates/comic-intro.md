@@ -1,6 +1,6 @@
 # Comic Intro
 
-標題 · 檔案 `templates//.setting` · [回到總覽](../../README.md)
+標題 · 檔案 `templates/Titles/Comic Intro.setting` · [回到總覽](../../README.md)
 
 漫畫頁快速翻動，鏡頭從字裡拉遠，最後定格成紅框白字的標題。漫畫格裡是程序畫出來的圖案，不需要素材。
 

@@ -1,6 +1,6 @@
 # Comic Intro Video
 
-特效 · 檔案 `templates//.setting` · [回到總覽](../../README.md)
+特效 · 檔案 `templates/Effects/Comic Intro Video.setting` · [回到總覽](../../README.md)
 
 和 Comic Intro 相同的動畫，但每個漫畫格播的是片段裡不同時間點的畫面。
 

@@ -1,6 +1,6 @@
 # Photo Stack
 
-特效 · 檔案 `templates//.setting` · [回到總覽](../../README.md)
+特效 · 檔案 `templates/Effects/Photo Stack.setting` · [回到總覽](../../README.md)
 
 影片的幾個片刻變成照片，一張張滑到桌上，最後一張放大成全畫面。
 
