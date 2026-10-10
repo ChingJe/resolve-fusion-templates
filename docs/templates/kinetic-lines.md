@@ -6,9 +6,7 @@
 
 ![Kinetic Lines](../../previews/kinetic-lines.gif)
 
-`Earlier Lines` 選 `Stay On Screen (A List)` 就變成逐條出現的條列：前面幾條留著變淡，目前這條亮著。
-
-![Kinetic Lines 條列](../../previews/kinetic-lines-list.gif)
+左邊是預設的樣子，後一行取代前一行。右邊是 `Earlier Lines` 選 `Stay On Screen (A List)`，變成逐條出現的條列：前面幾條留著變淡，目前這條亮著。
 
 **用法**：拖到影片上方的軌道，拉成想要的長度。背景是透明的。
 

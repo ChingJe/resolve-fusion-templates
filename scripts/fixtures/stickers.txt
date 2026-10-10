@@ -1,0 +1,45 @@
+@At=0.2,0.72
+@Scale=0.52
+@Word=POP
+Entrance=0
+While It Stays=1
+
+@At=0.5,0.72
+@Scale=0.52
+@Word=SPIN
+Entrance=1
+While It Stays=3
+Movement Amount=2
+
+@At=0.8,0.72
+@Scale=0.52
+@Word=DROP
+Entrance=2
+While It Stays=2
+Entrance Frames=16
+Movement Amount=2
+
+@At=0.2,0.28
+@Scale=0.52
+@Word=FADE
+Entrance=3
+While It Stays=4
+Entrance Frames=20
+Movement Amount=2
+
+@At=0.5,0.28
+@Scale=0.52
+@Word=PLAIN
+Entrance=0
+While It Stays=0
+Outline Width=0
+Shadow=0
+
+@At=0.8,0.28
+@Scale=0.52
+@Word=TILT
+Entrance=1
+While It Stays=1
+Tilt (degrees)=-14
+Outline Width=0.03
+Movements Per Second=3

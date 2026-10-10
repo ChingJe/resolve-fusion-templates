@@ -455,4 +455,25 @@ end)(LIST.Value, iif(FpsOverride > 0, FpsOverride, comp:GetPrefs("Comp.FrameForm
     :gsub("LIST", list):gsub("DUR", dur):gsub("SHAPE", shape or "1")
 end
 
+-- Stand-in for a picture with a clear background: a tilted rounded block with a word on it. Names start with Prev.
+local STICKERS = {{1.0, 0.33, 0.42}, {0.20, 0.62, 1.0}, {1.0, 0.75, 0.10}, {0.35, 0.80, 0.45}, {0.65, 0.40, 0.95}}
+function L.sticker(comp, tag, word, n)
+  local add = L.adder(comp)
+  tag = tag or ""
+  local c = STICKERS[((n or 1) - 1) % #STICKERS + 1]
+  local mask = add("RectangleMask", "PrevStkMask" .. tag, -9, -4)
+  mask:SetInput("Width", 0.5); mask:SetInput("Height", 0.42); mask:SetInput("CornerRadius", 0.5); mask:SetInput("Angle", 8)
+  local body = add("Background", "PrevStkBody" .. tag, -9, -3)
+  body:SetInput("UseFrameFormatSettings", 1)
+  L.color(body, c[1], c[2], c[3], 1)
+  body.EffectMask = mask.Mask
+  local text = add("TextPlus", "PrevStkWord" .. tag, -8, -4)
+  text:SetInput("UseFrameFormatSettings", 1)
+  text:SetInput("Font", "Arial"); text:SetInput("Style", "Bold"); text:SetInput("Size", 0.2)
+  text:SetInput("StyledText", word or "WOW!"); text:SetInput("AngleZ", 8)
+  local stk = add("Merge", "PrevStk" .. tag, -8, -3)
+  stk.Background = body.Output; stk.Foreground = text.Output
+  return stk
+end
+
 return L

@@ -1,0 +1,10 @@
+Position=0.27,0.5
+Size=0.14
+End Value=12500
+
+Counts=1
+Position=0.75,0.5
+Size=0.14
+Prefix=No. 
+Pop=0.3
+Step Times (0:02, one per line)=15%|35%|55%|75%

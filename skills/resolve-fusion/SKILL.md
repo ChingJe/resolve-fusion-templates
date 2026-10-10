@@ -117,7 +117,7 @@ cmd.exe //c "..\\install.bat install nopause"          # 同步到 Resolve 的�
 
 `FX_SRC=scenes` 會讓測試畫面每 40 格（`FX_SCENE` 可改）換一個場景：底色、球的顏色大小和路徑、橫條的顏色和位置都不同，共六種。同時顯示好幾個時間點的範本（Comic Intro、Photo Stack、Video Wall、Time Slice）要用這個，不然每一格看起來都一樣。
 
-`previews/` 裡放的是 GIF（寬 480、每秒 12 格、整段 5 秒）。改了範本的外觀就跑 `./previews.sh 範本名稱` 重算那一個。
+`previews/` 裡放的是 GIF（寬 480、每秒 12 格、整段 5 秒）。**一個範本有好幾種樣式或模式時，全部放在同一張 GIF 裡**，不要一種一張：用 `compose.lua` 把範本貼好幾份、各設一種樣式，設定寫在 `fixtures/` 的文字檔（沒有位置參數的範本用 `@At`、`@Scale` 擺位置；`FX_INPUTS=sticker` 給去背的測試圖，`FX_BACK=1` 在後面墊一張調暗的測試畫面）。改了範本的外觀就跑 `./previews.sh 範本名稱` 重算那一個。
 
 
 

@@ -1,0 +1,10 @@
+Lines (0:00 Text)=0% 第一句話|22% 接著是這句|45% 換下一句|70% 最後一句
+Position=0.27,0.5
+Size=0.09
+
+Lines (0:00 Text)=0% 第一點|22% 第二點|45% 第三點|70% 最後一點
+Earlier Lines=1
+Alignment=1
+Position=0.62,0.5
+Size=0.09
+Box Opacity=0.7

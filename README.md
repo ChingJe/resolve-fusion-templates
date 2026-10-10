@@ -65,7 +65,7 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 | [Text Label](docs/templates/text-label.md) | 標題 | 文字加自動貼合的外框，九種形狀。通用的積木，疊幾個就能拼出主題框、人名條、對話泡泡 |
 | [Reaction Mark](docs/templates/reaction-mark.md) | 標題 | 怒氣記號、汗滴、問號、驚嘆號、集中線 |
 | [Hidden Word](docs/templates/hidden-word.md) | 標題 | 字幕裡一個詞先被貼紙蓋住，到時間貼紙掉下來，答案彈出來 |
-| [Sub Window](docs/templates/sub-window.md) | 特效 | 把上層軌道的片段縮成角落有邊框的小窗，放反應畫面用。七種外框（拍立得、視窗、手機、膠帶、底片等），可以放大成全畫面 |
+| [Sub Window](docs/templates/sub-window.md) | 特效 | 把上層軌道的片段縮成帶外框和陰影的小窗，放反應畫面、相片、截圖用。七種外框（拍立得、視窗、手機、膠帶、底片等），可以放大成全畫面 |
 | [Sticker Pop](docs/templates/sticker-pop.md) | 特效 | 去背的圖片彈進來、停留時輕輕晃動、再彈走，可加貼紙白邊和陰影 |
 
 ### 標記與說明

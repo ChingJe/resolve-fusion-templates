@@ -6,6 +6,8 @@
 
 ![Sticker Pop](../../previews/sticker-pop.gif)
 
+圖上六張各是一種設定：`Pop` 加搖、`Spin In` 加脹縮、`Drop In` 加飄、`Fade` 加抖動、沒有白邊和陰影、歪一個角度加粗白邊。
+
 **用法**：把圖片放在影片上方的軌道，拉成要顯示的長度，再把這個特效拖到圖片上。位置和整體大小用片段自己的 `Transform`（Inspector 的 Video 頁）調。
 
 | 參數 | 作用 |

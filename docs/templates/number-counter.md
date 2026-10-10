@@ -6,9 +6,7 @@
 
 ![Number Counter](../../previews/number-counter.gif)
 
-計次器：
-
-![Number Counter 計次](../../previews/number-counter-tally.gif)
+左邊是連續跳到結束值，右邊是計次器。
 
 **用法**：拖到影片上方的軌道，拉成想要的長度。背景是透明的。
 

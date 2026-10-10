@@ -117,18 +117,7 @@ spec[#spec + 1] = {"CTL", "ColStkOutline", "TopLeftBlue", "", "3"}
 -- the test feeds it a drawn sticker with a clear background (a tilted block with a word on it), over the stand-in
 if not L.DRY then
   comp:Lock()
-  local mask = add("RectangleMask", "PrevStkMask", -9, -4)
-  mask:SetInput("Width", 0.5); mask:SetInput("Height", 0.42); mask:SetInput("CornerRadius", 0.5); mask:SetInput("Angle", 8)
-  local body = add("Background", "PrevStkBody", -9, -3)
-  body:SetInput("UseFrameFormatSettings", 1)
-  L.color(body, 1.0, 0.33, 0.42, 1)
-  body.EffectMask = mask.Mask
-  local word = add("TextPlus", "PrevStkWord", -8, -4)
-  word:SetInput("UseFrameFormatSettings", 1)
-  word:SetInput("Font", "Arial"); word:SetInput("Style", "Bold"); word:SetInput("Size", 0.2)
-  word:SetInput("StyledText", "WOW!"); word:SetInput("AngleZ", 8)
-  local stk = add("Merge", "PrevStk", -8, -3)
-  stk.Background = body.Output; stk.Foreground = word.Output
+  local stk = L.sticker(comp)
   srcs[1].Input = stk.Output; ins[1] = stk
   comp:Unlock()
 end
