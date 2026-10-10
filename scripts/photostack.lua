@@ -1,5 +1,6 @@
--- Photo Stack intro: moments from the clip slide onto a table one by one, the last photo is the live clip
--- and grows until it fills the frame. FX_SRC=media uses the clip. FX_EXPORT=1 dumps the macro source.
+-- Photo Stack intro: moments from the clip slide onto a table one by one, the last photo is the clip itself
+-- and grows until it fills the frame. That last photo can wait on the first frame, so that the clip which
+-- follows on the timeline starts from its beginning, or play along. FX_SRC=media uses the clip. FX_EXPORT=1 dumps the macro source.
 -- FX_SET="PsCount=9 PsSlide=0.3" overrides controls for a test render.
 local L = dofile("D:/davinci/scripts/lib.lua")
 local comp = L.comp()
@@ -19,6 +20,7 @@ ctrl.UserControls = {
   PsDone     = L.num("Stack Complete At", 0.67, 0.2, 0.9),
   PsSeed     = L.num("Layout Seed", 1, 0, 50, nil, true),
   PsPlay     = L.check("Photos Play As Video", 1),
+  PsLive     = L.combo("Last Photo", {"Waits On The First Frame", "Plays Along", "Waits On The Last Frame"}, 0),
   PhotoSize  = L.num("Photo Size", 0.36, 0.15, 0.7),
   Spread     = L.num("Spread", 1, 0, 1.6),
   Tilt       = L.num("Tilt", 1, 0, 3),
@@ -80,11 +82,18 @@ L.color(paper, 0.97, 0.96, 0.93)
 paper:SetInput("UseFrameFormatSettings", 1)
 paper.EffectMask = paperMask.Mask
 
+-- What the last photo shows. Waiting on the first frame is for an intro piece placed in front of the clip:
+-- the piece ends on the very frame the clip starts with, so nothing of the clip is used up by the intro.
+local liveSrc = add("TimeStretcher", "LiveFrame", -5, 2)
+liveSrc.Input = src.Output
+liveSrc:SetInput("InterpolateBetweenFrames", 0)
+expr(liveSrc, "SourceTime", "iif(StackCtrl.PsLive == 0, comp.RenderStart, iif(StackCtrl.PsLive == 2, comp.RenderEnd, time))")
+
 -- Layers 1..MAX-1 are stills and only the first PsCount-1 of them are used; the last layer is the live clip.
 local last = table_
 for k = 1, MAX do
   local live = (k == MAX)
-  local image = src
+  local image = liveSrc
   local slot = live and "(StackCtrl.PsCount - 1)" or tostring(k - 1) -- position in the arrival order
   if not live then
     image = add("TimeStretcher", "Still" .. k, -4 + k, 0)
@@ -161,7 +170,7 @@ end
 -- hand over to the untouched clip at the very end so the cut to the next clip is seamless
 local finish = add("Merge", "Finish", 4, 5)
 finish.Background = last.Output
-finish.Foreground = src.Output
+finish.Foreground = liveSrc.Output
 expr(finish, "Blend", "min(max((StackCtrl.P - 0.95)/0.04, 0), 1)")
 
 mediaOut.Input = finish.Output
@@ -174,6 +183,7 @@ if os.getenv("FX_EXPORT") == "1" then
     {"NAME", "PhotoStack"},
     {"MAIN", "Src", "Input"},
     {"OUT", "Finish", "Output"},
+    {"CTL", "StackCtrl", "PsLive", "Last Photo"},
     {"CTL", "StackCtrl", "PsCount", "Photo Count"},
     {"CTL", "StackCtrl", "PsSlide", "Slide Time"},
     {"CTL", "StackCtrl", "PsDone", "Stack Complete At"},
