@@ -4,6 +4,12 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 
 在 Resolve 21 Studio（Windows）上製作。
 
+## 關於這個專案
+
+- **這些範本和腳本是讓 Claude（Anthropic 的 AI）做的。** 我負責提需求、看結果、決定要不要留；節點圖、運算式、建置腳本和說明文件都是它寫的。
+- **這是我自己平常剪片在用的東西，順手分享出來。** 不是有人維護的產品。
+- **不保證任何事。** 可能有錯，Resolve 改版後可能不能用，之後的版本也可能改掉參數名稱或行為、和舊版不相容。遇到問題歡迎開 issue 或自己改，但我不一定會回覆或處理。
+
 ## 範本
 
 依用途分成五類。點範本名稱看預覽圖、用法和完整的參數說明。
@@ -103,6 +109,12 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 需要 Resolve Studio（免費版不開放外部腳本），並在偏好設定裡允許本機腳本。
 
 做法、指令和踩過的坑都寫在 [skills/resolve-fusion/SKILL.md](skills/resolve-fusion/SKILL.md)，還沒整理的新發現在 [LEARNINGS.md](skills/resolve-fusion/LEARNINGS.md)。
+
+## 授權
+
+[MIT](LICENSE)。範本和腳本可以自由使用、修改、再散佈，再散佈時保留授權條文即可。
+
+**用這些範本做出來的影片不需要標示出處**，可以用在任何用途，包含商業用途。
 
 ## 結構
 
