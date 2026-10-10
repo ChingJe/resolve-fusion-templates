@@ -58,8 +58,12 @@ function L.comp()
     print("WRONG_PLACE project=" .. tostring(pn) .. " timeline=" .. tostring(tn))
     return nil
   end
+  -- on any other page GetCurrentComp still hands back some comp, but tools cannot be added to it
+  -- (GetCurrentPage answers nothing at all while a dialog is open in Resolve; that case is let through)
+  local page = L.resolve:GetCurrentPage()
+  if page and page ~= "fusion" then print("NOT_ON_FUSION_PAGE run lab.lua first") return nil end
   local comp = L.resolve:Fusion():GetCurrentComp()
-  if not comp then print("NO_COMP") end
+  if not comp then print("NO_COMP run lab.lua first") end
   return comp
 end
 
@@ -293,11 +297,12 @@ function L.render(comp, output, prefix, steps)
   local saver = comp:AddTool("Saver", 7, 6)
   saver.Input = small.Output
   saver:SetInput("Clip", L.OUT .. prefix .. ".png")
-  comp:Unlock()
+  -- the comp stays locked while it renders: a locked comp shows no dialogs, and unlocked every render leaves a
+  -- "Render Completed" box on the user's screen that has to be clicked away (and that blocks page commands meanwhile)
   local t0 = os.time()
   local ok = comp:Render({Start = rs, End = re, StepRender = true, Steps = steps or 8, Tool = saver, Wait = true})
   comp:SetAttrs({COMPN_RenderStart = rs, COMPN_RenderEnd = re})
-  comp:Lock(); saver:Delete(); small:Delete(); comp:Unlock()
+  saver:Delete(); small:Delete(); comp:Unlock()
   print("render", tostring(ok), "range", rs, re, "seconds", os.time() - t0)
   return rs, re
 end

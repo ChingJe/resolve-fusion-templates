@@ -3,5 +3,7 @@
 return {
   project = "My Lab Project",   -- name of the Resolve project to build in
   timeline = "FX Lab",          -- lab.lua creates this timeline in that project
-  media = "some clip.mp4",      -- a clip in the project's media pool, used for the lab timeline
+  -- Optional: a clip in the project's media pool. lab.lua makes the lab clip from it; without it the lab clip is an
+  -- empty Fusion composition. Only needed to try a template on real footage (FX_SRC=media).
+  media = "some clip.mp4",
 }
