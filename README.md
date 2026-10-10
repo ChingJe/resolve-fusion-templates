@@ -123,6 +123,8 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 
 安裝程式會自己找到 Resolve 的範本資料夾，把每個範本放到對的位置，並告訴你裝了什麼、去哪裡找。之後要更新或移除也是執行同一支。
 
+`install.bat` 只能在 Windows 執行。Mac 要手動複製，步驟見[安裝與移除](docs/install.md#在-mac-上安裝)；因為手邊沒有 Mac，那個流程沒有實際試過。
+
 細節和手動安裝的方式見[安裝與移除](docs/install.md)。
 
 ## 已知限制
