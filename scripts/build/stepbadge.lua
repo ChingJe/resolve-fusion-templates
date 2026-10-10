@@ -17,9 +17,10 @@ local ctrl, spec = L.panel(comp, "BdgCtrl", {
   {"BdgShape",  L.combo("Shape", {"Circle", "Rounded Square", "Square"}, 0)},
   {"BdgBorder", L.num("Border Width", 0.006, 0, 0.03)},
   {"BdgSide",   L.combo("Text Is On The", {"Right", "Left"}, 0)},
-  {"BdgLabelSize", L.num("Text Size", 0.045, 0.01, 0.2)},
-  {"BdgGap",    L.num("Text Distance", 0.02, 0, 0.2)},
-  {"BdgEdge",   L.num("Text Outline", 0.004, 0, 0.02)},
+  {"BdgLabelSize", L.num("Text Size", 0.05, 0.01, 0.2)},
+  {"BdgGap",    L.num("Text Distance", 0.025, 0, 0.2)},
+  {"BdgTagH",   L.num("Capsule Height", 0.78, 0.2, 1.2)},
+  {"BdgTagOp",  L.num("Capsule Opacity", 0.8, 0, 1)},
   {"BdgEnter",  L.combo("Appears By", {"Popping Up", "Fading In"}, 0)},
   {"BdgIn",     L.num("Appear (seconds)", 0.3, 0, 3)},
   {"BdgOut",    L.num("Fade Out (seconds)", 0.2, 0, 3)},
@@ -35,11 +36,11 @@ expr(ctrl, "T", "iif(BdgIn <= 0, 1, min(max((time - comp.RenderStart + 1)/(BdgIn
 -- pops in with an overshoot
 expr(ctrl, "Scale", "iif(BdgEnter == 0, (function(t) t = t - 1 return 1 + 2.70158*t*t*t + 1.70158*t*t end)(T), 1)")
 expr(ctrl, "Fade", "iif(BdgEnter == 0, min(T*4, 1), T) * iif(BdgOut <= 0, 1, min(max((comp.RenderEnd - time + 1)/(BdgOut*" .. FPS .. "), 0), 1))")
--- the text beside it comes in a little after the badge
-expr(ctrl, "Late", "min(max(T*2.5 - 1.5, 0), 1)")
+-- the capsule with the text slides out from behind the badge once the badge is there
+expr(ctrl, "Late", "(function(t) return 1 - (1 - t)^3 end)(min(max(T*2 - 1, 0), 1))")
 
 local holders = {{"ColBdg", {0.93, 0.22, 0.18}}, {"ColBdgBorder", {1, 1, 1}}, {"ColBdgNumber", {1, 1, 1}},
-                 {"ColBdgLabel", {1, 1, 1}}, {"ColBdgLabelEdge", {0.05, 0.05, 0.08}}}
+                 {"ColBdgLabel", {1, 1, 1}}, {"ColBdgTag", {0.07, 0.07, 0.1}}}
 for i, hd in ipairs(holders) do
   local b = add("Background", hd[1], -5 + i, -5)
   b:SetInput("UseFrameFormatSettings", 0); b:SetInput("Width", 16); b:SetInput("Height", 16)
@@ -80,13 +81,38 @@ expr(label, "StyledText", "Text(BdgCtrl.BdgLabel.Value)")
 expr(label, "Size", "BdgCtrl.BdgLabelSize")
 expr(label, "HorizontalLeftCenterRight", "iif(BdgCtrl.BdgSide == 0, -1, 1)")
 expr(label, "Center", "Point(BdgCtrl.BdgPos.X + iif(BdgCtrl.BdgSide == 0, 1, -1)*(BdgCtrl.BdgSize/2 + BdgCtrl.BdgBorder + BdgCtrl.BdgGap)*" .. HW .. ", BdgCtrl.BdgPos.Y)")
-local labelInk = L.inked(comp, "BdgLabelPaint", -2, 5, label.Output, "BdgCtrl.BdgEdge", "0", cols("ColBdgLabel", "ColBdgLabelEdge"))
+for _, ch in ipairs({"Red", "Green", "Blue"}) do expr(label, ch .. "1", "ColBdgLabel.TopLeft" .. ch) end
 
-local m1 = add("Merge", "BdgWithNumber", 1, 0)
-m1.Background = badge.Output; m1.Foreground = num.Output
-local m2 = add("Merge", "BdgWithLabel", 2, 0)
-m2.Background = m1.Output; m2.Foreground = labelInk.Output
-expr(m2, "Blend", "BdgCtrl.Late")
+-- The capsule: a bar with round ends that starts behind the badge and reaches just past the end of the text.
+-- It grows out to its full length, and the text only shows where the capsule already is.
+local tag = add("Custom", "BdgTag", -2, 5)
+tag.Image1 = ctrl.Output; tag.Image2 = label.Output
+expr(tag, "PointIn1", "BdgCtrl.BdgPos")
+expr(tag, "PointIn2", "Point(ColBdgTag.TopLeftRed, ColBdgTag.TopLeftGreen)")
+expr(tag, "PointIn3", "Point(ColBdgTag.TopLeftBlue, BdgCtrl.BdgTagOp)")
+expr(tag, "NumberIn1", "BdgCtrl.BdgSize/2*BdgCtrl.BdgTagH")
+-- how long its straight part is: nothing without text, otherwise from the middle of the badge to just before
+-- the end of the text (the round end adds the rest)
+expr(tag, "NumberIn2", [[(function(late)
+  local d = BdgLabelText.StyledText.Value ~= "" and BdgLabelText.Output.DataWindow
+  if not d then return 0 end
+  local wide = (d.right - d.left)/BdgLabelText.Output.Width/]] .. HW .. [[
+
+  return late*(BdgCtrl.BdgSize/2 + BdgCtrl.BdgBorder + BdgCtrl.BdgGap + wide - BdgCtrl.BdgSize/2*BdgCtrl.BdgTagH*0.35)
+end)(BdgCtrl.Late)]])
+expr(tag, "NumberIn3", "iif(BdgCtrl.BdgSide == 0, 1, -1)")
+L.cx(tag, "Intermediate1", "(x - p1x)*w/h*n3")
+L.cx(tag, "Intermediate2", "if(n2 <= 0, 0, min(max((n1 - sqrt((i1 - min(max(i1, 0), n2))^2 + (y - p1y)^2))*h + 0.5, 0), 1))")
+L.cx(tag, "Intermediate3", "a2*i2")
+L.cx(tag, "RedExpression", "r2*i2 + p2x*p3y*i2*(1 - i3)")
+L.cx(tag, "GreenExpression", "g2*i2 + p2y*p3y*i2*(1 - i3)")
+L.cx(tag, "BlueExpression", "b2*i2 + p3x*p3y*i2*(1 - i3)")
+L.cx(tag, "AlphaExpression", "i3 + p3y*i2*(1 - i3)")
+
+local m0 = add("Merge", "BdgOverTag", 0, 0)
+m0.Background = tag.Output; m0.Foreground = badge.Output
+local m2 = add("Merge", "BdgWithNumber", 1, 0)
+m2.Background = m0.Output; m2.Foreground = num.Output
 local out = add("Merge", "BdgFinal", 4, 0)
 out.Background = ctrl.Output; out.Foreground = m2.Output
 expr(out, "Blend", "BdgCtrl.Fade")
@@ -99,7 +125,7 @@ table.insert(spec, 3, {"CTL", "BdgNumber", "Style", "", "2"})
 table.insert(spec, 5, {"CTL", "BdgLabelText", "Font", "Text Font", "3"})
 table.insert(spec, 6, {"CTL", "BdgLabelText", "Style", "", "3"})
 for i, hd in ipairs({{"ColBdg", "Colour"}, {"ColBdgBorder", "Border Colour"}, {"ColBdgNumber", "Number Colour"},
-                     {"ColBdgLabel", "Text Colour"}, {"ColBdgLabelEdge", "Text Outline Colour"}}) do
+                     {"ColBdgLabel", "Text Colour"}, {"ColBdgTag", "Capsule Colour"}}) do
   local g = tostring(i + 3)
   spec[#spec + 1] = {"CTL", hd[1], "TopLeftRed", hd[2], g}
   spec[#spec + 1] = {"CTL", hd[1], "TopLeftGreen", "", g}

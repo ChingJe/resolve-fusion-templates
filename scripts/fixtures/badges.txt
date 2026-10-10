@@ -10,7 +10,6 @@ Position=0.3,0.5
 Size=0.2
 Text Size=0.07
 Shape=1
-Appear (seconds)=1
 
 Number=3
 Text Beside It (may be empty)=調整位置
@@ -18,4 +17,3 @@ Position=0.45,0.25
 Size=0.2
 Text Size=0.07
 Shape=2
-Appear (seconds)=1.7

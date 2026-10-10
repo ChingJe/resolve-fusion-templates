@@ -70,7 +70,7 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 | 範本 | 類型 | 說明 |
 |---|---|---|
 | [Pen Mark](docs/templates/pen-mark.md) | 標題 | 手繪的圈、底線、螢光筆、方框、箭頭、打勾、打叉，一筆一筆畫出來 |
-| [Step Badge](docs/templates/step-badge.md) | 標題 | 彈出來的圓形編號，旁邊可以加一行字 |
+| [Step Badge](docs/templates/step-badge.md) | 標題 | 彈出來的圓形編號，說明文字放在從徽章後面滑出來的膠囊裡 |
 | [Dimension Line](docs/templates/dimension-line.md) | 標題 | 兩點之間的尺寸線，兩端有記號，旁邊有標示 |
 | [Click Ripple](docs/templates/click-ripple.md) | 標題 | 從一個點擴散出去的圓圈，標示滑鼠點擊。一條標題可以標完整段錄影 |
 | [Zoom Callout](docs/templates/zoom-callout.md) | 特效 | 圈住一個小地方，拉線到旁邊的視窗，視窗裡是放大後的樣子 |

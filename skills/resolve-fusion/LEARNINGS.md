@@ -230,3 +230,4 @@
 - `L.ship` 加了 `FX_PT="Id=0.3:0.4"` 設座標型控制項。
 - 大小類的參數統一以畫面高度為 1（寬和高都是），這樣寬高填一樣就是正圓、正方形。以畫面寬度為 1 的話，使用者要自己乘 16:9。
 - 動畫時間用秒的寫法：`(time - comp.RenderStart + 1)/(秒數*FPS)`，`FPS` 是 `iif(FpsOverride > 0, FpsOverride, comp:GetPrefs('Comp.FrameFormat.Rate') or 24)`。標記類用秒比用整段比例合理：標題拉長時，畫出來的速度不該變慢。
+- 長度貼合文字的底條（Step Badge 的膠囊）：在 `Custom` 的 `NumberIn` 運算式裡讀 `文字節點.Output.DataWindow`，`(right - left)/Output.Width` 是文字佔畫面寬度的比例。底條用「到線段的距離小於半徑」畫，兩端自然是圓的；注意圓頭會比線段多出一個半徑，長度要先扣掉。讓文字只在底條已經伸到的地方出現：把文字的 alpha 乘上底條的 alpha。
