@@ -36,6 +36,9 @@ ctrl.UserControls = {
   ShadowAmt  = L.num("Shadow", 0.6, 0, 1),
   ShadowSoft = L.num("Shadow Softness", 1, 0, 3),
   ShadowDist = L.num("Shadow Distance", 1, 0, 3),
+  TableMode  = L.combo("Backdrop", {"This Clip, Playing", "This Clip, Frozen", "This Clip, Slowed Down", "Colours"}, 0),
+  TableAt    = L.num("Backdrop: Frozen At (0 = start of the clip, 1 = end)", 0, 0, 1),
+  TableSpeed = L.num("Backdrop: Slowed Down To", 0.3, 0.02, 1),
   TableGain  = L.num("Backdrop Brightness", 0.3, 0, 1),
   TableBlur  = L.num("Backdrop Blur", 30, 0, 80),
   StillsFrom = L.num("Stills From", 0.05, 0, 1),
@@ -93,13 +96,32 @@ local small = add("BetterResize", "SmallSrc", -5, 1)
 small.Input = src.Output
 small:SetInput("Width", SMALL); small:SetInput("Height", SMALL * 9 / 16); small:SetInput("KeepAspect", 0)
 
--- table: the clip itself, blurred and darkened
+-- table: the clip itself, blurred and darkened. It can run along with the clip, hold one frame, or run slowly
+-- (the last photo covers it when it grows to full frame, so it does not matter that it is out of step by then).
+-- Or it is no picture at all, just two colours running into each other from top to bottom.
+local tableTime = add("TimeStretcher", "TableTime", -5, 5)
+tableTime.Input = src.Output
+tableTime:SetInput("InterpolateBetweenFrames", 1)
+expr(tableTime, "SourceTime", [[(function(m, rs, re, at, speed)
+  if m == 1 then return rs + floor(at*(re - rs) + 0.5)
+  elseif m == 2 then return rs + (time - rs)*speed end
+  return time
+end)(StackCtrl.TableMode, comp.RenderStart, comp.RenderEnd, StackCtrl.TableAt, StackCtrl.TableSpeed)]])
 local blur = add("Blur", "TableBlur", -4, 5)
-blur.Input = src.Output
+blur.Input = tableTime.Output
 expr(blur, "XBlurSize", "StackCtrl.TableBlur")
-local table_ = add("BrightnessContrast", "Table", -3, 5)
-table_.Input = blur.Output
-expr(table_, "Gain", "StackCtrl.TableGain")
+local dimmed = add("BrightnessContrast", "TableDim", -3, 5)
+dimmed.Input = blur.Output
+expr(dimmed, "Gain", "StackCtrl.TableGain")
+local plain = add("Background", "TableColours", -3, 6)
+plain:SetInput("UseFrameFormatSettings", 1)
+plain:SetInput("Type", "Vertical")
+plain.TopLeftRed = 0.16; plain.TopLeftGreen = 0.17; plain.TopLeftBlue = 0.22; plain.TopLeftAlpha = 1
+plain.BottomLeftRed = 0.05; plain.BottomLeftGreen = 0.05; plain.BottomLeftBlue = 0.07; plain.BottomLeftAlpha = 1
+-- a Dissolve at 0 or 1 only asks for the side it shows, so the unused backdrop costs nothing
+local table_ = add("Dissolve", "Table", -2, 5)
+table_.Background = dimmed.Output; table_.Foreground = plain.Output
+expr(table_, "Mix", "iif(StackCtrl.TableMode == 3, 1, 0)")
 
 local paperMask = add("RectangleMask", "PaperShape", -4, 2)
 expr(paperMask, "Width", "StackCtrl.Inner + 2*StackCtrl.Border")
@@ -240,8 +262,17 @@ if os.getenv("FX_EXPORT") == "1" then
     {"CTL", "StackCtrl", "ShadowSoft", "Shadow Softness"},
     {"CTL", "StackCtrl", "ShadowDist", "Shadow Distance"},
     {"CTL", "StackCtrl", "Blur", "Motion Blur"},
+    {"CTL", "StackCtrl", "TableMode", "Backdrop"},
+    {"CTL", "StackCtrl", "TableAt", "Backdrop: Frozen At (0 = start of the clip, 1 = end)"},
+    {"CTL", "StackCtrl", "TableSpeed", "Backdrop: Slowed Down To"},
     {"CTL", "StackCtrl", "TableGain", "Backdrop Brightness"},
     {"CTL", "StackCtrl", "TableBlur", "Backdrop Blur"},
+    {"CTL", "TableColours", "TopLeftRed", "Backdrop Colour: Top", "3"},
+    {"CTL", "TableColours", "TopLeftGreen", "", "3"},
+    {"CTL", "TableColours", "TopLeftBlue", "", "3"},
+    {"CTL", "TableColours", "BottomLeftRed", "Backdrop Colour: Bottom", "4"},
+    {"CTL", "TableColours", "BottomLeftGreen", "", "4"},
+    {"CTL", "TableColours", "BottomLeftBlue", "", "4"},
     {"CTL", "StackCtrl", "StillsFrom", "Stills From"},
     {"CTL", "StackCtrl", "StillsTo", "Stills To"},
   })

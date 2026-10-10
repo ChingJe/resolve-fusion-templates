@@ -33,7 +33,11 @@
 | `Border`、`Corner Roundness`、`Paper Color` | 白邊的寬度、圓角、顏色 |
 | `Shadow`、`Shadow Softness`、`Shadow Distance` | 陰影的濃度、柔和度、距離 |
 | `Motion Blur` | 滑動時的動態模糊 |
-| `Backdrop Brightness`、`Backdrop Blur` | 背景的亮度與模糊，背景是片段本身的畫面 |
+| `Backdrop` | 照片底下的背景是什麼。`This Clip, Playing` 片段本身、照常播放；`This Clip, Frozen` 片段的某一格、不會動；`This Clip, Slowed Down` 片段本身、放慢播；`Colours` 不用影片，上下兩個顏色的漸層 |
+| `Backdrop: Frozen At` | 選 `Frozen` 時停在片段的哪裡，0 是開頭、1 是結尾、0.5 是正中間 |
+| `Backdrop: Slowed Down To` | 選 `Slowed Down` 時的速度，0.3 是原速的三成 |
+| `Backdrop Brightness`、`Backdrop Blur` | 背景的亮度與模糊。選 `Colours` 時這兩個沒有作用 |
+| `Backdrop Colour: Top`、`Backdrop Colour: Bottom` | 選 `Colours` 時漸層上緣和下緣的顏色。兩個設成一樣就是純色 |
 
 **注意**
 
