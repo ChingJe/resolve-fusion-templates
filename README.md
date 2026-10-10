@@ -20,7 +20,13 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 
 ### Comic Intro
 
+圖案版，漫畫格裡是程序畫出來的圖案：
+
 ![Comic Intro](previews/comic-intro.png)
+
+影片版，每個漫畫格播的是片段裡不同時間點的畫面：
+
+![Comic Intro Video](previews/comic-intro-video.png)
 
 整個片段多長，動畫就走多久。影片版要套在片段上，所以先把開頭切出想要的長度再套。
 
