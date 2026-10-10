@@ -1,0 +1,20 @@
+Mark=4
+Position=0.5,0.42
+Size=0.09
+Focus Lines: Clear Area=2.2
+
+Mark=0
+Position=0.16,0.74
+Size=0.08
+
+Mark=1
+Position=0.38,0.74
+Size=0.08
+
+Mark=2
+Position=0.62,0.74
+Size=0.08
+
+Mark=3
+Position=0.84,0.74
+Size=0.08

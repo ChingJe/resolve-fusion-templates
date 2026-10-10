@@ -177,3 +177,9 @@
 
 - 腳本印出 `attempt to index field 'resolve' (a nil value)`（`lib.lua` 第 11 行）表示連不上 Resolve。先用 `Get-Process Resolve` 看行程在不在：不在就是被關掉了，標題是「问题报告」是當掉，標題是「项目管理器」是開著但還沒開專案。
 - 停在專案管理器時 `GetCurrentProject()` 會回傳 `Untitled Project`，`GetCurrentTimeline()` 是 `nil`。
+
+### 預覽 GIF
+
+- 480 寬、12 格/秒、59 格的 GIF，用 `palettegen=stats_mode=diff` 加 `paletteuse=dither=bayer:bayer_scale=5:diff_mode=rectangle`，標題類（大部分畫面不變）約 300 KB，整個畫面都在動的（Comic Intro、Video Wall、集中線）約 1.5 MB。15 個合計 10 MB。
+- 標題類的預設字級在 480 寬的 GIF 裡小到看不清楚。預覽時把字級調到預設的 1.5 到 2 倍（`previews.sh` 裡的 `FX_SET`），說明文件裡的預設值不變。
+- 要在一張圖裡展示一個範本的多種樣式，用 `compose.lua` 貼好幾份，各給不同設定（`fixtures/shapes.txt`、`fixtures/marks.txt`），比一種樣式算一段再接起來短，也比較好比較。

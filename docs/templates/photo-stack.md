@@ -4,7 +4,7 @@
 
 影片的幾個片刻變成照片，一張張滑到桌上，最後一張放大成全畫面。
 
-![Photo Stack](../../previews/photo-stack.png)
+![Photo Stack](../../previews/photo-stack.gif)
 
 **用法**：前面幾張照片先疊上來，最後一張才是正片。它在 `Last Photo Arrives After` 設定的秒數（預設 2 秒）飛進來，觀眾從這一刻才第一次看到正片；之後它放大成全畫面，直接接到後面的片段，中間沒有斷點。
 

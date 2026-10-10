@@ -4,7 +4,7 @@
 
 吐槽用的小字：歪歪的一句話，加一支手繪感的箭頭指向畫面上的某個地方。箭頭會在字彈出來之後一筆畫過去。
 
-![Side Note](../../previews/side-note.png)
+![Side Note](../../previews/side-note.gif)
 
 **用法**：拖到影片上方的軌道。把 `Text Position` 移到要放字的空位，把 `Arrow Points At` 移到要指的東西上。箭頭會自己從文字靠近目標的那一側出發。
 

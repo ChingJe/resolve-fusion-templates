@@ -4,7 +4,7 @@
 
 畫面底部的進度條，分成有名稱的章節，目前章節的名稱顯示在該段上方。
 
-![Chapter Bar](../../previews/chapter-bar.png)
+![Chapter Bar](../../previews/chapter-bar.gif)
 
 **用法**：拖到影片上方的軌道，拉到和整支影片一樣長。
 

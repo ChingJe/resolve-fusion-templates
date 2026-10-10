@@ -4,7 +4,7 @@
 
 數字從一個值跳到另一個值，數完時彈一下。
 
-![Number Counter](../../previews/number-counter.png)
+![Number Counter](../../previews/number-counter.gif)
 
 **用法**：拖到影片上方的軌道，拉成想要的長度。背景是透明的。
 

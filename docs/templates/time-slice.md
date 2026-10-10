@@ -4,7 +4,7 @@
 
 畫面切成直條，每條比隔壁晚幾格。畫面裡有東西在動時，動作會像波浪一樣掃過去。
 
-![Time Slice](../../previews/time-slice.png)
+![Time Slice](../../previews/time-slice.gif)
 
 **用法**：拖到片段上，整個片段都會套用。
 

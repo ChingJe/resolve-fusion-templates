@@ -4,7 +4,7 @@
 
 一行行文字照寫好的時間彈出來，後一行取代前一行。適合金句、歌詞、重點條列。
 
-![Kinetic Lines](../../previews/kinetic-lines.png)
+![Kinetic Lines](../../previews/kinetic-lines.gif)
 
 **用法**：拖到影片上方的軌道，拉成想要的長度。背景是透明的。
 

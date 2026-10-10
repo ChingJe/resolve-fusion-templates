@@ -181,6 +181,7 @@ if os.getenv("FX_EXPORT") == "1" then
     {"CTL", "Label", "Red1", "Name Color", "5"}, {"CTL", "Label", "Green1", "", "5"}, {"CTL", "Label", "Blue1", "", "5"},
   })
 else
+  for name, value in string.gmatch(os.getenv("FX_SET") or "", "(%w+)=([%d%.%-]+)") do ctrl:SetInput(name, tonumber(value)) end
   local text = os.getenv("FX_TEXT")
   if text then ctrl:SetInput("ChapterList", (string.gsub(text, "|", "\n"))) end
   -- FX_TEXTFILE reads the list from a UTF-8 file instead, for names the shell would mangle

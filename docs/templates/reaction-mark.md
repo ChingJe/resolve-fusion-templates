@@ -4,7 +4,7 @@
 
 綜藝節目貼在人臉旁邊的效果符號：怒氣記號、汗滴、問號、驚嘆號，以及圍繞一個點的集中線。全部由範本畫出來，不需要圖檔。
 
-![Reaction Mark](../../previews/reaction-mark.png)
+![Reaction Mark](../../previews/reaction-mark.gif)
 
 **用法**：拖到影片上方的軌道，拉成符號要出現的長度。在 `Mark` 選符號，把 `Position` 移到人臉旁邊。集中線則是把 `Position` 放在要強調的東西上。
 

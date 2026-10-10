@@ -4,7 +4,7 @@
 
 綜藝節目風格的字卡：三層厚描邊、漸層字，一句裡標起來的詞會放大並換顏色，進場可以彈出、砸下、抖動或滑上來。一個片段可以放很多句，用關鍵幀決定什麼時候換下一句。
 
-![Variety Caption](../../previews/variety-caption.png)
+![Variety Caption](../../previews/variety-caption.gif)
 
 **用法**：拖到影片上方的軌道，拉成想要的長度。背景是透明的。
 

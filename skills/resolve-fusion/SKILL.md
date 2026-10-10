@@ -48,6 +48,8 @@ t.Size:SetExpression("ComicCtrl.TextSize * ComicCtrl.Zoom")
 | `check.lua` | 把範本貼進清空的實驗合成、接上測試畫面（`FX_SRC=media` 改接真實片段）、算圖 |
 | `compose.lua` | 把同一個範本貼好幾份、各給不同設定、疊在測試畫面上算圖，用來看多個片段組合起來的樣子 |
 | `sheet.py` | 畫格拼總覽圖 |
+| `gif.py` | 把算好的畫格轉成 GIF |
+| `previews.sh` | 一次重算 `previews/` 裡所有的 GIF（或只算指定的幾個），各範本用的設定和 `fixtures/` 裡的文字都寫在裡面 |
 
 每個範本一支建置腳本，控制項清單也寫在裡面：
 
@@ -83,6 +85,10 @@ cmd.exe //c "D:\\davinci\\install.bat install nopause"   # 同步到 Resolve 的
 `lib.lua` 會檢查目前專案是 `testsss`、時間軸是 `FX Lab`，不是就拒絕執行。換專案時用環境變數 `FX_PROJECT`、`FX_TIMELINE` 指定。
 
 預覽圖一律用 `lib.lua` 的 `testsource`（漸層、移動的球、轉動的橫條、畫格編號）當輸入，不用真實素材。畫格編號可以直接看出每一格取的是哪個時間點。
+
+`FX_SRC=scenes` 會讓測試畫面每 40 格（`FX_SCENE` 可改）換一個場景：底色、球的顏色大小和路徑、橫條的顏色和位置都不同，共六種。同時顯示好幾個時間點的範本（Comic Intro、Photo Stack、Video Wall、Time Slice）要用這個，不然每一格看起來都一樣。
+
+`previews/` 裡放的是 GIF（寬 480、每秒 12 格、整段 5 秒）。改了範本的外觀就跑 `./previews.sh 範本名稱` 重算那一個。
 
 
 

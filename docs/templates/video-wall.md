@@ -4,7 +4,7 @@
 
 從前一段拉遠，發現它只是一面影片牆裡的一格；鏡頭橫移，再推進另一格變成後一段。
 
-![Video Wall](../../previews/video-wall.png)
+![Video Wall](../../previews/video-wall.gif)
 
 **用法**：拖到兩個片段的交界，拉成想要的長度。
 

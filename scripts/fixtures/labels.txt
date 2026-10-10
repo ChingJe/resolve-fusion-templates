@@ -1,0 +1,43 @@
+Text=本集主題
+Size=0.05
+Position=0.95,0.88
+Position Is The=2
+Frame=2
+Colours=2
+Entrance=3
+Shadow X=0.004
+Shadow Y=-0.004
+
+Text=挑戰超辣火鍋
+Size=0.09
+Position=0.96,0.72
+Position Is The=2
+Frame=1
+Colours=1
+Entrance=3
+Entrance Frames=12
+
+Text=好燙！
+Size=0.11
+Position=0.3,0.5
+Frame=7
+Colours=4
+Tilt=-6
+Entrance=1
+
+Text=辣度
+Size=0.055
+Position=0.05,0.16
+Position Is The=0
+Frame=0
+Colours=3
+Entrance=2
+
+Text=★★★★★
+Size=0.08
+Position=0.19,0.16
+Position Is The=0
+Frame=3
+Colours=2
+Entrance=6
+Entrance Frames=20

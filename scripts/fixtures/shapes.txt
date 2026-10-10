@@ -1,0 +1,71 @@
+Text=Rectangle
+Size=0.06
+Position=0.17,0.78
+Frame=0
+Colours=1
+Entrance=1
+Entrance Frames=14
+
+Text=Rounded
+Size=0.06
+Position=0.50,0.78
+Frame=1
+Colours=2
+Entrance=2
+Entrance Frames=14
+
+Text=Pill
+Size=0.06
+Position=0.83,0.78
+Frame=2
+Colours=3
+Entrance=3
+Entrance Frames=14
+
+Text=Slanted
+Size=0.06
+Position=0.17,0.50
+Frame=3
+Colours=4
+Entrance=4
+Entrance Frames=14
+
+Text=Ribbon
+Size=0.06
+Position=0.50,0.50
+Frame=4
+Colours=5
+Entrance=5
+Entrance Frames=14
+
+Text=Underline
+Size=0.06
+Position=0.83,0.50
+Frame=5
+Colours=6
+Entrance=6
+Entrance Frames=14
+
+Text=Corner Marks
+Size=0.06
+Position=0.17,0.22
+Frame=6
+Colours=7
+Entrance=1
+Entrance Frames=14
+
+Text=Speech Bubble
+Size=0.06
+Position=0.50,0.22
+Frame=7
+Colours=8
+Entrance=2
+Entrance Frames=14
+
+Text=No Frame
+Size=0.06
+Position=0.83,0.22
+Frame=8
+Colours=1
+Entrance=3
+Entrance Frames=14

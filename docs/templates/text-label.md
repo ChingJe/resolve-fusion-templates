@@ -6,11 +6,11 @@
 
 九種外框，配色各不相同：
 
-![Text Label](../../previews/text-label.png)
+![Text Label](../../previews/text-label.gif)
 
 五個標籤疊在一起的例子（右上角是兩個靠右對齊的標籤，左下角是兩個靠左對齊的標籤）：
 
-![Text Label 組合](../../previews/text-label-combined.png)
+![Text Label 組合](../../previews/text-label-combined.gif)
 
 **用法**：拖到影片上方的軌道，拉成要顯示的長度，打字，移動 `Position`。要拼接就再拖一個到上面一條軌道。
 

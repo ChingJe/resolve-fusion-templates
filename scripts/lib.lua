@@ -163,10 +163,33 @@ L.P = "min(max((time - comp.RenderStart) / max(comp.RenderEnd - comp.RenderStart
 
 -- Procedural stand-in for a video clip: moving shapes and a frame counter, so time offsets are visible
 -- and nothing private ends up in a preview. All tool names start with Prev and are skipped on export.
+-- FX_SRC=scenes makes it a clip with cuts: every FX_SCENE frames (40 by default) the colours, the size of
+-- the ball and the path it takes all change, so a template that shows several moments at once shows several pictures.
+local SCENES = { -- corner colour, opposite corner colour, ball, bar
+  {{0.08, 0.20, 0.55}, {0.15, 0.55, 0.70}, {1.00, 0.85, 0.15}, {0.95, 0.95, 0.95}},
+  {{0.70, 0.12, 0.10}, {0.95, 0.50, 0.15}, {0.15, 0.90, 0.95}, {0.10, 0.10, 0.12}},
+  {{0.08, 0.40, 0.18}, {0.60, 0.80, 0.20}, {0.95, 0.25, 0.55}, {1.00, 1.00, 1.00}},
+  {{0.35, 0.10, 0.55}, {0.85, 0.35, 0.70}, {0.40, 1.00, 0.40}, {1.00, 0.90, 0.30}},
+  {{0.85, 0.65, 0.10}, {0.98, 0.90, 0.55}, {0.15, 0.25, 0.75}, {0.75, 0.10, 0.10}},
+  {{0.05, 0.08, 0.12}, {0.20, 0.35, 0.45}, {1.00, 0.45, 0.10}, {0.30, 0.90, 0.85}},
+}
 function L.testsource(comp, tag, hue)
   local add = L.adder(comp)
   tag = tag or "A"
   hue = hue or 0
+  local scenes = os.getenv("FX_SRC") == "scenes"
+  -- SC: which scene this frame belongs to, 1..6. The second stand-in starts three scenes later.
+  local SC = string.format("((floor(time/%d) + %d) %% %d + 1)", tonumber(os.getenv("FX_SCENE") or "40"), hue*3, #SCENES)
+  local function pick(set, ch, mix)
+    local rows = {}
+    for i, s in ipairs(SCENES) do
+      rows[i] = mix and string.format("%.3f", s[1][ch]*(1 - mix) + s[2][ch]*mix) or string.format("%.3f", s[set][ch])
+    end
+    return "({" .. table.concat(rows, ",") .. "})[" .. SC .. "]"
+  end
+  local function paint(tool, set)
+    for ch, n in ipairs({"TopLeftRed", "TopLeftGreen", "TopLeftBlue"}) do L.expr(tool, n, pick(set, ch)) end
+  end
   local bg = add("Background", "PrevBG" .. tag, -12, -8)
   bg:SetInput("Type", "Corner")
   local c = hue == 0 and {{0.10, 0.25, 0.55}, {0.15, 0.55, 0.60}, {0.45, 0.15, 0.50}, {0.85, 0.45, 0.20}}
@@ -174,6 +197,9 @@ function L.testsource(comp, tag, hue)
   local names = {"TopLeft", "TopRight", "BottomLeft", "BottomRight"}
   for i, n in ipairs(names) do
     bg[n .. "Red"] = c[i][1]; bg[n .. "Green"] = c[i][2]; bg[n .. "Blue"] = c[i][3]; bg[n .. "Alpha"] = 1
+    if scenes then
+      for ch, col in ipairs({"Red", "Green", "Blue"}) do L.expr(bg, n .. col, pick(1, ch, ({0, 0.45, 0.55, 1})[i])) end
+    end
   end
   local ballMask = add("EllipseMask", "PrevBallMask" .. tag, -11, -9)
   ballMask:SetInput("Width", 0.22); ballMask:SetInput("Height", 0.22)
@@ -191,6 +217,15 @@ function L.testsource(comp, tag, hue)
   bar.EffectMask = barMask.Mask
   local m2 = add("Merge", "PrevM2" .. tag, -9, -8)
   m2.Background = m1.Output; m2.Foreground = bar.Output
+  if scenes then
+    paint(ball, 3); paint(bar, 4)
+    -- each scene has its own ball size, its own path, and the bar sits somewhere else
+    L.expr(ballMask, "Width", "0.14 + 0.05*(" .. SC .. " % 4)"); L.expr(ballMask, "Height", "Width")
+    L.expr(ballMask, "Center", string.format("Point(0.5 + 0.36*sin(time*0.07 + %s*1.9), 0.5 + 0.30*cos(time*0.10 + %s*2.7))", SC, SC))
+    L.expr(barMask, "Center", string.format("Point(0.5 + 0.25*sin(%s*2.4), 0.5 + 0.2*cos(%s*1.3))", SC, SC))
+    L.expr(barMask, "Width", "0.3 + 0.1*(" .. SC .. " % 3)")
+    L.expr(barMask, "Angle", "time*2.5 + " .. SC .. "*50")
+  end
   local txt = add("TextPlus", "PrevText" .. tag, -8, -9)
   txt:SetInput("Font", "Arial"); txt:SetInput("Style", "Bold"); txt:SetInput("Size", 0.16)
   txt:SetInput("Center", {0.5, 0.2})

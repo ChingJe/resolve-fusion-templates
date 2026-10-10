@@ -4,7 +4,7 @@
 
 前一段像一張紙，沿著一條不規則的線從一頭裂到另一頭，然後兩半往兩邊拉開，露出底下的後一段。撕邊看得到白色的紙芯，並在後一段上留下陰影。
 
-![Paper Tear](../../previews/paper-tear.png)
+![Paper Tear](../../previews/paper-tear.gif)
 
 **用法**：拖到兩個片段的交界，拉成想要的長度。
 
