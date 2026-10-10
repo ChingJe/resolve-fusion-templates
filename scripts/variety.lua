@@ -219,7 +219,7 @@ expr(move, "Pivot", "VarCtrl.CapPos")
 expr(move, "Center", "Point(0.5 + VarCtrl.Off.X, 0.5 + VarCtrl.Off.Y)")
 expr(move, "Size", "VarCtrl.Scale")
 expr(move, "Angle", "VarCtrl.Rot")
-local out = add("Merge", "CapOut", 8, 2)
+local out = add("Merge", "CapFinal", 8, 2)
 out.Background = ctrl.Output; out.Foreground = move.Output
 expr(out, "Blend", "VarCtrl.Fade")
 
@@ -230,7 +230,7 @@ comp:Unlock()
 if os.getenv("FX_EXPORT") == "1" then
   local spec = {
     {"NAME", "VarietyCaption"},
-    {"OUT", "CapOut", "Output"},
+    {"OUT", "CapFinal", "Output"},
     {"CTL", "VarCtrl", "CapList", "Lines (mark one word with *stars*)"},
     {"CTL", "VarCtrl", "CapCue", "Line Number (keyframe 1, 2, 3)"},
     {"CTL", "VarCtrl", "CapTimed", "Lines Start With A Time (0:02 Text)"},

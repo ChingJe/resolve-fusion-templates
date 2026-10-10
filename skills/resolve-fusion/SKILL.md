@@ -46,6 +46,7 @@ t.Size:SetExpression("ComicCtrl.TextSize * ComicCtrl.Zoom")
 | `lab.lua` | 開啟（或建立）實驗用時間軸 `FX Lab`，裡面一個片段帶空的 Fusion 合成 |
 | `macro.py` | 把 `lib.lua` 匯出的節點和規格包成巨集範本 |
 | `check.lua` | 把範本貼進清空的實驗合成、接上測試畫面、算圖 |
+| `compose.lua` | 把同一個範本貼好幾份、各給不同設定、疊在測試畫面上算圖，用來看多個片段組合起來的樣子 |
 | `sheet.py` | 畫格拼總覽圖 |
 
 每個範本一支建置腳本，控制項清單也寫在裡面：
@@ -63,7 +64,7 @@ t.Size:SetExpression("ComicCtrl.TextSize * ComicCtrl.Zoom")
 | `punchzoom.lua` | Punch Zoom，在指定時間點推近，可加 RGB 分離等 | 特效 |
 | `variety.lua` | Variety Caption，厚描邊的綜藝字卡，關鍵幀換句 | 標題 |
 | `sidenote.lua` | Side Note，吐槽小字加手繪箭頭 | 標題 |
-| `cornertag.lua` | Corner Tag，角落的主題框 | 標題 |
+| `textlabel.lua` | Text Label，文字加自動貼合的外框，九種形狀，用來拼接 | 標題 |
 | `reaction.lua` | Reaction Mark，怒氣、汗滴、問號、驚嘆號、集中線 | 標題 |
 
 一個範本從頭到尾的指令（在 `scripts/` 底下執行，`FU` 是 fuscript 的路徑）：

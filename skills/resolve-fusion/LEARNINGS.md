@@ -129,6 +129,18 @@
 
 ### 尚未驗證（綜藝字幕這一批）
 
-- Variety Caption、Side Note、Corner Tag、Reaction Mark 和改過的 Kinetic Lines 都只在 Fusion 頁面的實驗合成裡驗證：巨集貼得回來、控制項齊全、算圖正確。還沒從 Edit 頁面拖過，也還沒在 Edit 頁面的 Inspector 上實際打過 `Line Number` 的關鍵幀。
-- 下拉選單（`Colours`、`Entrance`、`Mark`、`Corner`）在 Edit 頁面 Inspector 顯示成什麼樣子沒看過。
-- Variety Caption 的 `Custom` 配色（七個自訂顏色）、`Sway`、Reaction Mark 的 `Use My Colours`、Side Note 的負彎度和關掉箭頭、Corner Tag 的左上與右下角落和空白標籤，沒有個別算圖看過。
+- Variety Caption、Side Note、Text Label、Reaction Mark 和改過的 Kinetic Lines 都只在 Fusion 頁面的實驗合成裡驗證：巨集貼得回來、控制項齊全、算圖正確。還沒從 Edit 頁面拖過，也還沒在 Edit 頁面的 Inspector 上實際打過 `Line Number` 的關鍵幀。
+- 下拉選單（`Colours`、`Entrance`、`Mark`、`Frame`、`Position Is The`）在 Edit 頁面 Inspector 顯示成什麼樣子沒看過。
+- Variety Caption 的 `Custom` 配色（七個自訂顏色）、`Sway`、Reaction Mark 的 `Use My Colours`、Side Note 的負彎度和關掉箭頭、Text Label 的自訂配色、半透明底色、`From Below`／`From Above`／`Pop` 以外組合的離場，沒有個別算圖看過。
+
+### 同一個合成裡放兩份範本
+
+- 節點名稱不能和控制節點上的控制項 ID 相同。原本輸出節點叫 `LblOut`，控制項也有一個 `LblOut`。貼第二份時 Fusion 把節點改名成 `LblOut_1`，同時把運算式裡所有 `LblOut` 字樣都改掉，連指控制項的那些也改了，第二份的運算式就全部算不出值，畫面是空的、沒有錯誤訊息。只貼一份時看不出來。輸出節點一律取名 `…Final`。Chapter Bar、Number Counter、Bar Chart 等較早的範本還沒檢查有沒有同樣的撞名。
+- 貼上時 Fusion 會把運算式裡的節點名稱（包括寫在匿名函式裡的）一起改成新名字，所以巨集可以在同一個合成裡貼很多份。`scripts/compose.lua` 就是做這件事：貼一份、記下新出現的 `MacroOperator`、用 `GetInputList()` 依 `INPS_Name` 找到輸入 ID 來設定，再貼下一份，最後用 `Merge` 疊起來。Text Label 的組合預覽圖就是這樣算的（`FX_TEMPLATE` 指定範本，`FX_SPEC` 指定每一份的設定檔）。
+
+### 用距離函數畫外框
+
+- Text Label 的九種外框是同一個 `Custom` 畫的：算出像素到形狀邊緣的距離 `d`（裡面是負的），底色是 `d < 0`，邊線是 `|d| < 半寬`，陰影是把座標位移後再算一次 `d`。圓角方框的距離是 `sqrt(max(qx,0)² + max(qy,0)²) + min(max(qx,qy),0) − r`，其中 `qx = |u| − 半寬 + r`。`r = 0` 是方框，`r = 半高` 是膠囊。
+- 其他形狀是在這個距離上加工：斜切是先把 `u` 減掉 `斜率 × v`；緞帶是和「兩端往內凹的 V 形」取 `max`；對話泡泡是和一個三角形取 `min`；角標是只在兩個對角附近保留邊線。形狀由下拉選單決定哪些參數是 0，不用寫九套運算式。
+- 底色、邊線、陰影三張遮罩分別存在同一張圖的紅、綠、藍，下一個 `Custom` 再上色，省掉兩個節點。
+- 單行文字的外框高度不要用量出來的字高（「一」和「題」高度差很多），用 `Size × 寬高比 × 0.6` 當最小高度，同樣大小的標籤才會一樣高。

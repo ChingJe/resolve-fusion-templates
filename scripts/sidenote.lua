@@ -132,7 +132,7 @@ L.color(inkCol, 1, 1, 1, 1); L.color(edgeCol, 0.08, 0.08, 0.1, 1)
 local painted = L.inked(comp, "NotePaint", 1, 0, ink.Output, "NoteCtrl.NoteEdge", "0", {
   "ColInk.TopLeftRed", "ColInk.TopLeftGreen", "ColInk.TopLeftBlue",
   "ColEdge.TopLeftRed", "ColEdge.TopLeftGreen", "ColEdge.TopLeftBlue", "0", "0", "0"})
-local out = add("Merge", "NoteOut", 4, 0)
+local out = add("Merge", "NoteFinal", 4, 0)
 out.Background = ctrl.Output; out.Foreground = painted.Output
 expr(out, "Blend", "NoteCtrl.Fade")
 
@@ -143,7 +143,7 @@ comp:Unlock()
 if os.getenv("FX_EXPORT") == "1" then
   L.export(comp, "sidenote", {
     {"NAME", "SideNote"},
-    {"OUT", "NoteOut", "Output"},
+    {"OUT", "NoteFinal", "Output"},
     {"CTL", "NoteCtrl", "NoteList", "Remarks"},
     {"CTL", "NoteCtrl", "NoteCue", "Line Number (keyframe 1, 2, 3)"},
     {"CTL", "NoteCtrl", "NoteTimed", "Lines Start With A Time (0:02 Text)"},

@@ -84,7 +84,7 @@ local boxed = add("Merge", "Boxed", -1, 2)
 boxed.Background = ctrl.Output
 boxed.Foreground = box.Output
 expr(boxed, "Blend", "KinCtrl.KinBox * KinCtrl.Fade")
-local out = add("Merge", "KinOut", 0, 2)
+local out = add("Merge", "KinFinal", 0, 2)
 out.Background = boxed.Output
 out.Foreground = text.Output
 expr(out, "Blend", "KinCtrl.Fade")
@@ -96,7 +96,7 @@ comp:Unlock()
 if os.getenv("FX_EXPORT") == "1" then
   L.export(comp, "kinetic", {
     {"NAME", "KineticLines"},
-    {"OUT", "KinOut", "Output"},
+    {"OUT", "KinFinal", "Output"},
     {"CTL", "KinCtrl", "LineList", "Lines (0:00 Text)"},
     {"CTL", "KinCtrl", "KinTimed", "Lines Start With A Time (0:02 Text)"},
     {"CTL", "KinCtrl", "KinCue", "Line Number (keyframe 1, 2, 3)"},

@@ -30,572 +30,572 @@
 				Input25 = InstanceInput { SourceOp = "NoteCtrl", Source = "NoteOut", Name = "Fade Out Frames" },
 			},
 			Outputs = {
-				MainOutput1 = InstanceOutput { SourceOp = "NoteOut", Source = "Output" }
+				MainOutput1 = InstanceOutput { SourceOp = "NoteFinal", Source = "Output" }
 			},
 			ViewInfo = GroupInfo { Pos = { 0, 0 } },
 			Tools = ordered() {
 				NoteCtrl = Background {
+					CtrlWZoom = false,
+					ViewInfo = OperatorInfo { Pos = { -605, -82.5 } },
+					UserControls = {
+						NoteIn = {
+							INP_Default = 6,
+							INP_MinScale = 1,
+							INP_MaxScale = 40,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Pop Frames"
+						},
+						NoteDraw = {
+							INP_Default = 8,
+							INP_MinScale = 1,
+							INP_MaxScale = 60,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Arrow Draw Frames"
+						},
+						NoteOut = {
+							INP_Default = 3,
+							INP_MinScale = 0,
+							INP_MaxScale = 40,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Fade Out Frames"
+						},
+						Idx = {
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 100,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Idx"
+						},
+						Since = {
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 100,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Since"
+						},
+						Until = {
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 100,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Until"
+						},
+						FpsOverride = {
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 120,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Frame Rate Override"
+						},
+						Back = {
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 2,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Back"
+						},
+						NoteSize = {
+							INP_Default = 0.05,
+							INP_MinScale = 0.01,
+							INP_MaxScale = 0.2,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Size"
+						},
+						Draw = {
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Draw"
+						},
+						NoteTilt = {
+							INP_Default = -6,
+							INP_MinScale = -45,
+							INP_MaxScale = 45,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Tilt"
+						},
+						To = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "To",
+							LINKID_DataType = "Point"
+						},
+						HeadA = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "HeadA",
+							LINKID_DataType = "Point"
+						},
+						HeadB = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "HeadB",
+							LINKID_DataType = "Point"
+						},
+						NoteTarget = {
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "OffsetControl",
+							INPID_PreviewControl = "CrosshairControl",
+							LINKS_Name = "Arrow Points At"
+						},
+						NotePos = {
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "OffsetControl",
+							INPID_PreviewControl = "CrosshairControl",
+							LINKS_Name = "Text Position"
+						},
+						NoteArrow = {
+							INP_Default = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "CheckboxControl",
+							INP_Integer = true,
+							LINKS_Name = "Arrow"
+						},
+						NoteEdge = {
+							INP_Default = 0.003,
+							INP_MinScale = 0,
+							INP_MaxScale = 0.02,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Outline"
+						},
+						NoteBend = {
+							INP_Default = 0.18,
+							INP_MinScale = -0.6,
+							INP_MaxScale = 0.6,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Arrow Bend"
+						},
+						Fade = {
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Fade"
+						},
+						NoteThick = {
+							INP_Default = 0.007,
+							INP_MinScale = 0.001,
+							INP_MaxScale = 0.03,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Arrow Thickness"
+						},
+						T = {
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "T"
+						},
+						NoteHead = {
+							INP_Default = 0.035,
+							INP_MinScale = 0,
+							INP_MaxScale = 0.15,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Arrow Head"
+						},
+						From = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "From",
+							LINKID_DataType = "Point"
+						},
+						NoteShort = {
+							INP_Default = 0.02,
+							INP_MinScale = 0,
+							INP_MaxScale = 0.2,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Arrow Stops Short"
+						},
+						NoteList = {
+							INPS_DefaultText = "其實超怕的\n根本沒在聽",
+							TEC_Lines = 6,
+							LINKID_DataType = "Text",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "TextEditControl",
+							LINKS_Name = "Remarks"
+						},
+						NoteTimed = {
+							INP_Default = 0,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "CheckboxControl",
+							INP_Integer = true,
+							LINKS_Name = "Lines Start With A Time (0:02 Text)"
+						},
+						NoteCue = {
+							INP_Default = 1,
+							INP_MinScale = 0,
+							INP_MaxScale = 20,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Line Number (keyframe 1, 2, 3)"
+						}
+					},
 					Inputs = {
-						TopLeftAlpha = Input { Value = 0 },
+						Width = Input { Value = 1920 },
 						Height = Input { Value = 1080 },
-						GlobalOut = Input { Value = 3534 },
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						GlobalIn = Input { Value = -480 },
 						Idx = Input { Expression = "(function(txt, timed, cue, fps, t0, t1, now, pick)\n  local idx, since, untl, text = 0, 0, 9999, \"\"\n  if timed == 0 then\n    idx = math.floor(cue + 0.0001)\n    for d = 1, 90 do\n      if now - d < t0 or math.floor(NoteCtrl:GetValue(\"NoteCue\", now - d) + 0.0001) ~= idx then break end\n      since = d\n    end\n    for d = 1, 60 do\n      if now + d > t1 then break end\n      if math.floor(NoteCtrl:GetValue(\"NoteCue\", now + d) + 0.0001) ~= idx then untl = d break end\n    end\n    local n = 0\n    for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n      n = n + 1\n      if n == idx then text = line end\n    end\n  else\n    local rel, len, best, nxt, n = now - t0, math.max(t1 - t0, 1), -1, 1e9, 0\n    for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n      n = n + 1\n      local stamp, name = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n      local f\n      if stamp then\n        local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n        if pct then f = tonumber(pct) / 100 * len\n        elseif fr then f = tonumber(fr)\n        elseif stamp:match(\"^[%d:%.]+$\") then\n          local sec = 0\n          for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n          if sec then f = math.floor(sec * fps + 0.5) end\n        end\n      end\n      if f then\n        if f <= rel + 0.001 then\n          if f >= best then best, idx, text = f, n, name end\n        elseif f < nxt then nxt = f end\n      end\n    end\n    if best < 0 then idx, text = 0, \"\" else since, untl = rel - best, nxt - rel end\n  end\n  if pick == 1 then return idx elseif pick == 2 then return since elseif pick == 3 then return untl end\n  return text\nend)(NoteCtrl.NoteList.Value, NoteCtrl.NoteTimed, NoteCtrl.NoteCue, iif(NoteCtrl.FpsOverride > 0, NoteCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), comp.RenderStart, comp.RenderEnd, time, 1)" },
-						Since = Input { Expression = "(function(txt, timed, cue, fps, t0, t1, now, pick)\n  local idx, since, untl, text = 0, 0, 9999, \"\"\n  if timed == 0 then\n    idx = math.floor(cue + 0.0001)\n    for d = 1, 90 do\n      if now - d < t0 or math.floor(NoteCtrl:GetValue(\"NoteCue\", now - d) + 0.0001) ~= idx then break end\n      since = d\n    end\n    for d = 1, 60 do\n      if now + d > t1 then break end\n      if math.floor(NoteCtrl:GetValue(\"NoteCue\", now + d) + 0.0001) ~= idx then untl = d break end\n    end\n    local n = 0\n    for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n      n = n + 1\n      if n == idx then text = line end\n    end\n  else\n    local rel, len, best, nxt, n = now - t0, math.max(t1 - t0, 1), -1, 1e9, 0\n    for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n      n = n + 1\n      local stamp, name = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n      local f\n      if stamp then\n        local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n        if pct then f = tonumber(pct) / 100 * len\n        elseif fr then f = tonumber(fr)\n        elseif stamp:match(\"^[%d:%.]+$\") then\n          local sec = 0\n          for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n          if sec then f = math.floor(sec * fps + 0.5) end\n        end\n      end\n      if f then\n        if f <= rel + 0.001 then\n          if f >= best then best, idx, text = f, n, name end\n        elseif f < nxt then nxt = f end\n      end\n    end\n    if best < 0 then idx, text = 0, \"\" else since, untl = rel - best, nxt - rel end\n  end\n  if pick == 1 then return idx elseif pick == 2 then return since elseif pick == 3 then return untl end\n  return text\nend)(NoteCtrl.NoteList.Value, NoteCtrl.NoteTimed, NoteCtrl.NoteCue, iif(NoteCtrl.FpsOverride > 0, NoteCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), comp.RenderStart, comp.RenderEnd, time, 2)" },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
 						Until = Input { Expression = "(function(txt, timed, cue, fps, t0, t1, now, pick)\n  local idx, since, untl, text = 0, 0, 9999, \"\"\n  if timed == 0 then\n    idx = math.floor(cue + 0.0001)\n    for d = 1, 90 do\n      if now - d < t0 or math.floor(NoteCtrl:GetValue(\"NoteCue\", now - d) + 0.0001) ~= idx then break end\n      since = d\n    end\n    for d = 1, 60 do\n      if now + d > t1 then break end\n      if math.floor(NoteCtrl:GetValue(\"NoteCue\", now + d) + 0.0001) ~= idx then untl = d break end\n    end\n    local n = 0\n    for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n      n = n + 1\n      if n == idx then text = line end\n    end\n  else\n    local rel, len, best, nxt, n = now - t0, math.max(t1 - t0, 1), -1, 1e9, 0\n    for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n      n = n + 1\n      local stamp, name = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n      local f\n      if stamp then\n        local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n        if pct then f = tonumber(pct) / 100 * len\n        elseif fr then f = tonumber(fr)\n        elseif stamp:match(\"^[%d:%.]+$\") then\n          local sec = 0\n          for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n          if sec then f = math.floor(sec * fps + 0.5) end\n        end\n      end\n      if f then\n        if f <= rel + 0.001 then\n          if f >= best then best, idx, text = f, n, name end\n        elseif f < nxt then nxt = f end\n      end\n    end\n    if best < 0 then idx, text = 0, \"\" else since, untl = rel - best, nxt - rel end\n  end\n  if pick == 1 then return idx elseif pick == 2 then return since elseif pick == 3 then return untl end\n  return text\nend)(NoteCtrl.NoteList.Value, NoteCtrl.NoteTimed, NoteCtrl.NoteCue, iif(NoteCtrl.FpsOverride > 0, NoteCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), comp.RenderStart, comp.RenderEnd, time, 3)" },
 						T = Input { Expression = "iif(Idx < 1, 0, min(max((Since + 1)/max(NoteIn, 1), 0), 1))" },
 						Back = Input { Expression = "(function(t) t = t - 1 return 1 + 2.70158*t*t*t + 1.70158*t*t end)(T)" },
 						Fade = Input { Expression = "iif(Idx < 1, 0, min(T*3, 1) * iif(NoteOut <= 0, 1, min(max(Until/NoteOut, 0), 1)))" },
 						Draw = Input { Expression = "iif(Idx < 1, 0, min(max((Since + 1 - NoteIn)/max(NoteDraw, 1), 0), 1))" },
 						From = Input { Expression = "(function(pick)\n  local asp = NoteText.Output.Width / NoteText.Output.Height\n  local px, py, tx, ty = NoteCtrl.NotePos.X, NoteCtrl.NotePos.Y, NoteCtrl.NoteTarget.X, NoteCtrl.NoteTarget.Y\n  local hw, hh = 0, 0\n  local d = NoteText.StyledText.Value ~= \"\" and NoteText.Output.DataWindow\n  if d then hw, hh = (d.right - d.left)/NoteText.Output.Width/2*asp, (d.top - d.bottom)/NoteText.Output.Height/2 end\n  local dx, dy = (tx - px)*asp, ty - py\n  local len = math.max(math.sqrt(dx*dx + dy*dy), 0.0001)\n  local pad = NoteCtrl.NoteSize*0.5\n  local k = math.min((hw + pad)/math.max(math.abs(dx), 0.0001), (hh + pad)/math.max(math.abs(dy), 0.0001), 0.8)\n  local ax, ay = px + dx*k/asp, py + dy*k\n  local bx, by = tx - dx/len*NoteCtrl.NoteShort/asp, ty - dy/len*NoteCtrl.NoteShort\n  if pick == 1 then return Point(ax, ay) elseif pick == 2 then return Point(bx, by) end\n  -- direction the arrow arrives from, then turned 28 degrees either way for the two strokes of the head\n  local ex, ey = (bx - ax)*asp, by - ay\n  local el = math.max(math.sqrt(ex*ex + ey*ey), 0.0001)\n  ex, ey = ex/el, ey/el\n  local s = NoteCtrl.NoteBend*math.pi\n  local vx, vy = -(ex - s*ey), -(ey + s*ex)\n  local vl = math.sqrt(vx*vx + vy*vy)\n  vx, vy = vx/vl, vy/vl\n  local a = math.rad(pick == 3 and 28 or -28)\n  return Point(vx*math.cos(a) - vy*math.sin(a), vx*math.sin(a) + vy*math.cos(a))\nend)(1)" },
-						NotePos = Input { Value = { 0.74, 0.72 } },
+						To = Input { Expression = "(function(pick)\n  local asp = NoteText.Output.Width / NoteText.Output.Height\n  local px, py, tx, ty = NoteCtrl.NotePos.X, NoteCtrl.NotePos.Y, NoteCtrl.NoteTarget.X, NoteCtrl.NoteTarget.Y\n  local hw, hh = 0, 0\n  local d = NoteText.StyledText.Value ~= \"\" and NoteText.Output.DataWindow\n  if d then hw, hh = (d.right - d.left)/NoteText.Output.Width/2*asp, (d.top - d.bottom)/NoteText.Output.Height/2 end\n  local dx, dy = (tx - px)*asp, ty - py\n  local len = math.max(math.sqrt(dx*dx + dy*dy), 0.0001)\n  local pad = NoteCtrl.NoteSize*0.5\n  local k = math.min((hw + pad)/math.max(math.abs(dx), 0.0001), (hh + pad)/math.max(math.abs(dy), 0.0001), 0.8)\n  local ax, ay = px + dx*k/asp, py + dy*k\n  local bx, by = tx - dx/len*NoteCtrl.NoteShort/asp, ty - dy/len*NoteCtrl.NoteShort\n  if pick == 1 then return Point(ax, ay) elseif pick == 2 then return Point(bx, by) end\n  -- direction the arrow arrives from, then turned 28 degrees either way for the two strokes of the head\n  local ex, ey = (bx - ax)*asp, by - ay\n  local el = math.max(math.sqrt(ex*ex + ey*ey), 0.0001)\n  ex, ey = ex/el, ey/el\n  local s = NoteCtrl.NoteBend*math.pi\n  local vx, vy = -(ex - s*ey), -(ey + s*ex)\n  local vl = math.sqrt(vx*vx + vy*vy)\n  vx, vy = vx/vl, vy/vl\n  local a = math.rad(pick == 3 and 28 or -28)\n  return Point(vx*math.cos(a) - vy*math.sin(a), vx*math.sin(a) + vy*math.cos(a))\nend)(2)" },
 						HeadA = Input { Expression = "(function(pick)\n  local asp = NoteText.Output.Width / NoteText.Output.Height\n  local px, py, tx, ty = NoteCtrl.NotePos.X, NoteCtrl.NotePos.Y, NoteCtrl.NoteTarget.X, NoteCtrl.NoteTarget.Y\n  local hw, hh = 0, 0\n  local d = NoteText.StyledText.Value ~= \"\" and NoteText.Output.DataWindow\n  if d then hw, hh = (d.right - d.left)/NoteText.Output.Width/2*asp, (d.top - d.bottom)/NoteText.Output.Height/2 end\n  local dx, dy = (tx - px)*asp, ty - py\n  local len = math.max(math.sqrt(dx*dx + dy*dy), 0.0001)\n  local pad = NoteCtrl.NoteSize*0.5\n  local k = math.min((hw + pad)/math.max(math.abs(dx), 0.0001), (hh + pad)/math.max(math.abs(dy), 0.0001), 0.8)\n  local ax, ay = px + dx*k/asp, py + dy*k\n  local bx, by = tx - dx/len*NoteCtrl.NoteShort/asp, ty - dy/len*NoteCtrl.NoteShort\n  if pick == 1 then return Point(ax, ay) elseif pick == 2 then return Point(bx, by) end\n  -- direction the arrow arrives from, then turned 28 degrees either way for the two strokes of the head\n  local ex, ey = (bx - ax)*asp, by - ay\n  local el = math.max(math.sqrt(ex*ex + ey*ey), 0.0001)\n  ex, ey = ex/el, ey/el\n  local s = NoteCtrl.NoteBend*math.pi\n  local vx, vy = -(ex - s*ey), -(ey + s*ex)\n  local vl = math.sqrt(vx*vx + vy*vy)\n  vx, vy = vx/vl, vy/vl\n  local a = math.rad(pick == 3 and 28 or -28)\n  return Point(vx*math.cos(a) - vy*math.sin(a), vx*math.sin(a) + vy*math.cos(a))\nend)(3)" },
 						HeadB = Input { Expression = "(function(pick)\n  local asp = NoteText.Output.Width / NoteText.Output.Height\n  local px, py, tx, ty = NoteCtrl.NotePos.X, NoteCtrl.NotePos.Y, NoteCtrl.NoteTarget.X, NoteCtrl.NoteTarget.Y\n  local hw, hh = 0, 0\n  local d = NoteText.StyledText.Value ~= \"\" and NoteText.Output.DataWindow\n  if d then hw, hh = (d.right - d.left)/NoteText.Output.Width/2*asp, (d.top - d.bottom)/NoteText.Output.Height/2 end\n  local dx, dy = (tx - px)*asp, ty - py\n  local len = math.max(math.sqrt(dx*dx + dy*dy), 0.0001)\n  local pad = NoteCtrl.NoteSize*0.5\n  local k = math.min((hw + pad)/math.max(math.abs(dx), 0.0001), (hh + pad)/math.max(math.abs(dy), 0.0001), 0.8)\n  local ax, ay = px + dx*k/asp, py + dy*k\n  local bx, by = tx - dx/len*NoteCtrl.NoteShort/asp, ty - dy/len*NoteCtrl.NoteShort\n  if pick == 1 then return Point(ax, ay) elseif pick == 2 then return Point(bx, by) end\n  -- direction the arrow arrives from, then turned 28 degrees either way for the two strokes of the head\n  local ex, ey = (bx - ax)*asp, by - ay\n  local el = math.max(math.sqrt(ex*ex + ey*ey), 0.0001)\n  ex, ey = ex/el, ey/el\n  local s = NoteCtrl.NoteBend*math.pi\n  local vx, vy = -(ex - s*ey), -(ey + s*ex)\n  local vl = math.sqrt(vx*vx + vy*vy)\n  vx, vy = vx/vl, vy/vl\n  local a = math.rad(pick == 3 and 28 or -28)\n  return Point(vx*math.cos(a) - vy*math.sin(a), vx*math.sin(a) + vy*math.cos(a))\nend)(4)" },
 						UseFrameFormatSettings = Input { Value = 1 },
-						Width = Input { Value = 1920 },
-						GlobalIn = Input { Value = -480 },
-						To = Input { Expression = "(function(pick)\n  local asp = NoteText.Output.Width / NoteText.Output.Height\n  local px, py, tx, ty = NoteCtrl.NotePos.X, NoteCtrl.NotePos.Y, NoteCtrl.NoteTarget.X, NoteCtrl.NoteTarget.Y\n  local hw, hh = 0, 0\n  local d = NoteText.StyledText.Value ~= \"\" and NoteText.Output.DataWindow\n  if d then hw, hh = (d.right - d.left)/NoteText.Output.Width/2*asp, (d.top - d.bottom)/NoteText.Output.Height/2 end\n  local dx, dy = (tx - px)*asp, ty - py\n  local len = math.max(math.sqrt(dx*dx + dy*dy), 0.0001)\n  local pad = NoteCtrl.NoteSize*0.5\n  local k = math.min((hw + pad)/math.max(math.abs(dx), 0.0001), (hh + pad)/math.max(math.abs(dy), 0.0001), 0.8)\n  local ax, ay = px + dx*k/asp, py + dy*k\n  local bx, by = tx - dx/len*NoteCtrl.NoteShort/asp, ty - dy/len*NoteCtrl.NoteShort\n  if pick == 1 then return Point(ax, ay) elseif pick == 2 then return Point(bx, by) end\n  -- direction the arrow arrives from, then turned 28 degrees either way for the two strokes of the head\n  local ex, ey = (bx - ax)*asp, by - ay\n  local el = math.max(math.sqrt(ex*ex + ey*ey), 0.0001)\n  ex, ey = ex/el, ey/el\n  local s = NoteCtrl.NoteBend*math.pi\n  local vx, vy = -(ex - s*ey), -(ey + s*ex)\n  local vl = math.sqrt(vx*vx + vy*vy)\n  vx, vy = vx/vl, vy/vl\n  local a = math.rad(pick == 3 and 28 or -28)\n  return Point(vx*math.cos(a) - vy*math.sin(a), vx*math.sin(a) + vy*math.cos(a))\nend)(2)" }
-					},
-					UserControls = {
-						NoteHead = {
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "Arrow Head",
-							INP_Default = 0.035,
-							INP_MinScale = 0,
-							INP_MaxScale = 0.15,
-							INP_Integer = false,
-							ICS_ControlPage = "Controls"
-						},
-						NoteShort = {
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "Arrow Stops Short",
-							INP_Default = 0.02,
-							INP_MinScale = 0,
-							INP_MaxScale = 0.2,
-							INP_Integer = false,
-							ICS_ControlPage = "Controls"
-						},
-						NoteList = {
-							INPID_InputControl = "TextEditControl",
-							LINKS_Name = "Remarks",
-							INPS_DefaultText = "其實超怕的\n根本沒在聽",
-							TEC_Lines = 6,
-							LINKID_DataType = "Text",
-							ICS_ControlPage = "Controls"
-						},
-						NoteTimed = {
-							INPID_InputControl = "CheckboxControl",
-							LINKS_Name = "Lines Start With A Time (0:02 Text)",
-							INP_Default = 0,
-							LINKID_DataType = "Number",
-							INP_Integer = true,
-							ICS_ControlPage = "Controls"
-						},
-						NoteCue = {
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "Line Number (keyframe 1, 2, 3)",
-							INP_Default = 1,
-							INP_MinScale = 0,
-							INP_MaxScale = 20,
-							INP_Integer = false,
-							ICS_ControlPage = "Controls"
-						},
-						NoteIn = {
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "Pop Frames",
-							INP_Default = 6,
-							INP_MinScale = 1,
-							INP_MaxScale = 40,
-							INP_Integer = false,
-							ICS_ControlPage = "Controls"
-						},
-						NoteDraw = {
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "Arrow Draw Frames",
-							INP_Default = 8,
-							INP_MinScale = 1,
-							INP_MaxScale = 60,
-							INP_Integer = false,
-							ICS_ControlPage = "Controls"
-						},
-						NoteOut = {
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "Fade Out Frames",
-							INP_Default = 3,
-							INP_MinScale = 0,
-							INP_MaxScale = 40,
-							INP_Integer = false,
-							ICS_ControlPage = "Controls"
-						},
-						NoteTilt = {
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "Tilt",
-							INP_Default = -6,
-							INP_MinScale = -45,
-							INP_MaxScale = 45,
-							INP_Integer = false,
-							ICS_ControlPage = "Controls"
-						},
-						Idx = {
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "Idx",
-							INP_Default = 0,
-							INP_MinScale = 0,
-							INP_MaxScale = 100,
-							INP_Integer = false,
-							ICS_ControlPage = "Driver"
-						},
-						NoteEdge = {
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "Outline",
-							INP_Default = 0.003,
-							INP_MinScale = 0,
-							INP_MaxScale = 0.02,
-							INP_Integer = false,
-							ICS_ControlPage = "Controls"
-						},
-						Since = {
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "Since",
-							INP_Default = 0,
-							INP_MinScale = 0,
-							INP_MaxScale = 100,
-							INP_Integer = false,
-							ICS_ControlPage = "Driver"
-						},
-						FpsOverride = {
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "Frame Rate Override",
-							INP_Default = 0,
-							INP_MinScale = 0,
-							INP_MaxScale = 120,
-							INP_Integer = false,
-							ICS_ControlPage = "Controls"
-						},
-						T = {
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "T",
-							INP_Default = 0,
-							INP_MinScale = 0,
-							INP_MaxScale = 1,
-							INP_Integer = false,
-							ICS_ControlPage = "Driver"
-						},
-						NoteSize = {
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "Size",
-							INP_Default = 0.05,
-							INP_MinScale = 0.01,
-							INP_MaxScale = 0.2,
-							INP_Integer = false,
-							ICS_ControlPage = "Controls"
-						},
-						Fade = {
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "Fade",
-							INP_Default = 0,
-							INP_MinScale = 0,
-							INP_MaxScale = 1,
-							INP_Integer = false,
-							ICS_ControlPage = "Driver"
-						},
-						Draw = {
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "Draw",
-							INP_Default = 0,
-							INP_MinScale = 0,
-							INP_MaxScale = 1,
-							INP_Integer = false,
-							ICS_ControlPage = "Driver"
-						},
-						From = {
-							INPID_InputControl = "OffsetControl",
-							LINKID_DataType = "Point",
-							LINKS_Name = "From",
-							ICS_ControlPage = "Driver"
-						},
-						To = {
-							INPID_InputControl = "OffsetControl",
-							LINKID_DataType = "Point",
-							LINKS_Name = "To",
-							ICS_ControlPage = "Driver"
-						},
-						HeadA = {
-							INPID_InputControl = "OffsetControl",
-							LINKID_DataType = "Point",
-							LINKS_Name = "HeadA",
-							ICS_ControlPage = "Driver"
-						},
-						HeadB = {
-							INPID_InputControl = "OffsetControl",
-							LINKID_DataType = "Point",
-							LINKS_Name = "HeadB",
-							ICS_ControlPage = "Driver"
-						},
-						NoteTarget = {
-							INPID_InputControl = "OffsetControl",
-							INPID_PreviewControl = "CrosshairControl",
-							LINKS_Name = "Arrow Points At",
-							LINKID_DataType = "Point",
-							ICS_ControlPage = "Controls"
-						},
-						Back = {
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "Back",
-							INP_Default = 0,
-							INP_MinScale = 0,
-							INP_MaxScale = 2,
-							INP_Integer = false,
-							ICS_ControlPage = "Driver"
-						},
-						NoteArrow = {
-							INPID_InputControl = "CheckboxControl",
-							LINKS_Name = "Arrow",
-							INP_Default = 1,
-							LINKID_DataType = "Number",
-							INP_Integer = true,
-							ICS_ControlPage = "Controls"
-						},
-						Until = {
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "Until",
-							INP_Default = 0,
-							INP_MinScale = 0,
-							INP_MaxScale = 100,
-							INP_Integer = false,
-							ICS_ControlPage = "Driver"
-						},
-						NoteBend = {
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "Arrow Bend",
-							INP_Default = 0.18,
-							INP_MinScale = -0.6,
-							INP_MaxScale = 0.6,
-							INP_Integer = false,
-							ICS_ControlPage = "Controls"
-						},
-						NotePos = {
-							INPID_InputControl = "OffsetControl",
-							INPID_PreviewControl = "CrosshairControl",
-							LINKS_Name = "Text Position",
-							LINKID_DataType = "Point",
-							ICS_ControlPage = "Controls"
-						},
-						NoteThick = {
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "Arrow Thickness",
-							INP_Default = 0.007,
-							INP_MinScale = 0.001,
-							INP_MaxScale = 0.03,
-							INP_Integer = false,
-							ICS_ControlPage = "Controls"
-						}
-					},
-					CtrlWZoom = false,
-					ViewInfo = OperatorInfo { Pos = { -605, -82.5 } }
+						NotePos = Input { Value = { 0.74, 0.72 } },
+						TopLeftAlpha = Input { Value = 0 },
+						Since = Input { Expression = "(function(txt, timed, cue, fps, t0, t1, now, pick)\n  local idx, since, untl, text = 0, 0, 9999, \"\"\n  if timed == 0 then\n    idx = math.floor(cue + 0.0001)\n    for d = 1, 90 do\n      if now - d < t0 or math.floor(NoteCtrl:GetValue(\"NoteCue\", now - d) + 0.0001) ~= idx then break end\n      since = d\n    end\n    for d = 1, 60 do\n      if now + d > t1 then break end\n      if math.floor(NoteCtrl:GetValue(\"NoteCue\", now + d) + 0.0001) ~= idx then untl = d break end\n    end\n    local n = 0\n    for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n      n = n + 1\n      if n == idx then text = line end\n    end\n  else\n    local rel, len, best, nxt, n = now - t0, math.max(t1 - t0, 1), -1, 1e9, 0\n    for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n      n = n + 1\n      local stamp, name = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n      local f\n      if stamp then\n        local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n        if pct then f = tonumber(pct) / 100 * len\n        elseif fr then f = tonumber(fr)\n        elseif stamp:match(\"^[%d:%.]+$\") then\n          local sec = 0\n          for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n          if sec then f = math.floor(sec * fps + 0.5) end\n        end\n      end\n      if f then\n        if f <= rel + 0.001 then\n          if f >= best then best, idx, text = f, n, name end\n        elseif f < nxt then nxt = f end\n      end\n    end\n    if best < 0 then idx, text = 0, \"\" else since, untl = rel - best, nxt - rel end\n  end\n  if pick == 1 then return idx elseif pick == 2 then return since elseif pick == 3 then return untl end\n  return text\nend)(NoteCtrl.NoteList.Value, NoteCtrl.NoteTimed, NoteCtrl.NoteCue, iif(NoteCtrl.FpsOverride > 0, NoteCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), comp.RenderStart, comp.RenderEnd, time, 2)" },
+						GlobalOut = Input { Value = 3534 }
+					}
 				},
 				NoteArrowDraw = Custom {
+					ViewInfo = OperatorInfo { Pos = { -165, 82.5 } },
 					Inputs = {
-						NumberIn2 = Input { Expression = "NoteCtrl.NoteThick" },
-						NumberIn3 = Input { Expression = "NoteCtrl.Draw" },
-						NumberIn4 = Input { Expression = "NoteCtrl.NoteHead" },
-						NumberIn5 = Input { Expression = "iif(NoteCtrl.NoteArrow > 0 and NoteCtrl.Idx >= 1, 1, 0)" },
 						Intermediate1 = Input { Value = "(x - p1x)*w/h" },
 						Intermediate2 = Input { Value = "y - p1y" },
 						Intermediate3 = Input { Value = "(p2x - p1x)*w/h" },
-						Image1 = Input {
-							SourceOp = "NoteCtrl",
-							Source = "Output"
-						},
 						Intermediate4 = Input { Value = "p2y - p1y" },
-						LUTIn4 = Input {
-							SourceOp = "CustomTool1LUTIn4",
-							Source = "Value"
-						},
 						Intermediate5 = Input { Value = "max(sqrt(i3*i3 + i4*i4), 0.0001)" },
-						BlueExpression = Input { Value = "n5*max(i8, if(i6 >= 0 && i6 <= n3, min(max((n2/2 - abs(i7))*h + 0.5, 0), 1), 0))" },
 						Intermediate6 = Input { Value = "(i1*i3 + i2*i4)/(i5*i5)" },
-						LUTIn1 = Input {
-							SourceOp = "CustomTool1LUTIn1",
-							Source = "Value"
-						},
 						Intermediate7 = Input { Value = "(i1*i4 - i2*i3)/i5 - i5*(n1*sin(180*i6) + 0.006*sin(i6*800))" },
-						LUTIn2 = Input {
-							SourceOp = "CustomTool1LUTIn2",
-							Source = "Value"
+						Image1 = Input {
+							Source = "Output",
+							SourceOp = "NoteCtrl"
 						},
-						PointIn1 = Input { Expression = "NoteCtrl.From" },
-						LUTIn3 = Input {
-							SourceOp = "CustomTool1LUTIn3",
-							Source = "Value"
+						LUTIn1 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn1"
 						},
+						BlueExpression = Input { Value = "n5*max(i8, if(i6 >= 0 && i6 <= n3, min(max((n2/2 - abs(i7))*h + 0.5, 0), 1), 0))" },
 						PointIn2 = Input { Expression = "NoteCtrl.To" },
-						RedExpression = Input { Value = "n5*max(i8, if(i6 >= 0 && i6 <= n3, min(max((n2/2 - abs(i7))*h + 0.5, 0), 1), 0))" },
+						LUTIn2 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn2"
+						},
 						PointIn3 = Input { Expression = "NoteCtrl.HeadA" },
-						Intermediate8 = Input { Value = "if(n3 < 1, 0, max(if(((i1 - i3)*p3x + (i2 - i4)*p3y) >= 0 && ((i1 - i3)*p3x + (i2 - i4)*p3y) <= n4, min(max((n2/2 - abs((i1 - i3)*p3y - (i2 - i4)*p3x))*h + 0.5, 0), 1), 0), if(((i1 - i3)*p4x + (i2 - i4)*p4y) >= 0 && ((i1 - i3)*p4x + (i2 - i4)*p4y) <= n4, min(max((n2/2 - abs((i1 - i3)*p4y - (i2 - i4)*p4x))*h + 0.5, 0), 1), 0)))" },
+						LUTIn4 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn4"
+						},
 						PointIn4 = Input { Expression = "NoteCtrl.HeadB" },
 						GreenExpression = Input { Value = "n5*max(i8, if(i6 >= 0 && i6 <= n3, min(max((n2/2 - abs(i7))*h + 0.5, 0), 1), 0))" },
 						NumberIn1 = Input { Expression = "NoteCtrl.NoteBend" },
-						AlphaExpression = Input { Value = "n5*max(i8, if(i6 >= 0 && i6 <= n3, min(max((n2/2 - abs(i7))*h + 0.5, 0), 1), 0))" }
-					},
-					ViewInfo = OperatorInfo { Pos = { -165, 82.5 } }
+						AlphaExpression = Input { Value = "n5*max(i8, if(i6 >= 0 && i6 <= n3, min(max((n2/2 - abs(i7))*h + 0.5, 0), 1), 0))" },
+						NumberIn2 = Input { Expression = "NoteCtrl.NoteThick" },
+						RedExpression = Input { Value = "n5*max(i8, if(i6 >= 0 && i6 <= n3, min(max((n2/2 - abs(i7))*h + 0.5, 0), 1), 0))" },
+						NumberIn3 = Input { Expression = "NoteCtrl.Draw" },
+						Intermediate8 = Input { Value = "if(n3 < 1, 0, max(if(((i1 - i3)*p3x + (i2 - i4)*p3y) >= 0 && ((i1 - i3)*p3x + (i2 - i4)*p3y) <= n4, min(max((n2/2 - abs((i1 - i3)*p3y - (i2 - i4)*p3x))*h + 0.5, 0), 1), 0), if(((i1 - i3)*p4x + (i2 - i4)*p4y) >= 0 && ((i1 - i3)*p4x + (i2 - i4)*p4y) <= n4, min(max((n2/2 - abs((i1 - i3)*p4y - (i2 - i4)*p4x))*h + 0.5, 0), 1), 0)))" },
+						NumberIn4 = Input { Expression = "NoteCtrl.NoteHead" },
+						PointIn1 = Input { Expression = "NoteCtrl.From" },
+						NumberIn5 = Input { Expression = "iif(NoteCtrl.NoteArrow > 0 and NoteCtrl.Idx >= 1, 1, 0)" },
+						LUTIn3 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn3"
+						}
+					}
 				},
 				CustomTool1LUTIn1 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					CtrlWZoom = false,
 					KeyColorSplines = {
 						[0] = {
 							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
 							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
 						}
 					},
-					NameSet = true,
-					SplineColor = { Red = 0, Green = 0, Blue = 0 },
-					CtrlWZoom = false
+					NameSet = true
 				},
 				CustomTool1LUTIn2 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					CtrlWZoom = false,
 					KeyColorSplines = {
 						[0] = {
 							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
 							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
 						}
 					},
-					NameSet = true,
-					SplineColor = { Red = 0, Green = 0, Blue = 0 },
-					CtrlWZoom = false
+					NameSet = true
 				},
 				CustomTool1LUTIn3 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					CtrlWZoom = false,
 					KeyColorSplines = {
 						[0] = {
 							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
 							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
 						}
 					},
-					NameSet = true,
-					SplineColor = { Red = 0, Green = 0, Blue = 0 },
-					CtrlWZoom = false
+					NameSet = true
 				},
 				CustomTool1LUTIn4 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					CtrlWZoom = false,
 					KeyColorSplines = {
 						[0] = {
 							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
 							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
 						}
 					},
-					NameSet = true,
-					SplineColor = { Red = 0, Green = 0, Blue = 0 },
-					CtrlWZoom = false
+					NameSet = true
 				},
 				NoteText = TextPlus {
+					ViewInfo = OperatorInfo { Pos = { -385, 16.5 } },
+					Version = 1,
 					Inputs = {
-						Wrap = Input { Value = 1 },
-						LayoutRotation = Input { Value = 1 },
-						TransformRotation = Input { Value = 1 },
-						Font = Input { Value = "Microsoft JhengHei" },
-						Style = Input { Value = "Bold" },
-						StyledText = Input { Expression = "Text((function(s) return (s:gsub('%s*|%s*', '\\n')) end)((function(txt, timed, cue, fps, t0, t1, now, pick)\n  local idx, since, untl, text = 0, 0, 9999, \"\"\n  if timed == 0 then\n    idx = math.floor(cue + 0.0001)\n    for d = 1, 90 do\n      if now - d < t0 or math.floor(NoteCtrl:GetValue(\"NoteCue\", now - d) + 0.0001) ~= idx then break end\n      since = d\n    end\n    for d = 1, 60 do\n      if now + d > t1 then break end\n      if math.floor(NoteCtrl:GetValue(\"NoteCue\", now + d) + 0.0001) ~= idx then untl = d break end\n    end\n    local n = 0\n    for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n      n = n + 1\n      if n == idx then text = line end\n    end\n  else\n    local rel, len, best, nxt, n = now - t0, math.max(t1 - t0, 1), -1, 1e9, 0\n    for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n      n = n + 1\n      local stamp, name = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n      local f\n      if stamp then\n        local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n        if pct then f = tonumber(pct) / 100 * len\n        elseif fr then f = tonumber(fr)\n        elseif stamp:match(\"^[%d:%.]+$\") then\n          local sec = 0\n          for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n          if sec then f = math.floor(sec * fps + 0.5) end\n        end\n      end\n      if f then\n        if f <= rel + 0.001 then\n          if f >= best then best, idx, text = f, n, name end\n        elseif f < nxt then nxt = f end\n      end\n    end\n    if best < 0 then idx, text = 0, \"\" else since, untl = rel - best, nxt - rel end\n  end\n  if pick == 1 then return idx elseif pick == 2 then return since elseif pick == 3 then return untl end\n  return text\nend)(NoteCtrl.NoteList.Value, NoteCtrl.NoteTimed, NoteCtrl.NoteCue, iif(NoteCtrl.FpsOverride > 0, NoteCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), comp.RenderStart, comp.RenderEnd, time, 4)))" },
-						GlobalIn = Input { Value = -480 },
+						HorizontalJustificationNew = Input { Value = 3 },
+						Width = Input { Value = 1920 },
 						Height = Input { Value = 1080 },
+						Center = Input { Expression = "NoteCtrl.NotePos" },
+						GlobalIn = Input { Value = -480 },
+						AngleZ = Input { Expression = "NoteCtrl.NoteTilt" },
 						GlobalOut = Input { Value = 3534 },
 						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						Softness1 = Input { Value = 1 },
-						VerticalJustificationNew = Input { Value = 3 },
-						HorizontalJustificationNew = Input { Value = 3 },
 						Size = Input { Expression = "NoteCtrl.NoteSize * (0.6 + 0.4*NoteCtrl.Back)" },
 						UseFrameFormatSettings = Input { Value = 1 },
-						Center = Input { Expression = "NoteCtrl.NotePos" },
-						AngleZ = Input { Expression = "NoteCtrl.NoteTilt" },
-						Width = Input { Value = 1920 }
-					},
-					Version = 1,
-					ViewInfo = OperatorInfo { Pos = { -385, 16.5 } }
+						VerticalJustificationNew = Input { Value = 3 },
+						Wrap = Input { Value = 1 },
+						TransformRotation = Input { Value = 1 },
+						Font = Input { Value = "Microsoft JhengHei" },
+						LayoutRotation = Input { Value = 1 },
+						Style = Input { Value = "Bold" },
+						Softness1 = Input { Value = 1 },
+						StyledText = Input { Expression = "Text((function(s) return (s:gsub('%s*|%s*', '\\n')) end)((function(txt, timed, cue, fps, t0, t1, now, pick)\n  local idx, since, untl, text = 0, 0, 9999, \"\"\n  if timed == 0 then\n    idx = math.floor(cue + 0.0001)\n    for d = 1, 90 do\n      if now - d < t0 or math.floor(NoteCtrl:GetValue(\"NoteCue\", now - d) + 0.0001) ~= idx then break end\n      since = d\n    end\n    for d = 1, 60 do\n      if now + d > t1 then break end\n      if math.floor(NoteCtrl:GetValue(\"NoteCue\", now + d) + 0.0001) ~= idx then untl = d break end\n    end\n    local n = 0\n    for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n      n = n + 1\n      if n == idx then text = line end\n    end\n  else\n    local rel, len, best, nxt, n = now - t0, math.max(t1 - t0, 1), -1, 1e9, 0\n    for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n      n = n + 1\n      local stamp, name = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n      local f\n      if stamp then\n        local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n        if pct then f = tonumber(pct) / 100 * len\n        elseif fr then f = tonumber(fr)\n        elseif stamp:match(\"^[%d:%.]+$\") then\n          local sec = 0\n          for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n          if sec then f = math.floor(sec * fps + 0.5) end\n        end\n      end\n      if f then\n        if f <= rel + 0.001 then\n          if f >= best then best, idx, text = f, n, name end\n        elseif f < nxt then nxt = f end\n      end\n    end\n    if best < 0 then idx, text = 0, \"\" else since, untl = rel - best, nxt - rel end\n  end\n  if pick == 1 then return idx elseif pick == 2 then return since elseif pick == 3 then return untl end\n  return text\nend)(NoteCtrl.NoteList.Value, NoteCtrl.NoteTimed, NoteCtrl.NoteCue, iif(NoteCtrl.FpsOverride > 0, NoteCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), comp.RenderStart, comp.RenderEnd, time, 4)))" }
+					}
 				},
 				NoteInk = Merge {
+					ViewInfo = OperatorInfo { Pos = { 55, 16.5 } },
 					Inputs = {
 						Background = Input {
-							SourceOp = "NoteArrowDraw",
-							Source = "Output"
+							Source = "Output",
+							SourceOp = "NoteArrowDraw"
 						},
 						PerformDepthMerge = Input { Value = 0 },
 						Foreground = Input {
-							SourceOp = "NoteText",
-							Source = "Output"
+							Source = "Output",
+							SourceOp = "NoteText"
 						}
-					},
-					ViewInfo = OperatorInfo { Pos = { 55, 16.5 } }
+					}
 				},
 				NotePaintGrowB = ErodeDilate {
+					ViewInfo = OperatorInfo { Pos = { 165, 82.5 } },
 					Inputs = {
 						Input = Input {
-							SourceOp = "NoteInk",
-							Source = "Output"
+							Source = "Output",
+							SourceOp = "NoteInk"
 						},
 						Filter = Input { Value = 3 },
 						XAmount = Input { Expression = "(NoteCtrl.NoteEdge) + (0)" }
-					},
-					ViewInfo = OperatorInfo { Pos = { 165, 82.5 } }
+					}
 				},
 				NotePaintGrowA = ErodeDilate {
+					ViewInfo = OperatorInfo { Pos = { 165, 49.5 } },
 					Inputs = {
 						Input = Input {
-							SourceOp = "NoteInk",
-							Source = "Output"
+							Source = "Output",
+							SourceOp = "NoteInk"
 						},
 						Filter = Input { Value = 3 },
 						XAmount = Input { Expression = "NoteCtrl.NoteEdge" }
-					},
-					ViewInfo = OperatorInfo { Pos = { 165, 49.5 } }
+					}
 				},
 				NotePaint = Custom {
+					ViewInfo = OperatorInfo { Pos = { 275, 16.5 } },
 					Inputs = {
-						NumberIn2 = Input { Expression = "ColInk.TopLeftGreen" },
-						NumberIn3 = Input { Expression = "ColInk.TopLeftBlue" },
-						NumberIn4 = Input { Expression = "ColEdge.TopLeftRed" },
-						NumberIn8 = Input { Expression = "iif((0) > 0, 1, 0)" },
-						NumberIn5 = Input { Expression = "ColEdge.TopLeftGreen" },
 						Intermediate1 = Input { Value = "a2*n7" },
-						Intermediate2 = Input { Value = "a3*n8" },
-						NumberIn6 = Input { Expression = "ColEdge.TopLeftBlue" },
-						Image3 = Input {
-							SourceOp = "NotePaintGrowB",
-							Source = "Output"
-						},
 						Image2 = Input {
-							SourceOp = "NotePaintGrowA",
-							Source = "Output"
+							Source = "Output",
+							SourceOp = "NotePaintGrowA"
+						},
+						Intermediate2 = Input { Value = "a3*n8" },
+						NumberIn7 = Input { Expression = "iif((NoteCtrl.NoteEdge) > 0, 1, 0)" },
+						NumberIn8 = Input { Expression = "iif((0) > 0, 1, 0)" },
+						Image1 = Input {
+							Source = "Output",
+							SourceOp = "NoteInk"
 						},
 						LUTIn1 = Input {
-							SourceOp = "CustomTool1LUTIn11",
-							Source = "Value"
-						},
-						Image1 = Input {
-							SourceOp = "NoteInk",
-							Source = "Output"
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn11"
 						},
 						PointIn2 = Input { Expression = "Point(0, 0)" },
 						LUTIn2 = Input {
-							SourceOp = "CustomTool1LUTIn21",
-							Source = "Value"
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn21"
 						},
 						LUTIn3 = Input {
-							SourceOp = "CustomTool1LUTIn31",
-							Source = "Value"
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn31"
 						},
 						LUTIn4 = Input {
-							SourceOp = "CustomTool1LUTIn41",
-							Source = "Value"
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn41"
 						},
-						BlueExpression = Input { Value = "n3*a1 + (1 - a1)*(n6*i1 + (1 - i1)*p2x*i2)" },
-						NumberIn7 = Input { Expression = "iif((NoteCtrl.NoteEdge) > 0, 1, 0)" },
-						PointIn1 = Input { Expression = "Point(0, 0)" },
 						RedExpression = Input { Value = "n1*a1 + (1 - a1)*(n4*i1 + (1 - i1)*p1x*i2)" },
 						GreenExpression = Input { Value = "n2*a1 + (1 - a1)*(n5*i1 + (1 - i1)*p1y*i2)" },
 						NumberIn1 = Input { Expression = "ColInk.TopLeftRed" },
-						AlphaExpression = Input { Value = "a1 + (1 - a1)*(i1 + (1 - i1)*i2)" }
-					},
-					ViewInfo = OperatorInfo { Pos = { 275, 16.5 } }
+						AlphaExpression = Input { Value = "a1 + (1 - a1)*(i1 + (1 - i1)*i2)" },
+						NumberIn2 = Input { Expression = "ColInk.TopLeftGreen" },
+						Image3 = Input {
+							Source = "Output",
+							SourceOp = "NotePaintGrowB"
+						},
+						NumberIn3 = Input { Expression = "ColInk.TopLeftBlue" },
+						BlueExpression = Input { Value = "n3*a1 + (1 - a1)*(n6*i1 + (1 - i1)*p2x*i2)" },
+						NumberIn4 = Input { Expression = "ColEdge.TopLeftRed" },
+						NumberIn6 = Input { Expression = "ColEdge.TopLeftBlue" },
+						NumberIn5 = Input { Expression = "ColEdge.TopLeftGreen" },
+						PointIn1 = Input { Expression = "Point(0, 0)" }
+					}
 				},
 				CustomTool1LUTIn11 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					CtrlWZoom = false,
 					KeyColorSplines = {
 						[0] = {
 							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
 							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
 						}
 					},
-					NameSet = true,
-					SplineColor = { Red = 0, Green = 0, Blue = 0 },
-					CtrlWZoom = false
+					NameSet = true
 				},
 				CustomTool1LUTIn21 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					CtrlWZoom = false,
 					KeyColorSplines = {
 						[0] = {
 							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
 							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
 						}
 					},
-					NameSet = true,
-					SplineColor = { Red = 0, Green = 0, Blue = 0 },
-					CtrlWZoom = false
+					NameSet = true
 				},
 				CustomTool1LUTIn31 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					CtrlWZoom = false,
 					KeyColorSplines = {
 						[0] = {
 							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
 							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
 						}
 					},
-					NameSet = true,
-					SplineColor = { Red = 0, Green = 0, Blue = 0 },
-					CtrlWZoom = false
+					NameSet = true
 				},
 				CustomTool1LUTIn41 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					CtrlWZoom = false,
 					KeyColorSplines = {
 						[0] = {
 							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
 							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
 						}
 					},
-					NameSet = true,
-					SplineColor = { Red = 0, Green = 0, Blue = 0 },
-					CtrlWZoom = false
+					NameSet = true
 				},
-				NoteOut = Merge {
+				NoteFinal = Merge {
+					ViewInfo = OperatorInfo { Pos = { 495, 16.5 } },
 					Inputs = {
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "NotePaint"
+						},
 						Background = Input {
-							SourceOp = "NoteCtrl",
-							Source = "Output"
+							Source = "Output",
+							SourceOp = "NoteCtrl"
 						},
 						PerformDepthMerge = Input { Value = 0 },
-						Blend = Input { Expression = "NoteCtrl.Fade" },
-						Foreground = Input {
-							SourceOp = "NotePaint",
-							Source = "Output"
-						}
-					},
-					ViewInfo = OperatorInfo { Pos = { 495, 16.5 } }
+						Blend = Input { Expression = "NoteCtrl.Fade" }
+					}
 				},
 				ColInk = Background {
+					ViewInfo = OperatorInfo { Pos = { -275, -148.5 } },
 					Inputs = {
-						TopLeftBlue = Input { Value = 1 },
+						TopLeftGreen = Input { Value = 1 },
 						Width = Input { Value = 16 },
 						Height = Input { Value = 16 },
-						GlobalOut = Input { Value = 3534 },
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftBlue = Input { Value = 1 },
 						GlobalIn = Input { Value = -480 },
 						TopLeftRed = Input { Value = 1 },
-						TopLeftGreen = Input { Value = 1 }
-					},
-					ViewInfo = OperatorInfo { Pos = { -275, -148.5 } }
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } }
+					}
 				},
 				ColEdge = Background {
+					ViewInfo = OperatorInfo { Pos = { -165, -148.5 } },
 					Inputs = {
-						TopLeftBlue = Input { Value = 0.1 },
+						TopLeftGreen = Input { Value = 0.08 },
 						Width = Input { Value = 16 },
 						Height = Input { Value = 16 },
-						GlobalOut = Input { Value = 3534 },
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftBlue = Input { Value = 0.1 },
 						GlobalIn = Input { Value = -480 },
 						TopLeftRed = Input { Value = 0.08 },
-						TopLeftGreen = Input { Value = 0.08 }
-					},
-					ViewInfo = OperatorInfo { Pos = { -165, -148.5 } }
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } }
+					}
 				}
 			
 			}

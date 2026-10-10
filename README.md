@@ -44,7 +44,7 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 |---|---|---|
 | [Variety Caption](docs/templates/variety-caption.md) | 標題 | 厚描邊的綜藝字卡，標起來的詞放大換色。一個片段放很多句，用關鍵幀換句 |
 | [Side Note](docs/templates/side-note.md) | 標題 | 歪歪的吐槽小字，加一支手繪箭頭指向畫面上的東西 |
-| [Corner Tag](docs/templates/corner-tag.md) | 標題 | 釘在角落的主題框，小標籤加一行主題 |
+| [Text Label](docs/templates/text-label.md) | 標題 | 文字加自動貼合的外框，九種形狀。通用的積木，疊幾個就能拼出主題框、人名條、對話泡泡 |
 | [Reaction Mark](docs/templates/reaction-mark.md) | 標題 | 怒氣記號、汗滴、問號、驚嘆號、集中線 |
 
 ### 文字與資訊

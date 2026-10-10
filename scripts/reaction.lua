@@ -107,7 +107,7 @@ local cols = {}
 for k = 1, 9 do cols[k] = col(k) end
 local painted = L.inked(comp, "MarkPaint", 0, 0, matte.Output,
   "iif(MarkCtrl.MarkType == 4, 0, MarkCtrl.MarkEdge)", "iif(MarkCtrl.MarkType == 4, 0, MarkCtrl.MarkEdgeB)", cols)
-local out = add("Merge", "MarkOut", 3, 0)
+local out = add("Merge", "MarkFinal", 3, 0)
 out.Background = ctrl.Output; out.Foreground = painted.Output
 expr(out, "Blend", "MarkCtrl.Fade")
 
@@ -118,7 +118,7 @@ comp:Unlock()
 if os.getenv("FX_EXPORT") == "1" then
   L.export(comp, "reaction", {
     {"NAME", "ReactionMark"},
-    {"OUT", "MarkOut", "Output"},
+    {"OUT", "MarkFinal", "Output"},
     {"CTL", "MarkCtrl", "MarkType", "Mark"},
     {"CTL", "MarkCtrl", "MarkPos", "Position"},
     {"CTL", "MarkCtrl", "MarkSize", "Size"},
