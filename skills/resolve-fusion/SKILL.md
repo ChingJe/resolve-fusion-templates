@@ -45,7 +45,7 @@ t.Size:SetExpression("ComicCtrl.TextSize * ComicCtrl.Zoom")
 | `lib.lua` | 建置腳本共用的函式：確認專案與時間軸、清空節點、自訂控制項、程序產生的測試畫面、算圖、匯出。另有 `L.cur`（清單目前輪到哪一行，時間清單或關鍵幀兩種模式）和 `L.inked`（把白色形狀上色並加兩層描邊） |
 | `lab.lua` | 開啟（或建立）實驗用時間軸 `FX Lab`，裡面一個片段帶空的 Fusion 合成 |
 | `macro.py` | 把 `lib.lua` 匯出的節點和規格包成巨集範本 |
-| `check.lua` | 把範本貼進清空的實驗合成、接上測試畫面、算圖 |
+| `check.lua` | 把範本貼進清空的實驗合成、接上測試畫面（`FX_SRC=media` 改接真實片段）、算圖 |
 | `compose.lua` | 把同一個範本貼好幾份、各給不同設定、疊在測試畫面上算圖，用來看多個片段組合起來的樣子 |
 | `sheet.py` | 畫格拼總覽圖 |
 
@@ -53,6 +53,7 @@ t.Size:SetExpression("ComicCtrl.TextSize * ComicCtrl.Zoom")
 
 | 檔案 | 範本 | 類型 |
 |---|---|---|
+| `comicintro.lua` | Comic Intro，漫畫頁邊翻邊拉遠，退進標題的筆畫裡 | 特效 |
 | `timeslice.lua` | Time Slice，畫面切成直條、每條延遲幾格 | 特效 |
 | `videowall.lua` | Video Wall，拉遠成影片牆再推進下一段 | 轉場 |
 | `photostack.lua` | Photo Stack，影片的幾個瞬間變成照片疊起來 | 特效 |
@@ -83,7 +84,7 @@ cmd.exe //c "D:\\davinci\\install.bat install nopause"   # 同步到 Resolve 的
 
 預覽圖一律用 `lib.lua` 的 `testsource`（漸層、移動的球、轉動的橫條、畫格編號）當輸入，不用真實素材。畫格編號可以直接看出每一格取的是哪個時間點。
 
-舊的 Comic Intro 用的是各自獨立的腳本：`build.lua`、`vbuild.lua`、`export.lua`、`vexport.lua`、`wrap.py`、`vwrap.py`、`validate.lua`、`vvalidate.lua`、`pivot.py`。
+
 
 ## 算圖測試的坑
 

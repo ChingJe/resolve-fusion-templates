@@ -1,5 +1,6 @@
 -- Paste a finished template into an otherwise empty lab comp, feed it the procedural stand-in, render, clean up.
 -- FX_TEMPLATE = path of the .setting, FX_PREFIX = frame name prefix, FX_INPUTS = number of image inputs (0..2)
+-- FX_SRC=media feeds the clip into the first input instead of the stand-in (frames must not go into git)
 local L = dofile("D:/davinci/scripts/lib.lua")
 local comp = L.comp()
 if not comp then return end
@@ -8,7 +9,7 @@ if not settings then print("PARSE_FAILED") return end
 local nin = tonumber(os.getenv("FX_INPUTS") or "1")
 
 comp:Lock()
-local _, mediaOut = L.clear(comp)
+local mediaIn, mediaOut = L.clear(comp)
 comp:Unlock()
 comp:SetActiveTool(nil); comp.CurrentFrame.FlowView:Select()
 comp:Lock(); print("paste", tostring(comp:Paste(settings))); comp:Unlock()
@@ -27,6 +28,7 @@ print("macro", macro.Name, "controls: " .. table.concat(names, " | "))
 comp:Lock()
 for n = 1, nin do
   local s = L.testsource(comp, n == 1 and "A" or "B", n - 1)
+  if os.getenv("FX_SRC") == "media" and n == 1 then s = mediaIn end
   macro:FindMainInput(n):ConnectTo(s.Output)
 end
 comp:Unlock()

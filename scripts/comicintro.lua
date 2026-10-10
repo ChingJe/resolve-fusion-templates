@@ -1,32 +1,20 @@
--- Comic Intro, video version: every comic panel plays a different part of the clip
-local resolve = bmd.scriptapp("Resolve")
-local fu = resolve:Fusion()
-local comp = fu:GetCurrentComp()
-if not comp then print("NO_COMP") return end
-local OUT = "D:/davinci/scripts/out/"
+-- Comic Intro: comic pages flip past while the camera keeps pulling back, until the pages turn out to be
+-- inside the letters of a title, which then settles as white letters on a coloured box.
+-- Every comic panel plays a different part of the clip. FX_SRC=media uses the clip, FX_EXPORT=1 dumps the macro source.
+local L = dofile("D:/davinci/scripts/lib.lua")
+local comp = L.comp()
+if not comp then return end
+-- the camera pulls back out of this point, which has to lie inside a stroke of a letter
 local PIVOT_X = tonumber(os.getenv("COMIC_PX") or "0.5482")
 local PIVOT_Y = tonumber(os.getenv("COMIC_PY") or "0.4995")
-local STEPS = tonumber(os.getenv("COMIC_STEPS") or "8")
 
-local keep = {MediaIn = true, MediaOut = true, AudioDisplay = true}
-local mediaIn, mediaOut
 comp:Lock()
-comp:StartUndo("Build Comic Intro (video)")
-for _, t in pairs(comp:GetToolList(false)) do
-  if t.ID == "MediaIn" then mediaIn = t elseif t.ID == "MediaOut" then mediaOut = t end
-  if not keep[t.ID] then t:Delete() end
-end
-if not mediaIn or not mediaOut then comp:Unlock() print("NEED MediaIn + MediaOut") return end
-
-local function add(id, name, x, y)
-  local t = comp:AddTool(id, x, y)
-  t:SetAttrs({TOOLS_Name = name})
-  return t
-end
-local function expr(tool, input, e) tool[input]:SetExpression(e) end
-local function color(bg, r, g, b)
-  bg.TopLeftRed = r; bg.TopLeftGreen = g; bg.TopLeftBlue = b; bg.TopLeftAlpha = 1
-end
+comp:StartUndo("Build Comic Intro")
+local mediaIn, mediaOut = L.clear(comp)
+local add, expr, color = L.adder(comp), L.expr, L.color
+local src = add("BrightnessContrast", "Src", -9, 4)
+local feed = os.getenv("FX_SRC") == "media" and mediaIn or L.testsource(comp)
+src.Input = feed.Output
 
 ---------------------------------------------------------------- controller
 local ctrl = add("Background", "ComicCtrl", -5, -3)
@@ -40,6 +28,9 @@ ctrl.UserControls = {
   PivotX    = num("Zoom Pivot X", PIVOT_X, 0, 1),
   PivotY    = num("Zoom Pivot Y", PIVOT_Y, 0, 1),
   TextSize  = num("Text Size", 0.2, 0.02, 0.5),
+  PageStart = num("Pages Start Size", 2.4, 0.3, 6),
+  PageEnd   = num("Pages End Size", 0.5, 0.1, 3),
+  PScale = num("PScale", 1, 0, 6, "Driver"),
   P      = num("P", 0, 0, 1, "Driver"),
   K      = num("K", 0, 0, 100, "Driver"),
   E      = num("E", 0, 0, 1, "Driver"),
@@ -56,10 +47,13 @@ ctrl.UserControls = {
 ctrl = ctrl:Refresh()
 expr(ctrl, "P", "min(max((time - comp.RenderStart) / max(comp.RenderEnd - comp.RenderStart, 1), 0), 1)")
 expr(ctrl, "K", "P * PageCount")
+-- the pages shrink at a steady rate all the way through, so the camera never seems to stand still;
+-- the letters shrink much faster on top of that, which reads as the pages lying further away
+expr(ctrl, "PScale", "PageStart * (PageEnd/max(PageStart, 0.001)) ^ min(P/0.8, 1)")
 expr(ctrl, "E", "min((K - floor(K)) / 0.55, 1)")
 expr(ctrl, "Scroll", "floor(K) + E*E*(3 - 2*E)")
 expr(ctrl, "BlurLen", "0.10 * sin(3.14159265 * E)")
-expr(ctrl, "ZT", "min(max((P - 0.12) / 0.62, 0), 1)")
+expr(ctrl, "ZT", "min(max((P - 0.06) / 0.68, 0), 1)")
 expr(ctrl, "ZE", "ZT*ZT*(3 - 2*ZT)")
 expr(ctrl, "Zoom", "MaxZoom ^ (1 - ZE) * (1 + 0.05*(1 - P))")
 expr(ctrl, "WinSize", "(2*max(max(PivotX, 1 - PivotX), max(PivotY, 1 - PivotY)) + 0.05) * Zoom / (MaxZoom*1.05)")
@@ -70,7 +64,7 @@ expr(ctrl, "Flash", "max(1 - abs(P - 0.83) / 0.07, 0)")
 ---------------------------------------------------------------- video atlas: 3x3 tiles, each a different part of the clip
 local TW, TH = 960, 540
 local tile = add("BetterResize", "TileSize", -8, 4)
-tile.Input = mediaIn.Output
+tile.Input = src.Output
 tile:SetInput("Width", TW); tile:SetInput("Height", TH)
 tile:SetInput("KeepAspect", 0)
 
@@ -103,28 +97,35 @@ pgBG:SetInput("UseFrameFormatSettings", 1)
 local cells = add("Custom", "PageCells", -4, 0)
 cells.Image1 = pgBG.Output
 expr(cells, "NumberIn1", "ComicCtrl.Scroll")
-cells:SetInput("Intermediate1", "y + n1")
+-- the page is looked up through the page zoom: XS, YS are page coordinates (+8 keeps them positive)
+expr(cells, "NumberIn2", "max(ComicCtrl.PScale, 0.001)")
+expr(cells, "PointIn1", "Point(ComicCtrl.PivotX, ComicCtrl.PivotY)")
+local XS, YS = "((x - p1x)/n2 + p1x + 8)", "((y - p1y)/n2 + p1y + 8)"
+cells:SetInput("Intermediate1", YS .. " + n1")
 cells:SetInput("Intermediate2", "floor(frac(i1)*3) + floor(i1)*3")
 cells:SetInput("Intermediate3", "2 + floor(frac(abs(sin(i2*12.9898)*43758.5453))*2)")
-cells:SetInput("RedExpression", "frac(x*i3)")
+cells:SetInput("Intermediate4", XS .. "*i3")
+cells:SetInput("RedExpression", "frac(i4)")
 cells:SetInput("GreenExpression", "frac(frac(i1)*3)")
-cells:SetInput("BlueExpression", "frac(abs(sin((floor(x*i3) + i2*7.13)*78.233)*43758.5453))")
-cells:SetInput("AlphaExpression", "min(min(frac(x*i3), 1-frac(x*i3))/i3, min(frac(frac(i1)*3), 1-frac(frac(i1)*3))*h/(3*w))")
+cells:SetInput("BlueExpression", "frac(abs(sin((floor(i4) + i2*7.13)*78.233)*43758.5453))")
+cells:SetInput("AlphaExpression", "min(min(frac(i4), 1-frac(i4))/i3, min(frac(frac(i1)*3), 1-frac(frac(i1)*3))*h/(3*w))")
 
 -- pass 2: fill every panel with one atlas tile, add gutters, ink border and a light halftone
 local pages = add("Custom", "PageInk", -3, 0)
 pages.Image1 = cells.Output
 pages.Image2 = last.Output
 expr(pages, "NumberIn1", "ComicCtrl.Scroll")
+expr(pages, "NumberIn2", "max(ComicCtrl.PScale, 0.001)")
+expr(pages, "PointIn1", "Point(ComicCtrl.PivotX, ComicCtrl.PivotY)")
 pages:SetInput("NumberIn3", 150)  -- halftone dots across the frame width
 pages:SetInput("NumberIn4", 0.14) -- halftone strength
-pages:SetInput("Intermediate1", "y + n1")
+pages:SetInput("Intermediate1", YS .. " + n1")
 pages:SetInput("Intermediate2", "floor(frac(i1)*3) + floor(i1)*3")
 pages:SetInput("Intermediate3", "2 + floor(frac(abs(sin(i2*12.9898)*43758.5453))*2)")
 pages:SetInput("Intermediate4", "floor(b1*8.999)")
 pages:SetInput("Intermediate5", "(i4 - 3*floor(i4/3) + 0.004 + 0.992*r1) / 3")
 pages:SetInput("Intermediate6", "(floor(i4/3) + 0.5 + (g1 - 0.5)*0.992*i3/3) / 3")
-pages:SetInput("Intermediate7", "if(dist(frac(x*n3), frac(i1*n3*h/w), 0.5, 0.5) < 0.3, 1, 0)")
+pages:SetInput("Intermediate7", "if(dist(frac(" .. XS .. "*n3), frac(i1*n3*h/w), 0.5, 0.5) < 0.3, 1, 0)")
 local function chan(c)
   return "if(a1 < 0.006, 0.95, if(a1 < 0.0095, 0.05, get" .. c .. "2d(i5, i6) * (1 - n4*i7)))"
 end
@@ -203,24 +204,31 @@ mediaOut.Input = glow.Output
 comp:EndUndo(true)
 comp:Unlock()
 
-local a = comp:GetAttrs()
-local rs, re = a.COMPN_RenderStart, a.COMPN_RenderEnd
-print("render range", rs, re, "global", a.COMPN_GlobalStart, a.COMPN_GlobalEnd)
-for k = 1, 9, 4 do
-  print("Part" .. k .. " source time at f0/f100:", comp:FindTool("Part" .. k):GetInput("SourceTime", 0), comp:FindTool("Part" .. k):GetInput("SourceTime", 100))
-end
 
----------------------------------------------------------------- test render (temporary nodes)
-comp:Lock()
-local small = comp:AddTool("BetterResize", 4, 2)
-small.Input = glow.Output
-small:SetInput("Width", 640); small:SetInput("Height", 360)
-local saver = comp:AddTool("Saver", 5, 2)
-saver.Input = small.Output
-saver:SetInput("Clip", OUT .. "v.png")
-comp:Unlock()
-local t0 = os.time()
-print("render", tostring(comp:Render({Start = rs, End = re, StepRender = true, Steps = STEPS, Wait = true})), "seconds", os.time() - t0)
-comp:SetAttrs({COMPN_RenderStart = rs, COMPN_RenderEnd = re})
-comp:Lock(); saver:Delete(); small:Delete(); comp:Unlock()
-mediaOut.Input = glow.Output
+if os.getenv("FX_EXPORT") == "1" then
+  src.Input = nil
+  L.export(comp, "comicintro", {
+    {"NAME", "ComicIntro"},
+    {"MAIN", "Src", "Input"},
+    {"OUT", "FinishGlow", "Output"},
+    {"CTL", "TitleText", "StyledText", "Text"},
+    {"CTL", "TitleText", "Font", "Font", "2"}, {"CTL", "TitleText", "Style", "Style", "2"},
+    {"CTL", "ComicCtrl", "TextSize", "Text Size"},
+    {"CTL", "TitleText", "Red1", "Text Color", "3"}, {"CTL", "TitleText", "Green1", "", "3"}, {"CTL", "TitleText", "Blue1", "", "3"},
+    {"CTL", "BoxText", "ExtendHorizontal1", "Box Padding X"},
+    {"CTL", "BoxText", "ExtendVertical1", "Box Padding Y"},
+    {"CTL", "BoxText", "Red1", "Box Color", "4"}, {"CTL", "BoxText", "Green1", "", "4"}, {"CTL", "BoxText", "Blue1", "", "4"},
+    {"CTL", "Backdrop", "TopLeftRed", "Background Color", "5"}, {"CTL", "Backdrop", "TopLeftGreen", "", "5"}, {"CTL", "Backdrop", "TopLeftBlue", "", "5"},
+    {"CTL", "ComicCtrl", "PageCount", "Page Count"},
+    {"CTL", "ComicCtrl", "PageStart", "Pages Start Size"},
+    {"CTL", "ComicCtrl", "PageEnd", "Pages End Size"},
+    {"CTL", "PageInk", "NumberIn4", "Halftone"},
+    {"CTL", "ComicCtrl", "MaxZoom", "Start Zoom"},
+    {"CTL", "ComicCtrl", "PivotX", "Zoom Pivot X"},
+    {"CTL", "ComicCtrl", "PivotY", "Zoom Pivot Y"},
+  })
+  src.Input = feed.Output
+else
+  for name, value in string.gmatch(os.getenv("FX_SET") or "", "(%w+)=([%d%.%-]+)") do ctrl:SetInput(name, tonumber(value)) end
+  L.render(comp, glow.Output, os.getenv("FX_PREFIX") or "ci", tonumber(os.getenv("FX_STEPS") or "12"))
+end
