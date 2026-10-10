@@ -238,3 +238,5 @@
 - **小窗放大成全畫面**：用一個 0 到 1 的值把位置、大小、寬高比、圓角、邊寬、傾斜、放大倍率全部內插到「佔滿畫面」的狀態，等於 1 的那一格直接輸出原圖。片段的寬高比在控制節點裡用 `SrcA.Output.Width / SrcA.Output.Height` 取得。
 - **跟著外框轉的文字**：`Text+` 的 `Center` 用運算式把「外框座標系裡的位置」轉回畫面座標（x 方向要除以寬高比），`AngleZ` 設成同一個角度。`Text+` 的字高大約是 `Size` 乘畫面寬度的 0.47 倍。
 - 使用者在 Edit 頁面挑了幾個範本從特效庫拖進去，都能載入、畫面大致正常（2026-10-11）。這只確認了「巨集範本拖得進去」，各範本的細節和下面幾節列的未測項目仍然沒有逐一驗證。
+- Preferences > System > General 的 `Automatic scripted actions`：決定內嵌在專案或範本裡的腳本動作可以自動執行到什麼程度，「只允許安全的子集」或「全部允許」，官方建議留在 `Allow safe`。和 `External scripting using`（外部腳本能不能連進來，我們用 `Local`）是兩回事。我們的範本裡的運算式算不算在內、在 `Allow safe` 下是否全部正常，沒有驗證過。
+- **21.1 內建的 MCP 伺服器我們用不到**（2026-10-11 查過，使用者決定不採用）。它在安裝資料夾的 `DaVinciResolve.mcpb`，用 `File > Setup AI Assistants` 設定，只有 14 個工具，核心是 `run_script`：跑 Python 呼叫和 `fuscript` 同一套腳本 API，其餘是查 API 文件、產生 LUT 和 DCTL。沒有比 `fuscript` 多的能力，換過去還要把所有 Lua 建置腳本改寫成 Python。沒有實際接上去用過。

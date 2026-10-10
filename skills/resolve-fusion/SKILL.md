@@ -25,6 +25,13 @@ t.Size:SetExpression("ComicCtrl.TextSize * ComicCtrl.Zoom")
 
 前提：Studio 版、Resolve 開著、偏好設定允許本機外部腳本。
 
+**查 API 或功能時先看本機的官方文件**，比網路上的二手文章可靠：
+
+| 位置 | 內容 |
+|---|---|
+| `%PROGRAMDATA%\Blackmagic Design\DaVinci Resolve\Support\Developer\Scripting\` | 腳本 API：`README.md`（說明）、`CHANGELOG.md`（各版新增的 API）、`DaVinciResolveScript.pyi`（完整的型別定義）、`Examples\` |
+| `C:\Program Files\Blackmagic Design\DaVinci Resolve\Documents\DaVinci Resolve.pdf` | 參考手冊，四千多頁。用 `pdftotext -f 起頁 -l 迄頁 -layout` 只抽需要的幾頁，不要整本轉 |
+
 ## 開工前一定要先確認
 
 - **目前開的是哪個專案**。使用者中途切換專案，腳本就會改到別的專案。每次執行會改動內容的腳本前，先印出 `GetCurrentProject():GetName()` 核對。
