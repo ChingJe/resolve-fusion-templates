@@ -6,6 +6,10 @@
 
 ![Photo Stack](../../previews/photo-stack.gif)
 
+背景可以換成停格、慢動作，或不用影片、改成顏色（`Backdrop` 選 `Colours`）：
+
+![Photo Stack，背景是顏色](../../previews/photo-stack-colours.gif)
+
 **用法**：前面幾張照片先疊上來，最後一張才是正片。它在 `Last Photo Arrives After` 設定的秒數（預設 2 秒）飛進來，觀眾從這一刻才第一次看到正片；之後它放大成全畫面，直接接到後面的片段，中間沒有斷點。
 
 所以切法是「從正片想開始的那一格，往前數 2 秒」：

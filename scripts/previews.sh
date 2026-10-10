@@ -20,6 +20,7 @@ shot() { # name, script, then environment assignments
 ONLY=("$@")
 shot comic-intro     comicintro.lua FX_SRC=scenes
 shot photo-stack     photostack.lua FX_SRC=scenes
+shot photo-stack-colours photostack.lua FX_SRC=scenes FX_SET="TableMode=3"
 shot time-slice      timeslice.lua  FX_SRC=scenes
 shot punch-zoom      punchzoom.lua
 shot video-wall      videowall.lua  FX_SRC=scenes
