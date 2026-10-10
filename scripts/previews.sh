@@ -27,8 +27,10 @@ shot video-wall      videowall.lua  FX_SRC=scenes
 shot paper-tear      papertear.lua
 shot chapter-bar     chapterbar.lua FX_TEXTFILE=$X/chapters.txt FX_SET="BarH=0.025,LabelSize=0.07"
 shot number-counter  counter.lua
+shot number-counter-tally counter.lua FX_SET="CntMode=1,CntPop=0.3" "FX_TEXT=CntPrefix=No. "
 shot bar-chart       barchart.lua   FX_SET="BcTextSize=0.06"
 shot kinetic-lines   kinetic.lua    FX_TEXTFILE=$X/lines.txt
+shot kinetic-lines-list kinetic.lua FX_SET="KinKeep=1,KinAlign=1,KinBox=0.7,KinSize=0.1" FX_PT="KinPos=0.28:0.5"
 shot variety-caption variety.lua    FX_TEXTFILE=$X/captions.txt FX_CUE="4=1,80=2,160=3" FX_SET="CapSize=0.13"
 shot side-note       sidenote.lua   FX_SET="NoteSize=0.09,NoteThick=0.012"
 shot text-label      compose.lua "FX_TEMPLATE=$T/Titles/Text Label.setting" FX_SPEC=$X/shapes.txt
@@ -39,7 +41,10 @@ shot zoom-through    zoomthrough.lua
 shot stripe-wipe     stripewipe.lua FX_SET="BwRows=1"
 shot glitch-cut      glitchcut.lua
 shot glitch-hits     glitchhits.lua
-shot sub-window      subwindow.lua
+shot sub-window      subwindow.lua  FX_SET="WinSize=0.34" FX_PT="WinPos=0.82:0.76"
+shot sub-window-styles compose.lua "FX_TEMPLATE=$T/Effects/Sub Window.setting" FX_SPEC=$X/windows.txt FX_INPUTS=1
+shot sub-window-grow subwindow.lua FX_SET="WinStyle=1,WinFull=2,WinIdle=1,WinTilt=6,WinSize=0.45,WinFullFrames=30" FX_PT="WinPos=0.8:0.74" FX_TEXT=Caption
+shot sticker-pop     stickerpop.lua
 shot spotlight       spotlight.lua  FX_SET="SpZoom=1.8,SpRing=0.008,SpBlur=6"
 shot freeze-frame    freezeframe.lua
 shot echo            echo.lua

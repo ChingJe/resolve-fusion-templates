@@ -65,7 +65,8 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 | [Text Label](docs/templates/text-label.md) | 標題 | 文字加自動貼合的外框，九種形狀。通用的積木，疊幾個就能拼出主題框、人名條、對話泡泡 |
 | [Reaction Mark](docs/templates/reaction-mark.md) | 標題 | 怒氣記號、汗滴、問號、驚嘆號、集中線 |
 | [Hidden Word](docs/templates/hidden-word.md) | 標題 | 字幕裡一個詞先被貼紙蓋住，到時間貼紙掉下來，答案彈出來 |
-| [Sub Window](docs/templates/sub-window.md) | 特效 | 把上層軌道的片段縮成角落有邊框的小窗，放反應畫面用 |
+| [Sub Window](docs/templates/sub-window.md) | 特效 | 把上層軌道的片段縮成角落有邊框的小窗，放反應畫面用。七種外框（拍立得、視窗、手機、膠帶、底片等），可以放大成全畫面 |
+| [Sticker Pop](docs/templates/sticker-pop.md) | 特效 | 去背的圖片彈進來、停留時輕輕晃動、再彈走，可加貼紙白邊和陰影 |
 
 ### 標記與說明
 
@@ -96,8 +97,8 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 
 | 範本 | 類型 | 說明 |
 |---|---|---|
-| [Kinetic Lines](docs/templates/kinetic-lines.md) | 標題 | 一行行文字彈出來，照寫好的時間或照關鍵幀換句 |
-| [Number Counter](docs/templates/number-counter.md) | 標題 | 數字從一個值跳到另一個值 |
+| [Kinetic Lines](docs/templates/kinetic-lines.md) | 標題 | 一行行文字彈出來，照寫好的時間或照關鍵幀換句。也可以讓前面的行留著，變成逐條出現的條列 |
+| [Number Counter](docs/templates/number-counter.md) | 標題 | 數字從一個值跳到另一個值，或當計次器，每到一個時間點加一 |
 | [Bar Chart](docs/templates/bar-chart.md) | 標題 | 橫向長條圖，長條依序長出來，數字跟著跳 |
 | [Chapter Bar](docs/templates/chapter-bar.md) | 標題 | 有章節名稱的進度條 |
 | [Karaoke Caption](docs/templates/karaoke-caption.md) | 標題 | 字幕從左到右填上另一個顏色，跟著講話的速度走 |
@@ -110,7 +111,7 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 | 文件 | 內容 |
 |---|---|
 | [安裝與移除](docs/install.md) | 安裝程式做了什麼、手動安裝、三種類型各自怎麼拖 |
-| [時間清單的寫法](docs/time-list.md) | Chapter Bar、Kinetic Lines、Punch Zoom、Variety Caption、Side Note、Glitch Hits、Freeze Frame、Karaoke Caption 共用的時間點寫法 |
+| [時間清單的寫法](docs/time-list.md) | Chapter Bar、Kinetic Lines、Punch Zoom、Variety Caption、Side Note、Glitch Hits、Freeze Frame、Karaoke Caption、Number Counter 共用的時間點寫法 |
 | [docs/templates/](docs/templates) | 每個範本一份：預覽圖、用法、參數、注意事項 |
 | [做法與踩過的坑](skills/resolve-fusion/SKILL.md) | 這些範本是怎麼用腳本做出來的，想自己改範本時看這份 |
 

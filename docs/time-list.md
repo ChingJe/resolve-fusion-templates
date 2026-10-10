@@ -2,7 +2,7 @@
 
 Chapter Bar、Kinetic Lines、Punch Zoom、Glitch Hits、Freeze Frame、Karaoke Caption、Click Ripple 都用一個多行文字框來列時間點，寫法相同：一行一個，開頭寫時間，後面寫內容。Variety Caption 和 Side Note 勾選 `Lines Start With A Time` 之後也是同一種寫法。
 
-Photo Stack 的 `Last Photo Arrives After` 和 Hidden Word 的 `Reveal After` 只填一個時間點，寫法也一樣。
+Number Counter 的計次器模式（`Step Times`）只寫時間、後面不寫內容。Photo Stack 的 `Last Photo Arrives After` 和 Hidden Word 的 `Reveal After` 只填一個時間點，寫法也一樣。
 
 不想寫時間的話，Kinetic Lines、Variety Caption、Side Note 可以改用關鍵幀換句，做法見 [Variety Caption](templates/variety-caption.md)。
 

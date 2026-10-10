@@ -61,9 +61,9 @@ t.Size:SetExpression("ComicCtrl.TextSize * ComicCtrl.Zoom")
 | `videowall.lua` | Video Wall，拉遠成影片牆、橫移、再推進下一段，螢幕有圓角邊框陰影 | 轉場 |
 | `photostack.lua` | Photo Stack，影片的幾個瞬間變成照片疊起來 | 特效 |
 | `chapterbar.lua` | Chapter Bar，有章節名稱的進度條 | 標題 |
-| `counter.lua` | Number Counter，數字跳動 | 標題 |
+| `counter.lua` | Number Counter，數字跳動，或照時間點計次 | 標題 |
 | `papertear.lua` | Paper Tear，前一段像紙一樣被撕掉 | 轉場 |
-| `kinetic.lua` | Kinetic Lines，文字照時間清單一行行彈出 | 標題 |
+| `kinetic.lua` | Kinetic Lines，文字照時間清單一行行彈出，或累積成條列 | 標題 |
 | `barchart.lua` | Bar Chart，長條依序長出來的橫向長條圖 | 標題 |
 | `punchzoom.lua` | Punch Zoom，在指定時間點推近，可加 RGB 分離等 | 特效 |
 | `variety.lua` | Variety Caption，厚描邊的綜藝字卡，關鍵幀換句 | 標題 |
@@ -75,7 +75,8 @@ t.Size:SetExpression("ComicCtrl.TextSize * ComicCtrl.Zoom")
 | `stripewipe.lua` | Stripe Wipe，彩色色帶依序掃過 | 轉場 |
 | `glitchcut.lua` | Glitch Cut，訊號不良式的轉場 | 轉場 |
 | `glitchhits.lua` | Glitch Hits，在指定時間點故障一下 | 特效 |
-| `subwindow.lua` | Sub Window，角落的子畫面 | 特效 |
+| `subwindow.lua` | Sub Window，角落的子畫面，七種外框，可放大成全畫面 | 特效 |
+| `stickerpop.lua` | Sticker Pop，去背圖片彈進來、晃動、彈走 | 特效 |
 | `spotlight.lua` | Spotlight，聚光和放大鏡 | 特效 |
 | `freezeframe.lua` | Freeze Frame，停格介紹 | 特效 |
 | `echo.lua` | Echo，殘影 | 特效 |

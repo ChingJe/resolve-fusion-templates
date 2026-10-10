@@ -1,6 +1,7 @@
 -- Kinetic Lines: lines of text that pop in one after another.
 -- Lines come from one text box. Either every line starts with a time ("0:02 Text", the notation Chapter Bar uses),
 -- or the lines are plain text and Line Number is keyframed 1, 2, 3. A | inside a line is a line break.
+-- With Earlier Lines set to stay, the lines build up a list instead: the current one bright, the others dimmed.
 -- A title, so it has no image input. FX_SRC=media previews it over the clip. FX_EXPORT=1 dumps the macro source.
 -- FX_TEXT="0% One|50% Two" overrides the list for a test render (| stands for a new line there),
 -- FX_TEXTFILE reads it from a UTF-8 file, FX_CUE="10=1,60=2" keyframes Line Number.
@@ -21,6 +22,9 @@ ctrl.UserControls = {
   KinTimed    = L.check("Lines Start With A Time (0:02 Text)", 1),
   KinCue      = L.num("Line Number (keyframe 1, 2, 3)", 1, 0, 20),
   FpsOverride = L.num("Frame Rate Override", 0, 0, 120),
+  KinKeep   = L.combo("Earlier Lines", {"Are Replaced", "Stay On Screen (A List)"}, 0),
+  KinDim    = L.num("Earlier Lines Brightness", 0.45, 0, 1),
+  KinAlign  = L.combo("Alignment", {"Centre", "Left", "Right"}, 0),
   KinSize   = L.num("Size", 0.11, 0.02, 0.4),
   KinIn     = L.num("Pop Frames", 8, 1, 40),
   KinOut    = L.num("Fade Out Frames", 3, 0, 40),
@@ -54,25 +58,54 @@ expr(ctrl, "Back", "(function(t, s) t = t - 1 return 1 + (s + 1)*t*t*t + s*t*t e
 expr(ctrl, "Fade", "iif(Idx < 1, 0, min(T*3, 1) * iif(KinOut <= 0, 1, min(max(Until/KinOut, 0), 1)))")
 
 local LINE = "Text((function(s) return (s:gsub('%s*|%s*', '\\n')) end)(" .. cur(4) .. "))"
+-- The whole list as one block of text, for the list mode. Every row keeps its place: a row that is not shown
+-- is replaced by a no-break space (Text+ drops lines that are completely empty). mode 1 = only the current row, 2 = the rows up to `upto`, 3 = every row.
+local function LIST(mode, upto)
+  return ([[Text((function(txt, timed, idx, mode, upto)
+  local out, n = {}, 0
+  for line in (txt .. "\n"):gmatch("(.-)\r?\n") do
+    n = n + 1
+    if line:match("%S") then
+      local s = line
+      if timed == 1 then s = line:match("^%s*%S+%s*(.-)%s*$") or "" end
+      if not (mode == 3 or (mode == 1 and n == idx) or (mode == 2 and n <= upto)) then s = s:gsub("[^|]+", string.char(194, 160)) if s == "" then s = string.char(194, 160) end end
+      out[#out + 1] = s
+    end
+  end
+  return (table.concat(out, "\n"):gsub("%s*|%s*", "\n"))
+end)(KinCtrl.LineList.Value, KinCtrl.KinTimed, KinCtrl.Idx, MODE, UPTO))]]):gsub("MODE", mode):gsub("UPTO", upto or "0")
+end
 
 local text = add("TextPlus", "Line", -3, 0)
 text:SetInput("Font", "Microsoft JhengHei") -- Open Sans has no Chinese glyphs and Text+ does not fall back
 text:SetInput("Style", "Bold")
 text:SetInput("UseFrameFormatSettings", 1)
-expr(text, "StyledText", LINE)
-expr(text, "Size", "KinCtrl.KinSize * (KinCtrl.KinGrow + (1 - KinCtrl.KinGrow)*KinCtrl.Back)")
+-- two expressions cannot share one input, so the mode is chosen inside: a list keeps the text the same size
+expr(text, "StyledText", "iif(KinCtrl.KinKeep == 1, " .. LIST("1") .. ", " .. LINE .. ")")
+expr(text, "Size", "KinCtrl.KinSize * iif(KinCtrl.KinKeep == 1, 1, KinCtrl.KinGrow + (1 - KinCtrl.KinGrow)*KinCtrl.Back)")
+expr(text, "HorizontalLeftCenterRight", "({0, -1, 1})[KinCtrl.KinAlign + 1]")
 expr(text, "Center", "Point(KinCtrl.KinPos.X, KinCtrl.KinPos.Y - KinCtrl.KinRise*(1 - KinCtrl.Back))")
 -- odd lines lean one way, even lines the other
-expr(text, "AngleZ", "KinCtrl.KinTilt * iif(KinCtrl.Idx % 2 == 1, 1, -1)")
+expr(text, "AngleZ", "iif(KinCtrl.KinKeep == 1, 0, KinCtrl.KinTilt * iif(KinCtrl.Idx % 2 == 1, 1, -1))")
+
+-- the list mode: the rows already shown, dimmed. The current row joins them once it has arrived, so that it
+-- is still there, dimmed, when the bright copy fades out.
+local earlier = add("TextPlus", "Earlier", -3, 4)
+earlier:SetInput("UseFrameFormatSettings", 1)
+expr(earlier, "StyledText", LIST("2", "KinCtrl.Idx - iif(KinCtrl.T < 1, 1, 0)"))
+for _, k in ipairs({"Font", "Style", "HorizontalLeftCenterRight", "Red1", "Green1", "Blue1"}) do expr(earlier, k, "Line." .. k) end
+expr(earlier, "Size", "KinCtrl.KinSize")
+expr(earlier, "Center", "KinCtrl.KinPos")
 
 -- optional box behind the text: a second Text+ that only draws its border fill, so it always fits the words
 local box = add("TextPlus", "Box", -3, 2)
 box:SetInput("UseFrameFormatSettings", 1)
-expr(box, "StyledText", "Line.StyledText")
+expr(box, "StyledText", "iif(KinCtrl.KinKeep == 1, " .. LIST("3") .. ", Line.StyledText)")
+expr(box, "HorizontalLeftCenterRight", "Line.HorizontalLeftCenterRight")
 expr(box, "Font", "Line.Font")
 expr(box, "Style", "Line.Style")
 expr(box, "Size", "Line.Size")
-expr(box, "Center", "Line.Center")
+expr(box, "Center", "iif(KinCtrl.KinKeep == 1, KinCtrl.KinPos, Line.Center)")
 expr(box, "AngleZ", "Line.AngleZ")
 box:SetInput("ElementShape1", 2)
 box:SetInput("Level1", 0)
@@ -83,9 +116,14 @@ expr(box, "ExtendVertical1", "KinCtrl.KinPadY")
 local boxed = add("Merge", "Boxed", -1, 2)
 boxed.Background = ctrl.Output
 boxed.Foreground = box.Output
-expr(boxed, "Blend", "KinCtrl.KinBox * KinCtrl.Fade")
+-- in a list the box holds the whole list, and comes in with the first row
+expr(boxed, "Blend", "KinCtrl.KinBox * iif(KinCtrl.KinKeep == 1, iif(KinCtrl.Idx < 1, 0, iif(KinCtrl.Idx < 2, min(KinCtrl.T*3, 1), 1)), KinCtrl.Fade)")
+local listed = add("Merge", "Listed", -1, 4)
+listed.Background = boxed.Output
+listed.Foreground = earlier.Output
+expr(listed, "Blend", "iif(KinCtrl.KinKeep == 1, KinCtrl.KinDim, 0)")
 local out = add("Merge", "KinFinal", 0, 2)
-out.Background = boxed.Output
+out.Background = listed.Output
 out.Foreground = text.Output
 expr(out, "Blend", "KinCtrl.Fade")
 
@@ -101,6 +139,9 @@ if os.getenv("FX_EXPORT") == "1" then
     {"CTL", "KinCtrl", "KinTimed", "Lines Start With A Time (0:02 Text)"},
     {"CTL", "KinCtrl", "KinCue", "Line Number (keyframe 1, 2, 3)"},
     {"CTL", "KinCtrl", "FpsOverride", "Frame Rate Override"},
+    {"CTL", "KinCtrl", "KinKeep", "Earlier Lines"},
+    {"CTL", "KinCtrl", "KinDim", "Earlier Lines Brightness"},
+    {"CTL", "KinCtrl", "KinAlign", "Alignment"},
     {"CTL", "Line", "Font", "Font", "2"}, {"CTL", "Line", "Style", "", "2"},
     {"CTL", "KinCtrl", "KinSize", "Size"},
     {"CTL", "Line", "Red1", "Color", "3"}, {"CTL", "Line", "Green1", "", "3"}, {"CTL", "Line", "Blue1", "", "3"},
@@ -118,6 +159,7 @@ if os.getenv("FX_EXPORT") == "1" then
   })
 else
   for name, value in string.gmatch(os.getenv("FX_SET") or "", "(%w+)=([%d%.%-]+)") do ctrl:SetInput(name, tonumber(value)) end
+  for name, a, b in string.gmatch(os.getenv("FX_PT") or "", "(%w+)=([%d%.]+):([%d%.]+)") do ctrl:SetInput(name, {tonumber(a), tonumber(b)}) end
   local t = os.getenv("FX_TEXT")
   if t then ctrl:SetInput("LineList", (string.gsub(t, "|", "\n"))) end
   local file = os.getenv("FX_TEXTFILE") and io.open(os.getenv("FX_TEXTFILE"), "r")

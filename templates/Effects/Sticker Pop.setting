@@ -1,0 +1,512 @@
+{
+	Tools = ordered() {
+		StickerPop = MacroOperator {
+			CtrlWZoom = false,
+			Inputs = ordered() {
+				MainInput1 = InstanceInput { SourceOp = "SrcA", Source = "Input" },
+				Input1 = InstanceInput { SourceOp = "StkCtrl", Source = "StkSize", Name = "Size" },
+				Input2 = InstanceInput { SourceOp = "StkCtrl", Source = "StkTilt", Name = "Tilt (degrees)" },
+				Input3 = InstanceInput { SourceOp = "StkCtrl", Source = "StkFlip", Name = "Mirror" },
+				Input4 = InstanceInput { SourceOp = "StkCtrl", Source = "StkEnter", Name = "Entrance" },
+				Input5 = InstanceInput { SourceOp = "StkCtrl", Source = "StkIn", Name = "Entrance Frames" },
+				Input6 = InstanceInput { SourceOp = "StkCtrl", Source = "StkOut", Name = "Exit Frames" },
+				Input7 = InstanceInput { SourceOp = "StkCtrl", Source = "StkBounce", Name = "Bounce" },
+				Input8 = InstanceInput { SourceOp = "StkCtrl", Source = "StkIdle", Name = "While It Stays" },
+				Input9 = InstanceInput { SourceOp = "StkCtrl", Source = "StkAmount", Name = "Movement Amount" },
+				Input10 = InstanceInput { SourceOp = "StkCtrl", Source = "StkSpeed", Name = "Movements Per Second" },
+				Input11 = InstanceInput { SourceOp = "StkCtrl", Source = "StkOutline", Name = "Outline Width" },
+				Input12 = InstanceInput { SourceOp = "StkCtrl", Source = "StkShadow", Name = "Shadow" },
+				Input13 = InstanceInput { SourceOp = "StkCtrl", Source = "StkShadowOff", Name = "Shadow Distance" },
+				Input14 = InstanceInput { SourceOp = "StkCtrl", Source = "StkShadowSoft", Name = "Shadow Softness" },
+				Input15 = InstanceInput { SourceOp = "StkCtrl", Source = "FpsOverride", Name = "Frame Rate Override" },
+				Input16 = InstanceInput { SourceOp = "ColStkOutline", Source = "TopLeftRed", Name = "Outline Colour", ControlGroup = 3 },
+				Input17 = InstanceInput { SourceOp = "ColStkOutline", Source = "TopLeftGreen", ControlGroup = 3 },
+				Input18 = InstanceInput { SourceOp = "ColStkOutline", Source = "TopLeftBlue", ControlGroup = 3 },
+			},
+			Outputs = {
+				MainOutput1 = InstanceOutput { SourceOp = "StkFinal", Source = "Output" }
+			},
+			ViewInfo = GroupInfo { Pos = { 0, 0 } },
+			Tools = ordered() {
+				SrcA = BrightnessContrast {
+					ViewInfo = OperatorInfo { Pos = { -495, 16.5 } }
+				},
+				StkMove = Transform {
+					ViewInfo = OperatorInfo { Pos = { -275, 16.5 } },
+					Inputs = {
+						Center = Input { Expression = "StkCtrl.At" },
+						Size = Input { Expression = "StkCtrl.Scale" },
+						Angle = Input { Expression = "StkCtrl.Ang" },
+						FlipHoriz = Input { Expression = "StkCtrl.StkFlip" },
+						Input = Input {
+							SourceOp = "SrcA",
+							Source = "Output"
+						}
+					}
+				},
+				StkGrow = ErodeDilate {
+					ViewInfo = OperatorInfo { Pos = { -55, 49.5 } },
+					Inputs = {
+						Filter = Input { Value = 3 },
+						XAmount = Input { Expression = "StkCtrl.StkOutline * StkCtrl.Scale" },
+						Input = Input {
+							SourceOp = "StkMove",
+							Source = "Output"
+						}
+					}
+				},
+				ColStkOutline = Background {
+					ViewInfo = OperatorInfo { Pos = { -275, -148.5 } },
+					Inputs = {
+						TopLeftGreen = Input { Value = 1 },
+						TopLeftBlue = Input { Value = 1 },
+						GlobalIn = Input { Value = -480 },
+						Width = Input { Value = 16 },
+						Height = Input { Value = 16 },
+						TopLeftRed = Input { Value = 1 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						GlobalOut = Input { Value = 3534 }
+					}
+				},
+				StkInk = Custom {
+					ViewInfo = OperatorInfo { Pos = { 55, 16.5 } },
+					Inputs = {
+						LUTIn2 = Input {
+							SourceOp = "CustomTool1LUTIn2",
+							Source = "Value"
+						},
+						LUTIn3 = Input {
+							SourceOp = "CustomTool1LUTIn3",
+							Source = "Value"
+						},
+						LUTIn4 = Input {
+							SourceOp = "CustomTool1LUTIn4",
+							Source = "Value"
+						},
+						AlphaExpression = Input { Value = "a1 + i1" },
+						NumberIn1 = Input { Expression = "iif(StkCtrl.StkOutline > 0, 1, 0)" },
+						RedExpression = Input { Value = "r1 + i1*getr3b(0.5, 0.5)" },
+						Intermediate1 = Input { Value = "(1 - a1)*a2*n1" },
+						GreenExpression = Input { Value = "g1 + i1*getg3b(0.5, 0.5)" },
+						BlueExpression = Input { Value = "b1 + i1*getb3b(0.5, 0.5)" },
+						Image3 = Input {
+							SourceOp = "ColStkOutline",
+							Source = "Output"
+						},
+						Image2 = Input {
+							SourceOp = "StkGrow",
+							Source = "Output"
+						},
+						Image1 = Input {
+							SourceOp = "StkMove",
+							Source = "Output"
+						},
+						LUTIn1 = Input {
+							SourceOp = "CustomTool1LUTIn1",
+							Source = "Value"
+						}
+					}
+				},
+				CustomTool1LUTIn1 = LUTBezier {
+					CtrlWZoom = false,
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Blue = 0, Green = 0, Red = 0 }
+				},
+				CustomTool1LUTIn2 = LUTBezier {
+					CtrlWZoom = false,
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Blue = 0, Green = 0, Red = 0 }
+				},
+				CustomTool1LUTIn3 = LUTBezier {
+					CtrlWZoom = false,
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Blue = 0, Green = 0, Red = 0 }
+				},
+				CustomTool1LUTIn4 = LUTBezier {
+					CtrlWZoom = false,
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Blue = 0, Green = 0, Red = 0 }
+				},
+				StkSoft = Blur {
+					ViewInfo = OperatorInfo { Pos = { 55, 49.5 } },
+					Inputs = {
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						XBlurSize = Input { Expression = "StkCtrl.StkShadowSoft * 60" },
+						Input = Input {
+							SourceOp = "StkInk",
+							Source = "Output"
+						}
+					}
+				},
+				StkFinal = Custom {
+					ViewInfo = OperatorInfo { Pos = { 165, 16.5 } },
+					Inputs = {
+						LUTIn2 = Input {
+							SourceOp = "CustomTool1LUTIn21",
+							Source = "Value"
+						},
+						LUTIn3 = Input {
+							SourceOp = "CustomTool1LUTIn31",
+							Source = "Value"
+						},
+						LUTIn4 = Input {
+							SourceOp = "CustomTool1LUTIn41",
+							Source = "Value"
+						},
+						AlphaExpression = Input { Value = "n3*(a1 + (1 - a1)*n1*geta2b(x - n2*h/w, y + n2))" },
+						NumberIn1 = Input { Expression = "StkCtrl.StkShadow" },
+						RedExpression = Input { Value = "r1*n3" },
+						GreenExpression = Input { Value = "g1*n3" },
+						BlueExpression = Input { Value = "b1*n3" },
+						Image2 = Input {
+							SourceOp = "StkSoft",
+							Source = "Output"
+						},
+						NumberIn2 = Input { Expression = "StkCtrl.StkShadowOff" },
+						Image1 = Input {
+							SourceOp = "StkInk",
+							Source = "Output"
+						},
+						NumberIn3 = Input { Expression = "StkCtrl.Fade" },
+						LUTIn1 = Input {
+							SourceOp = "CustomTool1LUTIn11",
+							Source = "Value"
+						}
+					}
+				},
+				CustomTool1LUTIn11 = LUTBezier {
+					CtrlWZoom = false,
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Blue = 0, Green = 0, Red = 0 }
+				},
+				CustomTool1LUTIn21 = LUTBezier {
+					CtrlWZoom = false,
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Blue = 0, Green = 0, Red = 0 }
+				},
+				CustomTool1LUTIn31 = LUTBezier {
+					CtrlWZoom = false,
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Blue = 0, Green = 0, Red = 0 }
+				},
+				CustomTool1LUTIn41 = LUTBezier {
+					CtrlWZoom = false,
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Blue = 0, Green = 0, Red = 0 }
+				},
+				StkCtrl = Background {
+					CtrlWZoom = false,
+					UserControls = {
+						StkAmount = {
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Movement Amount",
+							INP_Default = 1,
+							INP_MinScale = 0,
+							INP_MaxScale = 4,
+							INP_Integer = false
+						},
+						StkSpeed = {
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Movements Per Second",
+							INP_Default = 1.5,
+							INP_MinScale = 0.1,
+							INP_MaxScale = 8,
+							INP_Integer = false
+						},
+						StkOutline = {
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Outline Width",
+							INP_Default = 0.012,
+							INP_MinScale = 0,
+							INP_MaxScale = 0.05,
+							INP_Integer = false
+						},
+						StkShadow = {
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Shadow",
+							INP_Default = 0.4,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							INP_Integer = false
+						},
+						Scale = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Scale",
+							INP_Default = 1,
+							INP_MinScale = 0,
+							INP_MaxScale = 3,
+							INP_Integer = false
+						},
+						StkShadowOff = {
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Shadow Distance",
+							INP_Default = 0.012,
+							INP_MinScale = 0,
+							INP_MaxScale = 0.08,
+							INP_Integer = false
+						},
+						StkShadowSoft = {
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Shadow Softness",
+							INP_Default = 0.012,
+							INP_MinScale = 0,
+							INP_MaxScale = 0.08,
+							INP_Integer = false
+						},
+						StkEnter = {
+							{
+								CCS_AddString = "Pop"
+							},
+							{
+								CCS_AddString = "Spin In"
+							},
+							{
+								CCS_AddString = "Drop In"
+							},
+							{
+								CCS_AddString = "Fade"
+							},
+							{
+								CCS_AddString = "None"
+							},
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "ComboControl",
+							LINKS_Name = "Entrance",
+							INP_Default = 0,
+							INP_Integer = true,
+							LINKID_DataType = "Number"
+						},
+						FpsOverride = {
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Frame Rate Override",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 120,
+							INP_Integer = false
+						},
+						At = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKID_DataType = "Point",
+							LINKS_Name = "At"
+						},
+						T = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "T",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							INP_Integer = false
+						},
+						StkTilt = {
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Tilt (degrees)",
+							INP_Default = 0,
+							INP_MinScale = -45,
+							INP_MaxScale = 45,
+							INP_Integer = false
+						},
+						Gone = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Gone",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							INP_Integer = false
+						},
+						Fade = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Fade",
+							INP_Default = 1,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							INP_Integer = false
+						},
+						Ang = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Ang",
+							INP_Default = 0,
+							INP_MinScale = -360,
+							INP_MaxScale = 360,
+							INP_Integer = false
+						},
+						StkIn = {
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Entrance Frames",
+							INP_Default = 10,
+							INP_MinScale = 1,
+							INP_MaxScale = 60,
+							INP_Integer = false
+						},
+						StkSize = {
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Size",
+							INP_Default = 0.7,
+							INP_MinScale = 0.05,
+							INP_MaxScale = 1.5,
+							INP_Integer = false
+						},
+						StkOut = {
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Exit Frames",
+							INP_Default = 6,
+							INP_MinScale = 0,
+							INP_MaxScale = 60,
+							INP_Integer = false
+						},
+						StkFlip = {
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "CheckboxControl",
+							LINKS_Name = "Mirror",
+							INP_Default = 0,
+							LINKID_DataType = "Number",
+							INP_Integer = true
+						},
+						StkBounce = {
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Bounce",
+							INP_Default = 1,
+							INP_MinScale = 0,
+							INP_MaxScale = 3,
+							INP_Integer = false
+						},
+						Wave = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Wave",
+							INP_Default = 0,
+							INP_MinScale = -1,
+							INP_MaxScale = 1,
+							INP_Integer = false
+						},
+						StkIdle = {
+							{
+								CCS_AddString = "Still"
+							},
+							{
+								CCS_AddString = "Wobble"
+							},
+							{
+								CCS_AddString = "Float"
+							},
+							{
+								CCS_AddString = "Pulse"
+							},
+							{
+								CCS_AddString = "Shake"
+							},
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "ComboControl",
+							LINKS_Name = "While It Stays",
+							INP_Default = 1,
+							INP_Integer = true,
+							LINKID_DataType = "Number"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } },
+					Inputs = {
+						GlobalOut = Input { Value = 3534 },
+						Wave = Input { Expression = "T * StkAmount * sin(6.2831853 * StkSpeed * (time - comp.RenderStart) / iif(FpsOverride > 0, FpsOverride, comp:GetPrefs('Comp.FrameFormat.Rate') or 24))" },
+						T = Input { Expression = "min(max((time - comp.RenderStart + 1)/max(StkIn, 1), 0), 1)" },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Gone = Input { Expression = "iif(StkOut <= 0, 0, 1 - min(max((comp.RenderEnd - time + 1)/StkOut, 0), 1))" },
+						Fade = Input { Expression = "iif(StkEnter == 3, T*(1 - Gone), iif(StkEnter == 4, 1, min(T*4, 1)))" },
+						Ang = Input { Expression = "(function(e, t, idle, wave, amt)\n  local a = 0\n  if e == 1 then a = -220*(1 - t)^3 end\n  if idle == 1 then a = a + 6*wave end\n  if idle == 4 then a = a + 3*amt*t*(math.sin(time*91.7)*43758.5453 % 1 - 0.5) end\n  return a\nend)(StkEnter, T, StkIdle, Wave, StkAmount) + StkTilt" },
+						At = Input { Expression = "(function(e, t, idle, wave, amt, b)\n  local x, y = 0.5, 0.5\n  if e == 2 then\n    local u, k = t, 1\n    if u < 0.3636 then k = 7.5625*u*u\n    elseif u < 0.7273 then u = u - 0.5455 k = 1 - b*(0.25 - 7.5625*u*u)\n    elseif u < 0.9091 then u = u - 0.8182 k = 1 - b*(0.0625 - 7.5625*u*u)\n    else u = u - 0.9545 k = 1 - b*(0.015625 - 7.5625*u*u) end\n    y = y + (t < 0.3636 and 1.1 or 0.4)*(1 - k)\n  end\n  if idle == 2 then y = y + 0.025*wave end\n  if idle == 4 then\n    x = x + 0.008*amt*t*(math.sin(time*12.9898)*43758.5453 % 1 - 0.5)\n    y = y + 0.008*amt*t*(math.sin(time*78.233)*43758.5453 % 1 - 0.5)\n  end\n  return Point(x, y)\nend)(StkEnter, T, StkIdle, Wave, StkAmount, StkBounce)" },
+						TopLeftAlpha = Input { Value = 0 },
+						Width = Input { Value = 1920 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Scale = Input { Expression = "(function(e, t, g, b, idle, wave)\n  local s = 1\n  if e <= 1 then local u = t - 1 s = 1 + (1.70158*b + 1)*u*u*u + 1.70158*b*u*u end\n  if e <= 2 then s = s*(1 - g*g) end\n  if idle == 3 then s = s*(1 + 0.06*wave) end\n  return math.max(s, 0)\nend)(StkEnter, T, Gone, StkBounce, StkIdle, Wave) * StkSize" },
+						Height = Input { Value = 1080 },
+						GlobalIn = Input { Value = -480 }
+					}
+				}
+			
+			}
+		}
+	},
+	ActiveTool = "StickerPop"
+}

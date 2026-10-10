@@ -1,0 +1,51 @@
+Frame Style=1
+Position=0.16,0.74
+Size=0.38
+Width / Height=1.35
+Tilt (degrees)=-4
+While It Stays=1
+Movements Per Second=0.47
+Caption=拍立得
+
+Frame Style=2
+Position=0.46,0.74
+Size=0.38
+Width / Height=1.35
+Tilt (degrees)=0
+While It Stays=1
+Movements Per Second=0.54
+Caption=App Window
+
+Frame Style=4
+Position=0.16,0.27
+Size=0.36
+Width / Height=1.35
+Tilt (degrees)=3
+While It Stays=1
+Movements Per Second=0.68
+
+Frame Style=5
+Position=0.46,0.27
+Size=0.38
+Width / Height=1.35
+Tilt (degrees)=0
+While It Stays=1
+Movements Per Second=0.75
+
+Frame Style=3
+Position=0.735,0.5
+Size=0.82
+Width / Height=1.35
+Tilt (degrees)=5
+While It Stays=1
+Movements Per Second=0.61
+
+Frame Style=6
+Position=0.925,0.5
+Size=0.2
+Width / Height=1.35
+Tilt (degrees)=0
+While It Stays=1
+Movements Per Second=0.82
+Shape=0
+Border=0.005
