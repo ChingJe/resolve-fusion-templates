@@ -59,6 +59,7 @@ t.Size:SetExpression("ComicCtrl.TextSize * ComicCtrl.Zoom")
 | `counter.lua` | Number Counter，數字跳動 | 標題 |
 | `papertear.lua` | Paper Tear，前一段像紙一樣被撕掉 | 轉場 |
 | `kinetic.lua` | Kinetic Lines，文字照時間清單一行行彈出 | 標題 |
+| `punchzoom.lua` | Punch Zoom，在指定時間點推近，可加 RGB 分離等 | 特效 |
 
 一個範本從頭到尾的指令（在 `scripts/` 底下執行，`FU` 是 fuscript 的路徑）：
 

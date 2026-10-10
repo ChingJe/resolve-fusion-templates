@@ -12,6 +12,7 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 | [Comic Intro Video](#comic-intro-video) | 特效 | 同上，但每個漫畫格播的是片段裡不同時間點的畫面 |
 | [Time Slice](#time-slice) | 特效 | 畫面切成直條，每條比隔壁晚幾格 |
 | [Photo Stack](#photo-stack) | 特效 | 影片的幾個片刻變成照片滑到桌上，最後一張放大成全畫面 |
+| [Punch Zoom](#punch-zoom) | 特效 | 在指定的時間點推近再彈回，可加 RGB 分離、模糊、震動、閃白 |
 | [Video Wall](#video-wall) | 轉場 | 拉遠成一面影片牆，橫移，再推進下一段 |
 | [Paper Tear](#paper-tear) | 轉場 | 前一段像紙一樣被撕成兩半拉開，露出後一段 |
 | [Chapter Bar](#chapter-bar) | 標題 | 有章節的進度條 |
@@ -125,6 +126,44 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 
 - `Stills From`、`Stills To` 是以整支來源影片的比例計，不是剪進時間軸的那一段。
 - 算圖偏慢，在 Edit 頁面不會即時播放。嫌慢先關 `Motion Blur`，再不行關 `Photos Play As Video`。
+
+### Punch Zoom
+
+畫面在指定的時間點快速推近再彈回。每一下可以同時帶 RGB 分離、放射狀模糊、震動、扭轉、閃白，各自獨立開關。時間點可以自己列，也可以填 BPM 讓它照拍子打。
+
+![Punch Zoom](previews/punch-zoom.png)
+
+**用法**：拖到片段上，在 `Hits` 裡列出時間點，或填 `Tempo`。
+
+| 參數 | 作用 |
+|---|---|
+| `Hits` | 時間點清單，一行一下，寫法見下方 |
+| `Tempo` | 填 BPM 就照拍子自動打，0 是關閉。可以和 `Hits` 同時用 |
+| `Every N Beats` | 每幾拍打一下 |
+| `First Beat At` | 第一拍在片段開頭後幾秒 |
+| `Frame Rate Override` | 時間點不對時，填上片段的影格率。0 是自動 |
+| `Zoom`、`Zoom Center` | 推多近、往畫面上哪一點推 |
+| `Punch In`、`Spring Back` | 推進去和彈回來各花幾秒 |
+| `Stay Zoomed Until Next Hit` | 推近後停住，下一下才退回去 |
+| `RGB Split` | 推的瞬間紅綠藍往外錯開的程度，0 是關閉 |
+| `Zoom Blur` | 推的瞬間放射狀模糊的程度，0 是關閉 |
+| `Shake` | 推的瞬間畫面亂晃的幅度，0 是關閉 |
+| `Twist` | 推的瞬間畫面轉幾度，0 是關閉 |
+| `Flash` | 推的瞬間變亮的程度，0 是關閉 |
+
+時間點的寫法和 [Chapter Bar](#chapter-bar) 相同（`1:25`、`0:07.5`、`120f`、`25%`），從片段開頭算起。後面可以再加一個數字，單獨調整那一下的力道：
+
+```
+0:01.2
+0:03 1.5
+0:04.5 0.6
+```
+
+**注意**
+
+- 開了 `Stay Zoomed Until Next Hit` 之後，第一下推近、第二下退回、第三下再推近，依此類推。
+- 推近就是把畫面裁切放大，`Zoom` 調太大會糊。
+- 時間是從片段在時間軸上的開頭算起，修剪片段開頭之後要重填。
 
 ### Video Wall
 
@@ -284,7 +323,7 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 | 檔案 | 子資料夾 | 在特效庫的位置 |
 |---|---|---|
 | `Comic Intro.setting`、`Chapter Bar.setting`、`Kinetic Lines.setting`、`Number Counter.setting` | `Titles` | Titles → Fusion Titles |
-| `Comic Intro Video.setting`、`Time Slice.setting`、`Photo Stack.setting` | `Effects` | Effects → Fusion Effects |
+| `Comic Intro Video.setting`、`Time Slice.setting`、`Photo Stack.setting`、`Punch Zoom.setting` | `Effects` | Effects → Fusion Effects |
 | `Video Wall.setting`、`Paper Tear.setting` | `Transitions` | Video Transitions → Fusion Transitions |
 
 子資料夾不存在就自己建。Resolve 只在啟動時掃描這個資料夾，放進去之後要重啟才會出現。
