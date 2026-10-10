@@ -57,6 +57,8 @@ t.Size:SetExpression("ComicCtrl.TextSize * ComicCtrl.Zoom")
 | `photostack.lua` | Photo Stack，影片的幾個瞬間變成照片疊起來 | 特效 |
 | `chapterbar.lua` | Chapter Bar，有章節名稱的進度條 | 標題 |
 | `counter.lua` | Number Counter，數字跳動 | 標題 |
+| `papertear.lua` | Paper Tear，前一段像紙一樣被撕掉 | 轉場 |
+| `kinetic.lua` | Kinetic Lines，文字照時間清單一行行彈出 | 標題 |
 
 一個範本從頭到尾的指令（在 `scripts/` 底下執行，`FU` 是 fuscript 的路徑）：
 

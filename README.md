@@ -13,7 +13,9 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 | [Time Slice](#time-slice) | 特效 | 畫面切成直條，每條比隔壁晚幾格 |
 | [Photo Stack](#photo-stack) | 特效 | 影片的幾個片刻變成照片滑到桌上，最後一張放大成全畫面 |
 | [Video Wall](#video-wall) | 轉場 | 拉遠成一面影片牆，橫移，再推進下一段 |
+| [Paper Tear](#paper-tear) | 轉場 | 前一段像紙一樣被撕掉，露出後一段 |
 | [Chapter Bar](#chapter-bar) | 標題 | 有章節的進度條 |
+| [Kinetic Lines](#kinetic-lines) | 標題 | 一行行文字照寫好的時間彈出來 |
 | [Number Counter](#number-counter) | 標題 | 數字跳動 |
 
 三種類型的用法不同：
@@ -143,6 +145,27 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 
 - 牆上其他螢幕顯示的是前一段較早、後一段較晚的畫面。出現黑色螢幕時把 `Time Offset` 調成 0。
 
+### Paper Tear
+
+一道不規則的撕裂邊掃過畫面，前一段像紙一樣被撕掉，露出底下的後一段。撕邊看得到白色的紙芯，並在後一段上留下陰影。
+
+![Paper Tear](previews/paper-tear.png)
+
+**用法**：拖到兩個片段的交界，拉成想要的長度。
+
+| 參數 | 作用 |
+|---|---|
+| `Angle` | 撕的方向。0 是由左往右，90 是由下往上 |
+| `Roughness` | 撕邊起伏的幅度，0 是直線 |
+| `Tear Shape` | 換一種撕邊的形狀 |
+| `Paper Edge Width` | 白色紙芯露出的寬度 |
+| `Shadow`、`Shadow Width` | 陰影的濃度與寬度 |
+| `Stop Motion Steps` | 撕的過程分成幾步跳著走，0 是平滑移動 |
+
+**注意**
+
+- 兩段影片本身照常播放，只有撕邊會跟著 `Stop Motion Steps` 卡頓。
+
 ### Chapter Bar
 
 畫面底部的進度條，分成有名稱的章節，目前章節的名稱顯示在該段上方。
@@ -185,6 +208,44 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 - 章節名稱不限數量，進度條上的缺口最多畫 19 個，也就是 20 章。超過的章節名稱照常切換，只是條上不再切開。
 - 名稱的預設字型是微軟正黑體。換字型時要選有中文字的，不然中文會變成方塊。
 
+### Kinetic Lines
+
+一行行文字照寫好的時間彈出來，後一行取代前一行。適合金句、歌詞、重點條列。
+
+![Kinetic Lines](previews/kinetic-lines.png)
+
+**用法**：拖到影片上方的軌道，拉成想要的長度。背景是透明的。
+
+| 參數 | 作用 |
+|---|---|
+| `Lines` | 文字清單，一行一句，寫法見下方 |
+| `Frame Rate Override` | 出現的時間點不對時，填上時間軸的影格率。0 是自動 |
+| `Font`、`Size`、`Color`、`Position` | 字型、大小、顏色、位置 |
+| `Pop Frames` | 彈出來花幾格 |
+| `Fade Out Frames` | 下一行出現前，花幾格淡出。0 是直接換 |
+| `Bounce` | 彈過頭再回來的幅度，0 是不彈 |
+| `Grow From` | 從多大開始長。1 是不縮放 |
+| `Rise` | 從下方多遠升上來，負數是從上方落下 |
+| `Tilt` | 傾斜角度，單數行和雙數行往相反方向歪 |
+| `Box Opacity`、`Box Color` | 文字底框的不透明度與顏色，0 是沒有底框 |
+| `Box Padding X`、`Box Padding Y` | 底框在文字四周的留白 |
+
+每行開頭寫時間，後面寫文字，時間的寫法和 [Chapter Bar](#chapter-bar) 相同（`1:25`、`120f`、`25%`）：
+
+```
+0:00 第一句
+0:02.5 第二句
+0:05 這一句|分成兩行
+0:08
+```
+
+**注意**
+
+- 文字裡的 `|` 會換行。
+- 只寫時間、後面不寫字的那一行，會讓畫面從那個時間點起清空。
+- 第一行的時間之前不顯示任何東西。
+- 預設字型是微軟正黑體。換字型時要選有中文字的，不然中文會變成方塊。
+
 ### Number Counter
 
 數字從一個值跳到另一個值，數完時彈一下。
@@ -218,9 +279,9 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 
 | 檔案 | 子資料夾 | 在特效庫的位置 |
 |---|---|---|
-| `Comic Intro.setting`、`Chapter Bar.setting`、`Number Counter.setting` | `Titles` | Titles → Fusion Titles |
+| `Comic Intro.setting`、`Chapter Bar.setting`、`Kinetic Lines.setting`、`Number Counter.setting` | `Titles` | Titles → Fusion Titles |
 | `Comic Intro Video.setting`、`Time Slice.setting`、`Photo Stack.setting` | `Effects` | Effects → Fusion Effects |
-| `Video Wall.setting` | `Transitions` | Video Transitions → Fusion Transitions |
+| `Video Wall.setting`、`Paper Tear.setting` | `Transitions` | Video Transitions → Fusion Transitions |
 
 子資料夾不存在就自己建。Resolve 只在啟動時掃描這個資料夾，放進去之後要重啟才會出現。
 
