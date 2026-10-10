@@ -44,6 +44,7 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 |---|---|---|
 | [Kinetic Lines](docs/templates/kinetic-lines.md) | 標題 | 一行行文字照寫好的時間彈出來 |
 | [Number Counter](docs/templates/number-counter.md) | 標題 | 數字從一個值跳到另一個值 |
+| [Bar Chart](docs/templates/bar-chart.md) | 標題 | 橫向長條圖，長條依序長出來，數字跟著跳 |
 | [Chapter Bar](docs/templates/chapter-bar.md) | 標題 | 有章節名稱的進度條 |
 
 預覽圖的輸入是程序產生的測試畫面。畫面上的數字是畫格編號，用來看出每一格取的是哪個時間點。

@@ -59,6 +59,7 @@ t.Size:SetExpression("ComicCtrl.TextSize * ComicCtrl.Zoom")
 | `counter.lua` | Number Counter，數字跳動 | 標題 |
 | `papertear.lua` | Paper Tear，前一段像紙一樣被撕掉 | 轉場 |
 | `kinetic.lua` | Kinetic Lines，文字照時間清單一行行彈出 | 標題 |
+| `barchart.lua` | Bar Chart，長條依序長出來的橫向長條圖 | 標題 |
 | `punchzoom.lua` | Punch Zoom，在指定時間點推近，可加 RGB 分離等 | 特效 |
 
 一個範本從頭到尾的指令（在 `scripts/` 底下執行，`FU` 是 fuscript 的路徑）：
@@ -102,7 +103,7 @@ cmd.exe //c "D:\\davinci\\install.bat install nopause"   # 同步到 Resolve 的
 - `Custom` 最多三張輸入圖，另有四個 `PointIn`（`p1x`、`p1y`…）可以當額外的數值輸入。
 - 運算式可以是立即呼叫的匿名函式：`(function(t) return t*t*(3-2*t) end)(...)`，需要區域變數或字串處理時用這個。
 - 文字輸入的運算式要回傳 `Text(...)`，讀其他節點的文字用 `節點.欄位.Value`。
-- `Text+` 的 `HorizontalJustificationNew` 用腳本設定沒有效果，文字一律置中。要靠左就自己算中心位置。
+- `Text+` 的對齊要設 `HorizontalLeftCenterRight`：`1` 是文字的尾端貼在 `Center`（靠右對齊），`-1` 是開頭貼在 `Center`（靠左對齊），`0` 置中。`HorizontalJustificationNew` 用腳本設定沒有效果。
 - 巨集需要單一輸入點時，放一個不改任何設定的 `BrightnessContrast` 當入口，其他節點都接它。
 - `tool:AddModifier("輸入ID", "修改器ID")` 可以掛修改器，再用 `tool.輸入:GetConnectedOutput():GetTool()` 取得它。
 - `GetToolList(false)` 會連巨集裡面的節點一起列出來，要分辨就看 `tool.ParentTool`。
