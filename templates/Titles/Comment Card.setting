@@ -1,0 +1,1071 @@
+{
+	Tools = ordered() {
+		CommentCard = MacroOperator {
+			CtrlWZoom = false,
+			Inputs = ordered() {
+				Input1 = InstanceInput { SourceOp = "CcCtrl", Source = "CcStyle", Name = "Kind" },
+				Input2 = InstanceInput { SourceOp = "CcCtrl", Source = "CcName", Name = "Name" },
+				Input3 = InstanceInput { SourceOp = "CcCtrl", Source = "CcMeta", Name = "When" },
+				Input4 = InstanceInput { SourceOp = "CcCtrl", Source = "CcBody", Name = "Words" },
+				Input5 = InstanceInput { SourceOp = "CcCtrl", Source = "CcLikesOn", Name = "Heart And Number" },
+				Input6 = InstanceInput { SourceOp = "CcCtrl", Source = "CcLikes", Name = "Likes" },
+				Input7 = InstanceInput { SourceOp = "CcCtrl", Source = "CcLikesEnd", Name = "Likes Grow To (0: they stay)" },
+				Input8 = InstanceInput { SourceOp = "CcCtrl", Source = "CcFoot", Name = "After The Number" },
+				Input9 = InstanceInput { SourceOp = "CcCtrl", Source = "CcPos", Name = "Position" },
+				Input10 = InstanceInput { SourceOp = "CcBodyT", Source = "Font", Name = "Font" },
+				Input11 = InstanceInput { SourceOp = "CcCtrl", Source = "CcSize", Name = "Size" },
+				Input12 = InstanceInput { SourceOp = "CcCtrl", Source = "CcMinW", Name = "Narrowest Card" },
+				Input13 = InstanceInput { SourceOp = "CcCtrl", Source = "CcPad", Name = "Padding" },
+				Input14 = InstanceInput { SourceOp = "CcCtrl", Source = "CcRound", Name = "Roundness" },
+				Input15 = InstanceInput { SourceOp = "CcCtrl", Source = "CcShadow", Name = "Shadow" },
+				Input16 = InstanceInput { SourceOp = "CcCtrl", Source = "CcEnter", Name = "Entrance" },
+				Input17 = InstanceInput { SourceOp = "CcCtrl", Source = "CcIn", Name = "Entrance Frames" },
+				Input18 = InstanceInput { SourceOp = "CcCtrl", Source = "CcLeave", Name = "Leave The Same Way At The End" },
+				Input19 = InstanceInput { SourceOp = "CcCtrl", Source = "CcOut", Name = "Leave Frames" },
+				Input20 = InstanceInput { SourceOp = "CcCtrl", Source = "CcPreset", Name = "Colours" },
+				Input21 = InstanceInput { SourceOp = "ColCcAvatar", Source = "TopLeftRed", Name = "Picture Colour", ControlGroup = 3 },
+				Input22 = InstanceInput { SourceOp = "ColCcAvatar", Source = "TopLeftGreen", ControlGroup = 3 },
+				Input23 = InstanceInput { SourceOp = "ColCcAvatar", Source = "TopLeftBlue", ControlGroup = 3 },
+				Input24 = InstanceInput { SourceOp = "ColCcCard", Source = "TopLeftRed", Name = "Custom Card Colour", ControlGroup = 4 },
+				Input25 = InstanceInput { SourceOp = "ColCcCard", Source = "TopLeftGreen", ControlGroup = 4 },
+				Input26 = InstanceInput { SourceOp = "ColCcCard", Source = "TopLeftBlue", ControlGroup = 4 },
+				Input27 = InstanceInput { SourceOp = "ColCcText", Source = "TopLeftRed", Name = "Custom Words Colour", ControlGroup = 5 },
+				Input28 = InstanceInput { SourceOp = "ColCcText", Source = "TopLeftGreen", ControlGroup = 5 },
+				Input29 = InstanceInput { SourceOp = "ColCcText", Source = "TopLeftBlue", ControlGroup = 5 },
+				Input30 = InstanceInput { SourceOp = "ColCcDim", Source = "TopLeftRed", Name = "Custom Colour Of The Small Words", ControlGroup = 6 },
+				Input31 = InstanceInput { SourceOp = "ColCcDim", Source = "TopLeftGreen", ControlGroup = 6 },
+				Input32 = InstanceInput { SourceOp = "ColCcDim", Source = "TopLeftBlue", ControlGroup = 6 },
+				Input33 = InstanceInput { SourceOp = "ColCcHeart", Source = "TopLeftRed", Name = "Custom Heart Colour", ControlGroup = 7 },
+				Input34 = InstanceInput { SourceOp = "ColCcHeart", Source = "TopLeftGreen", ControlGroup = 7 },
+				Input35 = InstanceInput { SourceOp = "ColCcHeart", Source = "TopLeftBlue", ControlGroup = 7 },
+			},
+			Outputs = {
+				MainOutput1 = InstanceOutput { SourceOp = "CcFinal", Source = "Output" }
+			},
+			ViewInfo = GroupInfo { Pos = { 0, 0 } },
+			Tools = ordered() {
+				CcCtrl = Background {
+					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } },
+					Inputs = {
+						MetaA = Input { Expression = "(function() local d = CcMetaT.Output.DataWindow if not d or CcMetaT.StyledText.Value == '' then return Point(0.5, 0.5) end return Point(d.left/CcMetaT.Output.Width, d.top/CcMetaT.Output.Height) end)()" },
+						MetaS = Input { Expression = "(function() local d = CcMetaT.Output.DataWindow if not d or CcMetaT.StyledText.Value == '' then return Point(0, 0) end local w = CcMetaT.Output.Width return Point(max(d.right - d.left, 0)/w, max(d.top - d.bottom, 0)/w) end)()" },
+						BodyA = Input { Expression = "(function() local d = CcBodyT.Output.DataWindow if not d or CcBodyT.StyledText.Value == '' then return Point(0.5, 0.5) end return Point(d.left/CcBodyT.Output.Width, d.top/CcBodyT.Output.Height) end)()" },
+						BodyS = Input { Expression = "(function() local d = CcBodyT.Output.DataWindow if not d or CcBodyT.StyledText.Value == '' then return Point(0, 0) end local w = CcBodyT.Output.Width return Point(max(d.right - d.left, 0)/w, max(d.top - d.bottom, 0)/w) end)()" },
+						FootA = Input { Expression = "(function() local d = CcFootT.Output.DataWindow if not d or CcFootT.StyledText.Value == '' then return Point(0.5, 0.5) end return Point(d.left/CcFootT.Output.Width, d.top/CcFootT.Output.Height) end)()" },
+						FootS = Input { Expression = "(function() local d = CcFootT.Output.DataWindow if not d or CcFootT.StyledText.Value == '' then return Point(0, 0) end local w = CcFootT.Output.Width return Point(max(d.right - d.left, 0)/w, max(d.top - d.bottom, 0)/w) end)()" },
+						InitA = Input { Expression = "(function() local d = CcInitT.Output.DataWindow if not d or CcInitT.StyledText.Value == '' then return Point(0.5, 0.5) end return Point(d.left/CcInitT.Output.Width, d.top/CcInitT.Output.Height) end)()" },
+						Show = Input { Expression = "min(min(max((time - comp.RenderStart + 1)/max(CcIn, 1), 0), 1),\n  iif(CcLeave > 0, min(max((comp.RenderEnd - time + 1)/max(CcOut, 1), 0), 1), 1))" },
+						UseFrameFormatSettings = Input { Value = 1 },
+						KFoot = Input { Expression = "iif(CcLikesOn > 0 and CcStyle == 0, 1, 0)" },
+						KNameH = Input { Expression = "max(NameS.Y, MetaS.Y)" },
+						Width = Input { Value = 1920 },
+						GlobalIn = Input { Value = -480 },
+						Height = Input { Value = 1080 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						KRowY = Input { Expression = "CcPad*CcSize + KNameH + iif(BodyS.Y > 0, 0.45*CcSize + BodyS.Y, 0) + 0.6*CcSize" },
+						InitS = Input { Expression = "(function() local d = CcInitT.Output.DataWindow if not d or CcInitT.StyledText.Value == '' then return Point(0, 0) end local w = CcInitT.Output.Width return Point(max(d.right - d.left, 0)/w, max(d.top - d.bottom, 0)/w) end)()" },
+						KText = Input { Expression = "max(max(NameS.X + iif(MetaS.X > 0, 0.6*CcSize + MetaS.X, 0), BodyS.X), KFoot*(1.1*CcSize + FootS.X))" },
+						TopLeftAlpha = Input { Value = 0 },
+						Move = Input { Expression = "(function(e, asp)\n  local u = (1 - Show)^3\n  if e == 1 then return Point(-0.2*u, 0) elseif e == 2 then return Point(0.2*u, 0)\n  elseif e == 3 then return Point(0, -u*(CcPos.Y + KCard.Y*asp/2 + 0.05))\n  elseif e == 4 then return Point(0, u*(1 - CcPos.Y + KCard.Y*asp/2 + 0.05)) end\n  return Point(0, 0)\nend)(CcEnter, (comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')))" },
+						Scale = Input { Expression = "iif(CcEnter == 0, (function(t) t = t - 1 return max(1 + 2.70158*t*t*t + 1.70158*t*t, 0) end)(Show), 1)" },
+						KCol = Input { Expression = "KLeft + CcPad*CcSize + 2.5*CcSize" },
+						KTop = Input { Expression = "CcPos.Y + KCard.Y/2*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height'))" },
+						KLeft = Input { Expression = "CcPos.X - KCard.X/2" },
+						KCard = Input { Expression = "Point(max(CcPad*CcSize*2 + 2.5*CcSize + KText, CcMinW), CcPad*CcSize*2 + max(2*CcSize, KRowY - CcPad*CcSize - 0.6*CcSize + KFoot*(0.6*CcSize + max(FootS.Y, 0.75*CcSize))))" },
+						Fade = Input { Expression = "iif(CcEnter == 6 or CcEnter == 3 or CcEnter == 4, iif(Show > 0, 1, 0), iif(CcEnter == 5, Show, min(Show*3, 1)))" },
+						NameA = Input { Expression = "(function() local d = CcNameT.Output.DataWindow if not d or CcNameT.StyledText.Value == '' then return Point(0.5, 0.5) end return Point(d.left/CcNameT.Output.Width, d.top/CcNameT.Output.Height) end)()" },
+						NameS = Input { Expression = "(function() local d = CcNameT.Output.DataWindow if not d or CcNameT.StyledText.Value == '' then return Point(0, 0) end local w = CcNameT.Output.Width return Point(max(d.right - d.left, 0)/w, max(d.top - d.bottom, 0)/w) end)()" }
+					},
+					CtrlWZoom = false,
+					UserControls = {
+						CcStyle = {
+							{
+								CCS_AddString = "Comment"
+							},
+							{
+								CCS_AddString = "Notification"
+							},
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "ComboControl",
+							LINKS_Name = "Kind",
+							INP_Default = 0,
+							LINKID_DataType = "Number",
+							INP_Integer = true
+						},
+						MetaS = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKID_DataType = "Point",
+							LINKS_Name = "MetaS"
+						},
+						BodyA = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKID_DataType = "Point",
+							LINKS_Name = "BodyA"
+						},
+						BodyS = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKID_DataType = "Point",
+							LINKS_Name = "BodyS"
+						},
+						FootA = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKID_DataType = "Point",
+							LINKS_Name = "FootA"
+						},
+						CcName = {
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "TextEditControl",
+							LINKS_Name = "Name",
+							INPS_DefaultText = "小明",
+							TEC_Lines = 1,
+							LINKID_DataType = "Text"
+						},
+						InitA = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKID_DataType = "Point",
+							LINKS_Name = "InitA"
+						},
+						InitS = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKID_DataType = "Point",
+							LINKS_Name = "InitS"
+						},
+						CcMeta = {
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "TextEditControl",
+							LINKS_Name = "When",
+							INPS_DefaultText = "2 小時前",
+							TEC_Lines = 1,
+							LINKID_DataType = "Text"
+						},
+						CcBody = {
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "TextEditControl",
+							LINKS_Name = "Words",
+							INPS_DefaultText = "這段也太好笑了吧\n我已經看了十次",
+							TEC_Lines = 4,
+							LINKID_DataType = "Text"
+						},
+						CcLikesOn = {
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "CheckboxControl",
+							LINKS_Name = "Heart And Number",
+							INP_Default = 1,
+							LINKID_DataType = "Number",
+							INP_Integer = true
+						},
+						CcLikes = {
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Likes",
+							INP_Default = 128,
+							INP_MinScale = 0,
+							INP_MaxScale = 100000,
+							INP_Integer = true
+						},
+						CcRound = {
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Roundness",
+							INP_Default = 0.35,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							INP_Integer = false
+						},
+						CcLikesEnd = {
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Likes Grow To (0: they stay)",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 100000,
+							INP_Integer = true
+						},
+						CcShadow = {
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Shadow",
+							INP_Default = 0.35,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							INP_Integer = false
+						},
+						CcFoot = {
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "TextEditControl",
+							LINKS_Name = "After The Number",
+							INPS_DefaultText = "回覆",
+							TEC_Lines = 1,
+							LINKID_DataType = "Text"
+						},
+						CcEnter = {
+							{
+								CCS_AddString = "Pop"
+							},
+							{
+								CCS_AddString = "From Left"
+							},
+							{
+								CCS_AddString = "From Right"
+							},
+							{
+								CCS_AddString = "From Below"
+							},
+							{
+								CCS_AddString = "From Above"
+							},
+							{
+								CCS_AddString = "Fade"
+							},
+							{
+								CCS_AddString = "None"
+							},
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "ComboControl",
+							LINKS_Name = "Entrance",
+							INP_Default = 0,
+							LINKID_DataType = "Number",
+							INP_Integer = true
+						},
+						CcPos = {
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "Position",
+							INPID_PreviewControl = "CrosshairControl",
+							LINKID_DataType = "Point"
+						},
+						CcSize = {
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Size",
+							INP_Default = 0.035,
+							INP_MinScale = 0.01,
+							INP_MaxScale = 0.12,
+							INP_Integer = false
+						},
+						Fade = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Fade",
+							INP_Default = 1,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							INP_Integer = false
+						},
+						CcPad = {
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Padding",
+							INP_Default = 0.8,
+							INP_MinScale = 0.2,
+							INP_MaxScale = 2,
+							INP_Integer = false
+						},
+						CcLeave = {
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "CheckboxControl",
+							LINKS_Name = "Leave The Same Way At The End",
+							INP_Default = 1,
+							LINKID_DataType = "Number",
+							INP_Integer = true
+						},
+						CcOut = {
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Leave Frames",
+							INP_Default = 8,
+							INP_MinScale = 1,
+							INP_MaxScale = 60,
+							INP_Integer = false
+						},
+						CcPreset = {
+							{
+								CCS_AddString = "Custom"
+							},
+							{
+								CCS_AddString = "Light"
+							},
+							{
+								CCS_AddString = "Dark"
+							},
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "ComboControl",
+							LINKS_Name = "Colours",
+							INP_Default = 1,
+							INP_Integer = true,
+							LINKID_DataType = "Number"
+						},
+						Show = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Show",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							INP_Integer = false
+						},
+						KFoot = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "KFoot",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							INP_Integer = false
+						},
+						KNameH = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "KNameH",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							INP_Integer = false
+						},
+						KText = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "KText",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 4,
+							INP_Integer = false
+						},
+						KCard = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKID_DataType = "Point",
+							LINKS_Name = "KCard"
+						},
+						KLeft = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "KLeft",
+							INP_Default = 0,
+							INP_MinScale = -4,
+							INP_MaxScale = 4,
+							INP_Integer = false
+						},
+						KTop = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "KTop",
+							INP_Default = 0,
+							INP_MinScale = -4,
+							INP_MaxScale = 4,
+							INP_Integer = false
+						},
+						KCol = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "KCol",
+							INP_Default = 0,
+							INP_MinScale = -4,
+							INP_MaxScale = 4,
+							INP_Integer = false
+						},
+						KRowY = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "KRowY",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 4,
+							INP_Integer = false
+						},
+						FootS = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKID_DataType = "Point",
+							LINKS_Name = "FootS"
+						},
+						MetaA = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKID_DataType = "Point",
+							LINKS_Name = "MetaA"
+						},
+						CcMinW = {
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Narrowest Card",
+							INP_Default = 0.3,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							INP_Integer = false
+						},
+						Move = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKID_DataType = "Point",
+							LINKS_Name = "Move"
+						},
+						CcIn = {
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Entrance Frames",
+							INP_Default = 10,
+							INP_MinScale = 1,
+							INP_MaxScale = 60,
+							INP_Integer = false
+						},
+						Scale = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Scale",
+							INP_Default = 1,
+							INP_MinScale = 0,
+							INP_MaxScale = 3,
+							INP_Integer = false
+						},
+						NameA = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKID_DataType = "Point",
+							LINKS_Name = "NameA"
+						},
+						NameS = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKID_DataType = "Point",
+							LINKS_Name = "NameS"
+						}
+					}
+				},
+				CcNameT = TextPlus {
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -275, 16.5 } },
+					Inputs = {
+						UseFrameFormatSettings = Input { Value = 1 },
+						HorizontalLeftCenterRight = Input { Value = -1 },
+						Font = Input {
+							Value = "Open Sans",
+							Expression = "CcBodyT.Font"
+						},
+						Width = Input { Value = 1920 },
+						Style = Input { Value = "Bold" },
+						Height = Input { Value = 1080 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						StyledText = Input { Expression = "Text(CcCtrl.CcName.Value)" },
+						Red1 = Input { Expression = "iif(CcCtrl.CcPreset == 0, ColCcText.TopLeftRed, ({{1,1,1,0.08,0.08,0.1,0.45,0.47,0.5,0.93,0.2,0.3},{0.13,0.14,0.17,0.95,0.95,0.96,0.6,0.62,0.66,1,0.35,0.45}})[max(CcCtrl.CcPreset, 1)][4])" },
+						Green1 = Input { Expression = "iif(CcCtrl.CcPreset == 0, ColCcText.TopLeftGreen, ({{1,1,1,0.08,0.08,0.1,0.45,0.47,0.5,0.93,0.2,0.3},{0.13,0.14,0.17,0.95,0.95,0.96,0.6,0.62,0.66,1,0.35,0.45}})[max(CcCtrl.CcPreset, 1)][5])" },
+						Blue1 = Input { Expression = "iif(CcCtrl.CcPreset == 0, ColCcText.TopLeftBlue, ({{1,1,1,0.08,0.08,0.1,0.45,0.47,0.5,0.93,0.2,0.3},{0.13,0.14,0.17,0.95,0.95,0.96,0.6,0.62,0.66,1,0.35,0.45}})[max(CcCtrl.CcPreset, 1)][6])" },
+						Wrap = Input { Value = 1 },
+						LayoutRotation = Input { Value = 1 },
+						TransformRotation = Input { Value = 1 },
+						Softness1 = Input { Value = 1 },
+						VerticalJustificationNew = Input { Value = 3 },
+						HorizontalJustificationNew = Input { Value = 3 },
+						Size = Input { Expression = "CcCtrl.CcSize * 0.8" },
+						GlobalIn = Input { Value = -480 }
+					}
+				},
+				CcNameM = Transform {
+					ViewInfo = OperatorInfo { Pos = { -165, 16.5 } },
+					Inputs = {
+						Center = Input { Expression = "Point(0.5 + (CcCtrl.KCol) - CcCtrl.NameA.X, 0.5 + (CcCtrl.KTop - CcCtrl.CcPad*CcCtrl.CcSize*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height'))) - CcCtrl.NameA.Y)" },
+						Input = Input {
+							SourceOp = "CcNameT",
+							Source = "Output"
+						}
+					}
+				},
+				CcMetaT = TextPlus {
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -275, 82.5 } },
+					Inputs = {
+						UseFrameFormatSettings = Input { Value = 1 },
+						HorizontalLeftCenterRight = Input { Value = -1 },
+						Font = Input {
+							Value = "Open Sans",
+							Expression = "CcBodyT.Font"
+						},
+						Width = Input { Value = 1920 },
+						Style = Input { Value = "Regular" },
+						Height = Input { Value = 1080 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						StyledText = Input { Expression = "Text(CcCtrl.CcMeta.Value)" },
+						Red1 = Input { Expression = "iif(CcCtrl.CcPreset == 0, ColCcDim.TopLeftRed, ({{1,1,1,0.08,0.08,0.1,0.45,0.47,0.5,0.93,0.2,0.3},{0.13,0.14,0.17,0.95,0.95,0.96,0.6,0.62,0.66,1,0.35,0.45}})[max(CcCtrl.CcPreset, 1)][7])" },
+						Green1 = Input { Expression = "iif(CcCtrl.CcPreset == 0, ColCcDim.TopLeftGreen, ({{1,1,1,0.08,0.08,0.1,0.45,0.47,0.5,0.93,0.2,0.3},{0.13,0.14,0.17,0.95,0.95,0.96,0.6,0.62,0.66,1,0.35,0.45}})[max(CcCtrl.CcPreset, 1)][8])" },
+						Blue1 = Input { Expression = "iif(CcCtrl.CcPreset == 0, ColCcDim.TopLeftBlue, ({{1,1,1,0.08,0.08,0.1,0.45,0.47,0.5,0.93,0.2,0.3},{0.13,0.14,0.17,0.95,0.95,0.96,0.6,0.62,0.66,1,0.35,0.45}})[max(CcCtrl.CcPreset, 1)][9])" },
+						Wrap = Input { Value = 1 },
+						LayoutRotation = Input { Value = 1 },
+						TransformRotation = Input { Value = 1 },
+						Softness1 = Input { Value = 1 },
+						VerticalJustificationNew = Input { Value = 3 },
+						HorizontalJustificationNew = Input { Value = 3 },
+						Size = Input { Expression = "CcCtrl.CcSize * 0.7" },
+						GlobalIn = Input { Value = -480 }
+					}
+				},
+				CcMetaM = Transform {
+					ViewInfo = OperatorInfo { Pos = { -165, 82.5 } },
+					Inputs = {
+						Center = Input { Expression = "Point(0.5 + (iif(CcCtrl.CcStyle == 0, CcCtrl.KCol + CcCtrl.NameS.X + 0.6*CcCtrl.CcSize, CcCtrl.KLeft + CcCtrl.KCard.X - CcCtrl.CcPad*CcCtrl.CcSize - CcCtrl.MetaS.X)) - CcCtrl.MetaA.X, 0.5 + (CcCtrl.KTop - (CcCtrl.CcPad*CcCtrl.CcSize + max(CcCtrl.NameS.Y - CcCtrl.MetaS.Y, 0))*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height'))) - CcCtrl.MetaA.Y)" },
+						Input = Input {
+							SourceOp = "CcMetaT",
+							Source = "Output"
+						}
+					}
+				},
+				CcBodyT = TextPlus {
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -275, 148.5 } },
+					Inputs = {
+						UseFrameFormatSettings = Input { Value = 1 },
+						HorizontalLeftCenterRight = Input { Value = -1 },
+						Font = Input { Value = "Microsoft JhengHei" },
+						Width = Input { Value = 1920 },
+						Style = Input { Value = "Regular" },
+						Height = Input { Value = 1080 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						StyledText = Input { Expression = "Text(CcCtrl.CcBody.Value)" },
+						Red1 = Input { Expression = "iif(CcCtrl.CcPreset == 0, ColCcText.TopLeftRed, ({{1,1,1,0.08,0.08,0.1,0.45,0.47,0.5,0.93,0.2,0.3},{0.13,0.14,0.17,0.95,0.95,0.96,0.6,0.62,0.66,1,0.35,0.45}})[max(CcCtrl.CcPreset, 1)][4])" },
+						Green1 = Input { Expression = "iif(CcCtrl.CcPreset == 0, ColCcText.TopLeftGreen, ({{1,1,1,0.08,0.08,0.1,0.45,0.47,0.5,0.93,0.2,0.3},{0.13,0.14,0.17,0.95,0.95,0.96,0.6,0.62,0.66,1,0.35,0.45}})[max(CcCtrl.CcPreset, 1)][5])" },
+						Blue1 = Input { Expression = "iif(CcCtrl.CcPreset == 0, ColCcText.TopLeftBlue, ({{1,1,1,0.08,0.08,0.1,0.45,0.47,0.5,0.93,0.2,0.3},{0.13,0.14,0.17,0.95,0.95,0.96,0.6,0.62,0.66,1,0.35,0.45}})[max(CcCtrl.CcPreset, 1)][6])" },
+						Wrap = Input { Value = 1 },
+						LayoutRotation = Input { Value = 1 },
+						TransformRotation = Input { Value = 1 },
+						Softness1 = Input { Value = 1 },
+						VerticalJustificationNew = Input { Value = 3 },
+						HorizontalJustificationNew = Input { Value = 3 },
+						Size = Input { Expression = "CcCtrl.CcSize * 1" },
+						GlobalIn = Input { Value = -480 }
+					}
+				},
+				CcBodyM = Transform {
+					ViewInfo = OperatorInfo { Pos = { -165, 148.5 } },
+					Inputs = {
+						Center = Input { Expression = "Point(0.5 + (CcCtrl.KCol) - CcCtrl.BodyA.X, 0.5 + (CcCtrl.KTop - (CcCtrl.CcPad*CcCtrl.CcSize + CcCtrl.KNameH + 0.45*CcCtrl.CcSize)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height'))) - CcCtrl.BodyA.Y)" },
+						Input = Input {
+							SourceOp = "CcBodyT",
+							Source = "Output"
+						}
+					}
+				},
+				CcFootT = TextPlus {
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -275, 214.5 } },
+					Inputs = {
+						UseFrameFormatSettings = Input { Value = 1 },
+						HorizontalLeftCenterRight = Input { Value = -1 },
+						Font = Input {
+							Value = "Open Sans",
+							Expression = "CcBodyT.Font"
+						},
+						Width = Input { Value = 1920 },
+						Style = Input { Value = "Regular" },
+						Height = Input { Value = 1080 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						StyledText = Input { Expression = "Text((function(a, b, word, p)\n    local n = a\n    if b > a then p = min(max(p, 0), 1) n = a + (b - a)*p*p*(3 - 2*p) end\n    local s = string.format(\"%d\", math.floor(n + 0.5)):reverse():gsub(\"(%d%d%d)\", \"%1,\"):reverse():gsub(\"^,\", \"\")\n    if word ~= \"\" then s = s .. string.rep(string.char(194, 160), 4) .. word end\n    return s\n  end)(CcCtrl.CcLikes, CcCtrl.CcLikesEnd, CcCtrl.CcFoot.Value, (time - comp.RenderStart - CcCtrl.CcIn)/max(comp.RenderEnd - comp.RenderStart - CcCtrl.CcIn - CcCtrl.CcOut - 12, 1)))" },
+						Red1 = Input { Expression = "iif(CcCtrl.CcPreset == 0, ColCcDim.TopLeftRed, ({{1,1,1,0.08,0.08,0.1,0.45,0.47,0.5,0.93,0.2,0.3},{0.13,0.14,0.17,0.95,0.95,0.96,0.6,0.62,0.66,1,0.35,0.45}})[max(CcCtrl.CcPreset, 1)][7])" },
+						Green1 = Input { Expression = "iif(CcCtrl.CcPreset == 0, ColCcDim.TopLeftGreen, ({{1,1,1,0.08,0.08,0.1,0.45,0.47,0.5,0.93,0.2,0.3},{0.13,0.14,0.17,0.95,0.95,0.96,0.6,0.62,0.66,1,0.35,0.45}})[max(CcCtrl.CcPreset, 1)][8])" },
+						Blue1 = Input { Expression = "iif(CcCtrl.CcPreset == 0, ColCcDim.TopLeftBlue, ({{1,1,1,0.08,0.08,0.1,0.45,0.47,0.5,0.93,0.2,0.3},{0.13,0.14,0.17,0.95,0.95,0.96,0.6,0.62,0.66,1,0.35,0.45}})[max(CcCtrl.CcPreset, 1)][9])" },
+						Wrap = Input { Value = 1 },
+						LayoutRotation = Input { Value = 1 },
+						TransformRotation = Input { Value = 1 },
+						Softness1 = Input { Value = 1 },
+						VerticalJustificationNew = Input { Value = 3 },
+						HorizontalJustificationNew = Input { Value = 3 },
+						Size = Input { Expression = "CcCtrl.CcSize * 0.75" },
+						GlobalIn = Input { Value = -480 }
+					}
+				},
+				CcFootM = Transform {
+					ViewInfo = OperatorInfo { Pos = { -165, 214.5 } },
+					Inputs = {
+						Center = Input { Expression = "Point(0.5 + (CcCtrl.KCol + 1.1*CcCtrl.CcSize) - CcCtrl.FootA.X, 0.5 + (CcCtrl.KTop - (CcCtrl.KRowY + max(0.75*CcCtrl.CcSize - CcCtrl.FootS.Y, 0)/2)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height'))) - CcCtrl.FootA.Y)" },
+						Input = Input {
+							SourceOp = "CcFootT",
+							Source = "Output"
+						}
+					}
+				},
+				CcInitT = TextPlus {
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -275, 280.5 } },
+					Inputs = {
+						UseFrameFormatSettings = Input { Value = 1 },
+						HorizontalLeftCenterRight = Input { Value = -1 },
+						Font = Input {
+							Value = "Open Sans",
+							Expression = "CcBodyT.Font"
+						},
+						Width = Input { Value = 1920 },
+						Style = Input { Value = "Bold" },
+						Height = Input { Value = 1080 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						StyledText = Input { Expression = "Text((CcCtrl.CcName.Value:match(\"^%s*([^\" .. string.char(128) .. \"-\" .. string.char(191) .. \"][\" .. string.char(128) .. \"-\" .. string.char(191) .. \"]*)\") or \"\"):upper())" },
+						Wrap = Input { Value = 1 },
+						LayoutRotation = Input { Value = 1 },
+						TransformRotation = Input { Value = 1 },
+						Softness1 = Input { Value = 1 },
+						VerticalJustificationNew = Input { Value = 3 },
+						HorizontalJustificationNew = Input { Value = 3 },
+						Size = Input { Expression = "CcCtrl.CcSize * 1.05" },
+						GlobalIn = Input { Value = -480 }
+					}
+				},
+				CcInitM = Transform {
+					ViewInfo = OperatorInfo { Pos = { -165, 280.5 } },
+					Inputs = {
+						Center = Input { Expression = "Point(0.5 + (CcCtrl.KLeft + CcCtrl.CcPad*CcCtrl.CcSize + CcCtrl.CcSize) - CcCtrl.InitA.X - CcCtrl.InitS.X/2, 0.5 + (CcCtrl.KTop - (CcCtrl.CcPad*CcCtrl.CcSize + CcCtrl.CcSize)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height'))) - CcCtrl.InitA.Y + CcCtrl.InitS.Y*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height'))/2)" },
+						Input = Input {
+							SourceOp = "CcInitT",
+							Source = "Output"
+						}
+					}
+				},
+				CcCardMask = RectangleMask {
+					ViewInfo = OperatorInfo { Pos = { 55, -82.5 } },
+					Inputs = {
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						UseFrameFormatSettings = Input { Value = 1 },
+						CornerRadius = Input { Expression = "CcCtrl.CcRound" },
+						Width = Input { Expression = "CcCtrl.KCard.X" },
+						Center = Input { Expression = "CcCtrl.CcPos" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						Height = Input { Expression = "CcCtrl.KCard.Y*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height'))" },
+						MaskWidth = Input { Value = 1920 }
+					}
+				},
+				CcCard = Background {
+					ViewInfo = OperatorInfo { Pos = { 55, -49.5 } },
+					Inputs = {
+						TopLeftRed = Input { Expression = "iif(CcCtrl.CcPreset == 0, ColCcCard.TopLeftRed, ({{1,1,1,0.08,0.08,0.1,0.45,0.47,0.5,0.93,0.2,0.3},{0.13,0.14,0.17,0.95,0.95,0.96,0.6,0.62,0.66,1,0.35,0.45}})[max(CcCtrl.CcPreset, 1)][1])" },
+						TopLeftGreen = Input { Expression = "iif(CcCtrl.CcPreset == 0, ColCcCard.TopLeftGreen, ({{1,1,1,0.08,0.08,0.1,0.45,0.47,0.5,0.93,0.2,0.3},{0.13,0.14,0.17,0.95,0.95,0.96,0.6,0.62,0.66,1,0.35,0.45}})[max(CcCtrl.CcPreset, 1)][2])" },
+						TopLeftBlue = Input { Expression = "iif(CcCtrl.CcPreset == 0, ColCcCard.TopLeftBlue, ({{1,1,1,0.08,0.08,0.1,0.45,0.47,0.5,0.93,0.2,0.3},{0.13,0.14,0.17,0.95,0.95,0.96,0.6,0.62,0.66,1,0.35,0.45}})[max(CcCtrl.CcPreset, 1)][3])" },
+						UseFrameFormatSettings = Input { Value = 1 },
+						EffectMask = Input {
+							SourceOp = "CcCardMask",
+							Source = "Mask"
+						},
+						Width = Input { Value = 1920 },
+						GlobalIn = Input { Value = -480 },
+						Height = Input { Value = 1080 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } }
+					}
+				},
+				CcAvatarMask = RectangleMask {
+					ViewInfo = OperatorInfo { Pos = { 165, -82.5 } },
+					Inputs = {
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						UseFrameFormatSettings = Input { Value = 1 },
+						CornerRadius = Input { Expression = "iif(CcCtrl.CcStyle == 0, 1, 0.45)" },
+						Width = Input { Expression = "CcCtrl.CcSize*2" },
+						Center = Input { Expression = "Point(CcCtrl.KLeft + CcCtrl.CcPad*CcCtrl.CcSize + CcCtrl.CcSize, CcCtrl.KTop - (CcCtrl.CcPad*CcCtrl.CcSize + CcCtrl.CcSize)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')))" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						Height = Input { Expression = "CcCtrl.CcSize*2*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height'))" },
+						MaskWidth = Input { Value = 1920 }
+					}
+				},
+				ColCcAvatar = Background {
+					ViewInfo = OperatorInfo { Pos = { 55, -16.5 } },
+					Inputs = {
+						TopLeftRed = Input { Value = 0.2 },
+						TopLeftGreen = Input { Value = 0.55 },
+						TopLeftBlue = Input { Value = 0.95 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						EffectMask = Input {
+							SourceOp = "CcAvatarMask",
+							Source = "Mask"
+						},
+						Width = Input { Value = 1920 },
+						GlobalIn = Input { Value = -480 },
+						Height = Input { Value = 1080 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } }
+					}
+				},
+				CcOver1 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 385, 82.5 } },
+					Inputs = {
+						Blend = Input { Expression = "1" },
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							SourceOp = "CcCard",
+							Source = "Output"
+						},
+						Foreground = Input {
+							SourceOp = "ColCcAvatar",
+							Source = "Output"
+						}
+					}
+				},
+				CcOver2 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 495, 82.5 } },
+					Inputs = {
+						Blend = Input { Expression = "1" },
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							SourceOp = "CcOver1",
+							Source = "Output"
+						},
+						Foreground = Input {
+							SourceOp = "CcInitM",
+							Source = "Output"
+						}
+					}
+				},
+				CcOver3 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 605, 82.5 } },
+					Inputs = {
+						Blend = Input { Expression = "1" },
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							SourceOp = "CcOver2",
+							Source = "Output"
+						},
+						Foreground = Input {
+							SourceOp = "CcNameM",
+							Source = "Output"
+						}
+					}
+				},
+				CcOver4 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 715, 82.5 } },
+					Inputs = {
+						Blend = Input { Expression = "1" },
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							SourceOp = "CcOver3",
+							Source = "Output"
+						},
+						Foreground = Input {
+							SourceOp = "CcMetaM",
+							Source = "Output"
+						}
+					}
+				},
+				CcOver5 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 825, 82.5 } },
+					Inputs = {
+						Blend = Input { Expression = "1" },
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							SourceOp = "CcOver4",
+							Source = "Output"
+						},
+						Foreground = Input {
+							SourceOp = "CcBodyM",
+							Source = "Output"
+						}
+					}
+				},
+				CcHeartA = RectangleMask {
+					ViewInfo = OperatorInfo { Pos = { 275, -82.5 } },
+					Inputs = {
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Angle = Input { Value = 45 },
+						Width = Input { Expression = "(CcCtrl.CcSize*0.75/1.707)" },
+						Center = Input { Expression = "Point(CcCtrl.KCol + 0.375*CcCtrl.CcSize, CcCtrl.KTop - (CcCtrl.KRowY + 0.375*CcCtrl.CcSize)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')) - 0.073*(CcCtrl.CcSize*0.75/1.707)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')))" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						Height = Input { Expression = "(CcCtrl.CcSize*0.75/1.707)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height'))" },
+						MaskWidth = Input { Value = 1920 }
+					}
+				},
+				CcHeartB = EllipseMask {
+					ViewInfo = OperatorInfo { Pos = { 385, -82.5 } },
+					Inputs = {
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						EffectMask = Input {
+							SourceOp = "CcHeartA",
+							Source = "Mask"
+						},
+						UseFrameFormatSettings = Input { Value = 1 },
+						Width = Input { Expression = "(CcCtrl.CcSize*0.75/1.707)" },
+						Center = Input { Expression = "Point(CcCtrl.KCol + 0.375*CcCtrl.CcSize - 0.3536*(CcCtrl.CcSize*0.75/1.707), CcCtrl.KTop - (CcCtrl.KRowY + 0.375*CcCtrl.CcSize)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')) + (0.3536 - 0.073)*(CcCtrl.CcSize*0.75/1.707)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')))" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						Height = Input { Expression = "(CcCtrl.CcSize*0.75/1.707)" },
+						MaskWidth = Input { Value = 1920 }
+					}
+				},
+				CcHeartC = EllipseMask {
+					ViewInfo = OperatorInfo { Pos = { 495, -82.5 } },
+					Inputs = {
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						EffectMask = Input {
+							SourceOp = "CcHeartB",
+							Source = "Mask"
+						},
+						UseFrameFormatSettings = Input { Value = 1 },
+						Width = Input { Expression = "(CcCtrl.CcSize*0.75/1.707)" },
+						Center = Input { Expression = "Point(CcCtrl.KCol + 0.375*CcCtrl.CcSize + 0.3536*(CcCtrl.CcSize*0.75/1.707), CcCtrl.KTop - (CcCtrl.KRowY + 0.375*CcCtrl.CcSize)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')) + (0.3536 - 0.073)*(CcCtrl.CcSize*0.75/1.707)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')))" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						Height = Input { Expression = "(CcCtrl.CcSize*0.75/1.707)" },
+						MaskWidth = Input { Value = 1920 }
+					}
+				},
+				CcHeart = Background {
+					ViewInfo = OperatorInfo { Pos = { 55, 16.5 } },
+					Inputs = {
+						TopLeftRed = Input { Expression = "iif(CcCtrl.CcPreset == 0, ColCcHeart.TopLeftRed, ({{1,1,1,0.08,0.08,0.1,0.45,0.47,0.5,0.93,0.2,0.3},{0.13,0.14,0.17,0.95,0.95,0.96,0.6,0.62,0.66,1,0.35,0.45}})[max(CcCtrl.CcPreset, 1)][10])" },
+						TopLeftGreen = Input { Expression = "iif(CcCtrl.CcPreset == 0, ColCcHeart.TopLeftGreen, ({{1,1,1,0.08,0.08,0.1,0.45,0.47,0.5,0.93,0.2,0.3},{0.13,0.14,0.17,0.95,0.95,0.96,0.6,0.62,0.66,1,0.35,0.45}})[max(CcCtrl.CcPreset, 1)][11])" },
+						TopLeftBlue = Input { Expression = "iif(CcCtrl.CcPreset == 0, ColCcHeart.TopLeftBlue, ({{1,1,1,0.08,0.08,0.1,0.45,0.47,0.5,0.93,0.2,0.3},{0.13,0.14,0.17,0.95,0.95,0.96,0.6,0.62,0.66,1,0.35,0.45}})[max(CcCtrl.CcPreset, 1)][12])" },
+						UseFrameFormatSettings = Input { Value = 1 },
+						EffectMask = Input {
+							SourceOp = "CcHeartC",
+							Source = "Mask"
+						},
+						Width = Input { Value = 1920 },
+						GlobalIn = Input { Value = -480 },
+						Height = Input { Value = 1080 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } }
+					}
+				},
+				CcOver6 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 935, 82.5 } },
+					Inputs = {
+						Blend = Input { Expression = "CcCtrl.KFoot" },
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							SourceOp = "CcOver5",
+							Source = "Output"
+						},
+						Foreground = Input {
+							SourceOp = "CcHeart",
+							Source = "Output"
+						}
+					}
+				},
+				CcOver7 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 1045, 82.5 } },
+					Inputs = {
+						Blend = Input { Expression = "CcCtrl.KFoot" },
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							SourceOp = "CcOver6",
+							Source = "Output"
+						},
+						Foreground = Input {
+							SourceOp = "CcFootM",
+							Source = "Output"
+						}
+					}
+				},
+				CcRoom = SetDomain {
+					ViewInfo = OperatorInfo { Pos = { 1155, 82.5 } },
+					Inputs = {
+						Mode = Input { Value = FuID { "Set" } },
+						Input = Input {
+							SourceOp = "CcOver7",
+							Source = "Output"
+						}
+					}
+				},
+				CcSoft = Blur {
+					ViewInfo = OperatorInfo { Pos = { 1155, 115.5 } },
+					Inputs = {
+						XBlurSize = Input { Expression = "CcCtrl.CcSize * 25" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						Input = Input {
+							SourceOp = "CcRoom",
+							Source = "Output"
+						}
+					}
+				},
+				CcLit = Custom {
+					ViewInfo = OperatorInfo { Pos = { 1265, 82.5 } },
+					Inputs = {
+						AlphaExpression = Input { Value = "a1 + (1 - a1)*n1*geta2b(x, y + n2)" },
+						LUTIn1 = Input {
+							SourceOp = "CustomTool1LUTIn1",
+							Source = "Value"
+						},
+						LUTIn2 = Input {
+							SourceOp = "CustomTool1LUTIn2",
+							Source = "Value"
+						},
+						LUTIn3 = Input {
+							SourceOp = "CustomTool1LUTIn3",
+							Source = "Value"
+						},
+						LUTIn4 = Input {
+							SourceOp = "CustomTool1LUTIn4",
+							Source = "Value"
+						},
+						Image1 = Input {
+							SourceOp = "CcRoom",
+							Source = "Output"
+						},
+						Image2 = Input {
+							SourceOp = "CcSoft",
+							Source = "Output"
+						},
+						NumberIn1 = Input { Expression = "CcCtrl.CcShadow" },
+						NumberIn2 = Input { Expression = "CcCtrl.CcSize * 0.25" }
+					}
+				},
+				CustomTool1LUTIn1 = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true,
+					SplineColor = { Red = 0, Green = 0, Blue = 0 }
+				},
+				CustomTool1LUTIn2 = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true,
+					SplineColor = { Red = 0, Green = 0, Blue = 0 }
+				},
+				CustomTool1LUTIn3 = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true,
+					SplineColor = { Red = 0, Green = 0, Blue = 0 }
+				},
+				CustomTool1LUTIn4 = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true,
+					SplineColor = { Red = 0, Green = 0, Blue = 0 }
+				},
+				CcEnterM = Transform {
+					ViewInfo = OperatorInfo { Pos = { 1375, 82.5 } },
+					Inputs = {
+						Center = Input { Expression = "Point(0.5 + CcCtrl.Move.X, 0.5 + CcCtrl.Move.Y)" },
+						Input = Input {
+							SourceOp = "CcLit",
+							Source = "Output"
+						},
+						Pivot = Input { Expression = "CcCtrl.CcPos" },
+						Size = Input { Expression = "CcCtrl.Scale" }
+					}
+				},
+				CcFinal = Merge {
+					ViewInfo = OperatorInfo { Pos = { 1485, 82.5 } },
+					Inputs = {
+						Blend = Input { Expression = "CcCtrl.Fade" },
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							SourceOp = "CcCtrl",
+							Source = "Output"
+						},
+						Foreground = Input {
+							SourceOp = "CcEnterM",
+							Source = "Output"
+						}
+					}
+				},
+				ColCcCard = Background {
+					ViewInfo = OperatorInfo { Pos = { -275, -181.5 } },
+					Inputs = {
+						TopLeftBlue = Input { Value = 1 },
+						TopLeftGreen = Input { Value = 1 },
+						TopLeftRed = Input { Value = 1 },
+						Width = Input { Value = 16 },
+						GlobalIn = Input { Value = -480 },
+						Height = Input { Value = 16 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } }
+					}
+				},
+				ColCcText = Background {
+					ViewInfo = OperatorInfo { Pos = { -165, -181.5 } },
+					Inputs = {
+						TopLeftBlue = Input { Value = 0.1 },
+						TopLeftGreen = Input { Value = 0.08 },
+						TopLeftRed = Input { Value = 0.08 },
+						Width = Input { Value = 16 },
+						GlobalIn = Input { Value = -480 },
+						Height = Input { Value = 16 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } }
+					}
+				},
+				ColCcDim = Background {
+					ViewInfo = OperatorInfo { Pos = { -55, -181.5 } },
+					Inputs = {
+						TopLeftBlue = Input { Value = 0.5 },
+						TopLeftGreen = Input { Value = 0.47 },
+						TopLeftRed = Input { Value = 0.45 },
+						Width = Input { Value = 16 },
+						GlobalIn = Input { Value = -480 },
+						Height = Input { Value = 16 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } }
+					}
+				},
+				ColCcHeart = Background {
+					ViewInfo = OperatorInfo { Pos = { 55, -181.5 } },
+					Inputs = {
+						TopLeftBlue = Input { Value = 0.3 },
+						TopLeftGreen = Input { Value = 0.2 },
+						TopLeftRed = Input { Value = 0.93 },
+						Width = Input { Value = 16 },
+						GlobalIn = Input { Value = -480 },
+						Height = Input { Value = 16 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } }
+					}
+				}
+			
+			}
+		}
+	},
+	ActiveTool = "CommentCard"
+}

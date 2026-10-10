@@ -61,7 +61,7 @@
 - Paper Tear 第二版「兩半不變形地往兩邊滑開」使用者覺得硬、不好看（2026-10-11）。原因：純平移、兩半完全對稱同步、用 smoothstep、陰影不變。改法：每一半各一個 `Custom` 切出來（帶透明度），再各接一個 `Transform` 做剛體運動，以裂口終點那一頭為 `Pivot` 各轉十幾度、位移用越走越快的曲線（`t*t*(2-t)`）、第二半晚一點出發、順著線往裂口起點方向帶一點漂移；兩半合起來的透明度模糊後當陰影，模糊量和偏移隨離開的程度變大。裂開的階段紙還連著，不能用剛體旋轉（裂口前方會對不上），用取樣位移做成楔形裂口（寬度和「裂口已經走過多遠」成正比），裂完時剛好接上旋轉。要「東西離開畫面」的動作都可以照這個配方：轉一點、加速、錯開時間、陰影跟著變。
 - 兩個帶抗鋸齒邊的半張圖沿同一條線拼回去，接縫會透出一條細線（兩邊各 0.5 的透明度疊起來只有 0.75）。還沒分開的地方讓下層那一半整片鋪滿、不切邊。
 - `Transform` 的 `Pivot`、`Center` 是 0 到 1 的畫面座標，從「以畫面寬為單位」的向量換算時 y 要乘寬高比。控制節點的運算式裡用 `comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')` 取得。`Transform` 的 `Angle` 正值是逆時針。
-- 建置腳本第一個 `AddTool` 就回傳 nil（`lib.lua` 現在會印 `AddTool failed`）、又沒有印 `NO_COMP`：Resolve 不在 Fusion 頁面，`GetCurrentComp()` 拿到的是別的合成。使用者在 Edit 頁面測過東西之後常這樣。`lab.lua` 這時可能因為媒體池裡的測試片段被移走而印 `NO_CLIP`；時間軸上的片段和它的合成還在的話，只要 `OpenPage("fusion")` 就能繼續。
+- 建置腳本第一個 `AddTool` 就回傳 nil：Resolve 不在 Fusion 頁面，`GetCurrentComp()` 拿到的是別的合成，使用者在 Edit 頁面測過東西之後常這樣。`lib.lua` 的 `L.comp` 現在會先檢查頁面並印 `NOT_ON_FUSION_PAGE`，跑 `lab.lua` 就會回到實驗片段（它會移播放頭，不靠播放頭剛好停在哪）。`CreateEmptyTimeline` 在 Fusion 頁面會失敗，要先切到 Edit 頁面。空的 Fusion 合成（`InsertFusionCompositionIntoTimeline`）長度是 5 秒、時間單位是時間軸的影格（24fps 是 0 到 119），和現在那支 48fps 影片的 0 到 235 不同，測試指令的取樣畫格要跟著改。
 - 試過讓兩半位移量隨「裂口經過多久」線性增加（楔形張開），結果是剪切變形，畫面裡的圓會被拉成橢圓，不能用。位移只能有很小一段是漸變的（裂口尖端），其餘要整塊一起動。
 - 被移開的那一半取樣原圖時座標會超出 0 到 1，要自己判斷並改顯示後一段，不然是黑的。
 - `Custom` 的中間變數是照編號依序算的，`i1` 的式子裡用到 `i2` 會整張變黑，沒有錯誤訊息。
@@ -244,3 +244,19 @@
 - 使用者在 Edit 頁面挑了幾個範本從特效庫拖進去，都能載入、畫面大致正常（2026-10-11）。這只確認了「巨集範本拖得進去」，各範本的細節和下面幾節列的未測項目仍然沒有逐一驗證。
 - Preferences > System > General 的 `Automatic scripted actions`：決定內嵌在專案或範本裡的腳本動作可以自動執行到什麼程度，「只允許安全的子集」或「全部允許」，官方建議留在 `Allow safe`。和 `External scripting using`（外部腳本能不能連進來，我們用 `Local`）是兩回事。我們的範本裡的運算式算不算在內、在 `Allow safe` 下是否全部正常，沒有驗證過。
 - **21.1 內建的 MCP 伺服器我們用不到**（2026-10-11 查過，使用者決定不採用）。它在安裝資料夾的 `DaVinciResolve.mcpb`，用 `File > Setup AI Assistants` 設定，只有 14 個工具，核心是 `run_script`：跑 Python 呼叫和 `fuscript` 同一套腳本 API，其餘是查 API 文件、產生 LUT 和 DCTL。沒有比 `fuscript` 多的能力，換過去還要把所有 Lua 建置腳本改寫成 Python。沒有實際接上去用過。
+
+### 對話與社群類：Typing、Comment Card、Chat Bubbles、Subscribe Reminder（2026-10-11）
+
+- **量文字有多大**：運算式裡讀 `某Text.Output.DataWindow`（`left`、`right`、`bottom`、`top`，單位是像素，除以 `Output.Width`、`Output.Height` 變成比例）。沒有接到輸出的 Text+ 也讀得到，所以可以放幾個只拿來量的「尺」。還沒算過圖時四個值是 -1000000 而不是 nil，兩種都要擋。量到的是墨水的範圍：結尾的空白不算、不同的字高度不同。要穩定的行高，量一個只有 `|` 的尺；要算進結尾空白的寬度，量「文字加一個 `|`」再減掉 `|` 的右緣。
+- **排版的做法**：文字一律在畫面正中央算出來、量好，再用 `Transform` 搬到要的位置（`Center = 0.5 + 目標左上角 - 量到的左上角`）。卡片的寬高由量到的尺寸加總，Comment Card 整張都是這樣排的。
+- **不要讓很多運算式都去讀 `DataWindow`**。Chat Bubbles 第一版七則訊息各自量寬度，位置又一則疊一則地互相引用，每格要 4 秒。改成每則訊息一個 Text+ 自己畫泡泡（見下一則），只留三個內容固定的尺（一行的高度、兩行的高度、三個點的寬度），每格 0.6 秒。
+- **一個 Text+ 同時畫字和自動貼合的底框**：`Enabled2 = 1` 打開第二層，`ElementShape2 = 2`、`Level2 = 0`，用 `ExtendHorizontal2`、`ExtendVertical2`、`Round2` 調留白和圓角，`Red2` 等設顏色。預設的層次就是底框在字後面。**第二層的輸入要在 `Enabled2` 設成 1 之後過一下才會出現**，馬上去設會是 nil：設完用 `while t.ExtendHorizontal2 == nil do bmd.wait(0.05) end` 等它（要先 `comp:Unlock()`）。靠左靠右可以用運算式切：`HorizontalLeftCenterRight` 設 `iif(右邊, 1, -1)`，泡泡就會從 `Center` 往另一邊長，不用知道寬度。
+- `EllipseMask` 的 `Height` 是以畫面「寬」為單位，`RectangleMask` 的 `Height` 是以畫面「高」為單位。要畫正圓：橢圓的寬高填同一個數；要畫正方形：矩形的高要乘寬高比。`RectangleMask` 的 `CornerRadius` 設 1 再給正方形的寬高就是圓。遮罩可以一個接一個（後一個的 `EffectMask` 接前一個的 `Mask`）疊成愛心、鈴鐺這種圖形；`EllipseMask` 的 `Solid = 0` 加 `BorderWidth` 是空心圓環。
+- 自訂控制項叫 `Start` 會撞到 `Background` 漸層的 `Start`（讀回來是一個座標），算圖直接失敗、沒有錯誤訊息。又一個撞名的例子，驅動值一律加前綴。
+- 控制項的顯示名稱裡不要有等號。`compose.lua` 的設定檔用第一個等號切開名稱和值，`Characters Per Second (0 = fit…)` 會被切錯，印出 `no control`。用冒號（`0: fit…`）。
+- **建置腳本中途出錯會把合成留在鎖定狀態**，而且每失敗一次多鎖一層。之後的腳本看起來正常但行為怪異。除錯時用 `xpcall(function() dofile("build/x.lua") end, debug.traceback)` 包起來看是哪一行，結束後 `while comp:GetAttrs().COMPB_Locked do comp:Unlock() end`。`fuscript` 對腳本錯誤常常什麼都不印就結束，「沒有 render 那一行」就是出錯了。
+- 內容同時有單引號、三引號和反斜線的檔案不要用殼層 heredoc 寫（殼層會說找不到對應的引號），用 Write 工具寫成檔案再用小腳本拼接。
+- 清單裡一則訊息要換行：使用者寫字面上的 `\n`，運算式裡用 `gsub(string.char(92) .. "n", string.char(10))` 換成真的換行，不在運算式字串裡寫反斜線。
+- 這四個範本都只在實驗合成裡用腳本測過，沒有從 Edit 頁面拖過。
+- **線條圖示和實心圖示用同一組遮罩**：遮罩拼出的形狀接 `ErodeDilate`（`XAmount` 負值是往內縮），再用 `Custom` 算「原形狀減掉縮小的自己」就是外框線，切換成原形狀就是實心。Subscribe Reminder 的拇指和鈴鐺按下前後就是這樣切的。倒讚是同一組遮罩把 y 和角度都乘 -1。
+- Subscribe Reminder 第一版是自己想的通用樣式（紅膠囊、鈴鐺另一顆圓鈕），使用者要的是觀眾一眼認得的影片網站排法，而且台灣的口號是「按讚、訂閱、開啟小鈴鐺」三個動作。做這種「大家都看過」的介面，先開瀏覽器看實物再畫（版面照著排、圖示自己拼、不放商標），不要憑印象做通用版。

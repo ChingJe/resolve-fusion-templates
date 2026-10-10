@@ -1,0 +1,758 @@
+{
+	Tools = ordered() {
+		Typing = MacroOperator {
+			CtrlWZoom = false,
+			Inputs = ordered() {
+				Input1 = InstanceInput { SourceOp = "TyCtrl", Source = "TyList", Name = "Lines (0:00 Text)" },
+				Input2 = InstanceInput { SourceOp = "TyCtrl", Source = "TyTimed", Name = "Lines Start With A Time (0:02 Text)" },
+				Input3 = InstanceInput { SourceOp = "TyCtrl", Source = "TyCue", Name = "Line Number (keyframe 1, 2, 3)" },
+				Input4 = InstanceInput { SourceOp = "TyCtrl", Source = "FpsOverride", Name = "Frame Rate Override" },
+				Input5 = InstanceInput { SourceOp = "TyCtrl", Source = "TySpeed", Name = "Characters Per Second (0: fit the line's time)" },
+				Input6 = InstanceInput { SourceOp = "TyCtrl", Source = "TyEnd", Name = "Typing Is Done At" },
+				Input7 = InstanceInput { SourceOp = "TyCtrl", Source = "TyExit", Name = "At The End Of A Line" },
+				Input8 = InstanceInput { SourceOp = "TyCtrl", Source = "TyDel", Name = "Deleted Characters Per Second" },
+				Input9 = InstanceInput { SourceOp = "TyCtrl", Source = "TyCursor", Name = "Cursor" },
+				Input10 = InstanceInput { SourceOp = "TyCtrl", Source = "TyBlink", Name = "Cursor Blinks Per Second" },
+				Input11 = InstanceInput { SourceOp = "TyText", Source = "Font", Name = "Font", ControlGroup = 2 },
+				Input12 = InstanceInput { SourceOp = "TyText", Source = "Style", ControlGroup = 2 },
+				Input13 = InstanceInput { SourceOp = "TyCtrl", Source = "TySize", Name = "Size" },
+				Input14 = InstanceInput { SourceOp = "TyCtrl", Source = "TyPos", Name = "Position" },
+				Input15 = InstanceInput { SourceOp = "TyCtrl", Source = "TyAlign", Name = "Position Is" },
+				Input16 = InstanceInput { SourceOp = "TyCtrl", Source = "TyEdge", Name = "Outline" },
+				Input17 = InstanceInput { SourceOp = "TyCtrl", Source = "TyBox", Name = "Box Opacity" },
+				Input18 = InstanceInput { SourceOp = "TyCtrl", Source = "TyPad", Name = "Box Padding" },
+				Input19 = InstanceInput { SourceOp = "TyCtrl", Source = "TyRound", Name = "Box Roundness" },
+				Input20 = InstanceInput { SourceOp = "ColTy", Source = "TopLeftRed", Name = "Colour", ControlGroup = 3 },
+				Input21 = InstanceInput { SourceOp = "ColTy", Source = "TopLeftGreen", ControlGroup = 3 },
+				Input22 = InstanceInput { SourceOp = "ColTy", Source = "TopLeftBlue", ControlGroup = 3 },
+				Input23 = InstanceInput { SourceOp = "ColTyEdge", Source = "TopLeftRed", Name = "Outline Colour", ControlGroup = 4 },
+				Input24 = InstanceInput { SourceOp = "ColTyEdge", Source = "TopLeftGreen", ControlGroup = 4 },
+				Input25 = InstanceInput { SourceOp = "ColTyEdge", Source = "TopLeftBlue", ControlGroup = 4 },
+				Input26 = InstanceInput { SourceOp = "ColTyBox", Source = "TopLeftRed", Name = "Box Colour", ControlGroup = 5 },
+				Input27 = InstanceInput { SourceOp = "ColTyBox", Source = "TopLeftGreen", ControlGroup = 5 },
+				Input28 = InstanceInput { SourceOp = "ColTyBox", Source = "TopLeftBlue", ControlGroup = 5 },
+			},
+			Outputs = {
+				MainOutput1 = InstanceOutput { SourceOp = "TyFinal", Source = "Output" }
+			},
+			ViewInfo = GroupInfo { Pos = { 0, 0 } },
+			Tools = ordered() {
+				TyCtrl = Background {
+					CtrlWZoom = false,
+					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } },
+					UserControls = {
+						TyPos = {
+							INPID_PreviewControl = "CrosshairControl",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "Position",
+							LINKID_DataType = "Point"
+						},
+						TySize = {
+							INP_MaxScale = 0.3,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Size",
+							INP_Default = 0.06,
+							INP_MinScale = 0.02
+						},
+						Count = {
+							LINKID_DataType = "Point",
+							LINKS_Name = "Count",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl"
+						},
+						TyAlign = {
+							{
+								CCS_AddString = "Where The Line Starts"
+							},
+							{
+								CCS_AddString = "The Middle Of The Finished Line"
+							},
+							{
+								CCS_AddString = "The Middle Of What Is Typed So Far"
+							},
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "ComboControl",
+							LINKS_Name = "Position Is",
+							INP_Default = 1,
+							INP_Integer = true
+						},
+						TyBlink = {
+							INP_MaxScale = 6,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Cursor Blinks Per Second",
+							INP_Default = 1.5,
+							INP_MinScale = 0
+						},
+						TyDel = {
+							INP_MaxScale = 120,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Deleted Characters Per Second",
+							INP_Default = 40,
+							INP_MinScale = 1
+						},
+						TyCursor = {
+							{
+								CCS_AddString = "Bar"
+							},
+							{
+								CCS_AddString = "Block"
+							},
+							{
+								CCS_AddString = "Underline"
+							},
+							{
+								CCS_AddString = "None"
+							},
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "ComboControl",
+							LINKS_Name = "Cursor",
+							INP_Default = 0,
+							INP_Integer = true
+						},
+						TyTimed = {
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "CheckboxControl",
+							LINKS_Name = "Lines Start With A Time (0:02 Text)",
+							INP_Default = 1,
+							INP_Integer = true
+						},
+						TyEdge = {
+							INP_MaxScale = 0.03,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Outline",
+							INP_Default = 0.004,
+							INP_MinScale = 0
+						},
+						FpsOverride = {
+							INP_MaxScale = 120,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Frame Rate Override",
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						TyBox = {
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Box Opacity",
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						TySpeed = {
+							INP_MaxScale = 40,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Characters Per Second (0: fit the line's time)",
+							INP_Default = 12,
+							INP_MinScale = 0
+						},
+						TyPad = {
+							INP_MaxScale = 0.06,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Box Padding",
+							INP_Default = 0.012,
+							INP_MinScale = 0
+						},
+						TyEnd = {
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Typing Is Done At",
+							INP_Default = 0.6,
+							INP_MinScale = 0.1
+						},
+						TyRound = {
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Box Roundness",
+							INP_Default = 0.3,
+							INP_MinScale = 0
+						},
+						TyExit = {
+							{
+								CCS_AddString = "It Stays Until The Next One"
+							},
+							{
+								CCS_AddString = "It Is Deleted Backwards"
+							},
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "ComboControl",
+							LINKS_Name = "At The End Of A Line",
+							INP_Default = 0,
+							INP_Integer = true
+						},
+						Idx = {
+							INP_MaxScale = 100,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Idx",
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						TyCue = {
+							INP_MaxScale = 20,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Line Number (keyframe 1, 2, 3)",
+							INP_Default = 1,
+							INP_MinScale = 0
+						},
+						Since = {
+							INP_MaxScale = 100000,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Since",
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						Until = {
+							INP_MaxScale = 100000,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Until",
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						Cur = {
+							TEC_Lines = 1,
+							LINKID_DataType = "Text",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "TextEditControl",
+							LINKS_Name = "Cur",
+							INPS_DefaultText = ""
+						},
+						Total = {
+							INP_MaxScale = 10000,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Total",
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						TyList = {
+							TEC_Lines = 8,
+							LINKID_DataType = "Text",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "TextEditControl",
+							LINKS_Name = "Lines (0:00 Text)",
+							INPS_DefaultText = "0:00 Hello, is anyone there?\n0:02.5 Typing one letter at a time\n0:05 with a cursor that blinks"
+						},
+						Typed = {
+							TEC_Lines = 1,
+							LINKID_DataType = "Text",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "TextEditControl",
+							LINKS_Name = "Typed",
+							INPS_DefaultText = ""
+						},
+						Rule = {
+							LINKID_DataType = "Point",
+							LINKS_Name = "Rule",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl"
+						},
+						RuleY = {
+							LINKID_DataType = "Point",
+							LINKS_Name = "RuleY",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl"
+						},
+						Wid = {
+							INP_MaxScale = 4,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Wid",
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						FullW = {
+							INP_MaxScale = 4,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "FullW",
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						LineX = {
+							INP_MaxScale = 4,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "LineX",
+							INP_Default = 0,
+							INP_MinScale = -4
+						},
+						Curs = {
+							LINKID_DataType = "Point",
+							LINKS_Name = "Curs",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl"
+						},
+						Show = {
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Show",
+							INP_Default = 0,
+							INP_MinScale = 0
+						}
+					},
+					Inputs = {
+						TyPos = Input { Value = { 0.5, 0.14 } },
+						GlobalIn = Input { Value = -480 },
+						Width = Input { Value = 1920 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Height = Input { Value = 1080 },
+						TopLeftAlpha = Input { Value = 0 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Idx = Input { Expression = "(function(txt, timed, cue, fps, t0, t1, now, pick)\n  local idx, since, untl, text = 0, 0, 9999, \"\"\n  if timed == 0 then\n    idx = math.floor(cue + 0.0001)\n    for d = 1, 90 do\n      if now - d < t0 or math.floor(TyCtrl:GetValue(\"TyCue\", now - d) + 0.0001) ~= idx then break end\n      since = d\n    end\n    for d = 1, 60 do\n      if now + d > t1 then break end\n      if math.floor(TyCtrl:GetValue(\"TyCue\", now + d) + 0.0001) ~= idx then untl = d break end\n    end\n    local n = 0\n    for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n      n = n + 1\n      if n == idx then text = line end\n    end\n  else\n    local rel, len, best, nxt, n = now - t0, math.max(t1 - t0, 1), -1, 1e9, 0\n    for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n      n = n + 1\n      local stamp, name = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n      local f\n      if stamp then\n        local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n        if pct then f = tonumber(pct) / 100 * len\n        elseif fr then f = tonumber(fr)\n        elseif stamp:match(\"^[%d:%.]+$\") then\n          local sec = 0\n          for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n          if sec then f = math.floor(sec * fps + 0.5) end\n        end\n      end\n      if f then\n        if f <= rel + 0.001 then\n          if f >= best then best, idx, text = f, n, name end\n        elseif f < nxt then nxt = f end\n      end\n    end\n    if best < 0 then idx, text = 0, \"\" else since, untl = rel - best, nxt - rel end\n  end\n  if pick == 1 then return idx elseif pick == 2 then return since elseif pick == 3 then return untl end\n  return text\nend)(TyCtrl.TyList.Value, TyCtrl.TyTimed, TyCtrl.TyCue, iif(TyCtrl.FpsOverride > 0, TyCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), comp.RenderStart, comp.RenderEnd, time, 1)" },
+						GlobalOut = Input { Value = 3534 },
+						Since = Input { Expression = "(function(txt, timed, cue, fps, t0, t1, now, pick)\n  local idx, since, untl, text = 0, 0, 9999, \"\"\n  if timed == 0 then\n    idx = math.floor(cue + 0.0001)\n    for d = 1, 90 do\n      if now - d < t0 or math.floor(TyCtrl:GetValue(\"TyCue\", now - d) + 0.0001) ~= idx then break end\n      since = d\n    end\n    for d = 1, 60 do\n      if now + d > t1 then break end\n      if math.floor(TyCtrl:GetValue(\"TyCue\", now + d) + 0.0001) ~= idx then untl = d break end\n    end\n    local n = 0\n    for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n      n = n + 1\n      if n == idx then text = line end\n    end\n  else\n    local rel, len, best, nxt, n = now - t0, math.max(t1 - t0, 1), -1, 1e9, 0\n    for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n      n = n + 1\n      local stamp, name = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n      local f\n      if stamp then\n        local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n        if pct then f = tonumber(pct) / 100 * len\n        elseif fr then f = tonumber(fr)\n        elseif stamp:match(\"^[%d:%.]+$\") then\n          local sec = 0\n          for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n          if sec then f = math.floor(sec * fps + 0.5) end\n        end\n      end\n      if f then\n        if f <= rel + 0.001 then\n          if f >= best then best, idx, text = f, n, name end\n        elseif f < nxt then nxt = f end\n      end\n    end\n    if best < 0 then idx, text = 0, \"\" else since, untl = rel - best, nxt - rel end\n  end\n  if pick == 1 then return idx elseif pick == 2 then return since elseif pick == 3 then return untl end\n  return text\nend)(TyCtrl.TyList.Value, TyCtrl.TyTimed, TyCtrl.TyCue, iif(TyCtrl.FpsOverride > 0, TyCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), comp.RenderStart, comp.RenderEnd, time, 2)" },
+						Until = Input { Expression = "min((function(txt, timed, cue, fps, t0, t1, now, pick)\n  local idx, since, untl, text = 0, 0, 9999, \"\"\n  if timed == 0 then\n    idx = math.floor(cue + 0.0001)\n    for d = 1, 90 do\n      if now - d < t0 or math.floor(TyCtrl:GetValue(\"TyCue\", now - d) + 0.0001) ~= idx then break end\n      since = d\n    end\n    for d = 1, 60 do\n      if now + d > t1 then break end\n      if math.floor(TyCtrl:GetValue(\"TyCue\", now + d) + 0.0001) ~= idx then untl = d break end\n    end\n    local n = 0\n    for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n      n = n + 1\n      if n == idx then text = line end\n    end\n  else\n    local rel, len, best, nxt, n = now - t0, math.max(t1 - t0, 1), -1, 1e9, 0\n    for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n      n = n + 1\n      local stamp, name = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n      local f\n      if stamp then\n        local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n        if pct then f = tonumber(pct) / 100 * len\n        elseif fr then f = tonumber(fr)\n        elseif stamp:match(\"^[%d:%.]+$\") then\n          local sec = 0\n          for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n          if sec then f = math.floor(sec * fps + 0.5) end\n        end\n      end\n      if f then\n        if f <= rel + 0.001 then\n          if f >= best then best, idx, text = f, n, name end\n        elseif f < nxt then nxt = f end\n      end\n    end\n    if best < 0 then idx, text = 0, \"\" else since, untl = rel - best, nxt - rel end\n  end\n  if pick == 1 then return idx elseif pick == 2 then return since elseif pick == 3 then return untl end\n  return text\nend)(TyCtrl.TyList.Value, TyCtrl.TyTimed, TyCtrl.TyCue, iif(TyCtrl.FpsOverride > 0, TyCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), comp.RenderStart, comp.RenderEnd, time, 3), comp.RenderEnd - time + 1)" },
+						Cur = Input { Expression = "Text((function(txt, timed, cue, fps, t0, t1, now, pick)\n  local idx, since, untl, text = 0, 0, 9999, \"\"\n  if timed == 0 then\n    idx = math.floor(cue + 0.0001)\n    for d = 1, 90 do\n      if now - d < t0 or math.floor(TyCtrl:GetValue(\"TyCue\", now - d) + 0.0001) ~= idx then break end\n      since = d\n    end\n    for d = 1, 60 do\n      if now + d > t1 then break end\n      if math.floor(TyCtrl:GetValue(\"TyCue\", now + d) + 0.0001) ~= idx then untl = d break end\n    end\n    local n = 0\n    for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n      n = n + 1\n      if n == idx then text = line end\n    end\n  else\n    local rel, len, best, nxt, n = now - t0, math.max(t1 - t0, 1), -1, 1e9, 0\n    for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n      n = n + 1\n      local stamp, name = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n      local f\n      if stamp then\n        local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n        if pct then f = tonumber(pct) / 100 * len\n        elseif fr then f = tonumber(fr)\n        elseif stamp:match(\"^[%d:%.]+$\") then\n          local sec = 0\n          for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n          if sec then f = math.floor(sec * fps + 0.5) end\n        end\n      end\n      if f then\n        if f <= rel + 0.001 then\n          if f >= best then best, idx, text = f, n, name end\n        elseif f < nxt then nxt = f end\n      end\n    end\n    if best < 0 then idx, text = 0, \"\" else since, untl = rel - best, nxt - rel end\n  end\n  if pick == 1 then return idx elseif pick == 2 then return since elseif pick == 3 then return untl end\n  return text\nend)(TyCtrl.TyList.Value, TyCtrl.TyTimed, TyCtrl.TyCue, iif(TyCtrl.FpsOverride > 0, TyCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), comp.RenderStart, comp.RenderEnd, time, 4))" },
+						Total = Input { Expression = "(function(s) local n = 0 for ch in s:gmatch(\"[^\" .. string.char(128) .. \"-\" .. string.char(191) .. \"][\" .. string.char(128) .. \"-\" .. string.char(191) .. \"]*\") do n = n + 1 end return n end)(Cur.Value)" },
+						Count = Input { Expression = "(function(since, untl, n, speed, done, fps, exit, del)\n  if n < 1 then return Point(0, 0) end\n  local frames = (speed > 0) and n/speed*fps or done*(since + untl)\n  local c, busy = math.floor(n*math.min((since + 1)/math.max(frames, 1), 1) + 0.0001), 0\n  if since + 1 < frames then busy = 1 end\n  if exit == 1 then\n    local left = math.floor(math.max(untl - 1, 0)*del/fps)\n    if left <= n then busy = 1 end\n    c = math.min(c, left)\n  end\n  return Point(c, busy)\nend)(Since, Until, Total, TySpeed, TyEnd, iif(FpsOverride > 0, FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), TyExit, TyDel)" },
+						Typed = Input { Expression = "Text((function(s, n) local out, k = {}, 0 for ch in s:gmatch(\"[^\" .. string.char(128) .. \"-\" .. string.char(191) .. \"][\" .. string.char(128) .. \"-\" .. string.char(191) .. \"]*\") do if k >= n then break end k = k + 1 out[k] = ch end return table.concat(out) end)(Cur.Value, Count.X))" },
+						Rule = Input { Expression = "(function() local d = TyRuler.Output.DataWindow if not d then return Point(0, 0) end local w, h = TyRuler.Output.Width, TyRuler.Output.Height return Point(d.left/w, d.right/w) end)()" },
+						RuleY = Input { Expression = "(function() local d = TyRuler.Output.DataWindow if not d then return Point(0, 0) end local w, h = TyRuler.Output.Width, TyRuler.Output.Height return Point(d.bottom/h, d.top/h) end)()" },
+						Wid = Input { Expression = "max((function() local d = TyMeasure.Output.DataWindow if not d then return 0 end local w, h = TyMeasure.Output.Width, TyMeasure.Output.Height return d.right/w end)() - Rule.Y, 0)" },
+						FullW = Input { Expression = "max((function() local d = TyFull.Output.DataWindow if not d then return 0 end local w, h = TyFull.Output.Width, TyFull.Output.Height return d.right/w end)() - Rule.Y, 0)" },
+						LineX = Input { Expression = "iif(TyAlign == 0, TyPos.X, iif(TyAlign == 1, TyPos.X - FullW/2, TyPos.X - Wid/2))" },
+						Curs = Input { Expression = "Point(LineX + Wid + Rule.X - 0.05 + TySize*0.03, iif(TyCursor == 0, TySize*0.07, iif(TyCursor == 3, 0, TySize*0.5)))" },
+						Show = Input { Expression = "iif(TyCursor == 3 or Idx < 1, 0, iif(Count.Y > 0 or TyBlink <= 0, 1, iif((Since/iif(FpsOverride > 0, FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24)*TyBlink) % 1 < 0.5, 1, 0)))" }
+					}
+				},
+				TyText = TextPlus {
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -275, 16.5 } },
+					Inputs = {
+						Size = Input { Expression = "TyCtrl.TySize" },
+						GlobalIn = Input { Value = -480 },
+						Width = Input { Value = 1920 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Height = Input { Value = 1080 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Font = Input { Value = "Microsoft JhengHei" },
+						LayoutRotation = Input { Value = 1 },
+						TransformRotation = Input { Value = 1 },
+						Softness1 = Input { Value = 1 },
+						VerticalJustificationNew = Input { Value = 3 },
+						StyledText = Input { Expression = "Text(TyCtrl.Typed.Value)" },
+						Center = Input { Expression = "Point(TyCtrl.LineX, TyCtrl.TyPos.Y)" },
+						HorizontalJustificationNew = Input { Value = 3 },
+						HorizontalLeftCenterRight = Input { Value = -1 },
+						Wrap = Input { Value = 1 },
+						GlobalOut = Input { Value = 3534 },
+						Style = Input { Value = "Bold" }
+					}
+				},
+				TyRuler = TextPlus {
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -275, 82.5 } },
+					Inputs = {
+						Size = Input { Expression = "TyCtrl.TySize" },
+						GlobalIn = Input { Value = -480 },
+						Width = Input { Value = 1920 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Height = Input { Value = 1080 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Font = Input {
+							Value = "Open Sans",
+							Expression = "TyText.Font"
+						},
+						LayoutRotation = Input { Value = 1 },
+						TransformRotation = Input { Value = 1 },
+						Softness1 = Input { Value = 1 },
+						VerticalJustificationNew = Input { Value = 3 },
+						StyledText = Input { Expression = "Text(\"|\")" },
+						Center = Input { Expression = "Point(0.05, TyCtrl.TyPos.Y)" },
+						HorizontalJustificationNew = Input { Value = 3 },
+						HorizontalLeftCenterRight = Input { Value = -1 },
+						Wrap = Input { Value = 1 },
+						GlobalOut = Input { Value = 3534 },
+						Style = Input {
+							Value = "Bold",
+							Expression = "TyText.Style"
+						}
+					}
+				},
+				TyMeasure = TextPlus {
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -275, 115.5 } },
+					Inputs = {
+						Size = Input { Expression = "TyCtrl.TySize" },
+						GlobalIn = Input { Value = -480 },
+						Width = Input { Value = 1920 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Height = Input { Value = 1080 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Font = Input {
+							Value = "Open Sans",
+							Expression = "TyText.Font"
+						},
+						LayoutRotation = Input { Value = 1 },
+						TransformRotation = Input { Value = 1 },
+						Softness1 = Input { Value = 1 },
+						VerticalJustificationNew = Input { Value = 3 },
+						StyledText = Input { Expression = "Text(TyCtrl.Typed.Value .. \"|\")" },
+						Center = Input { Expression = "Point(0.05, TyCtrl.TyPos.Y)" },
+						HorizontalJustificationNew = Input { Value = 3 },
+						HorizontalLeftCenterRight = Input { Value = -1 },
+						Wrap = Input { Value = 1 },
+						GlobalOut = Input { Value = 3534 },
+						Style = Input {
+							Value = "Bold",
+							Expression = "TyText.Style"
+						}
+					}
+				},
+				TyFull = TextPlus {
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -275, 148.5 } },
+					Inputs = {
+						Size = Input { Expression = "TyCtrl.TySize" },
+						GlobalIn = Input { Value = -480 },
+						Width = Input { Value = 1920 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Height = Input { Value = 1080 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Font = Input {
+							Value = "Open Sans",
+							Expression = "TyText.Font"
+						},
+						LayoutRotation = Input { Value = 1 },
+						TransformRotation = Input { Value = 1 },
+						Softness1 = Input { Value = 1 },
+						VerticalJustificationNew = Input { Value = 3 },
+						StyledText = Input { Expression = "Text(TyCtrl.Cur.Value .. \"|\")" },
+						Center = Input { Expression = "Point(0.05, TyCtrl.TyPos.Y)" },
+						HorizontalJustificationNew = Input { Value = 3 },
+						HorizontalLeftCenterRight = Input { Value = -1 },
+						Wrap = Input { Value = 1 },
+						GlobalOut = Input { Value = 3534 },
+						Style = Input {
+							Value = "Bold",
+							Expression = "TyText.Style"
+						}
+					}
+				},
+				TyCursorMask = RectangleMask {
+					ViewInfo = OperatorInfo { Pos = { -165, 49.5 } },
+					Inputs = {
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						Width = Input { Expression = "max(TyCtrl.Curs.Y, 0.00001)" },
+						Height = Input { Expression = "iif(TyCtrl.TyCursor == 2, TyCtrl.TySize*0.09*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')), max(TyCtrl.RuleY.Y - TyCtrl.RuleY.X, 0.00001))" },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Center = Input { Expression = "Point(TyCtrl.Curs.X + TyCtrl.Curs.Y/2, iif(TyCtrl.TyCursor == 2, TyCtrl.RuleY.X + Height/2, (TyCtrl.RuleY.X + TyCtrl.RuleY.Y)/2))" },
+						MaskWidth = Input { Value = 1920 }
+					}
+				},
+				TyCursorBody = Background {
+					ViewInfo = OperatorInfo { Pos = { -55, 49.5 } },
+					Inputs = {
+						EffectMask = Input {
+							Source = "Mask",
+							SourceOp = "TyCursorMask"
+						},
+						TopLeftRed = Input { Value = 1 },
+						TopLeftGreen = Input { Value = 1 },
+						TopLeftBlue = Input { Value = 1 },
+						GlobalIn = Input { Value = -480 },
+						Width = Input { Value = 1920 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Height = Input { Value = 1080 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						GlobalOut = Input { Value = 3534 }
+					}
+				},
+				TyMatte = Merge {
+					ViewInfo = OperatorInfo { Pos = { -55, 16.5 } },
+					Inputs = {
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "TyText"
+						},
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "TyCursorBody"
+						},
+						Blend = Input { Expression = "TyCtrl.Show" }
+					}
+				},
+				TyInkGrowB = ErodeDilate {
+					ViewInfo = OperatorInfo { Pos = { 55, 82.5 } },
+					Inputs = {
+						Filter = Input { Value = 3 },
+						XAmount = Input { Expression = "(TyCtrl.TyEdge) + (0)" },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "TyMatte"
+						}
+					}
+				},
+				TyInkGrowA = ErodeDilate {
+					ViewInfo = OperatorInfo { Pos = { 55, 49.5 } },
+					Inputs = {
+						Filter = Input { Value = 3 },
+						XAmount = Input { Expression = "TyCtrl.TyEdge" },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "TyMatte"
+						}
+					}
+				},
+				TyInk = Custom {
+					ViewInfo = OperatorInfo { Pos = { 165, 16.5 } },
+					Inputs = {
+						NumberIn1 = Input { Expression = "ColTy.TopLeftRed" },
+						NumberIn2 = Input { Expression = "ColTy.TopLeftGreen" },
+						NumberIn3 = Input { Expression = "ColTy.TopLeftBlue" },
+						LUTIn3 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn3"
+						},
+						LUTIn4 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn4"
+						},
+						PointIn1 = Input { Expression = "Point(ColTyEdge.TopLeftRed, ColTyEdge.TopLeftGreen)" },
+						NumberIn5 = Input { Expression = "ColTyEdge.TopLeftGreen" },
+						PointIn2 = Input { Expression = "Point(ColTyEdge.TopLeftBlue, 0)" },
+						NumberIn6 = Input { Expression = "ColTyEdge.TopLeftBlue" },
+						NumberIn7 = Input { Expression = "iif((TyCtrl.TyEdge) > 0, 1, 0)" },
+						NumberIn8 = Input { Expression = "iif((0) > 0, 1, 0)" },
+						Intermediate1 = Input { Value = "a2*n7" },
+						Intermediate2 = Input { Value = "a3*n8" },
+						RedExpression = Input { Value = "n1*a1 + (1 - a1)*(n4*i1 + (1 - i1)*p1x*i2)" },
+						GreenExpression = Input { Value = "n2*a1 + (1 - a1)*(n5*i1 + (1 - i1)*p1y*i2)" },
+						Image3 = Input {
+							Source = "Output",
+							SourceOp = "TyInkGrowB"
+						},
+						BlueExpression = Input { Value = "n3*a1 + (1 - a1)*(n6*i1 + (1 - i1)*p2x*i2)" },
+						Image2 = Input {
+							Source = "Output",
+							SourceOp = "TyInkGrowA"
+						},
+						AlphaExpression = Input { Value = "a1 + (1 - a1)*(i1 + (1 - i1)*i2)" },
+						Image1 = Input {
+							Source = "Output",
+							SourceOp = "TyMatte"
+						},
+						LUTIn1 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn1"
+						},
+						LUTIn2 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn2"
+						},
+						NumberIn4 = Input { Expression = "ColTyEdge.TopLeftRed" }
+					}
+				},
+				CustomTool1LUTIn1 = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					SplineColor = { Blue = 0, Red = 0, Green = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn2 = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					SplineColor = { Blue = 0, Red = 0, Green = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn3 = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					SplineColor = { Blue = 0, Red = 0, Green = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn4 = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					SplineColor = { Blue = 0, Red = 0, Green = 0 },
+					NameSet = true
+				},
+				ColTy = Background {
+					ViewInfo = OperatorInfo { Pos = { -275, -148.5 } },
+					Inputs = {
+						Height = Input { Value = 16 },
+						TopLeftRed = Input { Value = 1 },
+						TopLeftGreen = Input { Value = 1 },
+						TopLeftBlue = Input { Value = 1 },
+						GlobalIn = Input { Value = -480 },
+						Width = Input { Value = 16 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } }
+					}
+				},
+				ColTyEdge = Background {
+					ViewInfo = OperatorInfo { Pos = { -165, -148.5 } },
+					Inputs = {
+						Height = Input { Value = 16 },
+						TopLeftRed = Input { Value = 0.05 },
+						TopLeftGreen = Input { Value = 0.05 },
+						TopLeftBlue = Input { Value = 0.08 },
+						GlobalIn = Input { Value = -480 },
+						Width = Input { Value = 16 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } }
+					}
+				},
+				TyBoxMask = RectangleMask {
+					ViewInfo = OperatorInfo { Pos = { 275, 82.5 } },
+					Inputs = {
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						Width = Input { Expression = "TyCtrl.Curs.X + TyCtrl.Curs.Y - TyCtrl.LineX + 2*TyCtrl.TyPad" },
+						Height = Input { Expression = "TyCtrl.RuleY.Y - TyCtrl.RuleY.X + 2*TyCtrl.TyPad*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height'))" },
+						CornerRadius = Input { Expression = "TyCtrl.TyRound" },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Center = Input { Expression = "Point(TyCtrl.LineX - TyCtrl.TyPad + Width/2, (TyCtrl.RuleY.X + TyCtrl.RuleY.Y)/2)" },
+						MaskWidth = Input { Value = 1920 }
+					}
+				},
+				ColTyBox = Background {
+					ViewInfo = OperatorInfo { Pos = { 275, 49.5 } },
+					Inputs = {
+						EffectMask = Input {
+							Source = "Mask",
+							SourceOp = "TyBoxMask"
+						},
+						TopLeftRed = Input { Value = 0.05 },
+						TopLeftGreen = Input { Value = 0.06 },
+						TopLeftBlue = Input { Value = 0.09 },
+						GlobalIn = Input { Value = -480 },
+						Width = Input { Value = 1920 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Height = Input { Value = 1080 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						GlobalOut = Input { Value = 3534 }
+					}
+				},
+				TyBoxed = Merge {
+					ViewInfo = OperatorInfo { Pos = { 275, 16.5 } },
+					Inputs = {
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "TyCtrl"
+						},
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "ColTyBox"
+						},
+						Blend = Input { Expression = "TyCtrl.TyBox" }
+					}
+				},
+				TyBoth = Merge {
+					ViewInfo = OperatorInfo { Pos = { 385, 16.5 } },
+					Inputs = {
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "TyBoxed"
+						},
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "TyInk"
+						}
+					}
+				},
+				TyFinal = Merge {
+					ViewInfo = OperatorInfo { Pos = { 605, 16.5 } },
+					Inputs = {
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "TyCtrl"
+						},
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "TyBoth"
+						},
+						Blend = Input { Expression = "iif(TyCtrl.Idx < 1, 0, 1)" }
+					}
+				}
+			
+			}
+		}
+	},
+	ActiveTool = "Typing"
+}

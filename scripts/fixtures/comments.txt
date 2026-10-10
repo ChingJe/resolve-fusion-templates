@@ -1,0 +1,34 @@
+Name=小明
+When=2 小時前
+Words=這段也太好笑了吧|我已經看了十次
+Likes=128
+Likes Grow To (0: they stay)=5200
+Position=0.27,0.72
+Size=0.03
+
+Kind=1
+Name=訊息
+When=現在
+Words=阿華：到了沒？大家都在等你
+Position=0.72,0.8
+Size=0.03
+Colours=2
+Entrance=4
+
+Name=Luna
+When=3 天前
+Words=Dark card, coming in from the left
+Likes=42
+After The Number=Reply
+Position=0.3,0.3
+Size=0.028
+Colours=2
+Entrance=1
+
+Name=阿華
+When=剛剛
+Words=沒有愛心的版本
+Heart And Number=0
+Position=0.74,0.32
+Size=0.03
+Entrance=5

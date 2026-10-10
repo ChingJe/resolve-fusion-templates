@@ -1,0 +1,32 @@
+Label=訂閱
+Label After The Click=已訂閱
+Position=0.5,0.76
+Size=0.055
+
+Label=Subscribe
+Label After The Click=Subscribed
+Number Of Likes=8.4K
+Number Of Likes After The Click=8.4K
+Subscribe Button On The Left=1
+Subscribe Is Clicked At (0 to 1 of the clip)=0.2
+Like Is Clicked At (0 to 1 of the clip)=0.45
+Colours=2
+Position=0.5,0.47
+Size=0.045
+
+Label=訂閱
+Label After The Click=已訂閱
+Like Button=0
+Bell=0
+Subscribe Is Clicked At (0 to 1 of the clip)=0.5
+Colours=3
+Position=0.25,0.2
+Size=0.05
+
+Label=追蹤
+Label After The Click=追蹤中
+Number Of Likes=356
+Number Of Likes After The Click=357
+Colours=3
+Position=0.7,0.2
+Size=0.04

@@ -1,0 +1,23 @@
+Messages (0:00 < Text)=0% < 你出門了沒|12% > ...|22% > 快到了|34% > 再五分鐘|46% < 你一小時前也這樣說\n我都吃完了|60% < ...|70% < 算了|82% > 等我啦
+Frame Rate Override=48
+Position (Bottom Of The Newest Message)=0.18,0.14
+Width Of The Conversation=0.3
+Size=0.03
+Messages Kept On Screen=4
+
+Messages (0:00 < Text)=5% < Did you see the video?|20% > Which one|35% < The one with the cat|50% > ...|62% > Watching it now|80% < Told you
+Frame Rate Override=48
+Position (Bottom Of The Newest Message)=0.5,0.14
+Width Of The Conversation=0.3
+Size=0.028
+Colours=2
+Messages Kept On Screen=5
+
+Messages (0:00 < Text)=0% > 深色配色|18% < 方一點的角|36% > 留三則|54% < 舊的往上淡出|72% > 像這樣
+Frame Rate Override=48
+Position (Bottom Of The Newest Message)=0.82,0.14
+Width Of The Conversation=0.3
+Size=0.03
+Colours=3
+Roundness=0.4
+Messages Kept On Screen=3

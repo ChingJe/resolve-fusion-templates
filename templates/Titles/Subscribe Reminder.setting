@@ -1,0 +1,1656 @@
+{
+	Tools = ordered() {
+		SubscribeReminder = MacroOperator {
+			CtrlWZoom = false,
+			Inputs = ordered() {
+				Input1 = InstanceInput { SourceOp = "SubCtrl", Source = "SubLike", Name = "Like Button" },
+				Input2 = InstanceInput { SourceOp = "SubCtrl", Source = "SubCount", Name = "Number Of Likes" },
+				Input3 = InstanceInput { SourceOp = "SubCtrl", Source = "SubCountB", Name = "Number Of Likes After The Click" },
+				Input4 = InstanceInput { SourceOp = "SubCtrl", Source = "SubLikeAt", Name = "Like Is Clicked At (0 to 1 of the clip)" },
+				Input5 = InstanceInput { SourceOp = "SubCtrl", Source = "SubText", Name = "Label" },
+				Input6 = InstanceInput { SourceOp = "SubCtrl", Source = "SubDone", Name = "Label After The Click" },
+				Input7 = InstanceInput { SourceOp = "SubCtrl", Source = "SubPress", Name = "Subscribe Is Clicked At (0 to 1 of the clip)" },
+				Input8 = InstanceInput { SourceOp = "SubCtrl", Source = "SubBell", Name = "Bell" },
+				Input9 = InstanceInput { SourceOp = "SubCtrl", Source = "SubBellAt", Name = "Bell Is Clicked At (0 to 1 of the clip)" },
+				Input10 = InstanceInput { SourceOp = "SubCtrl", Source = "SubFirst", Name = "Subscribe Button On The Left" },
+				Input11 = InstanceInput { SourceOp = "SubCtrl", Source = "SubRing", Name = "Ring Around Each Click" },
+				Input12 = InstanceInput { SourceOp = "SubCtrl", Source = "SubPos", Name = "Position" },
+				Input13 = InstanceInput { SourceOp = "SubLabel", Source = "Font", Name = "Font", ControlGroup = 2 },
+				Input14 = InstanceInput { SourceOp = "SubLabel", Source = "Style", ControlGroup = 2 },
+				Input15 = InstanceInput { SourceOp = "SubCtrl", Source = "SubSize", Name = "Size" },
+				Input16 = InstanceInput { SourceOp = "SubCtrl", Source = "SubShadow", Name = "Shadow" },
+				Input17 = InstanceInput { SourceOp = "SubCtrl", Source = "SubIn", Name = "Entrance Frames" },
+				Input18 = InstanceInput { SourceOp = "SubCtrl", Source = "SubOut", Name = "Leave Frames" },
+				Input19 = InstanceInput { SourceOp = "SubCtrl", Source = "SubPreset", Name = "Colours" },
+				Input20 = InstanceInput { SourceOp = "ColSubA", Source = "TopLeftRed", Name = "Custom Colour Of The Subscribe Button", ControlGroup = 3 },
+				Input21 = InstanceInput { SourceOp = "ColSubA", Source = "TopLeftGreen", ControlGroup = 3 },
+				Input22 = InstanceInput { SourceOp = "ColSubA", Source = "TopLeftBlue", ControlGroup = 3 },
+				Input23 = InstanceInput { SourceOp = "ColSubInkA", Source = "TopLeftRed", Name = "Custom Colour Of Its Label", ControlGroup = 4 },
+				Input24 = InstanceInput { SourceOp = "ColSubInkA", Source = "TopLeftGreen", ControlGroup = 4 },
+				Input25 = InstanceInput { SourceOp = "ColSubInkA", Source = "TopLeftBlue", ControlGroup = 4 },
+				Input26 = InstanceInput { SourceOp = "ColSubB", Source = "TopLeftRed", Name = "Custom Colour Of The Grey Pills", ControlGroup = 5 },
+				Input27 = InstanceInput { SourceOp = "ColSubB", Source = "TopLeftGreen", ControlGroup = 5 },
+				Input28 = InstanceInput { SourceOp = "ColSubB", Source = "TopLeftBlue", ControlGroup = 5 },
+				Input29 = InstanceInput { SourceOp = "ColSubInkB", Source = "TopLeftRed", Name = "Custom Colour Of What Is On Them", ControlGroup = 6 },
+				Input30 = InstanceInput { SourceOp = "ColSubInkB", Source = "TopLeftGreen", ControlGroup = 6 },
+				Input31 = InstanceInput { SourceOp = "ColSubInkB", Source = "TopLeftBlue", ControlGroup = 6 },
+			},
+			Outputs = {
+				MainOutput1 = InstanceOutput { SourceOp = "SubFinal", Source = "Output" }
+			},
+			ViewInfo = GroupInfo { Pos = { 0, 0 } },
+			Tools = ordered() {
+				SubCtrl = Background {
+					UserControls = {
+						KXb = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "KXb",
+							LINKID_DataType = "Point"
+						},
+						SubBellAt = {
+							INP_Default = 0.68,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Bell Is Clicked At (0 to 1 of the clip)"
+						},
+						KXd = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "KXd",
+							LINKID_DataType = "Point"
+						},
+						SubFirst = {
+							INP_Default = 0,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "CheckboxControl",
+							INP_Integer = true,
+							LINKS_Name = "Subscribe Button On The Left"
+						},
+						SubBell = {
+							INP_Default = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "CheckboxControl",
+							INP_Integer = true,
+							LINKS_Name = "Bell"
+						},
+						SubRing = {
+							INP_Default = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "CheckboxControl",
+							INP_Integer = true,
+							LINKS_Name = "Ring Around Each Click"
+						},
+						KRing = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "KRing",
+							LINKID_DataType = "Point"
+						},
+						SubPos = {
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Controls",
+							INPID_PreviewControl = "CrosshairControl",
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "Position"
+						},
+						SubPress = {
+							INP_Default = 0.45,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Subscribe Is Clicked At (0 to 1 of the clip)"
+						},
+						SubLike = {
+							INP_Default = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "CheckboxControl",
+							INP_Integer = true,
+							LINKS_Name = "Like Button"
+						},
+						SubSize = {
+							INP_Default = 0.04,
+							INP_MinScale = 0.01,
+							INP_MaxScale = 0.2,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Size"
+						},
+						KXc = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "KXc",
+							LINKID_DataType = "Point"
+						},
+						SubShadow = {
+							INP_Default = 0.35,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Shadow"
+						},
+						SubDone = {
+							INPS_DefaultText = "已訂閱",
+							TEC_Lines = 1,
+							LINKID_DataType = "Text",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "TextEditControl",
+							LINKS_Name = "Label After The Click"
+						},
+						SubIn = {
+							INP_Default = 10,
+							INP_MinScale = 1,
+							INP_MaxScale = 60,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Entrance Frames"
+						},
+						SubCount = {
+							INPS_DefaultText = "1.2萬",
+							TEC_Lines = 1,
+							LINKID_DataType = "Text",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "TextEditControl",
+							LINKS_Name = "Number Of Likes"
+						},
+						SubOut = {
+							INP_Default = 8,
+							INP_MinScale = 0,
+							INP_MaxScale = 60,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Leave Frames"
+						},
+						Scale = {
+							INP_Default = 1,
+							INP_MinScale = 0,
+							INP_MaxScale = 3,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Scale"
+						},
+						SubPreset = {
+							{
+								CCS_AddString = "Custom"
+							},
+							{
+								CCS_AddString = "Dark"
+							},
+							{
+								CCS_AddString = "Light"
+							},
+							{
+								CCS_AddString = "Red Button"
+							},
+							INP_Default = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "ComboControl",
+							INP_Integer = true,
+							LINKS_Name = "Colours"
+						},
+						SubCountB = {
+							INPS_DefaultText = "1.2萬",
+							TEC_Lines = 1,
+							LINKID_DataType = "Text",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "TextEditControl",
+							LINKS_Name = "Number Of Likes After The Click"
+						},
+						SubLikeAt = {
+							INP_Default = 0.22,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Like Is Clicked At (0 to 1 of the clip)"
+						},
+						Show = {
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Show"
+						},
+						SubText = {
+							INPS_DefaultText = "訂閱",
+							TEC_Lines = 1,
+							LINKID_DataType = "Text",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "TextEditControl",
+							LINKS_Name = "Label"
+						},
+						Ta = {
+							INP_Default = 0,
+							INP_MinScale = -100000,
+							INP_MaxScale = 100000,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Ta"
+						},
+						Tb = {
+							INP_Default = 0,
+							INP_MinScale = -100000,
+							INP_MaxScale = 100000,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Tb"
+						},
+						Tc = {
+							INP_Default = 0,
+							INP_MinScale = -100000,
+							INP_MaxScale = 100000,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Tc"
+						},
+						KH = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "KH",
+							LINKID_DataType = "Point"
+						},
+						KWid = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "KWid",
+							LINKID_DataType = "Point"
+						},
+						KWc = {
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 4,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "KWc"
+						},
+						KL = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "KL",
+							LINKID_DataType = "Point"
+						},
+						KS = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "KS",
+							LINKID_DataType = "Point"
+						},
+						KXa = {
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "KXa",
+							LINKID_DataType = "Point"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } },
+					Inputs = {
+						Height = Input { Value = 1080 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						KRing = Input { Expression = "(function(a, b, c)\n  local t, x = -1, 0\n  if a >= 0 then t, x = a, KXa.X end\n  if b >= 0 then t, x = b, KS.X + KS.Y/2 end\n  if c >= 0 then t, x = c, KXc.X end\n  if t < 0 or t > 14 or SubRing < 1 then return Point(x, 0) end\n  return Point(x, (t + 1)/15)\nend)(Ta, Tb, Tc)" },
+						SubPos = Input { Value = { 0.5, 0.2 } },
+						KXa = Input { Expression = "(function(s, h, w1, w2, wc, like, bell, done, first, pick)\n  local pad, a, gi, g = 0.68*s, 0.5*h, 0.32*s, 0.45*s\n  local wl = like > 0 and (pad + a + gi + wc + 0.5*s + 0.5*s + a + pad) or 0\n  local ws1 = w1 + 2.0*s\n  local ws2 = bell > 0 and (pad + a + gi + w2 + gi + 0.5*a + pad) or (w2 + 2.0*s)\n  local x0 = SubPos.X - (wl + (like > 0 and g or 0) + math.max(ws1, ws2))/2\n  local xs = x0 + wl + (like > 0 and g or 0)\n  if first > 0 then xs, x0 = x0, x0 + (done > 0 and ws2 or ws1) + g end\n  if pick == 1 then return Point(x0, wl) end\n  if pick == 2 then return Point(xs, done > 0 and ws2 or ws1) end\n  if pick == 3 then return Point(x0 + pad + a/2, x0 + pad + a + gi) end\n  if pick == 4 then return Point(x0 + pad + a + gi + wc + 0.5*s, x0 + pad + a + gi + wc + 1.0*s + a/2) end\n  if pick == 5 then return Point(xs + pad + a/2, xs + ws2 - pad - 0.25*a) end\n  if done > 0 and bell > 0 then return Point(xs + pad + a + gi, -1) end\n  return Point(xs + (done > 0 and ws2 or ws1)/2, 0)\nend)(SubSize, KH.X, KWid.X, KWid.Y, KWc, SubLike, SubBell, iif(Tb >= 0, 1, 0), SubFirst, 3)" },
+						Scale = Input { Expression = "(function(t) t = t - 1 return max(1 + 2.70158*t*t*t + 1.70158*t*t, 0) end)(Show)" },
+						KXd = Input { Expression = "(function(s, h, w1, w2, wc, like, bell, done, first, pick)\n  local pad, a, gi, g = 0.68*s, 0.5*h, 0.32*s, 0.45*s\n  local wl = like > 0 and (pad + a + gi + wc + 0.5*s + 0.5*s + a + pad) or 0\n  local ws1 = w1 + 2.0*s\n  local ws2 = bell > 0 and (pad + a + gi + w2 + gi + 0.5*a + pad) or (w2 + 2.0*s)\n  local x0 = SubPos.X - (wl + (like > 0 and g or 0) + math.max(ws1, ws2))/2\n  local xs = x0 + wl + (like > 0 and g or 0)\n  if first > 0 then xs, x0 = x0, x0 + (done > 0 and ws2 or ws1) + g end\n  if pick == 1 then return Point(x0, wl) end\n  if pick == 2 then return Point(xs, done > 0 and ws2 or ws1) end\n  if pick == 3 then return Point(x0 + pad + a/2, x0 + pad + a + gi) end\n  if pick == 4 then return Point(x0 + pad + a + gi + wc + 0.5*s, x0 + pad + a + gi + wc + 1.0*s + a/2) end\n  if pick == 5 then return Point(xs + pad + a/2, xs + ws2 - pad - 0.25*a) end\n  if done > 0 and bell > 0 then return Point(xs + pad + a + gi, -1) end\n  return Point(xs + (done > 0 and ws2 or ws1)/2, 0)\nend)(SubSize, KH.X, KWid.X, KWid.Y, KWc, SubLike, SubBell, iif(Tb >= 0, 1, 0), SubFirst, 6)" },
+						Width = Input { Value = 1920 },
+						KXc = Input { Expression = "(function(s, h, w1, w2, wc, like, bell, done, first, pick)\n  local pad, a, gi, g = 0.68*s, 0.5*h, 0.32*s, 0.45*s\n  local wl = like > 0 and (pad + a + gi + wc + 0.5*s + 0.5*s + a + pad) or 0\n  local ws1 = w1 + 2.0*s\n  local ws2 = bell > 0 and (pad + a + gi + w2 + gi + 0.5*a + pad) or (w2 + 2.0*s)\n  local x0 = SubPos.X - (wl + (like > 0 and g or 0) + math.max(ws1, ws2))/2\n  local xs = x0 + wl + (like > 0 and g or 0)\n  if first > 0 then xs, x0 = x0, x0 + (done > 0 and ws2 or ws1) + g end\n  if pick == 1 then return Point(x0, wl) end\n  if pick == 2 then return Point(xs, done > 0 and ws2 or ws1) end\n  if pick == 3 then return Point(x0 + pad + a/2, x0 + pad + a + gi) end\n  if pick == 4 then return Point(x0 + pad + a + gi + wc + 0.5*s, x0 + pad + a + gi + wc + 1.0*s + a/2) end\n  if pick == 5 then return Point(xs + pad + a/2, xs + ws2 - pad - 0.25*a) end\n  if done > 0 and bell > 0 then return Point(xs + pad + a + gi, -1) end\n  return Point(xs + (done > 0 and ws2 or ws1)/2, 0)\nend)(SubSize, KH.X, KWid.X, KWid.Y, KWc, SubLike, SubBell, iif(Tb >= 0, 1, 0), SubFirst, 5)" },
+						KXb = Input { Expression = "(function(s, h, w1, w2, wc, like, bell, done, first, pick)\n  local pad, a, gi, g = 0.68*s, 0.5*h, 0.32*s, 0.45*s\n  local wl = like > 0 and (pad + a + gi + wc + 0.5*s + 0.5*s + a + pad) or 0\n  local ws1 = w1 + 2.0*s\n  local ws2 = bell > 0 and (pad + a + gi + w2 + gi + 0.5*a + pad) or (w2 + 2.0*s)\n  local x0 = SubPos.X - (wl + (like > 0 and g or 0) + math.max(ws1, ws2))/2\n  local xs = x0 + wl + (like > 0 and g or 0)\n  if first > 0 then xs, x0 = x0, x0 + (done > 0 and ws2 or ws1) + g end\n  if pick == 1 then return Point(x0, wl) end\n  if pick == 2 then return Point(xs, done > 0 and ws2 or ws1) end\n  if pick == 3 then return Point(x0 + pad + a/2, x0 + pad + a + gi) end\n  if pick == 4 then return Point(x0 + pad + a + gi + wc + 0.5*s, x0 + pad + a + gi + wc + 1.0*s + a/2) end\n  if pick == 5 then return Point(xs + pad + a/2, xs + ws2 - pad - 0.25*a) end\n  if done > 0 and bell > 0 then return Point(xs + pad + a + gi, -1) end\n  return Point(xs + (done > 0 and ws2 or ws1)/2, 0)\nend)(SubSize, KH.X, KWid.X, KWid.Y, KWc, SubLike, SubBell, iif(Tb >= 0, 1, 0), SubFirst, 4)" },
+						TopLeftAlpha = Input { Value = 0 },
+						Show = Input { Expression = "min(min(max((time - comp.RenderStart + 1)/max(SubIn, 1), 0), 1), iif(SubOut > 0, min(max((comp.RenderEnd - time + 1)/SubOut, 0), 1), 1))" },
+						KH = Input { Expression = "Point((function() local d = SubRule3.Output.DataWindow if not d or d.left < -99999 or SubRule3.StyledText.Value == '' then return 0.03 end local w, h = SubRule3.Output.Width, SubRule3.Output.Height return (d.top - d.bottom)/w end)() + 1.0*SubSize, (function() local d = SubRule3.Output.DataWindow if not d or d.left < -99999 or SubRule3.StyledText.Value == '' then return 0 end local w, h = SubRule3.Output.Width, SubRule3.Output.Height return (d.top + d.bottom)/2/h - 0.5 end)())" },
+						Ta = Input { Expression = "iif(SubLike > 0, time - comp.RenderStart - SubLikeAt*(comp.RenderEnd - comp.RenderStart), -1)" },
+						Tb = Input { Expression = "time - comp.RenderStart - SubPress*(comp.RenderEnd - comp.RenderStart)" },
+						Tc = Input { Expression = "iif(SubBell > 0 and Tb >= 0, time - comp.RenderStart - SubBellAt*(comp.RenderEnd - comp.RenderStart), -1)" },
+						UseFrameFormatSettings = Input { Value = 1 },
+						KWid = Input { Expression = "Point((function() local d = SubRule1.Output.DataWindow if not d or d.left < -99999 or SubRule1.StyledText.Value == '' then return 0 end local w, h = SubRule1.Output.Width, SubRule1.Output.Height return (d.right - d.left)/w end)(), (function() local d = SubRule2.Output.DataWindow if not d or d.left < -99999 or SubRule2.StyledText.Value == '' then return 0 end local w, h = SubRule2.Output.Width, SubRule2.Output.Height return (d.right - d.left)/w end)())" },
+						KWc = Input { Expression = "max((function() local d = SubRule4.Output.DataWindow if not d or d.left < -99999 or SubRule4.StyledText.Value == '' then return 0 end local w, h = SubRule4.Output.Width, SubRule4.Output.Height return (d.right - d.left)/w end)(), (function() local d = SubRule5.Output.DataWindow if not d or d.left < -99999 or SubRule5.StyledText.Value == '' then return 0 end local w, h = SubRule5.Output.Width, SubRule5.Output.Height return (d.right - d.left)/w end)())" },
+						KL = Input { Expression = "(function(s, h, w1, w2, wc, like, bell, done, first, pick)\n  local pad, a, gi, g = 0.68*s, 0.5*h, 0.32*s, 0.45*s\n  local wl = like > 0 and (pad + a + gi + wc + 0.5*s + 0.5*s + a + pad) or 0\n  local ws1 = w1 + 2.0*s\n  local ws2 = bell > 0 and (pad + a + gi + w2 + gi + 0.5*a + pad) or (w2 + 2.0*s)\n  local x0 = SubPos.X - (wl + (like > 0 and g or 0) + math.max(ws1, ws2))/2\n  local xs = x0 + wl + (like > 0 and g or 0)\n  if first > 0 then xs, x0 = x0, x0 + (done > 0 and ws2 or ws1) + g end\n  if pick == 1 then return Point(x0, wl) end\n  if pick == 2 then return Point(xs, done > 0 and ws2 or ws1) end\n  if pick == 3 then return Point(x0 + pad + a/2, x0 + pad + a + gi) end\n  if pick == 4 then return Point(x0 + pad + a + gi + wc + 0.5*s, x0 + pad + a + gi + wc + 1.0*s + a/2) end\n  if pick == 5 then return Point(xs + pad + a/2, xs + ws2 - pad - 0.25*a) end\n  if done > 0 and bell > 0 then return Point(xs + pad + a + gi, -1) end\n  return Point(xs + (done > 0 and ws2 or ws1)/2, 0)\nend)(SubSize, KH.X, KWid.X, KWid.Y, KWc, SubLike, SubBell, iif(Tb >= 0, 1, 0), SubFirst, 1)" },
+						KS = Input { Expression = "(function(s, h, w1, w2, wc, like, bell, done, first, pick)\n  local pad, a, gi, g = 0.68*s, 0.5*h, 0.32*s, 0.45*s\n  local wl = like > 0 and (pad + a + gi + wc + 0.5*s + 0.5*s + a + pad) or 0\n  local ws1 = w1 + 2.0*s\n  local ws2 = bell > 0 and (pad + a + gi + w2 + gi + 0.5*a + pad) or (w2 + 2.0*s)\n  local x0 = SubPos.X - (wl + (like > 0 and g or 0) + math.max(ws1, ws2))/2\n  local xs = x0 + wl + (like > 0 and g or 0)\n  if first > 0 then xs, x0 = x0, x0 + (done > 0 and ws2 or ws1) + g end\n  if pick == 1 then return Point(x0, wl) end\n  if pick == 2 then return Point(xs, done > 0 and ws2 or ws1) end\n  if pick == 3 then return Point(x0 + pad + a/2, x0 + pad + a + gi) end\n  if pick == 4 then return Point(x0 + pad + a + gi + wc + 0.5*s, x0 + pad + a + gi + wc + 1.0*s + a/2) end\n  if pick == 5 then return Point(xs + pad + a/2, xs + ws2 - pad - 0.25*a) end\n  if done > 0 and bell > 0 then return Point(xs + pad + a + gi, -1) end\n  return Point(xs + (done > 0 and ws2 or ws1)/2, 0)\nend)(SubSize, KH.X, KWid.X, KWid.Y, KWc, SubLike, SubBell, iif(Tb >= 0, 1, 0), SubFirst, 2)" },
+						GlobalIn = Input { Value = -480 }
+					},
+					CtrlWZoom = false
+				},
+				SubLabel = TextPlus {
+					Version = 1,
+					Inputs = {
+						Height = Input { Value = 1080 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						HorizontalLeftCenterRight = Input { Expression = "SubCtrl.KXd.Y" },
+						Wrap = Input { Value = 1 },
+						Red1 = Input { Expression = "iif(SubCtrl.Tb >= 0, iif(SubCtrl.SubPreset == 0, ColSubInkB.TopLeftRed, ({{0.95,0.95,0.95,0.06,0.06,0.06,0.16,0.16,0.16,0.95,0.95,0.95},{0.06,0.06,0.06,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06},{0.9,0.1,0.12,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06}})[max(SubCtrl.SubPreset, 1)][10]), iif(SubCtrl.SubPreset == 0, ColSubInkA.TopLeftRed, ({{0.95,0.95,0.95,0.06,0.06,0.06,0.16,0.16,0.16,0.95,0.95,0.95},{0.06,0.06,0.06,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06},{0.9,0.1,0.12,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06}})[max(SubCtrl.SubPreset, 1)][4]))" },
+						Green1 = Input { Expression = "iif(SubCtrl.Tb >= 0, iif(SubCtrl.SubPreset == 0, ColSubInkB.TopLeftGreen, ({{0.95,0.95,0.95,0.06,0.06,0.06,0.16,0.16,0.16,0.95,0.95,0.95},{0.06,0.06,0.06,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06},{0.9,0.1,0.12,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06}})[max(SubCtrl.SubPreset, 1)][11]), iif(SubCtrl.SubPreset == 0, ColSubInkA.TopLeftGreen, ({{0.95,0.95,0.95,0.06,0.06,0.06,0.16,0.16,0.16,0.95,0.95,0.95},{0.06,0.06,0.06,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06},{0.9,0.1,0.12,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06}})[max(SubCtrl.SubPreset, 1)][5]))" },
+						Softness1 = Input { Value = 1 },
+						VerticalJustificationNew = Input { Value = 3 },
+						HorizontalJustificationNew = Input { Value = 3 },
+						Size = Input { Expression = "SubCtrl.SubSize" },
+						Blue1 = Input { Expression = "iif(SubCtrl.Tb >= 0, iif(SubCtrl.SubPreset == 0, ColSubInkB.TopLeftBlue, ({{0.95,0.95,0.95,0.06,0.06,0.06,0.16,0.16,0.16,0.95,0.95,0.95},{0.06,0.06,0.06,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06},{0.9,0.1,0.12,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06}})[max(SubCtrl.SubPreset, 1)][12]), iif(SubCtrl.SubPreset == 0, ColSubInkA.TopLeftBlue, ({{0.95,0.95,0.95,0.06,0.06,0.06,0.16,0.16,0.16,0.95,0.95,0.95},{0.06,0.06,0.06,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06},{0.9,0.1,0.12,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06}})[max(SubCtrl.SubPreset, 1)][6]))" },
+						GlobalIn = Input { Value = -480 },
+						Center = Input { Expression = "Point(SubCtrl.KXd.X, SubCtrl.SubPos.Y - SubCtrl.KH.Y)" },
+						Width = Input { Value = 1920 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Font = Input { Value = "Microsoft JhengHei" },
+						TransformRotation = Input { Value = 1 },
+						Style = Input { Value = "Bold" },
+						LayoutRotation = Input { Value = 1 },
+						StyledText = Input { Expression = "Text(iif(SubCtrl.Tb >= 0, SubCtrl.SubDone.Value, SubCtrl.SubText.Value))" }
+					},
+					ViewInfo = OperatorInfo { Pos = { -275, 16.5 } }
+				},
+				SubNumber = TextPlus {
+					Version = 1,
+					Inputs = {
+						Height = Input { Value = 1080 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						HorizontalLeftCenterRight = Input { Value = -1 },
+						Wrap = Input { Value = 1 },
+						Red1 = Input { Expression = "iif(SubCtrl.SubPreset == 0, ColSubInkB.TopLeftRed, ({{0.95,0.95,0.95,0.06,0.06,0.06,0.16,0.16,0.16,0.95,0.95,0.95},{0.06,0.06,0.06,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06},{0.9,0.1,0.12,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06}})[max(SubCtrl.SubPreset, 1)][10])" },
+						Green1 = Input { Expression = "iif(SubCtrl.SubPreset == 0, ColSubInkB.TopLeftGreen, ({{0.95,0.95,0.95,0.06,0.06,0.06,0.16,0.16,0.16,0.95,0.95,0.95},{0.06,0.06,0.06,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06},{0.9,0.1,0.12,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06}})[max(SubCtrl.SubPreset, 1)][11])" },
+						Softness1 = Input { Value = 1 },
+						VerticalJustificationNew = Input { Value = 3 },
+						HorizontalJustificationNew = Input { Value = 3 },
+						Size = Input { Expression = "SubCtrl.SubSize" },
+						Blue1 = Input { Expression = "iif(SubCtrl.SubPreset == 0, ColSubInkB.TopLeftBlue, ({{0.95,0.95,0.95,0.06,0.06,0.06,0.16,0.16,0.16,0.95,0.95,0.95},{0.06,0.06,0.06,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06},{0.9,0.1,0.12,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06}})[max(SubCtrl.SubPreset, 1)][12])" },
+						GlobalIn = Input { Value = -480 },
+						Center = Input { Expression = "Point(SubCtrl.KXa.Y, SubCtrl.SubPos.Y - SubCtrl.KH.Y)" },
+						Width = Input { Value = 1920 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Font = Input {
+							Value = "Open Sans",
+							Expression = "SubLabel.Font"
+						},
+						TransformRotation = Input { Value = 1 },
+						Style = Input {
+							Value = "Bold",
+							Expression = "SubLabel.Style"
+						},
+						LayoutRotation = Input { Value = 1 },
+						StyledText = Input { Expression = "Text(iif(SubCtrl.Ta >= 0 and SubCtrl.SubCountB.Value ~= '', SubCtrl.SubCountB.Value, SubCtrl.SubCount.Value))" }
+					},
+					ViewInfo = OperatorInfo { Pos = { -275, 49.5 } }
+				},
+				SubRule1 = TextPlus {
+					Version = 1,
+					Inputs = {
+						Height = Input { Value = 1080 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						HorizontalJustificationNew = Input { Value = 3 },
+						StyledText = Input { Expression = "Text(SubCtrl.SubText.Value)" },
+						Size = Input { Expression = "SubCtrl.SubSize" },
+						TransformRotation = Input { Value = 1 },
+						Font = Input {
+							Value = "Open Sans",
+							Expression = "SubLabel.Font"
+						},
+						Wrap = Input { Value = 1 },
+						LayoutRotation = Input { Value = 1 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Softness1 = Input { Value = 1 },
+						VerticalJustificationNew = Input { Value = 3 },
+						Style = Input {
+							Value = "Bold",
+							Expression = "SubLabel.Style"
+						},
+						Width = Input { Value = 1920 },
+						GlobalIn = Input { Value = -480 }
+					},
+					ViewInfo = OperatorInfo { Pos = { -275, 148.5 } }
+				},
+				SubRule2 = TextPlus {
+					Version = 1,
+					Inputs = {
+						Height = Input { Value = 1080 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						HorizontalJustificationNew = Input { Value = 3 },
+						StyledText = Input { Expression = "Text(SubCtrl.SubDone.Value)" },
+						Size = Input { Expression = "SubCtrl.SubSize" },
+						TransformRotation = Input { Value = 1 },
+						Font = Input {
+							Value = "Open Sans",
+							Expression = "SubLabel.Font"
+						},
+						Wrap = Input { Value = 1 },
+						LayoutRotation = Input { Value = 1 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Softness1 = Input { Value = 1 },
+						VerticalJustificationNew = Input { Value = 3 },
+						Style = Input {
+							Value = "Bold",
+							Expression = "SubLabel.Style"
+						},
+						Width = Input { Value = 1920 },
+						GlobalIn = Input { Value = -480 }
+					},
+					ViewInfo = OperatorInfo { Pos = { -275, 181.5 } }
+				},
+				SubRule3 = TextPlus {
+					Version = 1,
+					Inputs = {
+						Height = Input { Value = 1080 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						HorizontalJustificationNew = Input { Value = 3 },
+						StyledText = Input { Expression = "Text(\"|\")" },
+						Size = Input { Expression = "SubCtrl.SubSize" },
+						TransformRotation = Input { Value = 1 },
+						Font = Input {
+							Value = "Open Sans",
+							Expression = "SubLabel.Font"
+						},
+						Wrap = Input { Value = 1 },
+						LayoutRotation = Input { Value = 1 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Softness1 = Input { Value = 1 },
+						VerticalJustificationNew = Input { Value = 3 },
+						Style = Input {
+							Value = "Bold",
+							Expression = "SubLabel.Style"
+						},
+						Width = Input { Value = 1920 },
+						GlobalIn = Input { Value = -480 }
+					},
+					ViewInfo = OperatorInfo { Pos = { -275, 214.5 } }
+				},
+				SubRule4 = TextPlus {
+					Version = 1,
+					Inputs = {
+						Height = Input { Value = 1080 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						HorizontalJustificationNew = Input { Value = 3 },
+						StyledText = Input { Expression = "Text(SubCtrl.SubCount.Value)" },
+						Size = Input { Expression = "SubCtrl.SubSize" },
+						TransformRotation = Input { Value = 1 },
+						Font = Input {
+							Value = "Open Sans",
+							Expression = "SubLabel.Font"
+						},
+						Wrap = Input { Value = 1 },
+						LayoutRotation = Input { Value = 1 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Softness1 = Input { Value = 1 },
+						VerticalJustificationNew = Input { Value = 3 },
+						Style = Input {
+							Value = "Bold",
+							Expression = "SubLabel.Style"
+						},
+						Width = Input { Value = 1920 },
+						GlobalIn = Input { Value = -480 }
+					},
+					ViewInfo = OperatorInfo { Pos = { -275, 247.5 } }
+				},
+				SubRule5 = TextPlus {
+					Version = 1,
+					Inputs = {
+						Height = Input { Value = 1080 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						HorizontalJustificationNew = Input { Value = 3 },
+						StyledText = Input { Expression = "Text(SubCtrl.SubCountB.Value)" },
+						Size = Input { Expression = "SubCtrl.SubSize" },
+						TransformRotation = Input { Value = 1 },
+						Font = Input {
+							Value = "Open Sans",
+							Expression = "SubLabel.Font"
+						},
+						Wrap = Input { Value = 1 },
+						LayoutRotation = Input { Value = 1 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Softness1 = Input { Value = 1 },
+						VerticalJustificationNew = Input { Value = 3 },
+						Style = Input {
+							Value = "Bold",
+							Expression = "SubLabel.Style"
+						},
+						Width = Input { Value = 1920 },
+						GlobalIn = Input { Value = -480 }
+					},
+					ViewInfo = OperatorInfo { Pos = { -275, 280.5 } }
+				},
+				ColSubA = Background {
+					Inputs = {
+						Height = Input { Value = 16 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftRed = Input { Value = 0.95 },
+						TopLeftGreen = Input { Value = 0.95 },
+						TopLeftBlue = Input { Value = 0.95 },
+						GlobalIn = Input { Value = -480 },
+						Width = Input { Value = 16 }
+					},
+					ViewInfo = OperatorInfo { Pos = { -275, -181.5 } }
+				},
+				ColSubInkA = Background {
+					Inputs = {
+						Height = Input { Value = 16 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftRed = Input { Value = 0.06 },
+						TopLeftGreen = Input { Value = 0.06 },
+						TopLeftBlue = Input { Value = 0.06 },
+						GlobalIn = Input { Value = -480 },
+						Width = Input { Value = 16 }
+					},
+					ViewInfo = OperatorInfo { Pos = { -165, -181.5 } }
+				},
+				ColSubB = Background {
+					Inputs = {
+						Height = Input { Value = 16 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftRed = Input { Value = 0.16 },
+						TopLeftGreen = Input { Value = 0.16 },
+						TopLeftBlue = Input { Value = 0.16 },
+						GlobalIn = Input { Value = -480 },
+						Width = Input { Value = 16 }
+					},
+					ViewInfo = OperatorInfo { Pos = { -55, -181.5 } }
+				},
+				ColSubInkB = Background {
+					Inputs = {
+						Height = Input { Value = 16 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftRed = Input { Value = 0.95 },
+						TopLeftGreen = Input { Value = 0.95 },
+						TopLeftBlue = Input { Value = 0.95 },
+						GlobalIn = Input { Value = -480 },
+						Width = Input { Value = 16 }
+					},
+					ViewInfo = OperatorInfo { Pos = { 55, -181.5 } }
+				},
+				SubLikeMask = RectangleMask {
+					Inputs = {
+						Height = Input { Expression = "SubCtrl.KH.X*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height'))" },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						CornerRadius = Input { Value = 1 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Center = Input { Expression = "Point(SubCtrl.KL.X + SubCtrl.KL.Y/2, SubCtrl.SubPos.Y)" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						Width = Input { Expression = "max(SubCtrl.KL.Y, 0.00001)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { -55, -16.5 } }
+				},
+				SubLikePill = Background {
+					Inputs = {
+						Height = Input { Value = 1080 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftRed = Input {
+							Value = 1,
+							Expression = "iif(SubCtrl.SubPreset == 0, ColSubB.TopLeftRed, ({{0.95,0.95,0.95,0.06,0.06,0.06,0.16,0.16,0.16,0.95,0.95,0.95},{0.06,0.06,0.06,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06},{0.9,0.1,0.12,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06}})[max(SubCtrl.SubPreset, 1)][7])"
+						},
+						TopLeftGreen = Input {
+							Value = 1,
+							Expression = "iif(SubCtrl.SubPreset == 0, ColSubB.TopLeftGreen, ({{0.95,0.95,0.95,0.06,0.06,0.06,0.16,0.16,0.16,0.95,0.95,0.95},{0.06,0.06,0.06,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06},{0.9,0.1,0.12,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06}})[max(SubCtrl.SubPreset, 1)][8])"
+						},
+						TopLeftBlue = Input {
+							Value = 1,
+							Expression = "iif(SubCtrl.SubPreset == 0, ColSubB.TopLeftBlue, ({{0.95,0.95,0.95,0.06,0.06,0.06,0.16,0.16,0.16,0.95,0.95,0.95},{0.06,0.06,0.06,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06},{0.9,0.1,0.12,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06}})[max(SubCtrl.SubPreset, 1)][9])"
+						},
+						EffectMask = Input {
+							SourceOp = "SubLikeMask",
+							Source = "Mask"
+						},
+						UseFrameFormatSettings = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						GlobalIn = Input { Value = -480 }
+					},
+					ViewInfo = OperatorInfo { Pos = { -55, 16.5 } }
+				},
+				SubLike1 = Merge {
+					Inputs = {
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							SourceOp = "SubLikePill",
+							Source = "Output"
+						},
+						Foreground = Input {
+							SourceOp = "SubNumber",
+							Source = "Output"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 55, 16.5 } }
+				},
+				SubUpPart1 = RectangleMask {
+					Inputs = {
+						Height = Input { Expression = "0.6*(SubCtrl.KH.X*0.5)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height'))" },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						CornerRadius = Input { Value = 0.3 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Center = Input { Expression = "Point(SubCtrl.KXa.X + -0.4*(SubCtrl.KH.X*0.5), SubCtrl.SubPos.Y + -0.14*(SubCtrl.KH.X*0.5)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')))" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						Width = Input { Expression = "0.26*(SubCtrl.KH.X*0.5)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 55, -148.5 } }
+				},
+				SubUpPart2 = RectangleMask {
+					Inputs = {
+						Height = Input { Expression = "0.6*(SubCtrl.KH.X*0.5)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height'))" },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						CornerRadius = Input { Value = 0.45 },
+						EffectMask = Input {
+							SourceOp = "SubUpPart1",
+							Source = "Mask"
+						},
+						UseFrameFormatSettings = Input { Value = 1 },
+						Center = Input { Expression = "Point(SubCtrl.KXa.X + 0.13*(SubCtrl.KH.X*0.5), SubCtrl.SubPos.Y + -0.14*(SubCtrl.KH.X*0.5)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')))" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						Width = Input { Expression = "0.7*(SubCtrl.KH.X*0.5)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 165, -148.5 } }
+				},
+				SubUpPart3 = RectangleMask {
+					Inputs = {
+						Height = Input { Expression = "0.74*(SubCtrl.KH.X*0.5)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height'))" },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						CornerRadius = Input { Value = 1 },
+						Angle = Input { Value = -14 },
+						EffectMask = Input {
+							SourceOp = "SubUpPart2",
+							Source = "Mask"
+						},
+						UseFrameFormatSettings = Input { Value = 1 },
+						Center = Input { Expression = "Point(SubCtrl.KXa.X + -0.03*(SubCtrl.KH.X*0.5), SubCtrl.SubPos.Y + 0.2*(SubCtrl.KH.X*0.5)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')))" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						Width = Input { Expression = "0.3*(SubCtrl.KH.X*0.5)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 275, -148.5 } }
+				},
+				SubUpShape = Background {
+					Inputs = {
+						Height = Input { Value = 1080 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftRed = Input { Value = 1 },
+						TopLeftGreen = Input { Value = 1 },
+						TopLeftBlue = Input { Value = 1 },
+						EffectMask = Input {
+							SourceOp = "SubUpPart3",
+							Source = "Mask"
+						},
+						UseFrameFormatSettings = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						GlobalIn = Input { Value = -480 }
+					},
+					ViewInfo = OperatorInfo { Pos = { 55, -115.5 } }
+				},
+				SubUpThin = ErodeDilate {
+					Inputs = {
+						Input = Input {
+							SourceOp = "SubUpShape",
+							Source = "Output"
+						},
+						Filter = Input { Value = 3 },
+						XAmount = Input { Expression = "-0.1*(SubCtrl.KH.X*0.5)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 165, -82.5 } }
+				},
+				SubUp = Custom {
+					Inputs = {
+						Image1 = Input {
+							SourceOp = "SubUpShape",
+							Source = "Output"
+						},
+						Image2 = Input {
+							SourceOp = "SubUpThin",
+							Source = "Output"
+						},
+						NumberIn1 = Input { Expression = "iif(SubCtrl.Ta >= 0, 1, 0)" },
+						AlphaExpression = Input { Value = "i1" },
+						Intermediate1 = Input { Value = "if(n1 > 0, a1, max(a1 - a2, 0))" },
+						NumberIn3 = Input { Expression = "iif(SubCtrl.SubPreset == 0, ColSubInkB.TopLeftGreen, ({{0.95,0.95,0.95,0.06,0.06,0.06,0.16,0.16,0.16,0.95,0.95,0.95},{0.06,0.06,0.06,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06},{0.9,0.1,0.12,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06}})[max(SubCtrl.SubPreset, 1)][11])" },
+						RedExpression = Input { Value = "n2*i1" },
+						NumberIn4 = Input { Expression = "iif(SubCtrl.SubPreset == 0, ColSubInkB.TopLeftBlue, ({{0.95,0.95,0.95,0.06,0.06,0.06,0.16,0.16,0.16,0.95,0.95,0.95},{0.06,0.06,0.06,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06},{0.9,0.1,0.12,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06}})[max(SubCtrl.SubPreset, 1)][12])" },
+						LUTIn2 = Input {
+							SourceOp = "CustomTool1LUTIn2",
+							Source = "Value"
+						},
+						LUTIn3 = Input {
+							SourceOp = "CustomTool1LUTIn3",
+							Source = "Value"
+						},
+						LUTIn4 = Input {
+							SourceOp = "CustomTool1LUTIn4",
+							Source = "Value"
+						},
+						BlueExpression = Input { Value = "n4*i1" },
+						NumberIn2 = Input { Expression = "iif(SubCtrl.SubPreset == 0, ColSubInkB.TopLeftRed, ({{0.95,0.95,0.95,0.06,0.06,0.06,0.16,0.16,0.16,0.95,0.95,0.95},{0.06,0.06,0.06,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06},{0.9,0.1,0.12,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06}})[max(SubCtrl.SubPreset, 1)][10])" },
+						GreenExpression = Input { Value = "n3*i1" },
+						LUTIn1 = Input {
+							SourceOp = "CustomTool1LUTIn1",
+							Source = "Value"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 275, -115.5 } }
+				},
+				CustomTool1LUTIn1 = LUTBezier {
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn2 = LUTBezier {
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn3 = LUTBezier {
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn4 = LUTBezier {
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				SubUpGo = Transform {
+					Inputs = {
+						Pivot = Input { Expression = "Point(SubCtrl.KXa.X, SubCtrl.SubPos.Y)" },
+						Input = Input {
+							SourceOp = "SubUp",
+							Source = "Output"
+						},
+						Angle = Input { Expression = "(function(t) if t < 0 or t > 14 then return 0 end return -22*math.exp(-t/4)*math.sin(t*0.7) end)(SubCtrl.Ta)" },
+						Size = Input { Expression = "(function(t) if t < 0 or t > 14 then return 1 end return 1 + 0.45*math.exp(-t/4)*math.sin(t*0.7) end)(SubCtrl.Ta)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 385, -115.5 } }
+				},
+				SubLike2 = Merge {
+					Inputs = {
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							SourceOp = "SubLike1",
+							Source = "Output"
+						},
+						Foreground = Input {
+							SourceOp = "SubUpGo",
+							Source = "Output"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 165, 16.5 } }
+				},
+				SubDownPart1 = RectangleMask {
+					Inputs = {
+						Height = Input { Expression = "0.6*(SubCtrl.KH.X*0.5)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height'))" },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						CornerRadius = Input { Value = 0.3 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Center = Input { Expression = "Point(SubCtrl.KXb.Y + -0.4*(SubCtrl.KH.X*0.5), SubCtrl.SubPos.Y + 0.14*(SubCtrl.KH.X*0.5)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')))" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						Width = Input { Expression = "0.26*(SubCtrl.KH.X*0.5)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 55, -280.5 } }
+				},
+				SubDownPart2 = RectangleMask {
+					Inputs = {
+						Height = Input { Expression = "0.6*(SubCtrl.KH.X*0.5)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height'))" },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						CornerRadius = Input { Value = 0.45 },
+						EffectMask = Input {
+							SourceOp = "SubDownPart1",
+							Source = "Mask"
+						},
+						UseFrameFormatSettings = Input { Value = 1 },
+						Center = Input { Expression = "Point(SubCtrl.KXb.Y + 0.13*(SubCtrl.KH.X*0.5), SubCtrl.SubPos.Y + 0.14*(SubCtrl.KH.X*0.5)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')))" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						Width = Input { Expression = "0.7*(SubCtrl.KH.X*0.5)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 165, -280.5 } }
+				},
+				SubDownPart3 = RectangleMask {
+					Inputs = {
+						Height = Input { Expression = "0.74*(SubCtrl.KH.X*0.5)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height'))" },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						CornerRadius = Input { Value = 1 },
+						Angle = Input { Value = 14 },
+						EffectMask = Input {
+							SourceOp = "SubDownPart2",
+							Source = "Mask"
+						},
+						UseFrameFormatSettings = Input { Value = 1 },
+						Center = Input { Expression = "Point(SubCtrl.KXb.Y + -0.03*(SubCtrl.KH.X*0.5), SubCtrl.SubPos.Y + -0.2*(SubCtrl.KH.X*0.5)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')))" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						Width = Input { Expression = "0.3*(SubCtrl.KH.X*0.5)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 275, -280.5 } }
+				},
+				SubDownShape = Background {
+					Inputs = {
+						Height = Input { Value = 1080 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftRed = Input { Value = 1 },
+						TopLeftGreen = Input { Value = 1 },
+						TopLeftBlue = Input { Value = 1 },
+						EffectMask = Input {
+							SourceOp = "SubDownPart3",
+							Source = "Mask"
+						},
+						UseFrameFormatSettings = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						GlobalIn = Input { Value = -480 }
+					},
+					ViewInfo = OperatorInfo { Pos = { 55, -247.5 } }
+				},
+				SubDownThin = ErodeDilate {
+					Inputs = {
+						Input = Input {
+							SourceOp = "SubDownShape",
+							Source = "Output"
+						},
+						Filter = Input { Value = 3 },
+						XAmount = Input { Expression = "-0.1*(SubCtrl.KH.X*0.5)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 165, -214.5 } }
+				},
+				SubDown = Custom {
+					Inputs = {
+						Image1 = Input {
+							SourceOp = "SubDownShape",
+							Source = "Output"
+						},
+						Image2 = Input {
+							SourceOp = "SubDownThin",
+							Source = "Output"
+						},
+						NumberIn1 = Input { Expression = "0" },
+						AlphaExpression = Input { Value = "i1" },
+						Intermediate1 = Input { Value = "if(n1 > 0, a1, max(a1 - a2, 0))" },
+						NumberIn3 = Input { Expression = "iif(SubCtrl.SubPreset == 0, ColSubInkB.TopLeftGreen, ({{0.95,0.95,0.95,0.06,0.06,0.06,0.16,0.16,0.16,0.95,0.95,0.95},{0.06,0.06,0.06,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06},{0.9,0.1,0.12,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06}})[max(SubCtrl.SubPreset, 1)][11])" },
+						RedExpression = Input { Value = "n2*i1" },
+						NumberIn4 = Input { Expression = "iif(SubCtrl.SubPreset == 0, ColSubInkB.TopLeftBlue, ({{0.95,0.95,0.95,0.06,0.06,0.06,0.16,0.16,0.16,0.95,0.95,0.95},{0.06,0.06,0.06,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06},{0.9,0.1,0.12,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06}})[max(SubCtrl.SubPreset, 1)][12])" },
+						LUTIn2 = Input {
+							SourceOp = "CustomTool1LUTIn21",
+							Source = "Value"
+						},
+						LUTIn3 = Input {
+							SourceOp = "CustomTool1LUTIn31",
+							Source = "Value"
+						},
+						LUTIn4 = Input {
+							SourceOp = "CustomTool1LUTIn41",
+							Source = "Value"
+						},
+						BlueExpression = Input { Value = "n4*i1" },
+						NumberIn2 = Input { Expression = "iif(SubCtrl.SubPreset == 0, ColSubInkB.TopLeftRed, ({{0.95,0.95,0.95,0.06,0.06,0.06,0.16,0.16,0.16,0.95,0.95,0.95},{0.06,0.06,0.06,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06},{0.9,0.1,0.12,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06}})[max(SubCtrl.SubPreset, 1)][10])" },
+						GreenExpression = Input { Value = "n3*i1" },
+						LUTIn1 = Input {
+							SourceOp = "CustomTool1LUTIn11",
+							Source = "Value"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 275, -247.5 } }
+				},
+				CustomTool1LUTIn11 = LUTBezier {
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn21 = LUTBezier {
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn31 = LUTBezier {
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn41 = LUTBezier {
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				SubLike3 = Merge {
+					Inputs = {
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							SourceOp = "SubLike2",
+							Source = "Output"
+						},
+						Foreground = Input {
+							SourceOp = "SubDown",
+							Source = "Output"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 275, 16.5 } }
+				},
+				SubDividerMask = RectangleMask {
+					Inputs = {
+						Height = Input { Expression = "SubCtrl.KH.X*0.55*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height'))" },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Center = Input { Expression = "Point(SubCtrl.KXb.X, SubCtrl.SubPos.Y)" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						Width = Input { Expression = "SubCtrl.SubSize*0.04" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 495, -280.5 } }
+				},
+				SubDivider = Background {
+					Inputs = {
+						Height = Input { Value = 1080 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftRed = Input {
+							Value = 1,
+							Expression = "iif(SubCtrl.SubPreset == 0, ColSubInkB.TopLeftRed, ({{0.95,0.95,0.95,0.06,0.06,0.06,0.16,0.16,0.16,0.95,0.95,0.95},{0.06,0.06,0.06,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06},{0.9,0.1,0.12,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06}})[max(SubCtrl.SubPreset, 1)][10])"
+						},
+						TopLeftGreen = Input {
+							Value = 1,
+							Expression = "iif(SubCtrl.SubPreset == 0, ColSubInkB.TopLeftGreen, ({{0.95,0.95,0.95,0.06,0.06,0.06,0.16,0.16,0.16,0.95,0.95,0.95},{0.06,0.06,0.06,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06},{0.9,0.1,0.12,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06}})[max(SubCtrl.SubPreset, 1)][11])"
+						},
+						TopLeftBlue = Input {
+							Value = 1,
+							Expression = "iif(SubCtrl.SubPreset == 0, ColSubInkB.TopLeftBlue, ({{0.95,0.95,0.95,0.06,0.06,0.06,0.16,0.16,0.16,0.95,0.95,0.95},{0.06,0.06,0.06,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06},{0.9,0.1,0.12,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06}})[max(SubCtrl.SubPreset, 1)][12])"
+						},
+						EffectMask = Input {
+							SourceOp = "SubDividerMask",
+							Source = "Mask"
+						},
+						UseFrameFormatSettings = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						GlobalIn = Input { Value = -480 }
+					},
+					ViewInfo = OperatorInfo { Pos = { 495, -247.5 } }
+				},
+				SubLike4 = Merge {
+					Inputs = {
+						Blend = Input { Expression = "0.3" },
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							SourceOp = "SubLike3",
+							Source = "Output"
+						},
+						Foreground = Input {
+							SourceOp = "SubDivider",
+							Source = "Output"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 385, 16.5 } }
+				},
+				SubLikeDip = Transform {
+					Inputs = {
+						Pivot = Input { Expression = "Point(SubCtrl.KXa.X, SubCtrl.SubPos.Y)" },
+						Input = Input {
+							SourceOp = "SubLike4",
+							Source = "Output"
+						},
+						Size = Input { Expression = "(function(t) if t < 0 or t > 12 then return 1 end return 1 - 0.08*math.exp(-t/3)*math.cos(t*0.9) end)(SubCtrl.Ta)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 495, 16.5 } }
+				},
+				SubButtonMask = RectangleMask {
+					Inputs = {
+						Height = Input { Expression = "SubCtrl.KH.X*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height'))" },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						CornerRadius = Input { Value = 1 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Center = Input { Expression = "Point(SubCtrl.KS.X + SubCtrl.KS.Y/2, SubCtrl.SubPos.Y)" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						Width = Input { Expression = "SubCtrl.KS.Y" }
+					},
+					ViewInfo = OperatorInfo { Pos = { -55, 115.5 } }
+				},
+				SubButton = Background {
+					Inputs = {
+						Height = Input { Value = 1080 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftRed = Input {
+							Value = 1,
+							Expression = "iif(SubCtrl.Tb >= 0, iif(SubCtrl.SubPreset == 0, ColSubB.TopLeftRed, ({{0.95,0.95,0.95,0.06,0.06,0.06,0.16,0.16,0.16,0.95,0.95,0.95},{0.06,0.06,0.06,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06},{0.9,0.1,0.12,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06}})[max(SubCtrl.SubPreset, 1)][7]), iif(SubCtrl.SubPreset == 0, ColSubA.TopLeftRed, ({{0.95,0.95,0.95,0.06,0.06,0.06,0.16,0.16,0.16,0.95,0.95,0.95},{0.06,0.06,0.06,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06},{0.9,0.1,0.12,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06}})[max(SubCtrl.SubPreset, 1)][1]))"
+						},
+						TopLeftGreen = Input {
+							Value = 1,
+							Expression = "iif(SubCtrl.Tb >= 0, iif(SubCtrl.SubPreset == 0, ColSubB.TopLeftGreen, ({{0.95,0.95,0.95,0.06,0.06,0.06,0.16,0.16,0.16,0.95,0.95,0.95},{0.06,0.06,0.06,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06},{0.9,0.1,0.12,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06}})[max(SubCtrl.SubPreset, 1)][8]), iif(SubCtrl.SubPreset == 0, ColSubA.TopLeftGreen, ({{0.95,0.95,0.95,0.06,0.06,0.06,0.16,0.16,0.16,0.95,0.95,0.95},{0.06,0.06,0.06,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06},{0.9,0.1,0.12,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06}})[max(SubCtrl.SubPreset, 1)][2]))"
+						},
+						TopLeftBlue = Input {
+							Value = 1,
+							Expression = "iif(SubCtrl.Tb >= 0, iif(SubCtrl.SubPreset == 0, ColSubB.TopLeftBlue, ({{0.95,0.95,0.95,0.06,0.06,0.06,0.16,0.16,0.16,0.95,0.95,0.95},{0.06,0.06,0.06,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06},{0.9,0.1,0.12,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06}})[max(SubCtrl.SubPreset, 1)][9]), iif(SubCtrl.SubPreset == 0, ColSubA.TopLeftBlue, ({{0.95,0.95,0.95,0.06,0.06,0.06,0.16,0.16,0.16,0.95,0.95,0.95},{0.06,0.06,0.06,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06},{0.9,0.1,0.12,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06}})[max(SubCtrl.SubPreset, 1)][3]))"
+						},
+						EffectMask = Input {
+							SourceOp = "SubButtonMask",
+							Source = "Mask"
+						},
+						UseFrameFormatSettings = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						GlobalIn = Input { Value = -480 }
+					},
+					ViewInfo = OperatorInfo { Pos = { -55, 148.5 } }
+				},
+				SubButton1 = Merge {
+					Inputs = {
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							SourceOp = "SubButton",
+							Source = "Output"
+						},
+						Foreground = Input {
+							SourceOp = "SubLabel",
+							Source = "Output"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 55, 148.5 } }
+				},
+				SubBellIconPart1 = EllipseMask {
+					Inputs = {
+						Height = Input { Expression = "0.72*(SubCtrl.KH.X*0.5)" },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Center = Input { Expression = "Point(SubCtrl.KXc.X + 0*(SubCtrl.KH.X*0.5), SubCtrl.SubPos.Y + 0.09*(SubCtrl.KH.X*0.5)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')))" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						Width = Input { Expression = "0.72*(SubCtrl.KH.X*0.5)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 55, 214.5 } }
+				},
+				SubBellIconPart2 = RectangleMask {
+					Inputs = {
+						Height = Input { Expression = "0.4*(SubCtrl.KH.X*0.5)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height'))" },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						EffectMask = Input {
+							SourceOp = "SubBellIconPart1",
+							Source = "Mask"
+						},
+						UseFrameFormatSettings = Input { Value = 1 },
+						Center = Input { Expression = "Point(SubCtrl.KXc.X + 0*(SubCtrl.KH.X*0.5), SubCtrl.SubPos.Y + -0.12*(SubCtrl.KH.X*0.5)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')))" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						Width = Input { Expression = "0.72*(SubCtrl.KH.X*0.5)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 165, 214.5 } }
+				},
+				SubBellIconPart3 = RectangleMask {
+					Inputs = {
+						Height = Input { Expression = "0.14*(SubCtrl.KH.X*0.5)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height'))" },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						CornerRadius = Input { Value = 1 },
+						EffectMask = Input {
+							SourceOp = "SubBellIconPart2",
+							Source = "Mask"
+						},
+						UseFrameFormatSettings = Input { Value = 1 },
+						Center = Input { Expression = "Point(SubCtrl.KXc.X + 0*(SubCtrl.KH.X*0.5), SubCtrl.SubPos.Y + -0.33*(SubCtrl.KH.X*0.5)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')))" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						Width = Input { Expression = "0.98*(SubCtrl.KH.X*0.5)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 275, 214.5 } }
+				},
+				SubBellIconPart4 = EllipseMask {
+					Inputs = {
+						Height = Input { Expression = "0.22*(SubCtrl.KH.X*0.5)" },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						EffectMask = Input {
+							SourceOp = "SubBellIconPart3",
+							Source = "Mask"
+						},
+						UseFrameFormatSettings = Input { Value = 1 },
+						Center = Input { Expression = "Point(SubCtrl.KXc.X + 0*(SubCtrl.KH.X*0.5), SubCtrl.SubPos.Y + -0.46*(SubCtrl.KH.X*0.5)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')))" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						Width = Input { Expression = "0.22*(SubCtrl.KH.X*0.5)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 385, 214.5 } }
+				},
+				SubBellIconPart5 = EllipseMask {
+					Inputs = {
+						Height = Input { Expression = "0.13*(SubCtrl.KH.X*0.5)" },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						EffectMask = Input {
+							SourceOp = "SubBellIconPart4",
+							Source = "Mask"
+						},
+						UseFrameFormatSettings = Input { Value = 1 },
+						Center = Input { Expression = "Point(SubCtrl.KXc.X + 0*(SubCtrl.KH.X*0.5), SubCtrl.SubPos.Y + 0.49*(SubCtrl.KH.X*0.5)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')))" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						Width = Input { Expression = "0.13*(SubCtrl.KH.X*0.5)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 495, 214.5 } }
+				},
+				SubBellIconShape = Background {
+					Inputs = {
+						Height = Input { Value = 1080 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftRed = Input { Value = 1 },
+						TopLeftGreen = Input { Value = 1 },
+						TopLeftBlue = Input { Value = 1 },
+						EffectMask = Input {
+							SourceOp = "SubBellIconPart5",
+							Source = "Mask"
+						},
+						UseFrameFormatSettings = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						GlobalIn = Input { Value = -480 }
+					},
+					ViewInfo = OperatorInfo { Pos = { 55, 247.5 } }
+				},
+				SubBellIconThin = ErodeDilate {
+					Inputs = {
+						Input = Input {
+							SourceOp = "SubBellIconShape",
+							Source = "Output"
+						},
+						Filter = Input { Value = 3 },
+						XAmount = Input { Expression = "-0.1*(SubCtrl.KH.X*0.5)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 165, 280.5 } }
+				},
+				SubBellIcon = Custom {
+					Inputs = {
+						Image1 = Input {
+							SourceOp = "SubBellIconShape",
+							Source = "Output"
+						},
+						Image2 = Input {
+							SourceOp = "SubBellIconThin",
+							Source = "Output"
+						},
+						NumberIn1 = Input { Expression = "iif(SubCtrl.Tc >= 0, 1, 0)" },
+						AlphaExpression = Input { Value = "i1" },
+						Intermediate1 = Input { Value = "if(n1 > 0, a1, max(a1 - a2, 0))" },
+						NumberIn3 = Input { Expression = "iif(SubCtrl.SubPreset == 0, ColSubInkB.TopLeftGreen, ({{0.95,0.95,0.95,0.06,0.06,0.06,0.16,0.16,0.16,0.95,0.95,0.95},{0.06,0.06,0.06,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06},{0.9,0.1,0.12,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06}})[max(SubCtrl.SubPreset, 1)][11])" },
+						RedExpression = Input { Value = "n2*i1" },
+						NumberIn4 = Input { Expression = "iif(SubCtrl.SubPreset == 0, ColSubInkB.TopLeftBlue, ({{0.95,0.95,0.95,0.06,0.06,0.06,0.16,0.16,0.16,0.95,0.95,0.95},{0.06,0.06,0.06,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06},{0.9,0.1,0.12,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06}})[max(SubCtrl.SubPreset, 1)][12])" },
+						LUTIn2 = Input {
+							SourceOp = "CustomTool1LUTIn22",
+							Source = "Value"
+						},
+						LUTIn3 = Input {
+							SourceOp = "CustomTool1LUTIn32",
+							Source = "Value"
+						},
+						LUTIn4 = Input {
+							SourceOp = "CustomTool1LUTIn42",
+							Source = "Value"
+						},
+						BlueExpression = Input { Value = "n4*i1" },
+						NumberIn2 = Input { Expression = "iif(SubCtrl.SubPreset == 0, ColSubInkB.TopLeftRed, ({{0.95,0.95,0.95,0.06,0.06,0.06,0.16,0.16,0.16,0.95,0.95,0.95},{0.06,0.06,0.06,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06},{0.9,0.1,0.12,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06}})[max(SubCtrl.SubPreset, 1)][10])" },
+						GreenExpression = Input { Value = "n3*i1" },
+						LUTIn1 = Input {
+							SourceOp = "CustomTool1LUTIn12",
+							Source = "Value"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 275, 247.5 } }
+				},
+				CustomTool1LUTIn12 = LUTBezier {
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn22 = LUTBezier {
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn32 = LUTBezier {
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn42 = LUTBezier {
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				SubBellSwing = Transform {
+					Inputs = {
+						Pivot = Input { Expression = "Point(SubCtrl.KXc.X, SubCtrl.SubPos.Y + 0.49*(SubCtrl.KH.X*0.5)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')))" },
+						Input = Input {
+							SourceOp = "SubBellIcon",
+							Source = "Output"
+						},
+						Angle = Input { Expression = "(function(t) if t < 0 then return 0 end return 30*math.sin(t*0.85)*math.exp(-t/9) end)(SubCtrl.Tc)" },
+						Size = Input { Expression = "(function(t) if t < 0 or t > 14 then return 1 end return 1 + 0.3*math.exp(-t/4)*math.sin(t*0.7) end)(SubCtrl.Tc)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 385, 247.5 } }
+				},
+				SubButton2 = Merge {
+					Inputs = {
+						Blend = Input { Expression = "iif(SubCtrl.Tb >= 0 and SubCtrl.SubBell > 0, 1, 0)" },
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							SourceOp = "SubButton1",
+							Source = "Output"
+						},
+						Foreground = Input {
+							SourceOp = "SubBellSwing",
+							Source = "Output"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 165, 148.5 } }
+				},
+				SubVeePart1 = RectangleMask {
+					Inputs = {
+						Height = Input { Expression = "0.075*(SubCtrl.KH.X*0.5)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height'))" },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						CornerRadius = Input { Value = 1 },
+						Angle = Input { Value = -42 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Center = Input { Expression = "Point(SubCtrl.KXc.Y + -0.09*(SubCtrl.KH.X*0.5), SubCtrl.SubPos.Y + 0*(SubCtrl.KH.X*0.5)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')))" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						Width = Input { Expression = "0.3*(SubCtrl.KH.X*0.5)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 55, 346.5 } }
+				},
+				SubVeePart2 = RectangleMask {
+					Inputs = {
+						Height = Input { Expression = "0.075*(SubCtrl.KH.X*0.5)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height'))" },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						CornerRadius = Input { Value = 1 },
+						Angle = Input { Value = 42 },
+						EffectMask = Input {
+							SourceOp = "SubVeePart1",
+							Source = "Mask"
+						},
+						UseFrameFormatSettings = Input { Value = 1 },
+						Center = Input { Expression = "Point(SubCtrl.KXc.Y + 0.09*(SubCtrl.KH.X*0.5), SubCtrl.SubPos.Y + 0*(SubCtrl.KH.X*0.5)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')))" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						Width = Input { Expression = "0.3*(SubCtrl.KH.X*0.5)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 165, 346.5 } }
+				},
+				SubVeeShape = Background {
+					Inputs = {
+						Height = Input { Value = 1080 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftRed = Input {
+							Value = 1,
+							Expression = "iif(SubCtrl.SubPreset == 0, ColSubInkB.TopLeftRed, ({{0.95,0.95,0.95,0.06,0.06,0.06,0.16,0.16,0.16,0.95,0.95,0.95},{0.06,0.06,0.06,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06},{0.9,0.1,0.12,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06}})[max(SubCtrl.SubPreset, 1)][10])"
+						},
+						TopLeftGreen = Input {
+							Value = 1,
+							Expression = "iif(SubCtrl.SubPreset == 0, ColSubInkB.TopLeftGreen, ({{0.95,0.95,0.95,0.06,0.06,0.06,0.16,0.16,0.16,0.95,0.95,0.95},{0.06,0.06,0.06,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06},{0.9,0.1,0.12,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06}})[max(SubCtrl.SubPreset, 1)][11])"
+						},
+						TopLeftBlue = Input {
+							Value = 1,
+							Expression = "iif(SubCtrl.SubPreset == 0, ColSubInkB.TopLeftBlue, ({{0.95,0.95,0.95,0.06,0.06,0.06,0.16,0.16,0.16,0.95,0.95,0.95},{0.06,0.06,0.06,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06},{0.9,0.1,0.12,1,1,1,0.95,0.95,0.95,0.06,0.06,0.06}})[max(SubCtrl.SubPreset, 1)][12])"
+						},
+						EffectMask = Input {
+							SourceOp = "SubVeePart2",
+							Source = "Mask"
+						},
+						UseFrameFormatSettings = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						GlobalIn = Input { Value = -480 }
+					},
+					ViewInfo = OperatorInfo { Pos = { 55, 379.5 } }
+				},
+				SubButton3 = Merge {
+					Inputs = {
+						Blend = Input { Expression = "iif(SubCtrl.Tb >= 0 and SubCtrl.SubBell > 0, 1, 0)" },
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							SourceOp = "SubButton2",
+							Source = "Output"
+						},
+						Foreground = Input {
+							SourceOp = "SubVeeShape",
+							Source = "Output"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 275, 148.5 } }
+				},
+				SubButtonDip = Transform {
+					Inputs = {
+						Pivot = Input { Expression = "Point(SubCtrl.KS.X + SubCtrl.KS.Y/2, SubCtrl.SubPos.Y)" },
+						Input = Input {
+							SourceOp = "SubButton3",
+							Source = "Output"
+						},
+						Size = Input { Expression = "(function(t) if t < 0 or t > 12 then return 1 end return 1 - 0.12*math.exp(-t/3)*math.cos(t*0.9) end)(SubCtrl.Tb)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 385, 148.5 } }
+				},
+				SubBoth = Merge {
+					Inputs = {
+						Blend = Input { Expression = "SubCtrl.SubLike" },
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							SourceOp = "SubButtonDip",
+							Source = "Output"
+						},
+						Foreground = Input {
+							SourceOp = "SubLikeDip",
+							Source = "Output"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 605, 82.5 } }
+				},
+				SubRoom = SetDomain {
+					Inputs = {
+						Mode = Input { Value = FuID { "Set" } },
+						Input = Input {
+							SourceOp = "SubBoth",
+							Source = "Output"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 715, 82.5 } }
+				},
+				SubSoft = Blur {
+					Inputs = {
+						XBlurSize = Input { Expression = "SubCtrl.SubSize * 18" },
+						Input = Input {
+							SourceOp = "SubRoom",
+							Source = "Output"
+						},
+						Filter = Input { Value = FuID { "Fast Gaussian" } }
+					},
+					ViewInfo = OperatorInfo { Pos = { 715, 115.5 } }
+				},
+				SubLit = Custom {
+					Inputs = {
+						Image1 = Input {
+							SourceOp = "SubRoom",
+							Source = "Output"
+						},
+						Image2 = Input {
+							SourceOp = "SubSoft",
+							Source = "Output"
+						},
+						NumberIn1 = Input { Expression = "SubCtrl.SubShadow" },
+						LUTIn1 = Input {
+							SourceOp = "CustomTool1LUTIn13",
+							Source = "Value"
+						},
+						LUTIn2 = Input {
+							SourceOp = "CustomTool1LUTIn23",
+							Source = "Value"
+						},
+						LUTIn3 = Input {
+							SourceOp = "CustomTool1LUTIn33",
+							Source = "Value"
+						},
+						LUTIn4 = Input {
+							SourceOp = "CustomTool1LUTIn43",
+							Source = "Value"
+						},
+						NumberIn2 = Input { Expression = "SubCtrl.SubSize * 0.2" },
+						AlphaExpression = Input { Value = "a1 + (1 - a1)*n1*geta2b(x, y + n2)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 825, 82.5 } }
+				},
+				CustomTool1LUTIn13 = LUTBezier {
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn23 = LUTBezier {
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn33 = LUTBezier {
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn43 = LUTBezier {
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				SubRingMask = EllipseMask {
+					Inputs = {
+						Height = Input { Expression = "Width" },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						Solid = Input { Value = 0 },
+						BorderWidth = Input { Expression = "SubCtrl.SubSize*0.12*(1 - SubCtrl.KRing.Y)" },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Center = Input { Expression = "Point(SubCtrl.KRing.X, SubCtrl.SubPos.Y)" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						Width = Input { Expression = "SubCtrl.KH.X*(0.5 + 1.6*SubCtrl.KRing.Y)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 825, 148.5 } }
+				},
+				SubRingBody = Background {
+					Inputs = {
+						Height = Input { Value = 1080 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftRed = Input { Value = 1 },
+						TopLeftGreen = Input { Value = 1 },
+						TopLeftBlue = Input { Value = 1 },
+						EffectMask = Input {
+							SourceOp = "SubRingMask",
+							Source = "Mask"
+						},
+						UseFrameFormatSettings = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						GlobalIn = Input { Value = -480 }
+					},
+					ViewInfo = OperatorInfo { Pos = { 935, 148.5 } }
+				},
+				SubRinged = Merge {
+					Inputs = {
+						Blend = Input { Expression = "iif(SubCtrl.KRing.Y > 0, 1 - SubCtrl.KRing.Y, 0)" },
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							SourceOp = "SubLit",
+							Source = "Output"
+						},
+						Foreground = Input {
+							SourceOp = "SubRingBody",
+							Source = "Output"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 935, 82.5 } }
+				},
+				SubEnter = Transform {
+					Inputs = {
+						Pivot = Input { Expression = "SubCtrl.SubPos" },
+						Input = Input {
+							SourceOp = "SubRinged",
+							Source = "Output"
+						},
+						Size = Input { Expression = "SubCtrl.Scale" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 1045, 82.5 } }
+				},
+				SubFinal = Merge {
+					Inputs = {
+						Blend = Input { Expression = "iif(SubCtrl.Show > 0, 1, 0)" },
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							SourceOp = "SubCtrl",
+							Source = "Output"
+						},
+						Foreground = Input {
+							SourceOp = "SubEnter",
+							Source = "Output"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 1155, 82.5 } }
+				}
+			
+			}
+		}
+	},
+	ActiveTool = "SubscribeReminder"
+}

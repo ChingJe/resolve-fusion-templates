@@ -58,3 +58,7 @@ shot dimension-line  dimension.lua  FX_SET="DimSize=0.09,DimThick=0.01,DimEndSiz
 shot letterbox       letterbox.lua
 shot split-screen    compose.lua "FX_TEMPLATE=$T/Effects/Split Screen.setting" FX_SPEC=$X/panes.txt FX_INPUTS=1
 shot rec-frame       recframe.lua   FX_SET="RecSize=0.055,RecThick=0.007,RecCorners=0.12"
+shot typing          compose.lua "FX_TEMPLATE=$T/Titles/Typing.setting" FX_SPEC=$X/typings.txt
+shot comment-card    compose.lua "FX_TEMPLATE=$T/Titles/Comment Card.setting" FX_SPEC=$X/comments.txt
+shot chat-bubbles    compose.lua "FX_TEMPLATE=$T/Titles/Chat Bubbles.setting" FX_SPEC=$X/chats.txt
+shot subscribe-reminder compose.lua "FX_TEMPLATE=$T/Titles/Subscribe Reminder.setting" FX_SPEC=$X/subscribes.txt

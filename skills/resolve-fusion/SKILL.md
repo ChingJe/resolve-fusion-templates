@@ -50,7 +50,7 @@ t.Size:SetExpression("ComicCtrl.TextSize * ComicCtrl.Zoom")
 | 檔案 | 用途 |
 |---|---|
 | `lib.lua` | 建置腳本共用的函式：確認專案與時間軸、清空節點、自訂控制項、程序產生的測試畫面、算圖、匯出。另有 `L.cur`（清單目前輪到哪一行，時間清單或關鍵幀兩種模式）和 `L.inked`（把白色形狀上色並加兩層描邊） |
-| `lab.lua` | 開啟（或建立）實驗用時間軸 `FX Lab`，裡面一個片段帶空的 Fusion 合成 |
+| `lab.lua` | 開啟實驗用時間軸 `FX Lab`，把播放頭移到帶 Fusion 合成的那個片段上，切到 Fusion 頁面。時間軸或片段不存在就建立（`local.lua` 有填 `media` 就用那支影片，沒有就插入空的 Fusion 合成，不需要素材）。建置腳本印 `NOT_ON_FUSION_PAGE` 或 `NO_COMP` 時先跑它 |
 | `macro.py` | 把 `lib.lua` 匯出的節點和規格包成巨集範本 |
 | `check.lua` | 把範本貼進清空的實驗合成、接上測試畫面（`FX_SRC=media` 改接真實片段）、算圖 |
 | `compose.lua` | 把同一個範本貼好幾份、各給不同設定、疊在測試畫面上算圖，用來看多個片段組合起來的樣子 |
@@ -100,6 +100,10 @@ t.Size:SetExpression("ComicCtrl.TextSize * ComicCtrl.Zoom")
 | `letterbox.lua` | Letterbox，電影黑邊 | 標題 |
 | `splitscreen.lua` | Split Screen，分割畫面的其中一格 | 特效 |
 | `recframe.lua` | Rec Frame，攝影機觀景窗 | 標題 |
+| `typing.lua` | Typing，文字逐字打出來加游標 | 標題 |
+| `commentcard.lua` | Comment Card，留言卡和通知 | 標題 |
+| `chatbubbles.lua` | Chat Bubbles，聊天對話 | 標題 |
+| `subscribe.lua` | Subscribe Reminder，按讚、訂閱、小鈴鐺 | 標題 |
 
 從 `whippan.lua` 開始的腳本用 `lib.lua` 的 `L.panel`（控制項寫成有順序的清單，自動產生匯出規格）、`L.feeds`（影像入口和轉場進度）、`L.ship`（匯出或測試算圖）。新範本照這個寫法，一支腳本可以短很多。**`Custom` 的運算式一律用 `L.cx` 設定**（太長會讓 Resolve 當機，它會擋下來），新腳本先用 `FX_DRY=1` 跑一次量長度。另有 `L.glitch`（故障畫面的 `Custom`）、`L.hits`（時間點清單轉成強度）、`L.mirror`（畫面外鏡像補滿）。
 
@@ -133,6 +137,7 @@ cmd.exe //c "..\\install.bat install nopause"          # 同步到 Resolve 的�
 - **不能只算單一畫格**。`comp:Render({Start=f, End=f})` 會把合成的算圖範圍改成那一格，所有用到 `comp.RenderStart`、`comp.RenderEnd` 的運算式都會算錯。永遠算完整範圍，算完用 `comp:SetAttrs({COMPN_RenderStart=..., COMPN_RenderEnd=...})` 設回去。
 - **跳格要用 `StepRender = true, Steps = N`**。`Step = N` 會被忽略，整段全算。
 - 跳格算圖有時回傳 `false`，但畫格其實都寫出來了，以檔案為準。
+- **算圖時合成要保持鎖定**（`comp:Lock()` 之後才 `comp:Render`，算完再 `Unlock`）。沒鎖的話每算一次，使用者的畫面上就多一個「Render Completed」對話框，要一個一個手動按掉；對話框還在的時候，`GetCurrentPage`、`OpenPage`、`CreateEmptyTimeline` 都不回傳值。我們看不到畫面，這件事是使用者講了才知道的。`lib.lua` 的 `L.render` 已經這樣做，自己寫算圖時照做。
 - 取樣的畫格可能剛好都落在動態模糊的瞬間，看起來全糊。換一組畫格，或挑邊緣最銳利的再判斷。
 - 測試用的中文字串不要走環境變數，會被殼層弄亂。寫進 UTF-8 檔案，在腳本裡用 `io.open` 讀。
 - `Saver` 的檔名前綴只用字母和底線。以數字結尾（`cj1`）或帶「數字加 x」（`st0x`）時，算圖回報正常，但檔案不會出現在預期的名字上。

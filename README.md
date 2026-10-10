@@ -104,6 +104,17 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 | [Karaoke Caption](docs/templates/karaoke-caption.md) | 標題 | 字幕從左到右填上另一個顏色，跟著講話的速度走 |
 | [Countdown](docs/templates/countdown.md) | 標題 | 倒數計時的時鐘和圓環，最後幾秒變色跳動 |
 
+### 對話與社群
+
+打字、留言、聊天、訂閱按鈕這類畫面。疊在影片上方的軌道，背景透明。
+
+| 範本 | 類型 | 說明 |
+|---|---|---|
+| [Typing](docs/templates/typing.md) | 標題 | 文字一個字一個字打出來，後面跟著游標，可以倒著刪掉再換下一句 |
+| [Comment Card](docs/templates/comment-card.md) | 標題 | 一張留言卡：頭像、名字、內文、會往上跳的愛心數。也可以當通知橫幅 |
+| [Chat Bubbles](docs/templates/chat-bubbles.md) | 標題 | 聊天對話：訊息一則則彈出來把舊的往上推，可以放「輸入中」的三個點 |
+| [Subscribe Reminder](docs/templates/subscribe-reminder.md) | 標題 | 按讚、訂閱、開啟小鈴鐺：一排按鈕彈出來，依序被按下 |
+
 預覽圖的輸入是程序產生的測試畫面。畫面上的數字是畫格編號，用來看出每一格取的是哪個時間點。
 
 ## 文件
@@ -111,7 +122,7 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 | 文件 | 內容 |
 |---|---|
 | [安裝與移除](docs/install.md) | 安裝程式做了什麼、手動安裝、三種類型各自怎麼拖 |
-| [時間清單的寫法](docs/time-list.md) | Chapter Bar、Kinetic Lines、Punch Zoom、Variety Caption、Side Note、Glitch Hits、Freeze Frame、Karaoke Caption、Number Counter 共用的時間點寫法 |
+| [時間清單的寫法](docs/time-list.md) | Chapter Bar、Kinetic Lines、Punch Zoom、Variety Caption、Side Note、Glitch Hits、Freeze Frame、Karaoke Caption、Number Counter、Typing、Chat Bubbles 共用的時間點寫法 |
 | [docs/templates/](docs/templates) | 每個範本一份：預覽圖、用法、參數、注意事項 |
 | [做法與踩過的坑](skills/resolve-fusion/SKILL.md) | 這些範本是怎麼用腳本做出來的，想自己改範本時看這份 |
 

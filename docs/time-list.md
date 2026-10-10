@@ -1,6 +1,6 @@
 # 時間清單的寫法
 
-Chapter Bar、Kinetic Lines、Punch Zoom、Glitch Hits、Freeze Frame、Karaoke Caption、Click Ripple 都用一個多行文字框來列時間點，寫法相同：一行一個，開頭寫時間，後面寫內容。Variety Caption 和 Side Note 勾選 `Lines Start With A Time` 之後也是同一種寫法。
+Chapter Bar、Kinetic Lines、Punch Zoom、Glitch Hits、Freeze Frame、Karaoke Caption、Click Ripple、Typing、Chat Bubbles 都用一個多行文字框來列時間點，寫法相同：一行一個，開頭寫時間，後面寫內容。Variety Caption 和 Side Note 勾選 `Lines Start With A Time` 之後也是同一種寫法。
 
 Number Counter 的計次器模式（`Step Times`）只寫時間、後面不寫內容。Photo Stack 的 `Last Photo Arrives After` 和 Hidden Word 的 `Reveal After` 只填一個時間點，寫法也一樣。
 
@@ -35,6 +35,8 @@ Number Counter 的計次器模式（`Step Times`）只寫時間、後面不寫�
 | [Freeze Frame](templates/freeze-frame.md) | 停幾秒，不寫就是 1 秒 | `0:02 1.5` |
 | [Click Ripple](templates/click-ripple.md) | 不用寫，只要時間 | `0:03` |
 | [Karaoke Caption](templates/karaoke-caption.md) | 那一句字幕 | `0:05 這一句` |
+| [Typing](templates/typing.md) | 要打出來的那一句 | `0:05 這一句` |
+| [Chat Bubbles](templates/chat-bubbles.md) | `<` 或 `>` 加一則訊息 | `0:05 > 快到了` |
 
 ## 規則
 

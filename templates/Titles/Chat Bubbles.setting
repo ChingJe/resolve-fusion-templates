@@ -1,0 +1,1341 @@
+{
+	Tools = ordered() {
+		ChatBubbles = MacroOperator {
+			CtrlWZoom = false,
+			Inputs = ordered() {
+				Input1 = InstanceInput { SourceOp = "ChCtrl", Source = "ChList", Name = "Messages (0:00 < Text)" },
+				Input2 = InstanceInput { SourceOp = "ChCtrl", Source = "ChTimed", Name = "Rows Start With A Time (0:02 < Text)" },
+				Input3 = InstanceInput { SourceOp = "ChCtrl", Source = "ChCue", Name = "Messages So Far (keyframe 1, 2, 3)" },
+				Input4 = InstanceInput { SourceOp = "ChCtrl", Source = "FpsOverride", Name = "Frame Rate Override" },
+				Input5 = InstanceInput { SourceOp = "ChCtrl", Source = "ChPos", Name = "Position (Bottom Of The Newest Message)" },
+				Input6 = InstanceInput { SourceOp = "ChCtrl", Source = "ChWidth", Name = "Width Of The Conversation" },
+				Input7 = InstanceInput { SourceOp = "ChT0", Source = "Font", Name = "Font", ControlGroup = 2 },
+				Input8 = InstanceInput { SourceOp = "ChT0", Source = "Style", ControlGroup = 2 },
+				Input9 = InstanceInput { SourceOp = "ChCtrl", Source = "ChSize", Name = "Size" },
+				Input10 = InstanceInput { SourceOp = "ChCtrl", Source = "ChMax", Name = "Messages Kept On Screen" },
+				Input11 = InstanceInput { SourceOp = "ChCtrl", Source = "ChPad", Name = "Bubble Padding" },
+				Input12 = InstanceInput { SourceOp = "ChCtrl", Source = "ChGap", Name = "Space Between Messages" },
+				Input13 = InstanceInput { SourceOp = "ChCtrl", Source = "ChRound", Name = "Roundness" },
+				Input14 = InstanceInput { SourceOp = "ChCtrl", Source = "ChIn", Name = "Pop Frames" },
+				Input15 = InstanceInput { SourceOp = "ChCtrl", Source = "ChShadow", Name = "Shadow" },
+				Input16 = InstanceInput { SourceOp = "ChCtrl", Source = "ChOut", Name = "Fade Out Frames At The End" },
+				Input17 = InstanceInput { SourceOp = "ChCtrl", Source = "ChPreset", Name = "Colours" },
+				Input18 = InstanceInput { SourceOp = "ColChLeft", Source = "TopLeftRed", Name = "Custom Colour Of Their Bubble", ControlGroup = 3 },
+				Input19 = InstanceInput { SourceOp = "ColChLeft", Source = "TopLeftGreen", ControlGroup = 3 },
+				Input20 = InstanceInput { SourceOp = "ColChLeft", Source = "TopLeftBlue", ControlGroup = 3 },
+				Input21 = InstanceInput { SourceOp = "ColChLeftText", Source = "TopLeftRed", Name = "Custom Colour Of Their Words", ControlGroup = 4 },
+				Input22 = InstanceInput { SourceOp = "ColChLeftText", Source = "TopLeftGreen", ControlGroup = 4 },
+				Input23 = InstanceInput { SourceOp = "ColChLeftText", Source = "TopLeftBlue", ControlGroup = 4 },
+				Input24 = InstanceInput { SourceOp = "ColChRight", Source = "TopLeftRed", Name = "Custom Colour Of My Bubble", ControlGroup = 5 },
+				Input25 = InstanceInput { SourceOp = "ColChRight", Source = "TopLeftGreen", ControlGroup = 5 },
+				Input26 = InstanceInput { SourceOp = "ColChRight", Source = "TopLeftBlue", ControlGroup = 5 },
+				Input27 = InstanceInput { SourceOp = "ColChRightText", Source = "TopLeftRed", Name = "Custom Colour Of My Words", ControlGroup = 6 },
+				Input28 = InstanceInput { SourceOp = "ColChRightText", Source = "TopLeftGreen", ControlGroup = 6 },
+				Input29 = InstanceInput { SourceOp = "ColChRightText", Source = "TopLeftBlue", ControlGroup = 6 },
+			},
+			Outputs = {
+				MainOutput1 = InstanceOutput { SourceOp = "ChFinal", Source = "Output" }
+			},
+			ViewInfo = GroupInfo { Pos = { 0, 0 } },
+			Tools = ordered() {
+				ChCtrl = Background {
+					UserControls = {
+						KO = {
+							LINKS_Name = "KO",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKID_DataType = "Point"
+						},
+						KW = {
+							LINKS_Name = "KW",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKID_DataType = "Point"
+						},
+						M0 = {
+							LINKS_Name = "M0",
+							INPS_DefaultText = "",
+							TEC_Lines = 1,
+							LINKID_DataType = "Text",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "TextEditControl"
+						},
+						Q0 = {
+							LINKS_Name = "Q0",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKID_DataType = "Point"
+						},
+						Y0 = {
+							LINKS_Name = "Y0",
+							INP_Default = 0,
+							INP_MinScale = -4,
+							INP_MaxScale = 4,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						V0 = {
+							LINKS_Name = "V0",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						M1 = {
+							LINKS_Name = "M1",
+							INPS_DefaultText = "",
+							TEC_Lines = 1,
+							LINKID_DataType = "Text",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "TextEditControl"
+						},
+						ChTimed = {
+							LINKS_Name = "Rows Start With A Time (0:02 < Text)",
+							INP_Default = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "CheckboxControl",
+							INP_Integer = true
+						},
+						Q1 = {
+							LINKS_Name = "Q1",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKID_DataType = "Point"
+						},
+						Y1 = {
+							LINKS_Name = "Y1",
+							INP_Default = 0,
+							INP_MinScale = -4,
+							INP_MaxScale = 4,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						ChCue = {
+							LINKS_Name = "Messages So Far (keyframe 1, 2, 3)",
+							INP_Default = 1,
+							INP_MinScale = 0,
+							INP_MaxScale = 40,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						M2 = {
+							LINKS_Name = "M2",
+							INPS_DefaultText = "",
+							TEC_Lines = 1,
+							LINKID_DataType = "Text",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "TextEditControl"
+						},
+						FpsOverride = {
+							LINKS_Name = "Frame Rate Override",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 120,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						Y2 = {
+							LINKS_Name = "Y2",
+							INP_Default = 0,
+							INP_MinScale = -4,
+							INP_MaxScale = 4,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						ChPos = {
+							LINKS_Name = "Position (Bottom Of The Newest Message)",
+							LINKID_DataType = "Point",
+							INPID_PreviewControl = "CrosshairControl",
+							INPID_InputControl = "OffsetControl",
+							ICS_ControlPage = "Controls"
+						},
+						M3 = {
+							LINKS_Name = "M3",
+							INPS_DefaultText = "",
+							TEC_Lines = 1,
+							LINKID_DataType = "Text",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "TextEditControl"
+						},
+						Q3 = {
+							LINKS_Name = "Q3",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKID_DataType = "Point"
+						},
+						Y3 = {
+							LINKS_Name = "Y3",
+							INP_Default = 0,
+							INP_MinScale = -4,
+							INP_MaxScale = 4,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						V3 = {
+							LINKS_Name = "V3",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						M4 = {
+							LINKS_Name = "M4",
+							INPS_DefaultText = "",
+							TEC_Lines = 1,
+							LINKID_DataType = "Text",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "TextEditControl"
+						},
+						Q4 = {
+							LINKS_Name = "Q4",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKID_DataType = "Point"
+						},
+						Y4 = {
+							LINKS_Name = "Y4",
+							INP_Default = 0,
+							INP_MinScale = -4,
+							INP_MaxScale = 4,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						V4 = {
+							LINKS_Name = "V4",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						M5 = {
+							LINKS_Name = "M5",
+							INPS_DefaultText = "",
+							TEC_Lines = 1,
+							LINKID_DataType = "Text",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "TextEditControl"
+						},
+						Q5 = {
+							LINKS_Name = "Q5",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKID_DataType = "Point"
+						},
+						ChWidth = {
+							LINKS_Name = "Width Of The Conversation",
+							INP_Default = 0.5,
+							INP_MinScale = 0.1,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						V5 = {
+							LINKS_Name = "V5",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						ChSize = {
+							LINKS_Name = "Size",
+							INP_Default = 0.035,
+							INP_MinScale = 0.01,
+							INP_MaxScale = 0.12,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						Q6 = {
+							LINKS_Name = "Q6",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKID_DataType = "Point"
+						},
+						ChMax = {
+							LINKS_Name = "Messages Kept On Screen",
+							INP_Default = 5,
+							INP_MinScale = 1,
+							INP_MaxScale = 6,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = true
+						},
+						V6 = {
+							LINKS_Name = "V6",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						ChPad = {
+							LINKS_Name = "Bubble Padding",
+							INP_Default = 1,
+							INP_MinScale = 0.3,
+							INP_MaxScale = 2.5,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						ChGap = {
+							LINKS_Name = "Space Between Messages",
+							INP_Default = 0.35,
+							INP_MinScale = 0,
+							INP_MaxScale = 2,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						ChRound = {
+							LINKS_Name = "Roundness",
+							INP_Default = 1,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						Y6 = {
+							LINKS_Name = "Y6",
+							INP_Default = 0,
+							INP_MinScale = -4,
+							INP_MaxScale = 4,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						ChIn = {
+							LINKS_Name = "Pop Frames",
+							INP_Default = 8,
+							INP_MinScale = 1,
+							INP_MaxScale = 40,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						M6 = {
+							LINKS_Name = "M6",
+							INPS_DefaultText = "",
+							TEC_Lines = 1,
+							LINKID_DataType = "Text",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "TextEditControl"
+						},
+						ChShadow = {
+							LINKS_Name = "Shadow",
+							INP_Default = 0.25,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						Y5 = {
+							LINKS_Name = "Y5",
+							INP_Default = 0,
+							INP_MinScale = -4,
+							INP_MaxScale = 4,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						ChOut = {
+							LINKS_Name = "Fade Out Frames At The End",
+							INP_Default = 6,
+							INP_MinScale = 0,
+							INP_MaxScale = 60,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						V2 = {
+							LINKS_Name = "V2",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						ChPreset = {
+							{
+								CCS_AddString = "Custom"
+							},
+							{
+								CCS_AddString = "Blue And Grey"
+							},
+							{
+								CCS_AddString = "Green And White"
+							},
+							{
+								CCS_AddString = "Dark"
+							},
+							LINKS_Name = "Colours",
+							INP_Default = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "ComboControl",
+							INP_Integer = true
+						},
+						Q2 = {
+							LINKS_Name = "Q2",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKID_DataType = "Point"
+						},
+						V1 = {
+							LINKS_Name = "V1",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						Cur = {
+							LINKS_Name = "Cur",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKID_DataType = "Point"
+						},
+						ChList = {
+							LINKS_Name = "Messages (0:00 < Text)",
+							INPS_DefaultText = "0:00 < Are you on your way?\n0:01.2 > ...\n0:02.2 > Almost there\n0:03 > Five more minutes\n0:04 < You said that an hour ago",
+							TEC_Lines = 10,
+							LINKID_DataType = "Text",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "TextEditControl"
+						},
+						KRepl = {
+							LINKS_Name = "KRepl",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						KDots = {
+							LINKS_Name = "KDots",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						KAnim = {
+							LINKS_Name = "KAnim",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						KPop = {
+							LINKS_Name = "KPop",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 2,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						KPush = {
+							LINKS_Name = "KPush",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 4,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						KGap = {
+							LINKS_Name = "KGap",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						KFade = {
+							LINKS_Name = "KFade",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						KH = {
+							LINKS_Name = "KH",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKID_DataType = "Point"
+						}
+					},
+					CtrlWZoom = false,
+					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } },
+					Inputs = {
+						KO = Input { Expression = "(function(a, b) return Point(a, b - a) end)((function() local d = ChRule1.Output.DataWindow if not d or d.left < -99999 then return 0.03 end local w, h = ChRule1.Output.Width, ChRule1.Output.Height return 0.5 - d.bottom/h end)(), (function() local d = ChRule2.Output.DataWindow if not d or d.left < -99999 then return 0.06 end local w, h = ChRule2.Output.Width, ChRule2.Output.Height return 0.5 - d.bottom/h end)())" },
+						KW = Input { Expression = "Point((function() local d = ChRule1.Output.DataWindow if not d or d.left < -99999 then return 0.02 end local w, h = ChRule1.Output.Width, ChRule1.Output.Height return 0.5 - d.left/w end)(), (function() local d = ChRule3.Output.DataWindow if not d or d.left < -99999 then return 0.1 end local w, h = ChRule3.Output.Width, ChRule3.Output.Height return (d.right - d.left)/w end)())" },
+						M0 = Input { Expression = "Text((function(rows, idx, k)\n  local vis = {}\n  for i = 1, idx do\n    local r = rows[i]\n    if r and not (r.text == \"...\" and i < idx) then vis[#vis + 1] = r end\n  end\n  local r = vis[#vis - k]\n  return r and (r.side .. r.text) or \"\"\nend)((function(txt, timed, fps, len)\n  local rows = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local f, rest = 0, line\n    if timed ~= 0 then\n      local stamp, more = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n      f, rest = nil, more\n      if stamp then\n        local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n        if pct then f = tonumber(pct) / 100 * len\n        elseif fr then f = tonumber(fr)\n        elseif stamp:match(\"^[%d:%.]+$\") then\n          local sec = 0\n          for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n          if sec then f = math.floor(sec * fps + 0.5) end\n        end\n      end\n    end\n    if f and rest and rest:match(\"%S\") then\n      local side, words = rest:match(\"^%s*([<>])%s*(.-)%s*$\")\n      if not side then side, words = \"<\", rest:match(\"^%s*(.-)%s*$\") end\n      words = words:gsub(string.char(92) .. \"n\", string.char(10))\n      rows[#rows + 1] = {f = f, side = side, text = words}\n    end\n  end\n  return rows\nend)(ChList.Value, ChTimed, 24, 100), Cur.X, 0))" },
+						Q0 = Input { Expression = "(function(m) local _, n = m:gsub('\\n', '') return Point(n + 1, iif(m:sub(1, 1) == '>', 1, 0)) end)(M0.Value)" },
+						Y0 = Input { Expression = "0" },
+						V0 = Input { Expression = "iif(M0.Value == '', 0, iif(0 < ChMax, 1, iif(0 == ChMax, (1 - KAnim)*(1 - KRepl), 0)))" },
+						M1 = Input { Expression = "Text((function(rows, idx, k)\n  local vis = {}\n  for i = 1, idx do\n    local r = rows[i]\n    if r and not (r.text == \"...\" and i < idx) then vis[#vis + 1] = r end\n  end\n  local r = vis[#vis - k]\n  return r and (r.side .. r.text) or \"\"\nend)((function(txt, timed, fps, len)\n  local rows = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local f, rest = 0, line\n    if timed ~= 0 then\n      local stamp, more = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n      f, rest = nil, more\n      if stamp then\n        local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n        if pct then f = tonumber(pct) / 100 * len\n        elseif fr then f = tonumber(fr)\n        elseif stamp:match(\"^[%d:%.]+$\") then\n          local sec = 0\n          for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n          if sec then f = math.floor(sec * fps + 0.5) end\n        end\n      end\n    end\n    if f and rest and rest:match(\"%S\") then\n      local side, words = rest:match(\"^%s*([<>])%s*(.-)%s*$\")\n      if not side then side, words = \"<\", rest:match(\"^%s*(.-)%s*$\") end\n      words = words:gsub(string.char(92) .. \"n\", string.char(10))\n      rows[#rows + 1] = {f = f, side = side, text = words}\n    end\n  end\n  return rows\nend)(ChList.Value, ChTimed, 24, 100), Cur.X, 1))" },
+						Q1 = Input { Expression = "(function(m) local _, n = m:gsub('\\n', '') return Point(n + 1, iif(m:sub(1, 1) == '>', 1, 0)) end)(M1.Value)" },
+						Y1 = Input { Expression = "1*(KH.X + KGap) + KH.Y*(Q0.X - 1) - KPush" },
+						V1 = Input { Expression = "iif(M1.Value == '', 0, iif(1 < ChMax, 1, iif(1 == ChMax, (1 - KAnim)*(1 - KRepl), 0)))" },
+						M2 = Input { Expression = "Text((function(rows, idx, k)\n  local vis = {}\n  for i = 1, idx do\n    local r = rows[i]\n    if r and not (r.text == \"...\" and i < idx) then vis[#vis + 1] = r end\n  end\n  local r = vis[#vis - k]\n  return r and (r.side .. r.text) or \"\"\nend)((function(txt, timed, fps, len)\n  local rows = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local f, rest = 0, line\n    if timed ~= 0 then\n      local stamp, more = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n      f, rest = nil, more\n      if stamp then\n        local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n        if pct then f = tonumber(pct) / 100 * len\n        elseif fr then f = tonumber(fr)\n        elseif stamp:match(\"^[%d:%.]+$\") then\n          local sec = 0\n          for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n          if sec then f = math.floor(sec * fps + 0.5) end\n        end\n      end\n    end\n    if f and rest and rest:match(\"%S\") then\n      local side, words = rest:match(\"^%s*([<>])%s*(.-)%s*$\")\n      if not side then side, words = \"<\", rest:match(\"^%s*(.-)%s*$\") end\n      words = words:gsub(string.char(92) .. \"n\", string.char(10))\n      rows[#rows + 1] = {f = f, side = side, text = words}\n    end\n  end\n  return rows\nend)(ChList.Value, ChTimed, 24, 100), Cur.X, 2))" },
+						Q2 = Input { Expression = "(function(m) local _, n = m:gsub('\\n', '') return Point(n + 1, iif(m:sub(1, 1) == '>', 1, 0)) end)(M2.Value)" },
+						Y2 = Input { Expression = "2*(KH.X + KGap) + KH.Y*(Q0.X + Q1.X - 2) - KPush" },
+						ChPos = Input { Value = { 0.5, 0.12 } },
+						M3 = Input { Expression = "Text((function(rows, idx, k)\n  local vis = {}\n  for i = 1, idx do\n    local r = rows[i]\n    if r and not (r.text == \"...\" and i < idx) then vis[#vis + 1] = r end\n  end\n  local r = vis[#vis - k]\n  return r and (r.side .. r.text) or \"\"\nend)((function(txt, timed, fps, len)\n  local rows = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local f, rest = 0, line\n    if timed ~= 0 then\n      local stamp, more = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n      f, rest = nil, more\n      if stamp then\n        local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n        if pct then f = tonumber(pct) / 100 * len\n        elseif fr then f = tonumber(fr)\n        elseif stamp:match(\"^[%d:%.]+$\") then\n          local sec = 0\n          for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n          if sec then f = math.floor(sec * fps + 0.5) end\n        end\n      end\n    end\n    if f and rest and rest:match(\"%S\") then\n      local side, words = rest:match(\"^%s*([<>])%s*(.-)%s*$\")\n      if not side then side, words = \"<\", rest:match(\"^%s*(.-)%s*$\") end\n      words = words:gsub(string.char(92) .. \"n\", string.char(10))\n      rows[#rows + 1] = {f = f, side = side, text = words}\n    end\n  end\n  return rows\nend)(ChList.Value, ChTimed, 24, 100), Cur.X, 3))" },
+						Q3 = Input { Expression = "(function(m) local _, n = m:gsub('\\n', '') return Point(n + 1, iif(m:sub(1, 1) == '>', 1, 0)) end)(M3.Value)" },
+						Y3 = Input { Expression = "3*(KH.X + KGap) + KH.Y*(Q0.X + Q1.X + Q2.X - 3) - KPush" },
+						V3 = Input { Expression = "iif(M3.Value == '', 0, iif(3 < ChMax, 1, iif(3 == ChMax, (1 - KAnim)*(1 - KRepl), 0)))" },
+						M4 = Input { Expression = "Text((function(rows, idx, k)\n  local vis = {}\n  for i = 1, idx do\n    local r = rows[i]\n    if r and not (r.text == \"...\" and i < idx) then vis[#vis + 1] = r end\n  end\n  local r = vis[#vis - k]\n  return r and (r.side .. r.text) or \"\"\nend)((function(txt, timed, fps, len)\n  local rows = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local f, rest = 0, line\n    if timed ~= 0 then\n      local stamp, more = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n      f, rest = nil, more\n      if stamp then\n        local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n        if pct then f = tonumber(pct) / 100 * len\n        elseif fr then f = tonumber(fr)\n        elseif stamp:match(\"^[%d:%.]+$\") then\n          local sec = 0\n          for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n          if sec then f = math.floor(sec * fps + 0.5) end\n        end\n      end\n    end\n    if f and rest and rest:match(\"%S\") then\n      local side, words = rest:match(\"^%s*([<>])%s*(.-)%s*$\")\n      if not side then side, words = \"<\", rest:match(\"^%s*(.-)%s*$\") end\n      words = words:gsub(string.char(92) .. \"n\", string.char(10))\n      rows[#rows + 1] = {f = f, side = side, text = words}\n    end\n  end\n  return rows\nend)(ChList.Value, ChTimed, 24, 100), Cur.X, 4))" },
+						Q4 = Input { Expression = "(function(m) local _, n = m:gsub('\\n', '') return Point(n + 1, iif(m:sub(1, 1) == '>', 1, 0)) end)(M4.Value)" },
+						Y4 = Input { Expression = "4*(KH.X + KGap) + KH.Y*(Q0.X + Q1.X + Q2.X + Q3.X - 4) - KPush" },
+						V4 = Input { Expression = "iif(M4.Value == '', 0, iif(4 < ChMax, 1, iif(4 == ChMax, (1 - KAnim)*(1 - KRepl), 0)))" },
+						M5 = Input { Expression = "Text((function(rows, idx, k)\n  local vis = {}\n  for i = 1, idx do\n    local r = rows[i]\n    if r and not (r.text == \"...\" and i < idx) then vis[#vis + 1] = r end\n  end\n  local r = vis[#vis - k]\n  return r and (r.side .. r.text) or \"\"\nend)((function(txt, timed, fps, len)\n  local rows = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local f, rest = 0, line\n    if timed ~= 0 then\n      local stamp, more = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n      f, rest = nil, more\n      if stamp then\n        local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n        if pct then f = tonumber(pct) / 100 * len\n        elseif fr then f = tonumber(fr)\n        elseif stamp:match(\"^[%d:%.]+$\") then\n          local sec = 0\n          for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n          if sec then f = math.floor(sec * fps + 0.5) end\n        end\n      end\n    end\n    if f and rest and rest:match(\"%S\") then\n      local side, words = rest:match(\"^%s*([<>])%s*(.-)%s*$\")\n      if not side then side, words = \"<\", rest:match(\"^%s*(.-)%s*$\") end\n      words = words:gsub(string.char(92) .. \"n\", string.char(10))\n      rows[#rows + 1] = {f = f, side = side, text = words}\n    end\n  end\n  return rows\nend)(ChList.Value, ChTimed, 24, 100), Cur.X, 5))" },
+						Q5 = Input { Expression = "(function(m) local _, n = m:gsub('\\n', '') return Point(n + 1, iif(m:sub(1, 1) == '>', 1, 0)) end)(M5.Value)" },
+						Y5 = Input { Expression = "5*(KH.X + KGap) + KH.Y*(Q0.X + Q1.X + Q2.X + Q3.X + Q4.X - 5) - KPush" },
+						V5 = Input { Expression = "iif(M5.Value == '', 0, iif(5 < ChMax, 1, iif(5 == ChMax, (1 - KAnim)*(1 - KRepl), 0)))" },
+						M6 = Input { Expression = "Text((function(rows, idx, k)\n  local vis = {}\n  for i = 1, idx do\n    local r = rows[i]\n    if r and not (r.text == \"...\" and i < idx) then vis[#vis + 1] = r end\n  end\n  local r = vis[#vis - k]\n  return r and (r.side .. r.text) or \"\"\nend)((function(txt, timed, fps, len)\n  local rows = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local f, rest = 0, line\n    if timed ~= 0 then\n      local stamp, more = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n      f, rest = nil, more\n      if stamp then\n        local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n        if pct then f = tonumber(pct) / 100 * len\n        elseif fr then f = tonumber(fr)\n        elseif stamp:match(\"^[%d:%.]+$\") then\n          local sec = 0\n          for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n          if sec then f = math.floor(sec * fps + 0.5) end\n        end\n      end\n    end\n    if f and rest and rest:match(\"%S\") then\n      local side, words = rest:match(\"^%s*([<>])%s*(.-)%s*$\")\n      if not side then side, words = \"<\", rest:match(\"^%s*(.-)%s*$\") end\n      words = words:gsub(string.char(92) .. \"n\", string.char(10))\n      rows[#rows + 1] = {f = f, side = side, text = words}\n    end\n  end\n  return rows\nend)(ChList.Value, ChTimed, 24, 100), Cur.X, 6))" },
+						Q6 = Input { Expression = "(function(m) local _, n = m:gsub('\\n', '') return Point(n + 1, iif(m:sub(1, 1) == '>', 1, 0)) end)(M6.Value)" },
+						Y6 = Input { Expression = "6*(KH.X + KGap) + KH.Y*(Q0.X + Q1.X + Q2.X + Q3.X + Q4.X + Q5.X - 6) - KPush" },
+						V6 = Input { Expression = "iif(M6.Value == '', 0, iif(6 < ChMax, 1, iif(6 == ChMax, (1 - KAnim)*(1 - KRepl), 0)))" },
+						TopLeftAlpha = Input { Value = 0 },
+						GlobalIn = Input { Value = -480 },
+						Width = Input { Value = 1920 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Height = Input { Value = 1080 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Cur = Input { Expression = "(function(rows, timed, cue, t0, now)\n  local idx, since = 0, 0\n  if timed == 0 then\n    idx = math.min(math.floor(cue + 0.0001), #rows)\n    for d = 1, 90 do\n      if now - d < t0 or math.min(math.floor(ChCtrl:GetValue(\"ChCue\", now - d) + 0.0001), #rows) ~= idx then break end\n      since = d\n    end\n  else\n    for i, r in ipairs(rows) do if r.f <= now - t0 + 0.001 then idx, since = i, now - t0 - r.f end end\n  end\n  return Point(idx, since)\nend)((function(txt, timed, fps, len)\n  local rows = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local f, rest = 0, line\n    if timed ~= 0 then\n      local stamp, more = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n      f, rest = nil, more\n      if stamp then\n        local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n        if pct then f = tonumber(pct) / 100 * len\n        elseif fr then f = tonumber(fr)\n        elseif stamp:match(\"^[%d:%.]+$\") then\n          local sec = 0\n          for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n          if sec then f = math.floor(sec * fps + 0.5) end\n        end\n      end\n    end\n    if f and rest and rest:match(\"%S\") then\n      local side, words = rest:match(\"^%s*([<>])%s*(.-)%s*$\")\n      if not side then side, words = \"<\", rest:match(\"^%s*(.-)%s*$\") end\n      words = words:gsub(string.char(92) .. \"n\", string.char(10))\n      rows[#rows + 1] = {f = f, side = side, text = words}\n    end\n  end\n  return rows\nend)(ChList.Value, ChTimed, iif(FpsOverride > 0, FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), max(comp.RenderEnd - comp.RenderStart, 1)), ChTimed, ChCue, comp.RenderStart, time)" },
+						V2 = Input { Expression = "iif(M2.Value == '', 0, iif(2 < ChMax, 1, iif(2 == ChMax, (1 - KAnim)*(1 - KRepl), 0)))" },
+						KRepl = Input { Expression = "(function(rows, idx) local r = rows[idx - 1] return (r and r.text == '...') and 1 or 0 end)((function(txt, timed, fps, len)\n  local rows = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local f, rest = 0, line\n    if timed ~= 0 then\n      local stamp, more = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n      f, rest = nil, more\n      if stamp then\n        local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n        if pct then f = tonumber(pct) / 100 * len\n        elseif fr then f = tonumber(fr)\n        elseif stamp:match(\"^[%d:%.]+$\") then\n          local sec = 0\n          for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n          if sec then f = math.floor(sec * fps + 0.5) end\n        end\n      end\n    end\n    if f and rest and rest:match(\"%S\") then\n      local side, words = rest:match(\"^%s*([<>])%s*(.-)%s*$\")\n      if not side then side, words = \"<\", rest:match(\"^%s*(.-)%s*$\") end\n      words = words:gsub(string.char(92) .. \"n\", string.char(10))\n      rows[#rows + 1] = {f = f, side = side, text = words}\n    end\n  end\n  return rows\nend)(ChList.Value, ChTimed, 24, 100), Cur.X)" },
+						KDots = Input { Expression = "iif(M0.Value:sub(2) == '...', 1, 0)" },
+						KAnim = Input { Expression = "(function(t) return 1 - (1 - t)^3 end)(min(max((Cur.Y + 1)/max(ChIn, 1), 0), 1))" },
+						KPop = Input { Expression = "(function(t) t = t - 1 return max(1 + 2.70158*t*t*t + 1.70158*t*t, 0.05) end)(min(max((Cur.Y + 1)/max(ChIn, 1), 0), 1))" },
+						KPush = Input { Expression = "(1 - KAnim)*(KH.X + (Q0.X - 1)*KH.Y + KGap)*(1 - KRepl)" },
+						KGap = Input { Expression = "ChGap*ChSize" },
+						KFade = Input { Expression = "iif(ChOut <= 0, 1, min(max((comp.RenderEnd - time + 1)/ChOut, 0), 1))" },
+						KH = Input { Expression = "(function(a, b) return Point(a, b - a) end)((function() local d = ChRule1.Output.DataWindow if not d or d.left < -99999 then return 0.05 end local w, h = ChRule1.Output.Width, ChRule1.Output.Height return (d.top - d.bottom)/w end)(), (function() local d = ChRule2.Output.DataWindow if not d or d.left < -99999 then return 0.1 end local w, h = ChRule2.Output.Width, ChRule2.Output.Height return (d.top - d.bottom)/w end)())" }
+					}
+				},
+				ChRule1 = TextPlus {
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -385, 841.5 } },
+					Inputs = {
+						Level2 = Input { Value = 0 },
+						ExtendVertical2 = Input { Expression = "ChCtrl.ChPad*0.32" },
+						Size = Input { Expression = "ChCtrl.ChSize" },
+						Softness2 = Input { Value = 1 },
+						HorizontalLeftCenterRight = Input { Value = -1 },
+						Font = Input {
+							Value = "Open Sans",
+							Expression = "ChT0.Font"
+						},
+						Round2 = Input { Expression = "ChCtrl.ChRound" },
+						Style = Input {
+							Value = "Bold",
+							Expression = "ChT0.Style"
+						},
+						GlobalIn = Input { Value = -480 },
+						ExtendHorizontal2 = Input { Expression = "ChCtrl.ChPad*0.55" },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						ElementShape2 = Input { Value = 2 },
+						StyledText = Input { Value = "|" },
+						Height = Input { Value = 1080 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						Wrap = Input { Value = 1 },
+						LayoutRotation = Input { Value = 1 },
+						TransformRotation = Input { Value = 1 },
+						Softness1 = Input { Value = 1 },
+						Enabled2 = Input { Value = 1 },
+						VerticalJustificationNew = Input { Value = 3 },
+						HorizontalJustificationNew = Input { Value = 3 }
+					}
+				},
+				ChRule2 = TextPlus {
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -385, 874.5 } },
+					Inputs = {
+						Level2 = Input { Value = 0 },
+						ExtendVertical2 = Input { Expression = "ChCtrl.ChPad*0.32" },
+						Size = Input { Expression = "ChCtrl.ChSize" },
+						Softness2 = Input { Value = 1 },
+						HorizontalLeftCenterRight = Input { Value = -1 },
+						Font = Input {
+							Value = "Open Sans",
+							Expression = "ChT0.Font"
+						},
+						Round2 = Input { Expression = "ChCtrl.ChRound" },
+						Style = Input {
+							Value = "Bold",
+							Expression = "ChT0.Style"
+						},
+						GlobalIn = Input { Value = -480 },
+						ExtendHorizontal2 = Input { Expression = "ChCtrl.ChPad*0.55" },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						ElementShape2 = Input { Value = 2 },
+						StyledText = Input { Value = "|\n|" },
+						Height = Input { Value = 1080 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						Wrap = Input { Value = 1 },
+						LayoutRotation = Input { Value = 1 },
+						TransformRotation = Input { Value = 1 },
+						Softness1 = Input { Value = 1 },
+						Enabled2 = Input { Value = 1 },
+						VerticalJustificationNew = Input { Value = 3 },
+						HorizontalJustificationNew = Input { Value = 3 }
+					}
+				},
+				ChRule3 = TextPlus {
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -385, 907.5 } },
+					Inputs = {
+						Level2 = Input { Value = 0 },
+						ExtendVertical2 = Input { Expression = "ChCtrl.ChPad*0.32" },
+						Size = Input { Expression = "ChCtrl.ChSize" },
+						Softness2 = Input { Value = 1 },
+						HorizontalLeftCenterRight = Input { Value = -1 },
+						Font = Input {
+							Value = "Open Sans",
+							Expression = "ChT0.Font"
+						},
+						Round2 = Input { Expression = "ChCtrl.ChRound" },
+						Style = Input {
+							Value = "Bold",
+							Expression = "ChT0.Style"
+						},
+						GlobalIn = Input { Value = -480 },
+						ExtendHorizontal2 = Input { Expression = "ChCtrl.ChPad*0.55" },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						ElementShape2 = Input { Value = 2 },
+						StyledText = Input { Value = "ooo" },
+						Height = Input { Value = 1080 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						Wrap = Input { Value = 1 },
+						LayoutRotation = Input { Value = 1 },
+						TransformRotation = Input { Value = 1 },
+						Softness1 = Input { Value = 1 },
+						Enabled2 = Input { Value = 1 },
+						VerticalJustificationNew = Input { Value = 3 },
+						HorizontalJustificationNew = Input { Value = 3 }
+					}
+				},
+				ChT6 = TextPlus {
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -275, 412.5 } },
+					Inputs = {
+						Level2 = Input { Value = 0 },
+						ExtendVertical2 = Input { Expression = "ChCtrl.ChPad*0.32" },
+						Softness2 = Input { Value = 1 },
+						Size = Input { Expression = "ChCtrl.ChSize" },
+						Blue2 = Input { Expression = "iif(ChCtrl.Q6.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeft.TopLeftBlue, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][3]), iif(ChCtrl.ChPreset == 0, ColChRight.TopLeftBlue, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][9]))" },
+						Center = Input { Expression = "Point(iif(ChCtrl.Q6.Y == 0, ChCtrl.ChPos.X - ChCtrl.ChWidth/2 + ChCtrl.KW.X, ChCtrl.ChPos.X + ChCtrl.ChWidth/2 - ChCtrl.KW.X), ChCtrl.ChPos.Y + ChCtrl.Y6*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')) + ChCtrl.KO.X + (ChCtrl.Q6.X - 1)*ChCtrl.KO.Y)" },
+						Red2 = Input { Expression = "iif(ChCtrl.Q6.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeft.TopLeftRed, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][1]), iif(ChCtrl.ChPreset == 0, ColChRight.TopLeftRed, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][7]))" },
+						Round2 = Input { Expression = "ChCtrl.ChRound" },
+						ExtendHorizontal2 = Input { Expression = "ChCtrl.ChPad*0.55" },
+						ElementShape2 = Input { Value = 2 },
+						GlobalOut = Input { Value = 3534 },
+						HorizontalLeftCenterRight = Input { Expression = "iif(ChCtrl.Q6.Y == 0, -1, 1)" },
+						Red1 = Input { Expression = "iif(ChCtrl.Q6.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeftText.TopLeftRed, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][4]), iif(ChCtrl.ChPreset == 0, ColChRightText.TopLeftRed, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][10]))" },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Style = Input {
+							Value = "Bold",
+							Expression = "ChT0.Style"
+						},
+						GlobalIn = Input { Value = -480 },
+						Font = Input {
+							Value = "Open Sans",
+							Expression = "ChT0.Font"
+						},
+						StyledText = Input { Expression = "Text(iif(false, 'ooo', ChCtrl.M6.Value:sub(2)))" },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Green2 = Input { Expression = "iif(ChCtrl.Q6.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeft.TopLeftGreen, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][2]), iif(ChCtrl.ChPreset == 0, ColChRight.TopLeftGreen, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][8]))" },
+						Green1 = Input { Expression = "iif(ChCtrl.Q6.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeftText.TopLeftGreen, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][5]), iif(ChCtrl.ChPreset == 0, ColChRightText.TopLeftGreen, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][11]))" },
+						LayoutRotation = Input { Value = 1 },
+						Enabled2 = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						Wrap = Input { Value = 1 },
+						Height = Input { Value = 1080 },
+						TransformRotation = Input { Value = 1 },
+						Softness1 = Input { Value = 1 },
+						Blue1 = Input { Expression = "iif(ChCtrl.Q6.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeftText.TopLeftBlue, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][6]), iif(ChCtrl.ChPreset == 0, ColChRightText.TopLeftBlue, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][12]))" },
+						VerticalJustificationNew = Input { Value = 3 },
+						HorizontalJustificationNew = Input { Value = 3 }
+					}
+				},
+				ChStack6 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 385, 412.5 } },
+					Inputs = {
+						Blend = Input { Expression = "ChCtrl.V6" },
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "ChCtrl"
+						},
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "ChT6"
+						}
+					}
+				},
+				ChT5 = TextPlus {
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -275, 346.5 } },
+					Inputs = {
+						Level2 = Input { Value = 0 },
+						ExtendVertical2 = Input { Expression = "ChCtrl.ChPad*0.32" },
+						Softness2 = Input { Value = 1 },
+						Size = Input { Expression = "ChCtrl.ChSize" },
+						Blue2 = Input { Expression = "iif(ChCtrl.Q5.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeft.TopLeftBlue, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][3]), iif(ChCtrl.ChPreset == 0, ColChRight.TopLeftBlue, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][9]))" },
+						Center = Input { Expression = "Point(iif(ChCtrl.Q5.Y == 0, ChCtrl.ChPos.X - ChCtrl.ChWidth/2 + ChCtrl.KW.X, ChCtrl.ChPos.X + ChCtrl.ChWidth/2 - ChCtrl.KW.X), ChCtrl.ChPos.Y + ChCtrl.Y5*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')) + ChCtrl.KO.X + (ChCtrl.Q5.X - 1)*ChCtrl.KO.Y)" },
+						Red2 = Input { Expression = "iif(ChCtrl.Q5.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeft.TopLeftRed, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][1]), iif(ChCtrl.ChPreset == 0, ColChRight.TopLeftRed, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][7]))" },
+						Round2 = Input { Expression = "ChCtrl.ChRound" },
+						ExtendHorizontal2 = Input { Expression = "ChCtrl.ChPad*0.55" },
+						ElementShape2 = Input { Value = 2 },
+						GlobalOut = Input { Value = 3534 },
+						HorizontalLeftCenterRight = Input { Expression = "iif(ChCtrl.Q5.Y == 0, -1, 1)" },
+						Red1 = Input { Expression = "iif(ChCtrl.Q5.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeftText.TopLeftRed, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][4]), iif(ChCtrl.ChPreset == 0, ColChRightText.TopLeftRed, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][10]))" },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Style = Input {
+							Value = "Bold",
+							Expression = "ChT0.Style"
+						},
+						GlobalIn = Input { Value = -480 },
+						Font = Input {
+							Value = "Open Sans",
+							Expression = "ChT0.Font"
+						},
+						StyledText = Input { Expression = "Text(iif(false, 'ooo', ChCtrl.M5.Value:sub(2)))" },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Green2 = Input { Expression = "iif(ChCtrl.Q5.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeft.TopLeftGreen, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][2]), iif(ChCtrl.ChPreset == 0, ColChRight.TopLeftGreen, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][8]))" },
+						Green1 = Input { Expression = "iif(ChCtrl.Q5.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeftText.TopLeftGreen, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][5]), iif(ChCtrl.ChPreset == 0, ColChRightText.TopLeftGreen, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][11]))" },
+						LayoutRotation = Input { Value = 1 },
+						Enabled2 = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						Wrap = Input { Value = 1 },
+						Height = Input { Value = 1080 },
+						TransformRotation = Input { Value = 1 },
+						Softness1 = Input { Value = 1 },
+						Blue1 = Input { Expression = "iif(ChCtrl.Q5.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeftText.TopLeftBlue, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][6]), iif(ChCtrl.ChPreset == 0, ColChRightText.TopLeftBlue, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][12]))" },
+						VerticalJustificationNew = Input { Value = 3 },
+						HorizontalJustificationNew = Input { Value = 3 }
+					}
+				},
+				ChStack5 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 385, 346.5 } },
+					Inputs = {
+						Blend = Input { Expression = "ChCtrl.V5" },
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "ChStack6"
+						},
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "ChT5"
+						}
+					}
+				},
+				ChT4 = TextPlus {
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -275, 280.5 } },
+					Inputs = {
+						Level2 = Input { Value = 0 },
+						ExtendVertical2 = Input { Expression = "ChCtrl.ChPad*0.32" },
+						Softness2 = Input { Value = 1 },
+						Size = Input { Expression = "ChCtrl.ChSize" },
+						Blue2 = Input { Expression = "iif(ChCtrl.Q4.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeft.TopLeftBlue, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][3]), iif(ChCtrl.ChPreset == 0, ColChRight.TopLeftBlue, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][9]))" },
+						Center = Input { Expression = "Point(iif(ChCtrl.Q4.Y == 0, ChCtrl.ChPos.X - ChCtrl.ChWidth/2 + ChCtrl.KW.X, ChCtrl.ChPos.X + ChCtrl.ChWidth/2 - ChCtrl.KW.X), ChCtrl.ChPos.Y + ChCtrl.Y4*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')) + ChCtrl.KO.X + (ChCtrl.Q4.X - 1)*ChCtrl.KO.Y)" },
+						Red2 = Input { Expression = "iif(ChCtrl.Q4.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeft.TopLeftRed, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][1]), iif(ChCtrl.ChPreset == 0, ColChRight.TopLeftRed, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][7]))" },
+						Round2 = Input { Expression = "ChCtrl.ChRound" },
+						ExtendHorizontal2 = Input { Expression = "ChCtrl.ChPad*0.55" },
+						ElementShape2 = Input { Value = 2 },
+						GlobalOut = Input { Value = 3534 },
+						HorizontalLeftCenterRight = Input { Expression = "iif(ChCtrl.Q4.Y == 0, -1, 1)" },
+						Red1 = Input { Expression = "iif(ChCtrl.Q4.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeftText.TopLeftRed, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][4]), iif(ChCtrl.ChPreset == 0, ColChRightText.TopLeftRed, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][10]))" },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Style = Input {
+							Value = "Bold",
+							Expression = "ChT0.Style"
+						},
+						GlobalIn = Input { Value = -480 },
+						Font = Input {
+							Value = "Open Sans",
+							Expression = "ChT0.Font"
+						},
+						StyledText = Input { Expression = "Text(iif(false, 'ooo', ChCtrl.M4.Value:sub(2)))" },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Green2 = Input { Expression = "iif(ChCtrl.Q4.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeft.TopLeftGreen, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][2]), iif(ChCtrl.ChPreset == 0, ColChRight.TopLeftGreen, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][8]))" },
+						Green1 = Input { Expression = "iif(ChCtrl.Q4.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeftText.TopLeftGreen, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][5]), iif(ChCtrl.ChPreset == 0, ColChRightText.TopLeftGreen, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][11]))" },
+						LayoutRotation = Input { Value = 1 },
+						Enabled2 = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						Wrap = Input { Value = 1 },
+						Height = Input { Value = 1080 },
+						TransformRotation = Input { Value = 1 },
+						Softness1 = Input { Value = 1 },
+						Blue1 = Input { Expression = "iif(ChCtrl.Q4.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeftText.TopLeftBlue, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][6]), iif(ChCtrl.ChPreset == 0, ColChRightText.TopLeftBlue, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][12]))" },
+						VerticalJustificationNew = Input { Value = 3 },
+						HorizontalJustificationNew = Input { Value = 3 }
+					}
+				},
+				ChStack4 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 385, 280.5 } },
+					Inputs = {
+						Blend = Input { Expression = "ChCtrl.V4" },
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "ChStack5"
+						},
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "ChT4"
+						}
+					}
+				},
+				ChT3 = TextPlus {
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -275, 214.5 } },
+					Inputs = {
+						Level2 = Input { Value = 0 },
+						ExtendVertical2 = Input { Expression = "ChCtrl.ChPad*0.32" },
+						Softness2 = Input { Value = 1 },
+						Size = Input { Expression = "ChCtrl.ChSize" },
+						Blue2 = Input { Expression = "iif(ChCtrl.Q3.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeft.TopLeftBlue, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][3]), iif(ChCtrl.ChPreset == 0, ColChRight.TopLeftBlue, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][9]))" },
+						Center = Input { Expression = "Point(iif(ChCtrl.Q3.Y == 0, ChCtrl.ChPos.X - ChCtrl.ChWidth/2 + ChCtrl.KW.X, ChCtrl.ChPos.X + ChCtrl.ChWidth/2 - ChCtrl.KW.X), ChCtrl.ChPos.Y + ChCtrl.Y3*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')) + ChCtrl.KO.X + (ChCtrl.Q3.X - 1)*ChCtrl.KO.Y)" },
+						Red2 = Input { Expression = "iif(ChCtrl.Q3.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeft.TopLeftRed, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][1]), iif(ChCtrl.ChPreset == 0, ColChRight.TopLeftRed, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][7]))" },
+						Round2 = Input { Expression = "ChCtrl.ChRound" },
+						ExtendHorizontal2 = Input { Expression = "ChCtrl.ChPad*0.55" },
+						ElementShape2 = Input { Value = 2 },
+						GlobalOut = Input { Value = 3534 },
+						HorizontalLeftCenterRight = Input { Expression = "iif(ChCtrl.Q3.Y == 0, -1, 1)" },
+						Red1 = Input { Expression = "iif(ChCtrl.Q3.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeftText.TopLeftRed, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][4]), iif(ChCtrl.ChPreset == 0, ColChRightText.TopLeftRed, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][10]))" },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Style = Input {
+							Value = "Bold",
+							Expression = "ChT0.Style"
+						},
+						GlobalIn = Input { Value = -480 },
+						Font = Input {
+							Value = "Open Sans",
+							Expression = "ChT0.Font"
+						},
+						StyledText = Input { Expression = "Text(iif(false, 'ooo', ChCtrl.M3.Value:sub(2)))" },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Green2 = Input { Expression = "iif(ChCtrl.Q3.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeft.TopLeftGreen, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][2]), iif(ChCtrl.ChPreset == 0, ColChRight.TopLeftGreen, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][8]))" },
+						Green1 = Input { Expression = "iif(ChCtrl.Q3.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeftText.TopLeftGreen, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][5]), iif(ChCtrl.ChPreset == 0, ColChRightText.TopLeftGreen, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][11]))" },
+						LayoutRotation = Input { Value = 1 },
+						Enabled2 = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						Wrap = Input { Value = 1 },
+						Height = Input { Value = 1080 },
+						TransformRotation = Input { Value = 1 },
+						Softness1 = Input { Value = 1 },
+						Blue1 = Input { Expression = "iif(ChCtrl.Q3.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeftText.TopLeftBlue, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][6]), iif(ChCtrl.ChPreset == 0, ColChRightText.TopLeftBlue, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][12]))" },
+						VerticalJustificationNew = Input { Value = 3 },
+						HorizontalJustificationNew = Input { Value = 3 }
+					}
+				},
+				ChStack3 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 385, 214.5 } },
+					Inputs = {
+						Blend = Input { Expression = "ChCtrl.V3" },
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "ChStack4"
+						},
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "ChT3"
+						}
+					}
+				},
+				ChT2 = TextPlus {
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -275, 148.5 } },
+					Inputs = {
+						Level2 = Input { Value = 0 },
+						ExtendVertical2 = Input { Expression = "ChCtrl.ChPad*0.32" },
+						Softness2 = Input { Value = 1 },
+						Size = Input { Expression = "ChCtrl.ChSize" },
+						Blue2 = Input { Expression = "iif(ChCtrl.Q2.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeft.TopLeftBlue, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][3]), iif(ChCtrl.ChPreset == 0, ColChRight.TopLeftBlue, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][9]))" },
+						Center = Input { Expression = "Point(iif(ChCtrl.Q2.Y == 0, ChCtrl.ChPos.X - ChCtrl.ChWidth/2 + ChCtrl.KW.X, ChCtrl.ChPos.X + ChCtrl.ChWidth/2 - ChCtrl.KW.X), ChCtrl.ChPos.Y + ChCtrl.Y2*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')) + ChCtrl.KO.X + (ChCtrl.Q2.X - 1)*ChCtrl.KO.Y)" },
+						Red2 = Input { Expression = "iif(ChCtrl.Q2.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeft.TopLeftRed, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][1]), iif(ChCtrl.ChPreset == 0, ColChRight.TopLeftRed, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][7]))" },
+						Round2 = Input { Expression = "ChCtrl.ChRound" },
+						ExtendHorizontal2 = Input { Expression = "ChCtrl.ChPad*0.55" },
+						ElementShape2 = Input { Value = 2 },
+						GlobalOut = Input { Value = 3534 },
+						HorizontalLeftCenterRight = Input { Expression = "iif(ChCtrl.Q2.Y == 0, -1, 1)" },
+						Red1 = Input { Expression = "iif(ChCtrl.Q2.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeftText.TopLeftRed, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][4]), iif(ChCtrl.ChPreset == 0, ColChRightText.TopLeftRed, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][10]))" },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Style = Input {
+							Value = "Bold",
+							Expression = "ChT0.Style"
+						},
+						GlobalIn = Input { Value = -480 },
+						Font = Input {
+							Value = "Open Sans",
+							Expression = "ChT0.Font"
+						},
+						StyledText = Input { Expression = "Text(iif(false, 'ooo', ChCtrl.M2.Value:sub(2)))" },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Green2 = Input { Expression = "iif(ChCtrl.Q2.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeft.TopLeftGreen, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][2]), iif(ChCtrl.ChPreset == 0, ColChRight.TopLeftGreen, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][8]))" },
+						Green1 = Input { Expression = "iif(ChCtrl.Q2.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeftText.TopLeftGreen, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][5]), iif(ChCtrl.ChPreset == 0, ColChRightText.TopLeftGreen, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][11]))" },
+						LayoutRotation = Input { Value = 1 },
+						Enabled2 = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						Wrap = Input { Value = 1 },
+						Height = Input { Value = 1080 },
+						TransformRotation = Input { Value = 1 },
+						Softness1 = Input { Value = 1 },
+						Blue1 = Input { Expression = "iif(ChCtrl.Q2.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeftText.TopLeftBlue, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][6]), iif(ChCtrl.ChPreset == 0, ColChRightText.TopLeftBlue, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][12]))" },
+						VerticalJustificationNew = Input { Value = 3 },
+						HorizontalJustificationNew = Input { Value = 3 }
+					}
+				},
+				ChStack2 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 385, 148.5 } },
+					Inputs = {
+						Blend = Input { Expression = "ChCtrl.V2" },
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "ChStack3"
+						},
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "ChT2"
+						}
+					}
+				},
+				ChT1 = TextPlus {
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -275, 82.5 } },
+					Inputs = {
+						Level2 = Input { Value = 0 },
+						ExtendVertical2 = Input { Expression = "ChCtrl.ChPad*0.32" },
+						Softness2 = Input { Value = 1 },
+						Size = Input { Expression = "ChCtrl.ChSize" },
+						Blue2 = Input { Expression = "iif(ChCtrl.Q1.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeft.TopLeftBlue, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][3]), iif(ChCtrl.ChPreset == 0, ColChRight.TopLeftBlue, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][9]))" },
+						Center = Input { Expression = "Point(iif(ChCtrl.Q1.Y == 0, ChCtrl.ChPos.X - ChCtrl.ChWidth/2 + ChCtrl.KW.X, ChCtrl.ChPos.X + ChCtrl.ChWidth/2 - ChCtrl.KW.X), ChCtrl.ChPos.Y + ChCtrl.Y1*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')) + ChCtrl.KO.X + (ChCtrl.Q1.X - 1)*ChCtrl.KO.Y)" },
+						Red2 = Input { Expression = "iif(ChCtrl.Q1.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeft.TopLeftRed, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][1]), iif(ChCtrl.ChPreset == 0, ColChRight.TopLeftRed, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][7]))" },
+						Round2 = Input { Expression = "ChCtrl.ChRound" },
+						ExtendHorizontal2 = Input { Expression = "ChCtrl.ChPad*0.55" },
+						ElementShape2 = Input { Value = 2 },
+						GlobalOut = Input { Value = 3534 },
+						HorizontalLeftCenterRight = Input { Expression = "iif(ChCtrl.Q1.Y == 0, -1, 1)" },
+						Red1 = Input { Expression = "iif(ChCtrl.Q1.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeftText.TopLeftRed, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][4]), iif(ChCtrl.ChPreset == 0, ColChRightText.TopLeftRed, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][10]))" },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Style = Input {
+							Value = "Bold",
+							Expression = "ChT0.Style"
+						},
+						GlobalIn = Input { Value = -480 },
+						Font = Input {
+							Value = "Open Sans",
+							Expression = "ChT0.Font"
+						},
+						StyledText = Input { Expression = "Text(iif(false, 'ooo', ChCtrl.M1.Value:sub(2)))" },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Green2 = Input { Expression = "iif(ChCtrl.Q1.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeft.TopLeftGreen, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][2]), iif(ChCtrl.ChPreset == 0, ColChRight.TopLeftGreen, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][8]))" },
+						Green1 = Input { Expression = "iif(ChCtrl.Q1.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeftText.TopLeftGreen, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][5]), iif(ChCtrl.ChPreset == 0, ColChRightText.TopLeftGreen, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][11]))" },
+						LayoutRotation = Input { Value = 1 },
+						Enabled2 = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						Wrap = Input { Value = 1 },
+						Height = Input { Value = 1080 },
+						TransformRotation = Input { Value = 1 },
+						Softness1 = Input { Value = 1 },
+						Blue1 = Input { Expression = "iif(ChCtrl.Q1.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeftText.TopLeftBlue, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][6]), iif(ChCtrl.ChPreset == 0, ColChRightText.TopLeftBlue, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][12]))" },
+						VerticalJustificationNew = Input { Value = 3 },
+						HorizontalJustificationNew = Input { Value = 3 }
+					}
+				},
+				ChStack1 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 385, 82.5 } },
+					Inputs = {
+						Blend = Input { Expression = "ChCtrl.V1" },
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "ChStack2"
+						},
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "ChT1"
+						}
+					}
+				},
+				ChT0 = TextPlus {
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -275, 16.5 } },
+					Inputs = {
+						Level2 = Input { Value = 0 },
+						ExtendVertical2 = Input { Expression = "ChCtrl.ChPad*0.32" },
+						Softness2 = Input { Value = 1 },
+						Size = Input { Expression = "ChCtrl.ChSize * ChCtrl.KPop" },
+						Blue2 = Input { Expression = "iif(ChCtrl.Q0.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeft.TopLeftBlue, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][3]), iif(ChCtrl.ChPreset == 0, ColChRight.TopLeftBlue, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][9]))" },
+						Center = Input { Expression = "Point(iif(ChCtrl.Q0.Y == 0, ChCtrl.ChPos.X - ChCtrl.ChWidth/2 + ChCtrl.KW.X, ChCtrl.ChPos.X + ChCtrl.ChWidth/2 - ChCtrl.KW.X), ChCtrl.ChPos.Y + ChCtrl.Y0*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')) + ChCtrl.KO.X + (ChCtrl.Q0.X - 1)*ChCtrl.KO.Y)" },
+						Red2 = Input { Expression = "iif(ChCtrl.Q0.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeft.TopLeftRed, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][1]), iif(ChCtrl.ChPreset == 0, ColChRight.TopLeftRed, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][7]))" },
+						Round2 = Input { Expression = "ChCtrl.ChRound" },
+						ExtendHorizontal2 = Input { Expression = "ChCtrl.ChPad*0.55" },
+						ElementShape2 = Input { Value = 2 },
+						GlobalOut = Input { Value = 3534 },
+						HorizontalLeftCenterRight = Input { Expression = "iif(ChCtrl.Q0.Y == 0, -1, 1)" },
+						Red1 = Input { Expression = "iif(ChCtrl.KDots > 0, iif(ChCtrl.Q0.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeft.TopLeftRed, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][1]), iif(ChCtrl.ChPreset == 0, ColChRight.TopLeftRed, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][7])), iif(ChCtrl.Q0.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeftText.TopLeftRed, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][4]), iif(ChCtrl.ChPreset == 0, ColChRightText.TopLeftRed, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][10])))" },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Style = Input { Value = "Regular" },
+						GlobalIn = Input { Value = -480 },
+						Font = Input { Value = "Microsoft JhengHei" },
+						StyledText = Input { Expression = "Text(iif(ChCtrl.KDots > 0, 'ooo', ChCtrl.M0.Value:sub(2)))" },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Green2 = Input { Expression = "iif(ChCtrl.Q0.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeft.TopLeftGreen, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][2]), iif(ChCtrl.ChPreset == 0, ColChRight.TopLeftGreen, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][8]))" },
+						Green1 = Input { Expression = "iif(ChCtrl.KDots > 0, iif(ChCtrl.Q0.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeft.TopLeftGreen, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][2]), iif(ChCtrl.ChPreset == 0, ColChRight.TopLeftGreen, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][8])), iif(ChCtrl.Q0.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeftText.TopLeftGreen, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][5]), iif(ChCtrl.ChPreset == 0, ColChRightText.TopLeftGreen, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][11])))" },
+						LayoutRotation = Input { Value = 1 },
+						Enabled2 = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						Wrap = Input { Value = 1 },
+						Height = Input { Value = 1080 },
+						TransformRotation = Input { Value = 1 },
+						Softness1 = Input { Value = 1 },
+						Blue1 = Input { Expression = "iif(ChCtrl.KDots > 0, iif(ChCtrl.Q0.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeft.TopLeftBlue, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][3]), iif(ChCtrl.ChPreset == 0, ColChRight.TopLeftBlue, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][9])), iif(ChCtrl.Q0.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeftText.TopLeftBlue, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][6]), iif(ChCtrl.ChPreset == 0, ColChRightText.TopLeftBlue, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][12])))" },
+						VerticalJustificationNew = Input { Value = 3 },
+						HorizontalJustificationNew = Input { Value = 3 }
+					}
+				},
+				ChDot1 = EllipseMask {
+					ViewInfo = OperatorInfo { Pos = { -165, -49.5 } },
+					Inputs = {
+						Center = Input { Expression = "Point(iif(ChCtrl.Q0.Y == 0, ChCtrl.ChPos.X - ChCtrl.ChWidth/2 + ChCtrl.KW.Y/2, ChCtrl.ChPos.X + ChCtrl.ChWidth/2 - ChCtrl.KW.Y/2) + -1*0.5*ChCtrl.ChSize, ChCtrl.ChPos.Y + (ChCtrl.KH.X/2 + 0.16*ChCtrl.ChSize*max(sin(time/(iif(ChCtrl.FpsOverride > 0, ChCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24))*9 - 1*0.9), 0))*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')))" },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						Height = Input { Expression = "ChCtrl.ChSize*0.3" },
+						UseFrameFormatSettings = Input { Value = 1 },
+						ClippingMode = Input { Value = FuID { "None" } },
+						Width = Input { Expression = "ChCtrl.ChSize*0.3" }
+					}
+				},
+				ChDot2 = EllipseMask {
+					ViewInfo = OperatorInfo { Pos = { -55, -49.5 } },
+					Inputs = {
+						Center = Input { Expression = "Point(iif(ChCtrl.Q0.Y == 0, ChCtrl.ChPos.X - ChCtrl.ChWidth/2 + ChCtrl.KW.Y/2, ChCtrl.ChPos.X + ChCtrl.ChWidth/2 - ChCtrl.KW.Y/2) + 0*0.5*ChCtrl.ChSize, ChCtrl.ChPos.Y + (ChCtrl.KH.X/2 + 0.16*ChCtrl.ChSize*max(sin(time/(iif(ChCtrl.FpsOverride > 0, ChCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24))*9 - 2*0.9), 0))*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')))" },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						Height = Input { Expression = "ChCtrl.ChSize*0.3" },
+						UseFrameFormatSettings = Input { Value = 1 },
+						EffectMask = Input {
+							Source = "Mask",
+							SourceOp = "ChDot1"
+						},
+						ClippingMode = Input { Value = FuID { "None" } },
+						Width = Input { Expression = "ChCtrl.ChSize*0.3" }
+					}
+				},
+				ChDot3 = EllipseMask {
+					ViewInfo = OperatorInfo { Pos = { 55, -49.5 } },
+					Inputs = {
+						Center = Input { Expression = "Point(iif(ChCtrl.Q0.Y == 0, ChCtrl.ChPos.X - ChCtrl.ChWidth/2 + ChCtrl.KW.Y/2, ChCtrl.ChPos.X + ChCtrl.ChWidth/2 - ChCtrl.KW.Y/2) + 1*0.5*ChCtrl.ChSize, ChCtrl.ChPos.Y + (ChCtrl.KH.X/2 + 0.16*ChCtrl.ChSize*max(sin(time/(iif(ChCtrl.FpsOverride > 0, ChCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24))*9 - 3*0.9), 0))*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')))" },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						Height = Input { Expression = "ChCtrl.ChSize*0.3" },
+						UseFrameFormatSettings = Input { Value = 1 },
+						EffectMask = Input {
+							Source = "Mask",
+							SourceOp = "ChDot2"
+						},
+						ClippingMode = Input { Value = FuID { "None" } },
+						Width = Input { Expression = "ChCtrl.ChSize*0.3" }
+					}
+				},
+				ChDots = Background {
+					ViewInfo = OperatorInfo { Pos = { 165, -16.5 } },
+					Inputs = {
+						GlobalIn = Input { Value = -480 },
+						TopLeftRed = Input { Expression = "iif(ChCtrl.Q0.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeftText.TopLeftRed, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][4]), iif(ChCtrl.ChPreset == 0, ColChRightText.TopLeftRed, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][10]))" },
+						TopLeftGreen = Input { Expression = "iif(ChCtrl.Q0.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeftText.TopLeftGreen, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][5]), iif(ChCtrl.ChPreset == 0, ColChRightText.TopLeftGreen, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][11]))" },
+						TopLeftBlue = Input { Expression = "iif(ChCtrl.Q0.Y == 0, iif(ChCtrl.ChPreset == 0, ColChLeftText.TopLeftBlue, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][6]), iif(ChCtrl.ChPreset == 0, ColChRightText.TopLeftBlue, ({{0.91,0.91,0.93,0.05,0.05,0.07,0.1,0.52,1,1,1,1},{1,1,1,0.05,0.05,0.07,0.55,0.9,0.45,0.05,0.08,0.05},{0.18,0.19,0.22,0.95,0.95,0.96,0.38,0.32,0.88,1,1,1}})[max(ChCtrl.ChPreset, 1)][12]))" },
+						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						EffectMask = Input {
+							Source = "Mask",
+							SourceOp = "ChDot3"
+						},
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } }
+					}
+				},
+				ChWithDots = Merge {
+					ViewInfo = OperatorInfo { Pos = { 165, 16.5 } },
+					Inputs = {
+						Blend = Input { Expression = "ChCtrl.KDots * 0.55 * min(ChCtrl.KAnim*2, 1)" },
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "ChT0"
+						},
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "ChDots"
+						}
+					}
+				},
+				ChStack0 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 385, 16.5 } },
+					Inputs = {
+						Blend = Input { Expression = "ChCtrl.V0" },
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "ChStack1"
+						},
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "ChWithDots"
+						}
+					}
+				},
+				ChRoom = SetDomain {
+					ViewInfo = OperatorInfo { Pos = { 605, 16.5 } },
+					Inputs = {
+						Mode = Input { Value = FuID { "Set" } },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "ChStack0"
+						}
+					}
+				},
+				ChSoft = Blur {
+					ViewInfo = OperatorInfo { Pos = { 605, 49.5 } },
+					Inputs = {
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						XBlurSize = Input { Expression = "ChCtrl.ChSize * 15" },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "ChRoom"
+						}
+					}
+				},
+				ChLit = Custom {
+					ViewInfo = OperatorInfo { Pos = { 715, 16.5 } },
+					Inputs = {
+						NumberIn2 = Input { Expression = "ChCtrl.ChSize * 0.15" },
+						AlphaExpression = Input { Value = "a1 + (1 - a1)*n1*geta2b(x, y + n2)" },
+						Image2 = Input {
+							Source = "Output",
+							SourceOp = "ChSoft"
+						},
+						LUTIn1 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn1"
+						},
+						LUTIn2 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn2"
+						},
+						Image1 = Input {
+							Source = "Output",
+							SourceOp = "ChRoom"
+						},
+						LUTIn4 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn4"
+						},
+						NumberIn1 = Input { Expression = "ChCtrl.ChShadow" },
+						LUTIn3 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn3"
+						}
+					}
+				},
+				CustomTool1LUTIn1 = LUTBezier {
+					SplineColor = { Red = 0, Blue = 0, Green = 0 },
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					CtrlWZoom = false
+				},
+				CustomTool1LUTIn2 = LUTBezier {
+					SplineColor = { Red = 0, Blue = 0, Green = 0 },
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					CtrlWZoom = false
+				},
+				CustomTool1LUTIn3 = LUTBezier {
+					SplineColor = { Red = 0, Blue = 0, Green = 0 },
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					CtrlWZoom = false
+				},
+				CustomTool1LUTIn4 = LUTBezier {
+					SplineColor = { Red = 0, Blue = 0, Green = 0 },
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					CtrlWZoom = false
+				},
+				ChFinal = Merge {
+					ViewInfo = OperatorInfo { Pos = { 825, 16.5 } },
+					Inputs = {
+						Blend = Input { Expression = "ChCtrl.KFade" },
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "ChCtrl"
+						},
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "ChLit"
+						}
+					}
+				},
+				ColChLeft = Background {
+					ViewInfo = OperatorInfo { Pos = { -275, -181.5 } },
+					Inputs = {
+						GlobalIn = Input { Value = -480 },
+						TopLeftGreen = Input { Value = 0.91 },
+						Height = Input { Value = 16 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftBlue = Input { Value = 0.93 },
+						TopLeftRed = Input { Value = 0.91 },
+						Width = Input { Value = 16 },
+						GlobalOut = Input { Value = 3534 }
+					}
+				},
+				ColChLeftText = Background {
+					ViewInfo = OperatorInfo { Pos = { -165, -181.5 } },
+					Inputs = {
+						GlobalIn = Input { Value = -480 },
+						TopLeftGreen = Input { Value = 0.05 },
+						Height = Input { Value = 16 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftBlue = Input { Value = 0.07 },
+						TopLeftRed = Input { Value = 0.05 },
+						Width = Input { Value = 16 },
+						GlobalOut = Input { Value = 3534 }
+					}
+				},
+				ColChRight = Background {
+					ViewInfo = OperatorInfo { Pos = { -55, -181.5 } },
+					Inputs = {
+						GlobalIn = Input { Value = -480 },
+						TopLeftGreen = Input { Value = 0.52 },
+						Height = Input { Value = 16 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftBlue = Input { Value = 1 },
+						TopLeftRed = Input { Value = 0.1 },
+						Width = Input { Value = 16 },
+						GlobalOut = Input { Value = 3534 }
+					}
+				},
+				ColChRightText = Background {
+					ViewInfo = OperatorInfo { Pos = { 55, -181.5 } },
+					Inputs = {
+						GlobalIn = Input { Value = -480 },
+						TopLeftGreen = Input { Value = 1 },
+						Height = Input { Value = 16 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftBlue = Input { Value = 1 },
+						TopLeftRed = Input { Value = 1 },
+						Width = Input { Value = 16 },
+						GlobalOut = Input { Value = 3534 }
+					}
+				}
+			
+			}
+		}
+	},
+	ActiveTool = "ChatBubbles"
+}

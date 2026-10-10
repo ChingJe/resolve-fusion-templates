@@ -1,0 +1,29 @@
+Lines (0:00 Text)=0% 喂？有人在嗎|36% 一個字一個字打出來|70% 後面跟著游標
+Frame Rate Override=48
+Position=0.5,0.84
+Size=0.075
+Box Opacity=0.75
+
+Lines (0:00 Text)=0% Block cursor|45% deleted backwards
+Frame Rate Override=48
+Cursor=1
+At The End Of A Line=1
+Position Is=0
+Position=0.08,0.6
+Size=0.07
+
+Lines (0:00 Text)=5% 底線游標|50% 從左邊開始打
+Frame Rate Override=48
+Cursor=2
+Position Is=0
+Position=0.08,0.36
+Size=0.07
+Outline=0.008
+
+Lines (0:00 Text)=0% 沒有游標，一直置中|50% 剛好在時間內打完
+Frame Rate Override=48
+Cursor=3
+Characters Per Second (0: fit the line's time)=0
+Position Is=2
+Position=0.5,0.12
+Size=0.06
