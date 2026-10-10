@@ -1,0 +1,300 @@
+{
+	Tools = ordered() {
+		Spotlight = MacroOperator {
+			CtrlWZoom = false,
+			Inputs = ordered() {
+				MainInput1 = InstanceInput { SourceOp = "SrcA", Source = "Input" },
+				Input1 = InstanceInput { SourceOp = "SpotCtrl", Source = "SpPos", Name = "Position" },
+				Input2 = InstanceInput { SourceOp = "SpotCtrl", Source = "SpSize", Name = "Size" },
+				Input3 = InstanceInput { SourceOp = "SpotCtrl", Source = "SpAspect", Name = "Width / Height" },
+				Input4 = InstanceInput { SourceOp = "SpotCtrl", Source = "SpRound", Name = "Corner Roundness" },
+				Input5 = InstanceInput { SourceOp = "SpotCtrl", Source = "SpSoft", Name = "Edge Softness" },
+				Input6 = InstanceInput { SourceOp = "SpotCtrl", Source = "SpDark", Name = "Outside: Darken" },
+				Input7 = InstanceInput { SourceOp = "SpotCtrl", Source = "SpBlur", Name = "Outside: Blur" },
+				Input8 = InstanceInput { SourceOp = "SpotCtrl", Source = "SpGrey", Name = "Outside: Remove Colour" },
+				Input9 = InstanceInput { SourceOp = "SpotCtrl", Source = "SpZoom", Name = "Magnify" },
+				Input10 = InstanceInput { SourceOp = "SpotCtrl", Source = "SpRing", Name = "Ring Width" },
+				Input11 = InstanceInput { SourceOp = "SpotCtrl", Source = "SpIn", Name = "Fade In Frames" },
+				Input12 = InstanceInput { SourceOp = "SpotCtrl", Source = "SpOut", Name = "Fade Out Frames" },
+				Input13 = InstanceInput { SourceOp = "ColSpotRing", Source = "TopLeftRed", Name = "Ring Colour", ControlGroup = 3 },
+				Input14 = InstanceInput { SourceOp = "ColSpotRing", Source = "TopLeftGreen", ControlGroup = 3 },
+				Input15 = InstanceInput { SourceOp = "ColSpotRing", Source = "TopLeftBlue", ControlGroup = 3 },
+			},
+			Outputs = {
+				MainOutput1 = InstanceOutput { SourceOp = "SpotFinal", Source = "Output" }
+			},
+			ViewInfo = GroupInfo { Pos = { 0, 0 } },
+			Tools = ordered() {
+				SpotCtrl = Background {
+					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } },
+					Inputs = {
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftAlpha = Input { Value = 0 },
+						GlobalIn = Input { Value = -480 },
+						Amt = Input { Expression = "(function(t) return t*t*(3 - 2*t) end)(min(iif(SpIn <= 0, 1, min(max((time - comp.RenderStart)/SpIn, 0), 1)), iif(SpOut <= 0, 1, min(max((comp.RenderEnd - time)/SpOut, 0), 1))))" },
+						GlobalOut = Input { Value = 3534 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 }
+					},
+					UserControls = {
+						SpSoft = {
+							INP_Default = 0.02,
+							INP_MinScale = 0,
+							INP_MaxScale = 0.3,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Edge Softness"
+						},
+						SpOut = {
+							INP_Default = 8,
+							INP_MinScale = 0,
+							INP_MaxScale = 60,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Fade Out Frames"
+						},
+						Amt = {
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Amt"
+						},
+						SpDark = {
+							INP_Default = 0.65,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Outside: Darken"
+						},
+						SpPos = {
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Controls",
+							INPID_PreviewControl = "CrosshairControl",
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "Position"
+						},
+						SpBlur = {
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 30,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Outside: Blur"
+						},
+						SpGrey = {
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Outside: Remove Colour"
+						},
+						SpSize = {
+							INP_Default = 0.4,
+							INP_MinScale = 0.02,
+							INP_MaxScale = 2,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Size"
+						},
+						SpZoom = {
+							INP_Default = 1,
+							INP_MinScale = 1,
+							INP_MaxScale = 6,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Magnify"
+						},
+						SpAspect = {
+							INP_Default = 1,
+							INP_MinScale = 0.2,
+							INP_MaxScale = 5,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Width / Height"
+						},
+						SpRing = {
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 0.03,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Ring Width"
+						},
+						SpRound = {
+							INP_Default = 1,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Corner Roundness"
+						},
+						SpIn = {
+							INP_Default = 8,
+							INP_MinScale = 0,
+							INP_MaxScale = 60,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Fade In Frames"
+						}
+					},
+					CtrlWZoom = false
+				},
+				SrcA = BrightnessContrast {
+					ViewInfo = OperatorInfo { Pos = { -495, 16.5 } }
+				},
+				SpotBlur = Blur {
+					Inputs = {
+						Input = Input {
+							SourceOp = "SrcA",
+							Source = "Output"
+						},
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						XBlurSize = Input { Expression = "SpotCtrl.SpBlur * SpotCtrl.Amt" }
+					},
+					ViewInfo = OperatorInfo { Pos = { -165, 82.5 } }
+				},
+				ColSpotRing = Background {
+					Inputs = {
+						TopLeftBlue = Input { Value = 0.1 },
+						TopLeftGreen = Input { Value = 0.85 },
+						GlobalIn = Input { Value = -480 },
+						TopLeftRed = Input { Value = 1 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Width = Input { Value = 16 },
+						Height = Input { Value = 16 }
+					},
+					ViewInfo = OperatorInfo { Pos = { -275, -148.5 } }
+				},
+				SpotFinal = Custom {
+					Inputs = {
+						LUTIn4 = Input {
+							SourceOp = "CustomTool1LUTIn4",
+							Source = "Value"
+						},
+						NumberIn2 = Input { Expression = "SpotCtrl.SpAspect" },
+						NumberIn3 = Input { Expression = "SpotCtrl.SpRound" },
+						NumberIn4 = Input { Expression = "max(SpotCtrl.SpSoft, 0.001)" },
+						NumberIn5 = Input { Expression = "SpotCtrl.SpDark * SpotCtrl.Amt" },
+						NumberIn6 = Input { Expression = "SpotCtrl.SpGrey * SpotCtrl.Amt" },
+						NumberIn7 = Input { Expression = "1 + (SpotCtrl.SpZoom - 1) * SpotCtrl.Amt" },
+						Image3 = Input {
+							SourceOp = "ColSpotRing",
+							Source = "Output"
+						},
+						NumberIn8 = Input { Expression = "SpotCtrl.SpRing * SpotCtrl.Amt" },
+						Image2 = Input {
+							SourceOp = "SpotBlur",
+							Source = "Output"
+						},
+						PointIn1 = Input { Expression = "SpotCtrl.SpPos" },
+						NumberIn1 = Input { Expression = "SpotCtrl.SpSize / 2" },
+						Intermediate1 = Input { Value = "(x - p1x)*w/h" },
+						RedExpression = Input { Value = "(getr1b(p1x + (x - p1x)/n7, p1y + (y - p1y)/n7)*i6 + (r2 + (i8 - r2)*n6)*(1 - n5)*(1 - i6))*(1 - i7) + getr3b(0.5, 0.5)*i7" },
+						Intermediate2 = Input { Value = "y - p1y" },
+						GreenExpression = Input { Value = "(getg1b(p1x + (x - p1x)/n7, p1y + (y - p1y)/n7)*i6 + (g2 + (i8 - g2)*n6)*(1 - n5)*(1 - i6))*(1 - i7) + getg3b(0.5, 0.5)*i7" },
+						Intermediate3 = Input { Value = "n1*n2" },
+						BlueExpression = Input { Value = "(getb1b(p1x + (x - p1x)/n7, p1y + (y - p1y)/n7)*i6 + (b2 + (i8 - b2)*n6)*(1 - n5)*(1 - i6))*(1 - i7) + getb3b(0.5, 0.5)*i7" },
+						Intermediate4 = Input { Value = "n3*min(n1, i3)" },
+						Intermediate8 = Input { Value = "0.299*r2 + 0.587*g2 + 0.114*b2" },
+						Intermediate5 = Input { Value = "sqrt(max(abs(i1) - i3 + i4, 0)^2 + max(abs(i2) - n1 + i4, 0)^2) + min(max(abs(i1) - i3 + i4, abs(i2) - n1 + i4), 0) - i4" },
+						Intermediate7 = Input { Value = "if(n8 > 0, min(max((n8/2 - abs(i5))*h + 0.5, 0), 1), 0)" },
+						Intermediate6 = Input { Value = "min(max(0.5 - i5/n4, 0), 1)" },
+						Image1 = Input {
+							SourceOp = "SrcA",
+							Source = "Output"
+						},
+						LUTIn1 = Input {
+							SourceOp = "CustomTool1LUTIn1",
+							Source = "Value"
+						},
+						LUTIn2 = Input {
+							SourceOp = "CustomTool1LUTIn2",
+							Source = "Value"
+						},
+						LUTIn3 = Input {
+							SourceOp = "CustomTool1LUTIn3",
+							Source = "Value"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 165, 49.5 } }
+				},
+				CustomTool1LUTIn1 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					SplineColor = { Blue = 0, Green = 0, Red = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn2 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					SplineColor = { Blue = 0, Green = 0, Red = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn3 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					SplineColor = { Blue = 0, Green = 0, Red = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn4 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					SplineColor = { Blue = 0, Green = 0, Red = 0 },
+					NameSet = true
+				}
+			
+			}
+		}
+	},
+	ActiveTool = "Spotlight"
+}

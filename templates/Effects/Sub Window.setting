@@ -1,0 +1,377 @@
+{
+	Tools = ordered() {
+		SubWindow = MacroOperator {
+			CtrlWZoom = false,
+			Inputs = ordered() {
+				MainInput1 = InstanceInput { SourceOp = "SrcA", Source = "Input" },
+				Input1 = InstanceInput { SourceOp = "WinCtrl", Source = "WinShape", Name = "Shape" },
+				Input2 = InstanceInput { SourceOp = "WinCtrl", Source = "WinPos", Name = "Position" },
+				Input3 = InstanceInput { SourceOp = "WinCtrl", Source = "WinSize", Name = "Size" },
+				Input4 = InstanceInput { SourceOp = "WinCtrl", Source = "WinAspect", Name = "Width / Height" },
+				Input5 = InstanceInput { SourceOp = "WinCtrl", Source = "WinRound", Name = "Corner Roundness" },
+				Input6 = InstanceInput { SourceOp = "WinCtrl", Source = "WinZoom", Name = "Zoom Into The Clip" },
+				Input7 = InstanceInput { SourceOp = "WinCtrl", Source = "WinLook", Name = "Part Of The Clip Shown" },
+				Input8 = InstanceInput { SourceOp = "WinCtrl", Source = "WinFlip", Name = "Mirror" },
+				Input9 = InstanceInput { SourceOp = "WinCtrl", Source = "WinBorder", Name = "Border" },
+				Input10 = InstanceInput { SourceOp = "WinCtrl", Source = "WinShadow", Name = "Shadow" },
+				Input11 = InstanceInput { SourceOp = "WinCtrl", Source = "WinShadowOff", Name = "Shadow Distance" },
+				Input12 = InstanceInput { SourceOp = "WinCtrl", Source = "WinShadowSoft", Name = "Shadow Softness" },
+				Input13 = InstanceInput { SourceOp = "WinCtrl", Source = "WinEnter", Name = "Entrance" },
+				Input14 = InstanceInput { SourceOp = "WinCtrl", Source = "WinIn", Name = "Entrance Frames" },
+				Input15 = InstanceInput { SourceOp = "WinCtrl", Source = "WinOut", Name = "Exit Frames" },
+				Input16 = InstanceInput { SourceOp = "ColWinBorder", Source = "TopLeftRed", Name = "Border Colour", ControlGroup = 3 },
+				Input17 = InstanceInput { SourceOp = "ColWinBorder", Source = "TopLeftGreen", ControlGroup = 3 },
+				Input18 = InstanceInput { SourceOp = "ColWinBorder", Source = "TopLeftBlue", ControlGroup = 3 },
+			},
+			Outputs = {
+				MainOutput1 = InstanceOutput { SourceOp = "WinFinal", Source = "Output" }
+			},
+			ViewInfo = GroupInfo { Pos = { 0, 0 } },
+			Tools = ordered() {
+				WinCtrl = Background {
+					Inputs = {
+						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
+						At = Input { Expression = "(function(e, t, g, px, py, sz)\n  if e ~= 2 then return Point(px, py) end\n  local u = (1 - t)^3 + g*g*g\n  local dx = (px < 0.5) and -(px + sz) or (1 - px + sz)\n  local dy = (py < 0.5) and -(py + sz) or (1 - py + sz)\n  if math.min(px, 1 - px) < math.min(py, 1 - py) then return Point(px + dx*u, py) end\n  return Point(px, py + dy*u)\nend)(WinEnter, T, Gone, WinPos.X, WinPos.Y, WinSize)" },
+						T = Input { Expression = "min(max((time - comp.RenderStart + 1)/max(WinIn, 1), 0), 1)" },
+						WinPos = Input { Value = { 0.82, 0.76 } },
+						Gone = Input { Expression = "iif(WinOut <= 0, 0, 1 - min(max((comp.RenderEnd - time + 1)/WinOut, 0), 1))" },
+						GlobalIn = Input { Value = -480 },
+						Fade = Input { Expression = "iif(WinEnter == 3, T*(1 - Gone), iif(WinEnter == 2 or WinEnter == 4, 1, min(T*4, 1)))" },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Scale = Input { Expression = "(function(e, t, g)\n  local s = 1\n  if e == 0 then local u = t - 1 s = 1 + 2.70158*u*u*u + 1.70158*u*u\n  elseif e == 1 then s = 1 - (1 - t)^3 end\n  if e <= 1 then s = s*(1 - g*g) end\n  return math.max(s, 0)\nend)(WinEnter, T, Gone)" },
+						TopLeftAlpha = Input { Value = 0 },
+						UseFrameFormatSettings = Input { Value = 1 }
+					},
+					UserControls = {
+						WinAspect = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Width / Height",
+							INP_Default = 1.5,
+							INP_MinScale = 0.3,
+							INP_MaxScale = 3,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						},
+						At = {
+							LINKS_Name = "At",
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl"
+						},
+						WinRound = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Corner Roundness",
+							INP_Default = 0.25,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						},
+						WinZoom = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Zoom Into The Clip",
+							INP_Default = 1,
+							INP_MinScale = 1,
+							INP_MaxScale = 6,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						},
+						WinLook = {
+							LINKS_Name = "Part Of The Clip Shown",
+							INPID_PreviewControl = "CrosshairControl",
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "OffsetControl"
+						},
+						WinFlip = {
+							LINKS_Name = "Mirror",
+							INP_Default = 0,
+							INP_Integer = true,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "CheckboxControl"
+						},
+						WinBorder = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Border",
+							INP_Default = 0.008,
+							INP_MinScale = 0,
+							INP_MaxScale = 0.05,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						},
+						WinShadow = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Shadow",
+							INP_Default = 0.5,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						},
+						WinShadowOff = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Shadow Distance",
+							INP_Default = 0.012,
+							INP_MinScale = 0,
+							INP_MaxScale = 0.08,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						},
+						Scale = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Scale",
+							INP_Default = 1,
+							INP_MinScale = 0,
+							INP_MaxScale = 3,
+							INP_Integer = false,
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl"
+						},
+						WinEnter = {
+							{
+								CCS_AddString = "Pop"
+							},
+							{
+								CCS_AddString = "Grow"
+							},
+							{
+								CCS_AddString = "From The Nearest Edge"
+							},
+							{
+								CCS_AddString = "Fade"
+							},
+							{
+								CCS_AddString = "None"
+							},
+							LINKS_Name = "Entrance",
+							INP_Default = 0,
+							LINKID_DataType = "Number",
+							INP_Integer = true,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "ComboControl"
+						},
+						WinShape = {
+							{
+								CCS_AddString = "Circle"
+							},
+							{
+								CCS_AddString = "Rounded"
+							},
+							{
+								CCS_AddString = "Rectangle"
+							},
+							LINKS_Name = "Shape",
+							INP_Default = 1,
+							LINKID_DataType = "Number",
+							INP_Integer = true,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "ComboControl"
+						},
+						T = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "T",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							INP_Integer = false,
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl"
+						},
+						Fade = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Fade",
+							INP_Default = 1,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							INP_Integer = false,
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl"
+						},
+						Gone = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Gone",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							INP_Integer = false,
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl"
+						},
+						WinIn = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Entrance Frames",
+							INP_Default = 8,
+							INP_MinScale = 1,
+							INP_MaxScale = 60,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						},
+						WinPos = {
+							LINKS_Name = "Position",
+							INPID_PreviewControl = "CrosshairControl",
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "OffsetControl"
+						},
+						WinOut = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Exit Frames",
+							INP_Default = 6,
+							INP_MinScale = 0,
+							INP_MaxScale = 60,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						},
+						WinShadowSoft = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Shadow Softness",
+							INP_Default = 0.012,
+							INP_MinScale = 0,
+							INP_MaxScale = 0.08,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						},
+						WinSize = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Size",
+							INP_Default = 0.34,
+							INP_MinScale = 0.05,
+							INP_MaxScale = 1,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						}
+					},
+					CtrlWZoom = false,
+					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } }
+				},
+				SrcA = BrightnessContrast {
+					ViewInfo = OperatorInfo { Pos = { -495, 16.5 } }
+				},
+				ColWinBorder = Background {
+					Inputs = {
+						Width = Input { Value = 16 },
+						GlobalIn = Input { Value = -480 },
+						TopLeftGreen = Input { Value = 1 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftBlue = Input { Value = 1 },
+						Height = Input { Value = 16 },
+						TopLeftRed = Input { Value = 1 }
+					},
+					ViewInfo = OperatorInfo { Pos = { -275, -148.5 } }
+				},
+				WinFinal = Custom {
+					Inputs = {
+						NumberIn6 = Input { Expression = "WinCtrl.Fade" },
+						NumberIn7 = Input { Expression = "WinCtrl.WinShadow" },
+						NumberIn8 = Input { Expression = "max(WinCtrl.WinShadowSoft, 0.0005)" },
+						PointIn1 = Input { Expression = "WinCtrl.At" },
+						Image2 = Input {
+							Source = "Output",
+							SourceOp = "ColWinBorder"
+						},
+						PointIn2 = Input { Expression = "WinCtrl.WinLook" },
+						GreenExpression = Input { Value = "n6*(getg1d(p2x + p3y*i1/(2*i3)*(n2*h/w)/n5, p2y + i2/(2*n1)/n5)*i8 + getg2b(0.5, 0.5)*(i7 - i8))" },
+						PointIn3 = Input { Expression = "Point(WinCtrl.WinShadowOff, iif(WinCtrl.WinFlip == 1, -1, 1))" },
+						AlphaExpression = Input { Value = "n6*(i7 + (1 - i7)*if(n1 <= 0.0005, 0, n7*min(max(0.5 - i6/n8*0.5, 0), 1)))" },
+						Intermediate1 = Input { Value = "(x - p1x)*w/h" },
+						Intermediate7 = Input { Value = "if(n1 <= 0.0005, 0, min(max(-i5*h + 0.5, 0), 1))" },
+						Intermediate2 = Input { Value = "y - p1y" },
+						Intermediate8 = Input { Value = "if(n1 <= 0.0005, 0, min(max((-i5 - n4)*h + 0.5, 0), 1))" },
+						Intermediate3 = Input { Value = "n1*n2" },
+						BlueExpression = Input { Value = "n6*(getb1d(p2x + p3y*i1/(2*i3)*(n2*h/w)/n5, p2y + i2/(2*n1)/n5)*i8 + getb2b(0.5, 0.5)*(i7 - i8))" },
+						LUTIn1 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn1"
+						},
+						Image1 = Input {
+							Source = "Output",
+							SourceOp = "SrcA"
+						},
+						LUTIn2 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn2"
+						},
+						LUTIn3 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn3"
+						},
+						LUTIn4 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn4"
+						},
+						RedExpression = Input { Value = "n6*(getr1d(p2x + p3y*i1/(2*i3)*(n2*h/w)/n5, p2y + i2/(2*n1)/n5)*i8 + getr2b(0.5, 0.5)*(i7 - i8))" },
+						NumberIn2 = Input { Expression = "iif(WinCtrl.WinShape == 0, 1, WinCtrl.WinAspect)" },
+						Intermediate6 = Input { Value = "sqrt(max((abs((i1 - p3x)) - i3 + i4), 0)^2 + max((abs((i2 + p3x)) - n1 + i4), 0)^2) + min(max((abs((i1 - p3x)) - i3 + i4), (abs((i2 + p3x)) - n1 + i4)), 0) - i4" },
+						NumberIn3 = Input { Expression = "iif(WinCtrl.WinShape == 0, 1, iif(WinCtrl.WinShape == 2, 0, WinCtrl.WinRound))" },
+						Intermediate4 = Input { Value = "n3*min(n1, i3)" },
+						NumberIn4 = Input { Expression = "WinCtrl.WinBorder * WinCtrl.Scale" },
+						Intermediate5 = Input { Value = "sqrt(max((abs(i1) - i3 + i4), 0)^2 + max((abs(i2) - n1 + i4), 0)^2) + min(max((abs(i1) - i3 + i4), (abs(i2) - n1 + i4)), 0) - i4" },
+						NumberIn5 = Input { Expression = "WinCtrl.WinZoom" },
+						NumberIn1 = Input { Expression = "WinCtrl.WinSize * WinCtrl.Scale / 2" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 165, 49.5 } }
+				},
+				CustomTool1LUTIn1 = LUTBezier {
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					CtrlWZoom = false
+				},
+				CustomTool1LUTIn2 = LUTBezier {
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					CtrlWZoom = false
+				},
+				CustomTool1LUTIn3 = LUTBezier {
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					CtrlWZoom = false
+				},
+				CustomTool1LUTIn4 = LUTBezier {
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					CtrlWZoom = false
+				}
+			
+			}
+		}
+	},
+	ActiveTool = "SubWindow"
+}

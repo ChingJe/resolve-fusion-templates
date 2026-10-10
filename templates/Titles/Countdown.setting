@@ -1,0 +1,502 @@
+{
+	Tools = ordered() {
+		Countdown = MacroOperator {
+			CtrlWZoom = false,
+			Inputs = ordered() {
+				Input1 = InstanceInput { SourceOp = "CdCtrl", Source = "CdFrom", Name = "Seconds (0 = length of this clip)" },
+				Input2 = InstanceInput { SourceOp = "CdCtrl", Source = "CdUp", Name = "Count Up" },
+				Input3 = InstanceInput { SourceOp = "CdCtrl", Source = "CdFormat", Name = "Format" },
+				Input4 = InstanceInput { SourceOp = "CdCtrl", Source = "FpsOverride", Name = "Frame Rate Override" },
+				Input5 = InstanceInput { SourceOp = "CdText", Source = "Font", Name = "Font", ControlGroup = 2 },
+				Input6 = InstanceInput { SourceOp = "CdText", Source = "Style", ControlGroup = 2 },
+				Input7 = InstanceInput { SourceOp = "CdCtrl", Source = "CdPos", Name = "Position" },
+				Input8 = InstanceInput { SourceOp = "CdCtrl", Source = "CdSize", Name = "Size" },
+				Input9 = InstanceInput { SourceOp = "CdCtrl", Source = "CdRing", Name = "Ring Thickness (0 = no ring)" },
+				Input10 = InstanceInput { SourceOp = "CdCtrl", Source = "CdRingSize", Name = "Ring Size" },
+				Input11 = InstanceInput { SourceOp = "CdCtrl", Source = "CdTrack", Name = "Ring Track Opacity" },
+				Input12 = InstanceInput { SourceOp = "CdCtrl", Source = "CdEdge", Name = "Outline" },
+				Input13 = InstanceInput { SourceOp = "CdCtrl", Source = "CdWarn", Name = "Warn In The Last (seconds)" },
+				Input14 = InstanceInput { SourceOp = "CdCtrl", Source = "CdPulse", Name = "Throb" },
+				Input15 = InstanceInput { SourceOp = "ColCd", Source = "TopLeftRed", Name = "Colour", ControlGroup = 3 },
+				Input16 = InstanceInput { SourceOp = "ColCd", Source = "TopLeftGreen", ControlGroup = 3 },
+				Input17 = InstanceInput { SourceOp = "ColCd", Source = "TopLeftBlue", ControlGroup = 3 },
+				Input18 = InstanceInput { SourceOp = "ColCdWarn", Source = "TopLeftRed", Name = "Warning Colour", ControlGroup = 4 },
+				Input19 = InstanceInput { SourceOp = "ColCdWarn", Source = "TopLeftGreen", ControlGroup = 4 },
+				Input20 = InstanceInput { SourceOp = "ColCdWarn", Source = "TopLeftBlue", ControlGroup = 4 },
+				Input21 = InstanceInput { SourceOp = "ColCdEdge", Source = "TopLeftRed", Name = "Outline Colour", ControlGroup = 5 },
+				Input22 = InstanceInput { SourceOp = "ColCdEdge", Source = "TopLeftGreen", ControlGroup = 5 },
+				Input23 = InstanceInput { SourceOp = "ColCdEdge", Source = "TopLeftBlue", ControlGroup = 5 },
+			},
+			Outputs = {
+				MainOutput1 = InstanceOutput { SourceOp = "CdFinal", Source = "Output" }
+			},
+			ViewInfo = GroupInfo { Pos = { 0, 0 } },
+			Tools = ordered() {
+				CdCtrl = Background {
+					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } },
+					Inputs = {
+						TopLeftAlpha = Input { Value = 0 },
+						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Total = Input { Expression = "iif(CdFrom > 0, CdFrom, (comp.RenderEnd - comp.RenderStart + 1)/iif(FpsOverride > 0, FpsOverride, comp:GetPrefs('Comp.FrameFormat.Rate') or 24))" },
+						GlobalIn = Input { Value = -480 },
+						Left = Input { Expression = "max(Total - (time - comp.RenderStart)/iif(FpsOverride > 0, FpsOverride, comp:GetPrefs('Comp.FrameFormat.Rate') or 24), 0)" },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Hot = Input { Expression = "iif(CdWarn > 0 and Left <= CdWarn, 1, 0)" }
+					},
+					CtrlWZoom = false,
+					UserControls = {
+						CdRing = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Ring Thickness (0 = no ring)",
+							INP_Default = 0.012,
+							INP_MinScale = 0,
+							INP_MaxScale = 0.06,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						},
+						CdFormat = {
+							{
+								CCS_AddString = "0:10"
+							},
+							{
+								CCS_AddString = "10"
+							},
+							{
+								CCS_AddString = "10.0"
+							},
+							{
+								CCS_AddString = "00:10.00"
+							},
+							LINKS_Name = "Format",
+							INP_Default = 0,
+							LINKID_DataType = "Number",
+							INP_Integer = true,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "ComboControl"
+						},
+						CdUp = {
+							LINKS_Name = "Count Up",
+							INP_Default = 0,
+							INP_Integer = true,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "CheckboxControl"
+						},
+						CdTrack = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Ring Track Opacity",
+							INP_Default = 0.25,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						},
+						CdSize = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Size",
+							INP_Default = 0.1,
+							INP_MinScale = 0.02,
+							INP_MaxScale = 0.6,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						},
+						CdEdge = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Outline",
+							INP_Default = 0.004,
+							INP_MinScale = 0,
+							INP_MaxScale = 0.02,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						},
+						CdRingSize = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Ring Size",
+							INP_Default = 0.5,
+							INP_MinScale = 0.05,
+							INP_MaxScale = 1,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						},
+						CdWarn = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Warn In The Last (seconds)",
+							INP_Default = 3,
+							INP_MinScale = 0,
+							INP_MaxScale = 60,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						},
+						FpsOverride = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Frame Rate Override",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 120,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						},
+						CdPulse = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Throb",
+							INP_Default = 1,
+							INP_MinScale = 0,
+							INP_MaxScale = 3,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						},
+						CdPos = {
+							LINKS_Name = "Position",
+							INPID_PreviewControl = "CrosshairControl",
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "OffsetControl"
+						},
+						Left = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Left",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 100000,
+							INP_Integer = false,
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl"
+						},
+						CdFrom = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Seconds (0 = length of this clip)",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 3600,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						},
+						Total = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Total",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 100000,
+							INP_Integer = false,
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl"
+						},
+						Hot = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Hot",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							INP_Integer = false,
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl"
+						}
+					}
+				},
+				CdRingDraw = Custom {
+					ViewInfo = OperatorInfo { Pos = { -275, 49.5 } },
+					Inputs = {
+						NumberIn4 = Input { Expression = "CdCtrl.CdTrack" },
+						NumberIn5 = Input { Expression = "CdCtrl.CdUp" },
+						PointIn1 = Input { Expression = "CdCtrl.CdPos" },
+						Intermediate1 = Input { Value = "(x - p1x)*w/h" },
+						Intermediate2 = Input { Value = "y - p1y" },
+						Intermediate3 = Input { Value = "if(n2 > 0, min(max((n2/2 - abs(sqrt(i1*i1 + i2*i2) - n1))*h + 0.5, 0), 1), 0)" },
+						Intermediate4 = Input { Value = "frac(atan2(i1, i2)/360 + 1)" },
+						Intermediate5 = Input { Value = "i3*if(if(n5 > 0, i4 <= 1 - n3, i4 >= 1 - n3), 1, n4)" },
+						LUTIn1 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn1"
+						},
+						Image1 = Input {
+							Source = "Output",
+							SourceOp = "CdCtrl"
+						},
+						LUTIn2 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn2"
+						},
+						RedExpression = Input { Value = "i5" },
+						LUTIn4 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn4"
+						},
+						GreenExpression = Input { Value = "i5" },
+						NumberIn1 = Input { Expression = "CdCtrl.CdRingSize / 2" },
+						BlueExpression = Input { Value = "i5" },
+						NumberIn2 = Input { Expression = "CdCtrl.CdRing" },
+						AlphaExpression = Input { Value = "i5" },
+						NumberIn3 = Input { Expression = "iif(CdCtrl.Total > 0, CdCtrl.Left/CdCtrl.Total, 0)" },
+						LUTIn3 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn3"
+						}
+					}
+				},
+				CustomTool1LUTIn1 = LUTBezier {
+					CtrlWZoom = false,
+					NameSet = true,
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					}
+				},
+				CustomTool1LUTIn2 = LUTBezier {
+					CtrlWZoom = false,
+					NameSet = true,
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					}
+				},
+				CustomTool1LUTIn3 = LUTBezier {
+					CtrlWZoom = false,
+					NameSet = true,
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					}
+				},
+				CustomTool1LUTIn4 = LUTBezier {
+					CtrlWZoom = false,
+					NameSet = true,
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					}
+				},
+				CdText = TextPlus {
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -275, 16.5 } },
+					Inputs = {
+						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
+						Wrap = Input { Value = 1 },
+						LayoutRotation = Input { Value = 1 },
+						TransformRotation = Input { Value = 1 },
+						Softness1 = Input { Value = 1 },
+						VerticalJustificationNew = Input { Value = 3 },
+						HorizontalJustificationNew = Input { Value = 3 },
+						GlobalIn = Input { Value = -480 },
+						Font = Input { Value = "Arial" },
+						GlobalOut = Input { Value = 3534 },
+						Style = Input { Value = "Bold" },
+						Size = Input { Expression = "CdCtrl.CdSize * (1 + iif(CdCtrl.Hot == 1, 0.18*CdCtrl.CdPulse*(CdCtrl.Left - floor(CdCtrl.Left))^3, 0))" },
+						StyledText = Input { Expression = "Text((function(left, total, up, f)\n  local v = (up == 1) and (total - left) or left\n  if f == 2 then return string.format(\"%.1f\", v) end\n  if f == 3 then return string.format(\"%02d:%05.2f\", math.floor(v/60), v % 60) end\n  local s = (up == 1) and math.floor(v + 0.0001) or math.ceil(v - 0.0001)\n  if f == 1 then return tostring(s) end\n  return string.format(\"%d:%02d\", math.floor(s/60), s % 60)\nend)(CdCtrl.Left, CdCtrl.Total, CdCtrl.CdUp, CdCtrl.CdFormat))" },
+						Center = Input { Expression = "CdCtrl.CdPos" },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						UseFrameFormatSettings = Input { Value = 1 }
+					}
+				},
+				CdMatte = Merge {
+					ViewInfo = OperatorInfo { Pos = { -55, 16.5 } },
+					Inputs = {
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "CdRingDraw"
+						},
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "CdText"
+						}
+					}
+				},
+				CdPaintGrowB = ErodeDilate {
+					ViewInfo = OperatorInfo { Pos = { 165, 82.5 } },
+					Inputs = {
+						Filter = Input { Value = 3 },
+						XAmount = Input { Expression = "(CdCtrl.CdEdge) + (0)" },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "CdMatte"
+						}
+					}
+				},
+				CdPaintGrowA = ErodeDilate {
+					ViewInfo = OperatorInfo { Pos = { 165, 49.5 } },
+					Inputs = {
+						Filter = Input { Value = 3 },
+						XAmount = Input { Expression = "CdCtrl.CdEdge" },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "CdMatte"
+						}
+					}
+				},
+				CdPaint = Custom {
+					ViewInfo = OperatorInfo { Pos = { 275, 16.5 } },
+					Inputs = {
+						NumberIn4 = Input { Expression = "ColCdEdge.TopLeftRed" },
+						NumberIn6 = Input { Expression = "ColCdEdge.TopLeftBlue" },
+						PointIn1 = Input { Expression = "Point(0, 0)" },
+						Intermediate1 = Input { Value = "a2*n7" },
+						Intermediate2 = Input { Value = "a3*n8" },
+						Image2 = Input {
+							Source = "Output",
+							SourceOp = "CdPaintGrowA"
+						},
+						Image3 = Input {
+							Source = "Output",
+							SourceOp = "CdPaintGrowB"
+						},
+						PointIn2 = Input { Expression = "Point(0, 0)" },
+						NumberIn7 = Input { Expression = "iif((CdCtrl.CdEdge) > 0, 1, 0)" },
+						Image1 = Input {
+							Source = "Output",
+							SourceOp = "CdMatte"
+						},
+						NumberIn5 = Input { Expression = "ColCdEdge.TopLeftGreen" },
+						LUTIn1 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn11"
+						},
+						RedExpression = Input { Value = "n1*a1 + (1 - a1)*(n4*i1 + (1 - i1)*p1x*i2)" },
+						LUTIn2 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn21"
+						},
+						LUTIn3 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn31"
+						},
+						LUTIn4 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn41"
+						},
+						GreenExpression = Input { Value = "n2*a1 + (1 - a1)*(n5*i1 + (1 - i1)*p1y*i2)" },
+						NumberIn1 = Input { Expression = "iif(CdCtrl.Hot == 1, ColCdWarn.TopLeftRed, ColCd.TopLeftRed)" },
+						BlueExpression = Input { Value = "n3*a1 + (1 - a1)*(n6*i1 + (1 - i1)*p2x*i2)" },
+						NumberIn2 = Input { Expression = "iif(CdCtrl.Hot == 1, ColCdWarn.TopLeftGreen, ColCd.TopLeftGreen)" },
+						AlphaExpression = Input { Value = "a1 + (1 - a1)*(i1 + (1 - i1)*i2)" },
+						NumberIn3 = Input { Expression = "iif(CdCtrl.Hot == 1, ColCdWarn.TopLeftBlue, ColCd.TopLeftBlue)" },
+						NumberIn8 = Input { Expression = "iif((0) > 0, 1, 0)" }
+					}
+				},
+				CustomTool1LUTIn11 = LUTBezier {
+					CtrlWZoom = false,
+					NameSet = true,
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					}
+				},
+				CustomTool1LUTIn21 = LUTBezier {
+					CtrlWZoom = false,
+					NameSet = true,
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					}
+				},
+				CustomTool1LUTIn31 = LUTBezier {
+					CtrlWZoom = false,
+					NameSet = true,
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					}
+				},
+				CustomTool1LUTIn41 = LUTBezier {
+					CtrlWZoom = false,
+					NameSet = true,
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					}
+				},
+				CdFinal = Merge {
+					ViewInfo = OperatorInfo { Pos = { 495, 16.5 } },
+					Inputs = {
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "CdCtrl"
+						},
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "CdPaint"
+						}
+					}
+				},
+				ColCd = Background {
+					ViewInfo = OperatorInfo { Pos = { -275, -148.5 } },
+					Inputs = {
+						TopLeftGreen = Input { Value = 1 },
+						TopLeftBlue = Input { Value = 1 },
+						Width = Input { Value = 16 },
+						Height = Input { Value = 16 },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftRed = Input { Value = 1 }
+					}
+				},
+				ColCdWarn = Background {
+					ViewInfo = OperatorInfo { Pos = { -165, -148.5 } },
+					Inputs = {
+						TopLeftGreen = Input { Value = 0.2 },
+						TopLeftBlue = Input { Value = 0.15 },
+						Width = Input { Value = 16 },
+						Height = Input { Value = 16 },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftRed = Input { Value = 1 }
+					}
+				},
+				ColCdEdge = Background {
+					ViewInfo = OperatorInfo { Pos = { -55, -148.5 } },
+					Inputs = {
+						TopLeftGreen = Input { Value = 0.05 },
+						TopLeftBlue = Input { Value = 0.08 },
+						Width = Input { Value = 16 },
+						Height = Input { Value = 16 },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftRed = Input { Value = 0.05 }
+					}
+				}
+			
+			}
+		}
+	},
+	ActiveTool = "Countdown"
+}

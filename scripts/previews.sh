@@ -30,3 +30,16 @@ shot side-note       sidenote.lua   FX_SET="NoteSize=0.09,NoteThick=0.012"
 shot text-label      compose.lua "FX_TEMPLATE=$T/Titles/Text Label.setting" FX_SPEC=$X/shapes.txt
 shot text-label-combined compose.lua "FX_TEMPLATE=$T/Titles/Text Label.setting" FX_SPEC=$X/labels.txt
 shot reaction-mark   compose.lua    "FX_TEMPLATE=$T/Titles/Reaction Mark.setting" FX_SPEC=$X/marks.txt
+shot whip-pan        whippan.lua
+shot zoom-through    zoomthrough.lua
+shot colour-bars     barwipe.lua    FX_SET="BwRows=1"
+shot glitch-cut      glitchcut.lua
+shot glitch-hits     glitchhits.lua
+shot sub-window      subwindow.lua
+shot spotlight       spotlight.lua  FX_SET="SpZoom=1.8,SpRing=0.008,SpBlur=6"
+shot freeze-frame    freezeframe.lua
+shot echo            echo.lua
+shot handmade        handmade.lua
+shot countdown       countdown.lua  FX_SET="CdSize=0.14,CdRingSize=0.6"
+shot karaoke-caption karaoke.lua    FX_TEXTFILE=$X/karaoke.txt FX_SET="KaSize=0.14"
+shot hidden-word     hiddenword.lua FX_TEXTFILE=$X/hidden.txt FX_SET="HidSize=0.12"

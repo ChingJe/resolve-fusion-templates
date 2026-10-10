@@ -25,6 +25,11 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 |---|---|---|
 | [Punch Zoom](docs/templates/punch-zoom.md) | 特效 | 在指定的時間點或照拍子推近再彈回，可加 RGB 分離、模糊、震動、閃白 |
 | [Time Slice](docs/templates/time-slice.md) | 特效 | 畫面切成直條，每條比隔壁晚幾格，動作像波浪一樣掃過去 |
+| [Glitch Hits](docs/templates/glitch-hits.md) | 特效 | 在指定的時間點畫面像訊號不良一樣碎掉一下，也可以隨機出現 |
+| [Freeze Frame](docs/templates/freeze-frame.md) | 特效 | 在指定的時間點停格，閃一下、推近、變色，像電影停下來介紹角色 |
+| [Echo](docs/templates/echo.md) | 特效 | 會動的東西後面拖著幾個逐漸變淡的殘影 |
+| [Spotlight](docs/templates/spotlight.md) | 特效 | 只有一塊保持原樣，其他地方變暗、變糊或變灰，也可以當放大鏡 |
+| [Handmade](docs/templates/handmade.md) | 特效 | 動作一格一格跳、位置會抖、有紙的紋理，像手工做的動畫 |
 
 ### 轉場
 
@@ -34,10 +39,14 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 |---|---|---|
 | [Paper Tear](docs/templates/paper-tear.md) | 轉場 | 前一段像紙一樣被撕成兩半拉開，露出後一段 |
 | [Video Wall](docs/templates/video-wall.md) | 轉場 | 拉遠成一面影片牆，橫移，再推進下一段 |
+| [Whip Pan](docs/templates/whip-pan.md) | 轉場 | 鏡頭甩開，畫面拉成一道模糊，停下來時是下一段 |
+| [Zoom Through](docs/templates/zoom-through.md) | 轉場 | 往前一段裡面衝進去，衝出來是下一段 |
+| [Colour Bars](docs/templates/colour-bars.md) | 轉場 | 幾條純色的色帶依序掃過畫面，掃完換成下一段 |
+| [Glitch Cut](docs/templates/glitch-cut.md) | 轉場 | 畫面像訊號不良一樣碎掉，恢復時是下一段 |
 
 ### 綜藝字幕
 
-綜藝節目常見的字卡和效果符號。疊在影片上方的軌道，背景透明。
+綜藝節目常見的字卡、效果符號和子畫面。疊在影片上方的軌道，背景透明。
 
 | 範本 | 類型 | 說明 |
 |---|---|---|
@@ -45,6 +54,8 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 | [Side Note](docs/templates/side-note.md) | 標題 | 歪歪的吐槽小字，加一支手繪箭頭指向畫面上的東西 |
 | [Text Label](docs/templates/text-label.md) | 標題 | 文字加自動貼合的外框，九種形狀。通用的積木，疊幾個就能拼出主題框、人名條、對話泡泡 |
 | [Reaction Mark](docs/templates/reaction-mark.md) | 標題 | 怒氣記號、汗滴、問號、驚嘆號、集中線 |
+| [Hidden Word](docs/templates/hidden-word.md) | 標題 | 字幕裡一個詞先被貼紙蓋住，到時間貼紙掉下來，答案彈出來 |
+| [Sub Window](docs/templates/sub-window.md) | 特效 | 把上層軌道的片段縮成角落有邊框的小窗，放反應畫面用 |
 
 ### 文字與資訊
 
@@ -56,6 +67,8 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 | [Number Counter](docs/templates/number-counter.md) | 標題 | 數字從一個值跳到另一個值 |
 | [Bar Chart](docs/templates/bar-chart.md) | 標題 | 橫向長條圖，長條依序長出來，數字跟著跳 |
 | [Chapter Bar](docs/templates/chapter-bar.md) | 標題 | 有章節名稱的進度條 |
+| [Karaoke Caption](docs/templates/karaoke-caption.md) | 標題 | 字幕從左到右填上另一個顏色，跟著講話的速度走 |
+| [Countdown](docs/templates/countdown.md) | 標題 | 倒數計時的時鐘和圓環，最後幾秒變色跳動 |
 
 預覽圖的輸入是程序產生的測試畫面。畫面上的數字是畫格編號，用來看出每一格取的是哪個時間點。
 
@@ -64,7 +77,7 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 | 文件 | 內容 |
 |---|---|
 | [安裝與移除](docs/install.md) | 安裝程式做了什麼、手動安裝、三種類型各自怎麼拖 |
-| [時間清單的寫法](docs/time-list.md) | Chapter Bar、Kinetic Lines、Punch Zoom、Variety Caption、Side Note 共用的時間點寫法 |
+| [時間清單的寫法](docs/time-list.md) | Chapter Bar、Kinetic Lines、Punch Zoom、Variety Caption、Side Note、Glitch Hits、Freeze Frame、Karaoke Caption 共用的時間點寫法 |
 | [docs/templates/](docs/templates) | 每個範本一份：預覽圖、用法、參數、注意事項 |
 | [做法與踩過的坑](skills/resolve-fusion/SKILL.md) | 這些範本是怎麼用腳本做出來的，想自己改範本時看這份 |
 

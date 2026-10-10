@@ -272,4 +272,141 @@ function L.export(comp, slug, spec)
   print("exported", slug, "tools", #tools, "chars", #text)
 end
 
+-- Newer build scripts describe their controls as an ordered list {{"Id", L.num(...)}, ...} and let these
+-- three helpers do the rest.
+-- L.panel: the controller node. Controls on the Driver page are internal, the others are published in list order.
+function L.panel(comp, name, list)
+  local ctrl = L.adder(comp)("Background", name, -5, -3)
+  local uc, spec = {}, {}
+  for _, c in ipairs(list) do
+    uc[c[1]] = c[2]
+    if c[2].ICS_ControlPage ~= "Driver" then spec[#spec + 1] = {"CTL", name, c[1], c[2].LINKS_Name} end
+  end
+  ctrl.UserControls = uc
+  ctrl = ctrl:Refresh()
+  ctrl:SetInput("UseFrameFormatSettings", 1)
+  L.color(ctrl, 0, 0, 0, 0)
+  for _, c in ipairs(list) do if c[3] then ctrl:SetInput(c[1], c[3]) end end
+  return ctrl, spec
+end
+-- L.feeds: n pass-through entry nodes (SrcA, SrcB) fed by the stand-ins. With n = 2 the controller also gets
+-- P, the 0..1 progress of a transition (add {"P", L.num("P", 0, 0, 1, "Driver")} to the list).
+function L.feeds(comp, ctrl, n)
+  local add = L.adder(comp)
+  local srcs, ins = {}, {}
+  for i = 1, n do
+    local tag = string.char(64 + i)
+    srcs[i] = add("BrightnessContrast", "Src" .. tag, -5, (i - 1)*2)
+    ins[i] = L.testsource(comp, tag, i - 1)
+    srcs[i].Input = ins[i].Output
+  end
+  if n == 2 then
+    ctrl:AddModifier("P", "LUTLookup")
+    local curve = ctrl.P:GetConnectedOutput():GetTool()
+    curve:SetAttrs({TOOLS_Name = ctrl.Name .. "Progress"})
+    curve:SetInput("Source", "Transition"); curve:SetInput("Curve", "Linear")
+  end
+  return srcs, ins
+end
+-- L.ship: FX_EXPORT=1 writes the macro source, otherwise FX_SET="Id=1,Id=2" is applied and a test is rendered.
+-- A template without inputs (a title) is shown over the stand-in; o.show can return some other output to render.
+function L.ship(comp, o)
+  local srcs, ins = o.srcs or {}, o.ins or {}
+  if os.getenv("FX_EXPORT") == "1" then
+    local spec = {{"NAME", o.name}}
+    for i, s in ipairs(srcs) do s.Input = nil; spec[#spec + 1] = {"MAIN", s.Name, "Input"} end
+    spec[#spec + 1] = {"OUT", o.out.Name, "Output"}
+    for _, row in ipairs(o.spec) do spec[#spec + 1] = row end
+    L.export(comp, o.slug, spec)
+    for i, s in ipairs(srcs) do s.Input = ins[i].Output end
+    return
+  end
+  for name, value in string.gmatch(os.getenv("FX_SET") or "", "(%w+)=([%d%.%-]+)") do o.ctrl:SetInput(name, tonumber(value)) end
+  if o.before then o.before() end
+  local shown = o.out.Output
+  if o.show then shown = o.show()
+  elseif #srcs == 0 then
+    comp:Lock()
+    local pm = L.adder(comp)("Merge", "PrevOver", 9, 4)
+    pm.Background = L.testsource(comp).Output; pm.Foreground = o.out.Output
+    comp:Unlock()
+    shown = pm.Output
+  end
+  local dbg = os.getenv("FX_DEBUG") and comp:FindTool(os.getenv("FX_DEBUG"))
+  L.render(comp, dbg and dbg.Output or shown, os.getenv("FX_PREFIX") or o.prefix, tonumber(os.getenv("FX_STEPS") or "12"))
+end
+-- For Custom expressions: fold a coordinate back into 0..1 so that the picture repeats mirrored outside the frame
+function L.mirror(u) return "abs(frac((" .. u .. " + 3)/2)*2 - 1)" end
+L.SMOOTH = "(function(t) return t*t*(3 - 2*t) end)"
+
+-- A Custom that breaks the picture the way a bad digital signal does: bands of lines jump sideways, blocks show
+-- the wrong part of the picture, the colour channels separate, scan lines darken. With a second image the bands
+-- flicker over to it as mix goes 0 -> 1. e = expressions for: amount (0 = untouched), mix, bands, shift, split,
+-- step (changes whenever the pattern should change), blocks (how many of them), lines, seed.
+function L.glitch(comp, name, x, y, a, b, e)
+  local g = L.adder(comp)("Custom", name, x, y)
+  g.Image1 = a; g.Image2 = b or a
+  L.expr(g, "NumberIn1", e.amount); L.expr(g, "NumberIn2", e.mix or "0")
+  L.expr(g, "NumberIn3", e.bands);  L.expr(g, "NumberIn4", e.shift)
+  L.expr(g, "NumberIn5", e.split);  L.expr(g, "NumberIn6", e.step)
+  L.expr(g, "NumberIn7", e.blocks); L.expr(g, "NumberIn8", e.lines)
+  L.expr(g, "PointIn1", "Point(" .. (e.seed or "0") .. ", 0)")
+  local function hash(v) return "abs(frac(sin((" .. v .. ")*12.9898 + n6*78.233 + p1x*3.7)*43758.5453))" end
+  -- i1 a random number per wide band of lines, i2 per narrow band
+  g:SetInput("Intermediate1", hash("floor(y*n3 + 10*" .. hash("1") .. ")"))
+  g:SetInput("Intermediate2", hash("floor(y*n3*5.3) + 31.7"))
+  -- i3 how far this line has jumped: only some bands move, more of them as amount grows
+  g:SetInput("Intermediate3", "n1*n4*(if(frac(i1*7.31) < 0.25 + 0.5*n1, (i1 - 0.5)*2, 0) + if(frac(i2*5.17) < 0.3*n1, (i2 - 0.5)*0.6, 0))")
+  -- i4 a random number per block, i5 = 1 where the block shows a wrong part of the picture
+  g:SetInput("Intermediate4", hash("floor(x*12)*1.37 + floor(y*n3*1.5)*5.11 + 3.3"))
+  g:SetInput("Intermediate5", "if(i4 < n7*n1, 1, 0)")
+  -- i6, i7 where this pixel reads the picture
+  g:SetInput("Intermediate6", "frac(x + i3 + i5*(frac(i4*91.3) - 0.5)*0.5 + 4)")
+  g:SetInput("Intermediate7", "if(i5 > 0, frac(y + (frac(i4*37.7) - 0.5)*0.3 + 4), y)")
+  -- i8 = 1 where the second image shows
+  g:SetInput("Intermediate8", "if(frac(i1*3.71 + i2*0.2) < n2, 1, 0)")
+  local function chan(c, k)
+    local sx = string.format("frac(i6 + %s*n5*n1*(0.5 + i1) + 4)", k)
+    return string.format("if(n1 <= 0, if(n2 >= 0.5, %s2, %s1), if(i8 > 0, get%s2b(%s, i7), get%s1b(%s, i7))*(1 - n8*n1*if(frac(y*h/4) < 0.5, 1, 0))*(1 + i5*0.3))",
+      c, c, c, sx, c, sx)
+  end
+  g:SetInput("RedExpression", chan("r", "1")); g:SetInput("GreenExpression", chan("g", "0"))
+  g:SetInput("BlueExpression", chan("b", "(-1)")); g:SetInput("AlphaExpression", "if(n2 >= 0.5, a2, a1)")
+  return g
+end
+
+-- Expression for a list of moments, one per line: "0:01.5" or "0:01.5 1.4" (seconds, m:ss, 120f or 25%, then an
+-- optional strength). Returns Point(level, number of the hit): level is the strength of the hit that is on right
+-- now, falling to 0 over `dur` seconds along `shape` (1 = straight line, higher = drops faster). ctrl needs FpsOverride.
+function L.hits(list, dur, shape)
+  return ([[(function(txt, fps, len, ts, dur, shape)
+  local level, n, k = 0, 0, 0
+  for line in (txt .. "\n"):gmatch("(.-)\r?\n") do
+    local stamp, s = line:match("^%s*(%S+)%s*([%d%.]*)")
+    if stamp then
+      local sec
+      local pct, fr = stamp:match("^([%d%.]+)%%$"), stamp:match("^(%d+)[fF]$")
+      if pct then sec = tonumber(pct) / 100 * len / fps
+      elseif fr then sec = tonumber(fr) / fps
+      elseif stamp:match("^[%d:%.]+$") then
+        sec = 0
+        for part in stamp:gmatch("[^:]+") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end
+      end
+      if sec then
+        k = k + 1
+        local dt = ts - sec
+        if dt >= 0 and dt < dur then
+          local v = (tonumber(s) or 1) * (1 - dt/dur)^shape
+          if v > level then level, n = v, k end
+        end
+      end
+    end
+  end
+  return Point(level, n)
+end)(LIST.Value, iif(FpsOverride > 0, FpsOverride, comp:GetPrefs("Comp.FrameFormat.Rate") or 24),
+  max(comp.RenderEnd - comp.RenderStart, 1),
+  (time - comp.RenderStart) / iif(FpsOverride > 0, FpsOverride, comp:GetPrefs("Comp.FrameFormat.Rate") or 24), DUR, SHAPE)]])
+    :gsub("LIST", list):gsub("DUR", dur):gsub("SHAPE", shape or "1")
+end
+
 return L

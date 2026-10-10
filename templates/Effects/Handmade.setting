@@ -1,0 +1,320 @@
+{
+	Tools = ordered() {
+		Handmade = MacroOperator {
+			CtrlWZoom = false,
+			Inputs = ordered() {
+				MainInput1 = InstanceInput { SourceOp = "SrcA", Source = "Input" },
+				Input1 = InstanceInput { SourceOp = "HandCtrl", Source = "HmHold", Name = "Frames Per Step" },
+				Input2 = InstanceInput { SourceOp = "HandCtrl", Source = "HmShift", Name = "Jitter" },
+				Input3 = InstanceInput { SourceOp = "HandCtrl", Source = "HmTurn", Name = "Jitter Rotation" },
+				Input4 = InstanceInput { SourceOp = "HandCtrl", Source = "HmBoil", Name = "Wobbly Outlines" },
+				Input5 = InstanceInput { SourceOp = "HandCtrl", Source = "HmBoilSize", Name = "Wobble Size" },
+				Input6 = InstanceInput { SourceOp = "HandCtrl", Source = "HmSteps", Name = "Colour Steps (0 = off)" },
+				Input7 = InstanceInput { SourceOp = "HandCtrl", Source = "HmGrain", Name = "Paper Grain" },
+				Input8 = InstanceInput { SourceOp = "HandCtrl", Source = "HmFlicker", Name = "Light Flicker" },
+				Input9 = InstanceInput { SourceOp = "HandCtrl", Source = "HmEdge", Name = "Dark Corners" },
+			},
+			Outputs = {
+				MainOutput1 = InstanceOutput { SourceOp = "HandFinal", Source = "Output" }
+			},
+			ViewInfo = GroupInfo { Pos = { 0, 0 } },
+			Tools = ordered() {
+				HandCtrl = Background {
+					UserControls = {
+						HmBoil = {
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Wobbly Outlines",
+							INP_Default = 0.003,
+							INP_MinScale = 0,
+							INP_MaxScale = 0.02
+						},
+						Light = {
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Light",
+							INP_Default = 1,
+							INP_MinScale = 0,
+							INP_MaxScale = 2
+						},
+						HmBoilSize = {
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Wobble Size",
+							INP_Default = 8,
+							INP_MinScale = 1,
+							INP_MaxScale = 40
+						},
+						HmSteps = {
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = true,
+							LINKS_Name = "Colour Steps (0 = off)",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 16
+						},
+						HmGrain = {
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Paper Grain",
+							INP_Default = 0.25,
+							INP_MinScale = 0,
+							INP_MaxScale = 1
+						},
+						HmFlicker = {
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Light Flicker",
+							INP_Default = 0.05,
+							INP_MinScale = 0,
+							INP_MaxScale = 0.5
+						},
+						HmTurn = {
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Jitter Rotation",
+							INP_Default = 0.4,
+							INP_MinScale = 0,
+							INP_MaxScale = 5
+						},
+						HmEdge = {
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Dark Corners",
+							INP_Default = 0.25,
+							INP_MinScale = 0,
+							INP_MaxScale = 1
+						},
+						HmShift = {
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Jitter",
+							INP_Default = 0.004,
+							INP_MinScale = 0,
+							INP_MaxScale = 0.03
+						},
+						HmHold = {
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = true,
+							LINKS_Name = "Frames Per Step",
+							INP_Default = 4,
+							INP_MinScale = 1,
+							INP_MaxScale = 24
+						},
+						Step = {
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Step",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1000000
+						},
+						Nudge = {
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "Nudge"
+						},
+						Twist = {
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Twist",
+							INP_Default = 0,
+							INP_MinScale = -10,
+							INP_MaxScale = 10
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } },
+					Inputs = {
+						Twist = Input { Expression = "HmTurn*(function(s) local v = math.sin(Step*12.9898 + s)*43758.5453 return (v - math.floor(v))*2 - 1 end)(4.1)" },
+						Light = Input { Expression = "1 + HmFlicker*(function(s) local v = math.sin(Step*12.9898 + s)*43758.5453 return (v - math.floor(v))*2 - 1 end)(9.9)" },
+						GlobalIn = Input { Value = -480 },
+						Step = Input { Expression = "floor((time - comp.RenderStart)/max(HmHold, 1))" },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
+						Nudge = Input { Expression = "Point(HmShift*(function(s) local v = math.sin(Step*12.9898 + s)*43758.5453 return (v - math.floor(v))*2 - 1 end)(1.3), HmShift*(function(s) local v = math.sin(Step*12.9898 + s)*43758.5453 return (v - math.floor(v))*2 - 1 end)(7.7))" },
+						TopLeftAlpha = Input { Value = 0 }
+					},
+					CtrlWZoom = false
+				},
+				SrcA = BrightnessContrast {
+					ViewInfo = OperatorInfo { Pos = { -495, 16.5 } }
+				},
+				HandHold = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { -275, 49.5 } },
+					Inputs = {
+						Input = Input {
+							SourceOp = "SrcA",
+							Source = "Output"
+						},
+						InterpolateBetweenFrames = Input { Value = 0 },
+						SourceTime = Input {
+							SourceOp = "TimeStretcher1源时间",
+							Expression = "comp.RenderStart + HandCtrl.Step*max(HandCtrl.HmHold, 1)",
+							Source = "Value"
+						},
+						SampleSpread = Input { Disabled = true }
+					}
+				},
+				["TimeStretcher1源时间"] = BezierSpline {
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyFrames = {
+						[200] = { 0, Flags = { Linear = true } }
+					},
+					SplineColor = { Red = 233, Green = 217, Blue = 243 }
+				},
+				HandBoil = FastNoise {
+					ViewInfo = OperatorInfo { Pos = { -275, 115.5 } },
+					Inputs = {
+						Contrast = Input { Value = 1.5 },
+						XScale = Input { Expression = "HandCtrl.HmBoilSize" },
+						Seethe = Input { Expression = "HandCtrl.Step*0.37" },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Width = Input { Value = 960 },
+						Height = Input { Value = 540 },
+						Depth = Input { Value = 4 }
+					}
+				},
+				HandPaper = FastNoise {
+					ViewInfo = OperatorInfo { Pos = { -275, 148.5 } },
+					Inputs = {
+						Contrast = Input { Value = 1.5 },
+						XScale = Input { Value = 60 },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Width = Input { Value = 960 },
+						Height = Input { Value = 540 },
+						Depth = Input { Value = 4 },
+						Detail = Input { Value = 10 }
+					}
+				},
+				HandFinal = Custom {
+					ViewInfo = OperatorInfo { Pos = { 165, 49.5 } },
+					Inputs = {
+						Intermediate1 = Input { Value = "(getr2b(x, y) - 0.5)*2*n1" },
+						Intermediate2 = Input { Value = "(getr2b(frac(x + 0.37), frac(y + 0.61)) - 0.5)*2*n1*w/h" },
+						Intermediate3 = Input { Value = "0.5 + ((x - 0.5)*cos(n2) - (y - 0.5)*(h/w)*sin(n2))/n7 + p1x + i1" },
+						Intermediate4 = Input { Value = "0.5 + ((x - 0.5)*(w/h)*sin(n2) + (y - 0.5)*cos(n2))/n7 + p1y + i2" },
+						Intermediate5 = Input { Value = "(1 - n4*0.5 + n4*getr3b(x, y))*n5*(1 - n6*min(((x - 0.5)^2 + (y - 0.5)^2)*2.2, 1))" },
+						Image1 = Input {
+							SourceOp = "HandHold",
+							Source = "Output"
+						},
+						Image2 = Input {
+							SourceOp = "HandBoil",
+							Source = "Output"
+						},
+						Image3 = Input {
+							SourceOp = "HandPaper",
+							Source = "Output"
+						},
+						NumberIn1 = Input { Expression = "HandCtrl.HmBoil" },
+						NumberIn2 = Input { Expression = "HandCtrl.Twist" },
+						BlueExpression = Input { Value = "if(n3 >= 2, floor(getb1d(i3, i4)*n3 + 0.5)/n3, getb1d(i3, i4))*i5" },
+						NumberIn3 = Input { Expression = "HandCtrl.HmSteps" },
+						GreenExpression = Input { Value = "if(n3 >= 2, floor(getg1d(i3, i4)*n3 + 0.5)/n3, getg1d(i3, i4))*i5" },
+						NumberIn4 = Input { Expression = "HandCtrl.HmGrain" },
+						LUTIn1 = Input {
+							SourceOp = "CustomTool1LUTIn1",
+							Source = "Value"
+						},
+						NumberIn5 = Input { Expression = "HandCtrl.Light" },
+						LUTIn3 = Input {
+							SourceOp = "CustomTool1LUTIn3",
+							Source = "Value"
+						},
+						NumberIn6 = Input { Expression = "HandCtrl.HmEdge" },
+						RedExpression = Input { Value = "if(n3 >= 2, floor(getr1d(i3, i4)*n3 + 0.5)/n3, getr1d(i3, i4))*i5" },
+						NumberIn7 = Input { Expression = "1 + 2*HandCtrl.HmShift + 0.02*HandCtrl.HmTurn + 2*HandCtrl.HmBoil" },
+						LUTIn2 = Input {
+							SourceOp = "CustomTool1LUTIn2",
+							Source = "Value"
+						},
+						PointIn1 = Input { Expression = "HandCtrl.Nudge" },
+						LUTIn4 = Input {
+							SourceOp = "CustomTool1LUTIn4",
+							Source = "Value"
+						}
+					}
+				},
+				CustomTool1LUTIn1 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					}
+				},
+				CustomTool1LUTIn2 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					}
+				},
+				CustomTool1LUTIn3 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					}
+				},
+				CustomTool1LUTIn4 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					}
+				}
+			
+			}
+		}
+	},
+	ActiveTool = "Handmade"
+}

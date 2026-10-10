@@ -1,0 +1,284 @@
+{
+	Tools = ordered() {
+		WhipPan = MacroOperator {
+			CtrlWZoom = false,
+			Inputs = ordered() {
+				MainInput1 = InstanceInput { SourceOp = "SrcA", Source = "Input" },
+				MainInput2 = InstanceInput { SourceOp = "SrcB", Source = "Input" },
+				Input1 = InstanceInput { SourceOp = "WhipCtrl", Source = "WhipDir", Name = "Picture Moves" },
+				Input2 = InstanceInput { SourceOp = "WhipCtrl", Source = "WhipAngle", Name = "Extra Angle" },
+				Input3 = InstanceInput { SourceOp = "WhipCtrl", Source = "WhipBlur", Name = "Blur" },
+				Input4 = InstanceInput { SourceOp = "WhipCtrl", Source = "WhipSnap", Name = "Snap" },
+				Input5 = InstanceInput { SourceOp = "WhipCtrl", Source = "WhipScreens", Name = "Screens Travelled" },
+				Input6 = InstanceInput { SourceOp = "WhipCtrl", Source = "WhipZoom", Name = "Zoom While Moving" },
+			},
+			Outputs = {
+				MainOutput1 = InstanceOutput { SourceOp = "WhipFinal", Source = "Output" }
+			},
+			ViewInfo = GroupInfo { Pos = { 0, 0 } },
+			Tools = ordered() {
+				WhipCtrl = Background {
+					UserControls = {
+						WhipScreens = {
+							INP_Default = 1,
+							INP_MinScale = 1,
+							INP_MaxScale = 5,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = true,
+							LINKS_Name = "Screens Travelled"
+						},
+						WhipZoom = {
+							INP_Default = 0.06,
+							INP_MinScale = 0,
+							INP_MaxScale = 0.5,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Zoom While Moving"
+						},
+						WhipDir = {
+							{
+								CCS_AddString = "Left"
+							},
+							{
+								CCS_AddString = "Right"
+							},
+							{
+								CCS_AddString = "Up"
+							},
+							{
+								CCS_AddString = "Down"
+							},
+							INP_Default = 0,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "ComboControl",
+							INP_Integer = true,
+							LINKS_Name = "Picture Moves"
+						},
+						A = {
+							INP_Default = 0,
+							INP_MinScale = -360,
+							INP_MaxScale = 360,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "A"
+						},
+						P = {
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "P"
+						},
+						S = {
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "S"
+						},
+						WhipAngle = {
+							INP_Default = 0,
+							INP_MinScale = -45,
+							INP_MaxScale = 45,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Extra Angle"
+						},
+						WhipBlur = {
+							INP_Default = 0.35,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Blur"
+						},
+						WhipSnap = {
+							INP_Default = 2.5,
+							INP_MinScale = 1,
+							INP_MaxScale = 6,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Snap"
+						},
+						V = {
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "V"
+						}
+					},
+					CtrlWZoom = false,
+					Inputs = {
+						A = Input { Expression = "({180, 0, 270, 90})[WhipDir + 1] + WhipAngle" },
+						V = Input { Expression = "iif(P <= 0 or P >= 1, 0, (1 - abs(2*P - 1))^(WhipSnap - 1))" },
+						P = Input {
+							SourceOp = "WhipCtrlProgress",
+							Source = "Value"
+						},
+						UseFrameFormatSettings = Input { Value = 1 },
+						S = Input { Expression = "iif(P < 0.5, 0.5*(2*P)^WhipSnap, 1 - 0.5*(2 - 2*P)^WhipSnap)" },
+						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						TopLeftAlpha = Input { Value = 0 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } }
+					},
+					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } }
+				},
+				WhipCtrlProgress = LUTLookup {
+					Inputs = {
+						Lookup = Input {
+							SourceOp = "AnimCurves1查找表",
+							Source = "Value"
+						}
+					},
+					NameSet = true,
+					CtrlWZoom = false
+				},
+				["AnimCurves1查找表"] = LUTBezier {
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					SplineColor = { Blue = 0, Red = 0, Green = 0 }
+				},
+				SrcA = BrightnessContrast {
+					ViewInfo = OperatorInfo { Pos = { -495, 16.5 } }
+				},
+				SrcB = BrightnessContrast {
+					ViewInfo = OperatorInfo { Pos = { -495, 82.5 } }
+				},
+				WhipCam = Custom {
+					ViewInfo = OperatorInfo { Pos = { 55, 49.5 } },
+					Inputs = {
+						LUTIn1 = Input {
+							SourceOp = "CustomTool1LUTIn1",
+							Source = "Value"
+						},
+						LUTIn2 = Input {
+							SourceOp = "CustomTool1LUTIn2",
+							Source = "Value"
+						},
+						LUTIn3 = Input {
+							SourceOp = "CustomTool1LUTIn3",
+							Source = "Value"
+						},
+						LUTIn4 = Input {
+							SourceOp = "CustomTool1LUTIn4",
+							Source = "Value"
+						},
+						Intermediate5 = Input { Value = "if((i3 - 0.5)*i1 + (i4 - 0.5)*i2 > 0.5*n4*(i1*i1 + i2*i2), 1, 0)" },
+						Intermediate6 = Input { Value = "abs(frac((i3 - i5*n4*i1 + 3)/2)*2 - 1)" },
+						Intermediate7 = Input { Value = "abs(frac((i4 - i5*n4*i2 + 3)/2)*2 - 1)" },
+						RedExpression = Input { Value = "if(n1 <= 0, r1, if(n1 >= 1, r2, if(i5 > 0, getr2b(i6, i7), getr1b(i6, i7))))" },
+						GreenExpression = Input { Value = "if(n1 <= 0, g1, if(n1 >= 1, g2, if(i5 > 0, getg2b(i6, i7), getg1b(i6, i7))))" },
+						NumberIn1 = Input { Expression = "WhipCtrl.P" },
+						BlueExpression = Input { Value = "if(n1 <= 0, b1, if(n1 >= 1, b2, if(i5 > 0, getb2b(i6, i7), getb1b(i6, i7))))" },
+						NumberIn2 = Input { Expression = "WhipCtrl.S * WhipCtrl.WhipScreens" },
+						AlphaExpression = Input { Value = "1" },
+						NumberIn3 = Input { Expression = "WhipCtrl.A" },
+						NumberIn4 = Input { Expression = "WhipCtrl.WhipScreens" },
+						Image2 = Input {
+							SourceOp = "SrcB",
+							Source = "Output"
+						},
+						NumberIn5 = Input { Expression = "1 + WhipCtrl.WhipZoom * WhipCtrl.V" },
+						Image1 = Input {
+							SourceOp = "SrcA",
+							Source = "Output"
+						},
+						Intermediate4 = Input { Value = "0.5 + (y - 0.5)/n5 + n2*i2" },
+						Intermediate1 = Input { Value = "-cos(n3)/max(abs(cos(n3)), abs(sin(n3)))" },
+						Intermediate3 = Input { Value = "0.5 + (x - 0.5)/n5 + n2*i1" },
+						Intermediate2 = Input { Value = "-sin(n3)/max(abs(cos(n3)), abs(sin(n3)))" }
+					}
+				},
+				CustomTool1LUTIn1 = LUTBezier {
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					SplineColor = { Blue = 0, Red = 0, Green = 0 }
+				},
+				CustomTool1LUTIn2 = LUTBezier {
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					SplineColor = { Blue = 0, Red = 0, Green = 0 }
+				},
+				CustomTool1LUTIn3 = LUTBezier {
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					SplineColor = { Blue = 0, Red = 0, Green = 0 }
+				},
+				CustomTool1LUTIn4 = LUTBezier {
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					SplineColor = { Blue = 0, Red = 0, Green = 0 }
+				},
+				WhipFinal = DirectionalBlur {
+					ViewInfo = OperatorInfo { Pos = { 275, 49.5 } },
+					Inputs = {
+						Length = Input { Expression = "WhipCtrl.WhipBlur * WhipCtrl.V" },
+						Input = Input {
+							SourceOp = "WhipCam",
+							Source = "Output"
+						},
+						Angle = Input { Expression = "WhipCtrl.A" }
+					}
+				}
+			
+			}
+		}
+	},
+	ActiveTool = "WhipPan"
+}

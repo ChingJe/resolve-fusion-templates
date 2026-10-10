@@ -1,0 +1,926 @@
+{
+	Tools = ordered() {
+		Echo = MacroOperator {
+			CtrlWZoom = false,
+			Inputs = ordered() {
+				MainInput1 = InstanceInput { SourceOp = "SrcA", Source = "Input" },
+				Input1 = InstanceInput { SourceOp = "EchoCtrl", Source = "EcCount", Name = "Echoes" },
+				Input2 = InstanceInput { SourceOp = "EchoCtrl", Source = "EcGap", Name = "Frames Apart" },
+				Input3 = InstanceInput { SourceOp = "EchoCtrl", Source = "EcBlend", Name = "Echoes Show Where They Are" },
+				Input4 = InstanceInput { SourceOp = "EchoCtrl", Source = "EcStrength", Name = "Strength" },
+				Input5 = InstanceInput { SourceOp = "EchoCtrl", Source = "EcDecay", Name = "Each Echo Weaker By" },
+				Input6 = InstanceInput { SourceOp = "EchoCtrl", Source = "EcAhead", Name = "Echoes Lead Instead Of Trail" },
+			},
+			Outputs = {
+				MainOutput1 = InstanceOutput { SourceOp = "EchoFinal", Source = "Output" }
+			},
+			ViewInfo = GroupInfo { Pos = { 0, 0 } },
+			Tools = ordered() {
+				EchoCtrl = Background {
+					UserControls = {
+						EcAhead = {
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "CheckboxControl",
+							LINKS_Name = "Echoes Lead Instead Of Trail",
+							INP_Default = 0,
+							LINKID_DataType = "Number",
+							INP_Integer = true
+						},
+						EcCount = {
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Echoes",
+							INP_Default = 5,
+							INP_MinScale = 1,
+							INP_MaxScale = 8,
+							INP_Integer = true
+						},
+						EcGap = {
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Frames Apart",
+							INP_Default = 3,
+							INP_MinScale = 1,
+							INP_MaxScale = 20,
+							INP_Integer = true
+						},
+						EcStrength = {
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Strength",
+							INP_Default = 0.8,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							INP_Integer = false
+						},
+						EcBlend = {
+							{
+								CCS_AddString = "Brighter"
+							},
+							{
+								CCS_AddString = "Darker"
+							},
+							{
+								CCS_AddString = "Anywhere (plain mix)"
+							},
+							{
+								CCS_AddString = "Added On Top"
+							},
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "ComboControl",
+							LINKS_Name = "Echoes Show Where They Are",
+							INP_Default = 0,
+							INP_Integer = true,
+							LINKID_DataType = "Number"
+						},
+						EcDecay = {
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Each Echo Weaker By",
+							INP_Default = 0.25,
+							INP_MinScale = 0,
+							INP_MaxScale = 0.9,
+							INP_Integer = false
+						}
+					},
+					CtrlWZoom = false,
+					Inputs = {
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						GlobalIn = Input { Value = -480 },
+						TopLeftAlpha = Input { Value = 0 }
+					},
+					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } }
+				},
+				SrcA = BrightnessContrast {
+					ViewInfo = OperatorInfo { Pos = { -495, 16.5 } }
+				},
+				EchoLag1 = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { -275, 82.5 } },
+					Inputs = {
+						SampleSpread = Input { Disabled = true },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "SrcA"
+						},
+						InterpolateBetweenFrames = Input { Value = 0 },
+						SourceTime = Input {
+							Expression = "min(max(time + iif(EchoCtrl.EcAhead == 1, 1, -1)*1*EchoCtrl.EcGap, comp.GlobalStart), comp.GlobalEnd)",
+							Source = "Value",
+							SourceOp = "TimeStretcher1源时间7"
+						}
+					}
+				},
+				["TimeStretcher1源时间7"] = BezierSpline {
+					SplineColor = { Red = 233, Green = 217, Blue = 243 },
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyFrames = {
+						[200] = { 0, Flags = { Linear = true } }
+					}
+				},
+				EchoLag2 = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { -165, 82.5 } },
+					Inputs = {
+						SampleSpread = Input { Disabled = true },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "SrcA"
+						},
+						InterpolateBetweenFrames = Input { Value = 0 },
+						SourceTime = Input {
+							Expression = "min(max(time + iif(EchoCtrl.EcAhead == 1, 1, -1)*2*EchoCtrl.EcGap, comp.GlobalStart), comp.GlobalEnd)",
+							Source = "Value",
+							SourceOp = "TimeStretcher1源时间6"
+						}
+					}
+				},
+				["TimeStretcher1源时间6"] = BezierSpline {
+					SplineColor = { Red = 233, Green = 217, Blue = 243 },
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyFrames = {
+						[200] = { 0, Flags = { Linear = true } }
+					}
+				},
+				EchoLag3 = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { -55, 82.5 } },
+					Inputs = {
+						SampleSpread = Input { Disabled = true },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "SrcA"
+						},
+						InterpolateBetweenFrames = Input { Value = 0 },
+						SourceTime = Input {
+							Expression = "min(max(time + iif(EchoCtrl.EcAhead == 1, 1, -1)*3*EchoCtrl.EcGap, comp.GlobalStart), comp.GlobalEnd)",
+							Source = "Value",
+							SourceOp = "TimeStretcher1源时间5"
+						}
+					}
+				},
+				["TimeStretcher1源时间5"] = BezierSpline {
+					SplineColor = { Red = 233, Green = 217, Blue = 243 },
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyFrames = {
+						[200] = { 0, Flags = { Linear = true } }
+					}
+				},
+				EchoLag4 = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { 55, 82.5 } },
+					Inputs = {
+						SampleSpread = Input { Disabled = true },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "SrcA"
+						},
+						InterpolateBetweenFrames = Input { Value = 0 },
+						SourceTime = Input {
+							Expression = "min(max(time + iif(EchoCtrl.EcAhead == 1, 1, -1)*4*EchoCtrl.EcGap, comp.GlobalStart), comp.GlobalEnd)",
+							Source = "Value",
+							SourceOp = "TimeStretcher1源时间4"
+						}
+					}
+				},
+				["TimeStretcher1源时间4"] = BezierSpline {
+					SplineColor = { Red = 233, Green = 217, Blue = 243 },
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyFrames = {
+						[200] = { 0, Flags = { Linear = true } }
+					}
+				},
+				EchoLag5 = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { 165, 82.5 } },
+					Inputs = {
+						SampleSpread = Input { Disabled = true },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "SrcA"
+						},
+						InterpolateBetweenFrames = Input { Value = 0 },
+						SourceTime = Input {
+							Expression = "min(max(time + iif(EchoCtrl.EcAhead == 1, 1, -1)*5*EchoCtrl.EcGap, comp.GlobalStart), comp.GlobalEnd)",
+							Source = "Value",
+							SourceOp = "TimeStretcher1源时间3"
+						}
+					}
+				},
+				["TimeStretcher1源时间3"] = BezierSpline {
+					SplineColor = { Red = 233, Green = 217, Blue = 243 },
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyFrames = {
+						[200] = { 0, Flags = { Linear = true } }
+					}
+				},
+				EchoLag6 = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { 275, 82.5 } },
+					Inputs = {
+						SampleSpread = Input { Disabled = true },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "SrcA"
+						},
+						InterpolateBetweenFrames = Input { Value = 0 },
+						SourceTime = Input {
+							Expression = "min(max(time + iif(EchoCtrl.EcAhead == 1, 1, -1)*6*EchoCtrl.EcGap, comp.GlobalStart), comp.GlobalEnd)",
+							Source = "Value",
+							SourceOp = "TimeStretcher1源时间2"
+						}
+					}
+				},
+				["TimeStretcher1源时间2"] = BezierSpline {
+					SplineColor = { Red = 233, Green = 217, Blue = 243 },
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyFrames = {
+						[200] = { 0, Flags = { Linear = true } }
+					}
+				},
+				EchoLag7 = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { 385, 82.5 } },
+					Inputs = {
+						SampleSpread = Input { Disabled = true },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "SrcA"
+						},
+						InterpolateBetweenFrames = Input { Value = 0 },
+						SourceTime = Input {
+							Expression = "min(max(time + iif(EchoCtrl.EcAhead == 1, 1, -1)*7*EchoCtrl.EcGap, comp.GlobalStart), comp.GlobalEnd)",
+							Source = "Value",
+							SourceOp = "TimeStretcher1源时间1"
+						}
+					}
+				},
+				["TimeStretcher1源时间1"] = BezierSpline {
+					SplineColor = { Red = 233, Green = 217, Blue = 243 },
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyFrames = {
+						[200] = { 0, Flags = { Linear = true } }
+					}
+				},
+				EchoLag8 = TimeStretcher {
+					ViewInfo = OperatorInfo { Pos = { 495, 82.5 } },
+					Inputs = {
+						SampleSpread = Input { Disabled = true },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "SrcA"
+						},
+						InterpolateBetweenFrames = Input { Value = 0 },
+						SourceTime = Input {
+							Expression = "min(max(time + iif(EchoCtrl.EcAhead == 1, 1, -1)*8*EchoCtrl.EcGap, comp.GlobalStart), comp.GlobalEnd)",
+							Source = "Value",
+							SourceOp = "TimeStretcher1源时间"
+						}
+					}
+				},
+				["TimeStretcher1源时间"] = BezierSpline {
+					SplineColor = { Red = 233, Green = 217, Blue = 243 },
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyFrames = {
+						[200] = { 0, Flags = { Linear = true } }
+					}
+				},
+				EchoMix8 = Custom {
+					ViewInfo = OperatorInfo { Pos = { 495, 115.5 } },
+					Inputs = {
+						NumberIn2 = Input { Expression = "EchoCtrl.EcBlend" },
+						RedExpression = Input { Value = "if(n2 == 0, max(r1, r2*n1), if(n2 == 1, r1 + (min(r1, r2) - r1)*n1, if(n2 == 2, r1 + (r2 - r1)*n1*0.5, r1 + r2*n1*0.5)))" },
+						LUTIn2 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn2"
+						},
+						LUTIn3 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn3"
+						},
+						LUTIn4 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn4"
+						},
+						LUTIn1 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn1"
+						},
+						Image1 = Input {
+							Source = "Output",
+							SourceOp = "SrcA"
+						},
+						BlueExpression = Input { Value = "if(n2 == 0, max(b1, b2*n1), if(n2 == 1, b1 + (min(b1, b2) - b1)*n1, if(n2 == 2, b1 + (b2 - b1)*n1*0.5, b1 + b2*n1*0.5)))" },
+						GreenExpression = Input { Value = "if(n2 == 0, max(g1, g2*n1), if(n2 == 1, g1 + (min(g1, g2) - g1)*n1, if(n2 == 2, g1 + (g2 - g1)*n1*0.5, g1 + g2*n1*0.5)))" },
+						Image2 = Input {
+							Source = "Output",
+							SourceOp = "EchoLag8"
+						},
+						NumberIn1 = Input { Expression = "iif(8 <= EchoCtrl.EcCount, EchoCtrl.EcStrength * (1 - EchoCtrl.EcDecay)^7, 0)" }
+					}
+				},
+				CustomTool1LUTIn1 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn2 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn3 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn4 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				EchoMix7 = Custom {
+					ViewInfo = OperatorInfo { Pos = { 385, 115.5 } },
+					Inputs = {
+						NumberIn2 = Input { Expression = "EchoCtrl.EcBlend" },
+						RedExpression = Input { Value = "if(n2 == 0, max(r1, r2*n1), if(n2 == 1, r1 + (min(r1, r2) - r1)*n1, if(n2 == 2, r1 + (r2 - r1)*n1*0.5, r1 + r2*n1*0.5)))" },
+						LUTIn2 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn21"
+						},
+						LUTIn3 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn31"
+						},
+						LUTIn4 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn41"
+						},
+						LUTIn1 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn11"
+						},
+						Image1 = Input {
+							Source = "Output",
+							SourceOp = "EchoMix8"
+						},
+						BlueExpression = Input { Value = "if(n2 == 0, max(b1, b2*n1), if(n2 == 1, b1 + (min(b1, b2) - b1)*n1, if(n2 == 2, b1 + (b2 - b1)*n1*0.5, b1 + b2*n1*0.5)))" },
+						GreenExpression = Input { Value = "if(n2 == 0, max(g1, g2*n1), if(n2 == 1, g1 + (min(g1, g2) - g1)*n1, if(n2 == 2, g1 + (g2 - g1)*n1*0.5, g1 + g2*n1*0.5)))" },
+						Image2 = Input {
+							Source = "Output",
+							SourceOp = "EchoLag7"
+						},
+						NumberIn1 = Input { Expression = "iif(7 <= EchoCtrl.EcCount, EchoCtrl.EcStrength * (1 - EchoCtrl.EcDecay)^6, 0)" }
+					}
+				},
+				CustomTool1LUTIn11 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn21 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn31 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn41 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				EchoMix6 = Custom {
+					ViewInfo = OperatorInfo { Pos = { 275, 115.5 } },
+					Inputs = {
+						NumberIn2 = Input { Expression = "EchoCtrl.EcBlend" },
+						RedExpression = Input { Value = "if(n2 == 0, max(r1, r2*n1), if(n2 == 1, r1 + (min(r1, r2) - r1)*n1, if(n2 == 2, r1 + (r2 - r1)*n1*0.5, r1 + r2*n1*0.5)))" },
+						LUTIn2 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn22"
+						},
+						LUTIn3 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn32"
+						},
+						LUTIn4 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn42"
+						},
+						LUTIn1 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn12"
+						},
+						Image1 = Input {
+							Source = "Output",
+							SourceOp = "EchoMix7"
+						},
+						BlueExpression = Input { Value = "if(n2 == 0, max(b1, b2*n1), if(n2 == 1, b1 + (min(b1, b2) - b1)*n1, if(n2 == 2, b1 + (b2 - b1)*n1*0.5, b1 + b2*n1*0.5)))" },
+						GreenExpression = Input { Value = "if(n2 == 0, max(g1, g2*n1), if(n2 == 1, g1 + (min(g1, g2) - g1)*n1, if(n2 == 2, g1 + (g2 - g1)*n1*0.5, g1 + g2*n1*0.5)))" },
+						Image2 = Input {
+							Source = "Output",
+							SourceOp = "EchoLag6"
+						},
+						NumberIn1 = Input { Expression = "iif(6 <= EchoCtrl.EcCount, EchoCtrl.EcStrength * (1 - EchoCtrl.EcDecay)^5, 0)" }
+					}
+				},
+				CustomTool1LUTIn12 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn22 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn32 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn42 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				EchoMix5 = Custom {
+					ViewInfo = OperatorInfo { Pos = { 165, 115.5 } },
+					Inputs = {
+						NumberIn2 = Input { Expression = "EchoCtrl.EcBlend" },
+						RedExpression = Input { Value = "if(n2 == 0, max(r1, r2*n1), if(n2 == 1, r1 + (min(r1, r2) - r1)*n1, if(n2 == 2, r1 + (r2 - r1)*n1*0.5, r1 + r2*n1*0.5)))" },
+						LUTIn2 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn23"
+						},
+						LUTIn3 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn33"
+						},
+						LUTIn4 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn43"
+						},
+						LUTIn1 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn13"
+						},
+						Image1 = Input {
+							Source = "Output",
+							SourceOp = "EchoMix6"
+						},
+						BlueExpression = Input { Value = "if(n2 == 0, max(b1, b2*n1), if(n2 == 1, b1 + (min(b1, b2) - b1)*n1, if(n2 == 2, b1 + (b2 - b1)*n1*0.5, b1 + b2*n1*0.5)))" },
+						GreenExpression = Input { Value = "if(n2 == 0, max(g1, g2*n1), if(n2 == 1, g1 + (min(g1, g2) - g1)*n1, if(n2 == 2, g1 + (g2 - g1)*n1*0.5, g1 + g2*n1*0.5)))" },
+						Image2 = Input {
+							Source = "Output",
+							SourceOp = "EchoLag5"
+						},
+						NumberIn1 = Input { Expression = "iif(5 <= EchoCtrl.EcCount, EchoCtrl.EcStrength * (1 - EchoCtrl.EcDecay)^4, 0)" }
+					}
+				},
+				CustomTool1LUTIn13 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn23 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn33 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn43 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				EchoMix4 = Custom {
+					ViewInfo = OperatorInfo { Pos = { 55, 115.5 } },
+					Inputs = {
+						NumberIn2 = Input { Expression = "EchoCtrl.EcBlend" },
+						RedExpression = Input { Value = "if(n2 == 0, max(r1, r2*n1), if(n2 == 1, r1 + (min(r1, r2) - r1)*n1, if(n2 == 2, r1 + (r2 - r1)*n1*0.5, r1 + r2*n1*0.5)))" },
+						LUTIn2 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn24"
+						},
+						LUTIn3 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn34"
+						},
+						LUTIn4 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn44"
+						},
+						LUTIn1 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn14"
+						},
+						Image1 = Input {
+							Source = "Output",
+							SourceOp = "EchoMix5"
+						},
+						BlueExpression = Input { Value = "if(n2 == 0, max(b1, b2*n1), if(n2 == 1, b1 + (min(b1, b2) - b1)*n1, if(n2 == 2, b1 + (b2 - b1)*n1*0.5, b1 + b2*n1*0.5)))" },
+						GreenExpression = Input { Value = "if(n2 == 0, max(g1, g2*n1), if(n2 == 1, g1 + (min(g1, g2) - g1)*n1, if(n2 == 2, g1 + (g2 - g1)*n1*0.5, g1 + g2*n1*0.5)))" },
+						Image2 = Input {
+							Source = "Output",
+							SourceOp = "EchoLag4"
+						},
+						NumberIn1 = Input { Expression = "iif(4 <= EchoCtrl.EcCount, EchoCtrl.EcStrength * (1 - EchoCtrl.EcDecay)^3, 0)" }
+					}
+				},
+				CustomTool1LUTIn14 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn24 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn34 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn44 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				EchoMix3 = Custom {
+					ViewInfo = OperatorInfo { Pos = { -55, 115.5 } },
+					Inputs = {
+						NumberIn2 = Input { Expression = "EchoCtrl.EcBlend" },
+						RedExpression = Input { Value = "if(n2 == 0, max(r1, r2*n1), if(n2 == 1, r1 + (min(r1, r2) - r1)*n1, if(n2 == 2, r1 + (r2 - r1)*n1*0.5, r1 + r2*n1*0.5)))" },
+						LUTIn2 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn25"
+						},
+						LUTIn3 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn35"
+						},
+						LUTIn4 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn45"
+						},
+						LUTIn1 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn15"
+						},
+						Image1 = Input {
+							Source = "Output",
+							SourceOp = "EchoMix4"
+						},
+						BlueExpression = Input { Value = "if(n2 == 0, max(b1, b2*n1), if(n2 == 1, b1 + (min(b1, b2) - b1)*n1, if(n2 == 2, b1 + (b2 - b1)*n1*0.5, b1 + b2*n1*0.5)))" },
+						GreenExpression = Input { Value = "if(n2 == 0, max(g1, g2*n1), if(n2 == 1, g1 + (min(g1, g2) - g1)*n1, if(n2 == 2, g1 + (g2 - g1)*n1*0.5, g1 + g2*n1*0.5)))" },
+						Image2 = Input {
+							Source = "Output",
+							SourceOp = "EchoLag3"
+						},
+						NumberIn1 = Input { Expression = "iif(3 <= EchoCtrl.EcCount, EchoCtrl.EcStrength * (1 - EchoCtrl.EcDecay)^2, 0)" }
+					}
+				},
+				CustomTool1LUTIn15 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn25 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn35 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn45 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				EchoMix2 = Custom {
+					ViewInfo = OperatorInfo { Pos = { -165, 115.5 } },
+					Inputs = {
+						NumberIn2 = Input { Expression = "EchoCtrl.EcBlend" },
+						RedExpression = Input { Value = "if(n2 == 0, max(r1, r2*n1), if(n2 == 1, r1 + (min(r1, r2) - r1)*n1, if(n2 == 2, r1 + (r2 - r1)*n1*0.5, r1 + r2*n1*0.5)))" },
+						LUTIn2 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn26"
+						},
+						LUTIn3 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn36"
+						},
+						LUTIn4 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn46"
+						},
+						LUTIn1 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn16"
+						},
+						Image1 = Input {
+							Source = "Output",
+							SourceOp = "EchoMix3"
+						},
+						BlueExpression = Input { Value = "if(n2 == 0, max(b1, b2*n1), if(n2 == 1, b1 + (min(b1, b2) - b1)*n1, if(n2 == 2, b1 + (b2 - b1)*n1*0.5, b1 + b2*n1*0.5)))" },
+						GreenExpression = Input { Value = "if(n2 == 0, max(g1, g2*n1), if(n2 == 1, g1 + (min(g1, g2) - g1)*n1, if(n2 == 2, g1 + (g2 - g1)*n1*0.5, g1 + g2*n1*0.5)))" },
+						Image2 = Input {
+							Source = "Output",
+							SourceOp = "EchoLag2"
+						},
+						NumberIn1 = Input { Expression = "iif(2 <= EchoCtrl.EcCount, EchoCtrl.EcStrength * (1 - EchoCtrl.EcDecay)^1, 0)" }
+					}
+				},
+				CustomTool1LUTIn16 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn26 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn36 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn46 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				EchoFinal = Custom {
+					ViewInfo = OperatorInfo { Pos = { -275, 115.5 } },
+					Inputs = {
+						NumberIn2 = Input { Expression = "EchoCtrl.EcBlend" },
+						RedExpression = Input { Value = "if(n2 == 0, max(r1, r2*n1), if(n2 == 1, r1 + (min(r1, r2) - r1)*n1, if(n2 == 2, r1 + (r2 - r1)*n1*0.5, r1 + r2*n1*0.5)))" },
+						LUTIn2 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn27"
+						},
+						LUTIn3 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn37"
+						},
+						LUTIn4 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn47"
+						},
+						LUTIn1 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn17"
+						},
+						Image1 = Input {
+							Source = "Output",
+							SourceOp = "EchoMix2"
+						},
+						BlueExpression = Input { Value = "if(n2 == 0, max(b1, b2*n1), if(n2 == 1, b1 + (min(b1, b2) - b1)*n1, if(n2 == 2, b1 + (b2 - b1)*n1*0.5, b1 + b2*n1*0.5)))" },
+						GreenExpression = Input { Value = "if(n2 == 0, max(g1, g2*n1), if(n2 == 1, g1 + (min(g1, g2) - g1)*n1, if(n2 == 2, g1 + (g2 - g1)*n1*0.5, g1 + g2*n1*0.5)))" },
+						Image2 = Input {
+							Source = "Output",
+							SourceOp = "EchoLag1"
+						},
+						NumberIn1 = Input { Expression = "iif(1 <= EchoCtrl.EcCount, EchoCtrl.EcStrength * (1 - EchoCtrl.EcDecay)^0, 0)" }
+					}
+				},
+				CustomTool1LUTIn17 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn27 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn37 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn47 = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				}
+			
+			}
+		}
+	},
+	ActiveTool = "Echo"
+}

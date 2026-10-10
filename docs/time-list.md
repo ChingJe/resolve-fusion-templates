@@ -1,8 +1,8 @@
 # 時間清單的寫法
 
-Chapter Bar、Kinetic Lines、Punch Zoom 都用一個多行文字框來列時間點，寫法相同：一行一個，開頭寫時間，後面寫內容。Variety Caption 和 Side Note 勾選 `Lines Start With A Time` 之後也是同一種寫法。
+Chapter Bar、Kinetic Lines、Punch Zoom、Glitch Hits、Freeze Frame、Karaoke Caption 都用一個多行文字框來列時間點，寫法相同：一行一個，開頭寫時間，後面寫內容。Variety Caption 和 Side Note 勾選 `Lines Start With A Time` 之後也是同一種寫法。
 
-Photo Stack 的 `Last Photo Arrives After` 只填一個時間點，寫法也一樣。
+Photo Stack 的 `Last Photo Arrives After` 和 Hidden Word 的 `Reveal After` 只填一個時間點，寫法也一樣。
 
 不想寫時間的話，Kinetic Lines、Variety Caption、Side Note 可以改用關鍵幀換句，做法見 [Variety Caption](templates/variety-caption.md)。
 
@@ -31,6 +31,9 @@ Photo Stack 的 `Last Photo Arrives After` 只填一個時間點，寫法也一�
 | [Chapter Bar](templates/chapter-bar.md) | 章節名稱 | `1:25 第一段` |
 | [Kinetic Lines](templates/kinetic-lines.md) | 要顯示的文字，直線符號（&#124;）是換行；不寫就是清空畫面 | `0:05 這一句` |
 | [Punch Zoom](templates/punch-zoom.md) | 那一下的力道倍數，可以不寫 | `0:03 1.5` |
+| [Glitch Hits](templates/glitch-hits.md) | 那一下的強度倍數，可以不寫 | `0:03 1.5` |
+| [Freeze Frame](templates/freeze-frame.md) | 停幾秒，不寫就是 1 秒 | `0:02 1.5` |
+| [Karaoke Caption](templates/karaoke-caption.md) | 那一句字幕 | `0:05 這一句` |
 
 ## 規則
 

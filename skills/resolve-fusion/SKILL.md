@@ -48,6 +48,7 @@ t.Size:SetExpression("ComicCtrl.TextSize * ComicCtrl.Zoom")
 | `check.lua` | 把範本貼進清空的實驗合成、接上測試畫面（`FX_SRC=media` 改接真實片段）、算圖 |
 | `compose.lua` | 把同一個範本貼好幾份、各給不同設定、疊在測試畫面上算圖，用來看多個片段組合起來的樣子 |
 | `sheet.py` | 畫格拼總覽圖 |
+| `t.sh` | 測試用：跑一支建置腳本、算圖、拼總覽圖，一行完成 |
 | `gif.py` | 把算好的畫格轉成 GIF |
 | `previews.sh` | 一次重算 `previews/` 裡所有的 GIF（或只算指定的幾個），各範本用的設定和 `fixtures/` 裡的文字都寫在裡面 |
 
@@ -69,6 +70,21 @@ t.Size:SetExpression("ComicCtrl.TextSize * ComicCtrl.Zoom")
 | `sidenote.lua` | Side Note，吐槽小字加手繪箭頭 | 標題 |
 | `textlabel.lua` | Text Label，文字加自動貼合的外框，九種形狀，用來拼接 | 標題 |
 | `reaction.lua` | Reaction Mark，怒氣、汗滴、問號、驚嘆號、集中線 | 標題 |
+| `whippan.lua` | Whip Pan，甩鏡 | 轉場 |
+| `zoomthrough.lua` | Zoom Through，衝進前一段、衝出來是後一段 | 轉場 |
+| `barwipe.lua` | Colour Bars，彩色色帶依序掃過 | 轉場 |
+| `glitchcut.lua` | Glitch Cut，訊號不良式的轉場 | 轉場 |
+| `glitchhits.lua` | Glitch Hits，在指定時間點故障一下 | 特效 |
+| `subwindow.lua` | Sub Window，角落的子畫面 | 特效 |
+| `spotlight.lua` | Spotlight，聚光和放大鏡 | 特效 |
+| `freezeframe.lua` | Freeze Frame，停格介紹 | 特效 |
+| `echo.lua` | Echo，殘影 | 特效 |
+| `handmade.lua` | Handmade，定格動畫的手作感 | 特效 |
+| `countdown.lua` | Countdown，倒數計時 | 標題 |
+| `karaoke.lua` | Karaoke Caption，逐字填色的字幕 | 標題 |
+| `hiddenword.lua` | Hidden Word，貼紙蓋住的詞到時間揭曉 | 標題 |
+
+從 `whippan.lua` 開始的腳本用 `lib.lua` 的 `L.panel`（控制項寫成有順序的清單，自動產生匯出規格）、`L.feeds`（影像入口和轉場進度）、`L.ship`（匯出或測試算圖）。新範本照這個寫法，一支腳本可以短很多。另有 `L.glitch`（故障畫面的 `Custom`）、`L.hits`（時間點清單轉成強度）、`L.mirror`（畫面外鏡像補滿）。
 
 一個範本從頭到尾的指令（在 `scripts/` 底下執行，`FU` 是 fuscript 的路徑）：
 

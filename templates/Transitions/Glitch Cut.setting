@@ -1,0 +1,257 @@
+{
+	Tools = ordered() {
+		GlitchCut = MacroOperator {
+			CtrlWZoom = false,
+			Inputs = ordered() {
+				MainInput1 = InstanceInput { SourceOp = "SrcA", Source = "Input" },
+				MainInput2 = InstanceInput { SourceOp = "SrcB", Source = "Input" },
+				Input1 = InstanceInput { SourceOp = "GcCtrl", Source = "GcAmount", Name = "Strength" },
+				Input2 = InstanceInput { SourceOp = "GcCtrl", Source = "GcShift", Name = "Sideways Jump" },
+				Input3 = InstanceInput { SourceOp = "GcCtrl", Source = "GcSplit", Name = "RGB Split" },
+				Input4 = InstanceInput { SourceOp = "GcCtrl", Source = "GcBands", Name = "Bands" },
+				Input5 = InstanceInput { SourceOp = "GcCtrl", Source = "GcBlocks", Name = "Misplaced Blocks" },
+				Input6 = InstanceInput { SourceOp = "GcCtrl", Source = "GcLines", Name = "Scan Lines" },
+				Input7 = InstanceInput { SourceOp = "GcCtrl", Source = "GcHold", Name = "Frames Per Change" },
+				Input8 = InstanceInput { SourceOp = "GcCtrl", Source = "GcSeed", Name = "Pattern" },
+			},
+			Outputs = {
+				MainOutput1 = InstanceOutput { SourceOp = "GcFinal", Source = "Output" }
+			},
+			ViewInfo = GroupInfo { Pos = { 0, 0 } },
+			Tools = ordered() {
+				GcCtrl = Background {
+					Inputs = {
+						P = Input {
+							Source = "Value",
+							SourceOp = "GcCtrlProgress"
+						},
+						GlobalIn = Input { Value = -480 },
+						TopLeftAlpha = Input { Value = 0 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
+						UseFrameFormatSettings = Input { Value = 1 }
+					},
+					UserControls = {
+						P = {
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "P",
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						GcBlocks = {
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Misplaced Blocks",
+							INP_Default = 0.15,
+							INP_MinScale = 0
+						},
+						GcAmount = {
+							INP_MaxScale = 2,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Strength",
+							INP_Default = 1,
+							INP_MinScale = 0
+						},
+						GcShift = {
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Sideways Jump",
+							INP_Default = 0.25,
+							INP_MinScale = 0
+						},
+						GcSplit = {
+							INP_MaxScale = 0.1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "RGB Split",
+							INP_Default = 0.02,
+							INP_MinScale = 0
+						},
+						GcHold = {
+							INP_MaxScale = 12,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = true,
+							LINKS_Name = "Frames Per Change",
+							INP_Default = 2,
+							INP_MinScale = 1
+						},
+						GcBands = {
+							INP_MaxScale = 60,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = true,
+							LINKS_Name = "Bands",
+							INP_Default = 14,
+							INP_MinScale = 2
+						},
+						GcLines = {
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Scan Lines",
+							INP_Default = 0.3,
+							INP_MinScale = 0
+						},
+						GcSeed = {
+							INP_MaxScale = 50,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Pattern",
+							INP_Default = 0,
+							INP_MinScale = 0
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } },
+					CtrlWZoom = false
+				},
+				GcCtrlProgress = LUTLookup {
+					Inputs = {
+						Lookup = Input {
+							Source = "Value",
+							SourceOp = "AnimCurves1查找表"
+						}
+					},
+					NameSet = true,
+					CtrlWZoom = false
+				},
+				["AnimCurves1查找表"] = LUTBezier {
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Green = 0, Red = 0, Blue = 0 },
+					CtrlWZoom = false
+				},
+				SrcA = BrightnessContrast {
+					ViewInfo = OperatorInfo { Pos = { -495, 16.5 } }
+				},
+				SrcB = BrightnessContrast {
+					ViewInfo = OperatorInfo { Pos = { -495, 82.5 } }
+				},
+				GcFinal = Custom {
+					Inputs = {
+						Intermediate8 = Input { Value = "if(frac(i1*3.71 + i2*0.2) < n2, 1, 0)" },
+						NumberIn8 = Input { Expression = "GcCtrl.GcLines" },
+						Intermediate1 = Input { Value = "abs(frac(sin((floor(y*n3 + 10*abs(frac(sin((1)*12.9898 + n6*78.233 + p1x*3.7)*43758.5453))))*12.9898 + n6*78.233 + p1x*3.7)*43758.5453))" },
+						Image2 = Input {
+							Source = "Output",
+							SourceOp = "SrcB"
+						},
+						LUTIn1 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn1"
+						},
+						LUTIn2 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn2"
+						},
+						LUTIn3 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn3"
+						},
+						LUTIn4 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn4"
+						},
+						Image1 = Input {
+							Source = "Output",
+							SourceOp = "SrcA"
+						},
+						NumberIn3 = Input { Expression = "GcCtrl.GcBands" },
+						NumberIn4 = Input { Expression = "GcCtrl.GcShift" },
+						NumberIn5 = Input { Expression = "GcCtrl.GcSplit" },
+						NumberIn6 = Input { Expression = "floor(time/max(GcCtrl.GcHold, 1))" },
+						RedExpression = Input { Value = "if(n1 <= 0, if(n2 >= 0.5, r2, r1), if(i8 > 0, getr2b(frac(i6 + 1*n5*n1*(0.5 + i1) + 4), i7), getr1b(frac(i6 + 1*n5*n1*(0.5 + i1) + 4), i7))*(1 - n8*n1*if(frac(y*h/4) < 0.5, 1, 0))*(1 + i5*0.3))" },
+						NumberIn2 = Input { Expression = "GcCtrl.P" },
+						GreenExpression = Input { Value = "if(n1 <= 0, if(n2 >= 0.5, g2, g1), if(i8 > 0, getg2b(frac(i6 + 0*n5*n1*(0.5 + i1) + 4), i7), getg1b(frac(i6 + 0*n5*n1*(0.5 + i1) + 4), i7))*(1 - n8*n1*if(frac(y*h/4) < 0.5, 1, 0))*(1 + i5*0.3))" },
+						Intermediate7 = Input { Value = "if(i5 > 0, frac(y + (frac(i4*37.7) - 0.5)*0.3 + 4), y)" },
+						BlueExpression = Input { Value = "if(n1 <= 0, if(n2 >= 0.5, b2, b1), if(i8 > 0, getb2b(frac(i6 + (-1)*n5*n1*(0.5 + i1) + 4), i7), getb1b(frac(i6 + (-1)*n5*n1*(0.5 + i1) + 4), i7))*(1 - n8*n1*if(frac(y*h/4) < 0.5, 1, 0))*(1 + i5*0.3))" },
+						Intermediate3 = Input { Value = "n1*n4*(if(frac(i1*7.31) < 0.25 + 0.5*n1, (i1 - 0.5)*2, 0) + if(frac(i2*5.17) < 0.3*n1, (i2 - 0.5)*0.6, 0))" },
+						AlphaExpression = Input { Value = "if(n2 >= 0.5, a2, a1)" },
+						Intermediate4 = Input { Value = "abs(frac(sin((floor(x*12)*1.37 + floor(y*n3*1.5)*5.11 + 3.3)*12.9898 + n6*78.233 + p1x*3.7)*43758.5453))" },
+						PointIn1 = Input { Expression = "Point(GcCtrl.GcSeed, 0)" },
+						Intermediate5 = Input { Value = "if(i4 < n7*n1, 1, 0)" },
+						Intermediate2 = Input { Value = "abs(frac(sin((floor(y*n3*5.3) + 31.7)*12.9898 + n6*78.233 + p1x*3.7)*43758.5453))" },
+						Intermediate6 = Input { Value = "frac(x + i3 + i5*(frac(i4*91.3) - 0.5)*0.5 + 4)" },
+						NumberIn1 = Input { Expression = "iif(GcCtrl.P <= 0 or GcCtrl.P >= 1, 0, GcCtrl.GcAmount * sin(GcCtrl.P*pi)^0.6)" },
+						NumberIn7 = Input { Expression = "GcCtrl.GcBlocks" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 165, 49.5 } }
+				},
+				CustomTool1LUTIn1 = LUTBezier {
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Green = 0, Red = 0, Blue = 0 },
+					CtrlWZoom = false
+				},
+				CustomTool1LUTIn2 = LUTBezier {
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Green = 0, Red = 0, Blue = 0 },
+					CtrlWZoom = false
+				},
+				CustomTool1LUTIn3 = LUTBezier {
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Green = 0, Red = 0, Blue = 0 },
+					CtrlWZoom = false
+				},
+				CustomTool1LUTIn4 = LUTBezier {
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Green = 0, Red = 0, Blue = 0 },
+					CtrlWZoom = false
+				}
+			
+			}
+		}
+	},
+	ActiveTool = "GlitchCut"
+}

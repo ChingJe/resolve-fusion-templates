@@ -1,0 +1,286 @@
+{
+	Tools = ordered() {
+		ZoomThrough = MacroOperator {
+			CtrlWZoom = false,
+			Inputs = ordered() {
+				MainInput1 = InstanceInput { SourceOp = "SrcA", Source = "Input" },
+				MainInput2 = InstanceInput { SourceOp = "SrcB", Source = "Input" },
+				Input1 = InstanceInput { SourceOp = "ZoomCtrl", Source = "ZtDir", Name = "Direction" },
+				Input2 = InstanceInput { SourceOp = "ZoomCtrl", Source = "ZtAmount", Name = "Zoom" },
+				Input3 = InstanceInput { SourceOp = "ZoomCtrl", Source = "ZtCenter", Name = "Zoom Center" },
+				Input4 = InstanceInput { SourceOp = "ZoomCtrl", Source = "ZtBlur", Name = "Blur" },
+				Input5 = InstanceInput { SourceOp = "ZoomCtrl", Source = "ZtSnap", Name = "Snap" },
+				Input6 = InstanceInput { SourceOp = "ZoomCtrl", Source = "ZtMix", Name = "Cross Fade Length" },
+				Input7 = InstanceInput { SourceOp = "ZoomCtrl", Source = "ZtTwist", Name = "Twist" },
+				Input8 = InstanceInput { SourceOp = "ZoomCtrl", Source = "ZtFlash", Name = "Flash" },
+			},
+			Outputs = {
+				MainOutput1 = InstanceOutput { SourceOp = "ZoomFinal", Source = "Output" }
+			},
+			ViewInfo = GroupInfo { Pos = { 0, 0 } },
+			Tools = ordered() {
+				ZoomCtrl = Background {
+					UserControls = {
+						ZtCenter = {
+							LINKS_Name = "Zoom Center",
+							INPID_PreviewControl = "CrosshairControl",
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "OffsetControl"
+						},
+						ZtBlur = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Blur",
+							INP_Default = 0.25,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						},
+						ZtSnap = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Snap",
+							INP_Default = 2.5,
+							INP_MinScale = 1,
+							INP_MaxScale = 6,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						},
+						P = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "P",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							INP_Integer = false,
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl"
+						},
+						ZtMix = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Cross Fade Length",
+							INP_Default = 0.15,
+							INP_MinScale = 0.01,
+							INP_MaxScale = 1,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						},
+						S = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "S",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							INP_Integer = false,
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl"
+						},
+						ZtDir = {
+							{
+								CCS_AddString = "Push In"
+							},
+							{
+								CCS_AddString = "Pull Out"
+							},
+							LINKS_Name = "Direction",
+							INP_Default = 0,
+							INP_Integer = true,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "ComboControl"
+						},
+						ZtFlash = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Flash",
+							INP_Default = 0.3,
+							INP_MinScale = 0,
+							INP_MaxScale = 2,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						},
+						V = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "V",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							INP_Integer = false,
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl"
+						},
+						ZtTwist = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Twist",
+							INP_Default = 0,
+							INP_MinScale = -180,
+							INP_MaxScale = 180,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						},
+						ZtAmount = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Zoom",
+							INP_Default = 5,
+							INP_MinScale = 1.5,
+							INP_MaxScale = 20,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						}
+					},
+					CtrlWZoom = false,
+					Inputs = {
+						TopLeftAlpha = Input { Value = 0 },
+						P = Input {
+							SourceOp = "ZoomCtrlProgress",
+							Source = "Value"
+						},
+						Width = Input { Value = 1920 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						UseFrameFormatSettings = Input { Value = 1 },
+						V = Input { Expression = "iif(P <= 0 or P >= 1, 0, (1 - abs(2*P - 1))^(ZtSnap - 1))" },
+						S = Input { Expression = "iif(P < 0.5, 0.5*(2*P)^ZtSnap, 1 - 0.5*(2 - 2*P)^ZtSnap)" },
+						GlobalIn = Input { Value = -480 },
+						Height = Input { Value = 1080 }
+					},
+					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } }
+				},
+				ZoomCtrlProgress = LUTLookup {
+					Inputs = {
+						Lookup = Input {
+							SourceOp = "AnimCurves1查找表",
+							Source = "Value"
+						}
+					},
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				["AnimCurves1查找表"] = LUTBezier {
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					CtrlWZoom = false
+				},
+				SrcA = BrightnessContrast {
+					ViewInfo = OperatorInfo { Pos = { -495, 16.5 } }
+				},
+				SrcB = BrightnessContrast {
+					ViewInfo = OperatorInfo { Pos = { -495, 82.5 } }
+				},
+				ZoomCam = Custom {
+					Inputs = {
+						BlueExpression = Input { Value = "if(n1 <= 0, b1, if(n1 >= 1, b2, (getb1b(i1, i2)*(1 - n4) + getb2b(i3, i4)*n4)*n7))" },
+						AlphaExpression = Input { Value = "1" },
+						Image1 = Input {
+							SourceOp = "SrcA",
+							Source = "Output"
+						},
+						Image2 = Input {
+							SourceOp = "SrcB",
+							Source = "Output"
+						},
+						NumberIn1 = Input { Expression = "ZoomCtrl.P" },
+						NumberIn2 = Input { Expression = "ZoomCtrl.ZtAmount ^ (iif(ZoomCtrl.ZtDir == 0, 1, -1) * ZoomCtrl.S)" },
+						NumberIn3 = Input { Expression = "ZoomCtrl.ZtAmount ^ (iif(ZoomCtrl.ZtDir == 0, 1, -1) * (ZoomCtrl.S - 1))" },
+						NumberIn4 = Input { Expression = "min(max((ZoomCtrl.S - 0.5)/max(ZoomCtrl.ZtMix, 0.001) + 0.5, 0), 1)" },
+						NumberIn5 = Input { Expression = "ZoomCtrl.ZtTwist * ZoomCtrl.S" },
+						NumberIn7 = Input { Expression = "1 + ZoomCtrl.ZtFlash * ZoomCtrl.V^3" },
+						NumberIn6 = Input { Expression = "ZoomCtrl.ZtTwist * (ZoomCtrl.S - 1)" },
+						LUTIn1 = Input {
+							SourceOp = "CustomTool1LUTIn1",
+							Source = "Value"
+						},
+						Intermediate1 = Input { Value = "abs(frac((p1x + ((x - p1x)*cos(n5) - (y - p1y)*(h/w)*sin(n5))/n2 + 3)/2)*2 - 1)" },
+						Intermediate2 = Input { Value = "abs(frac((p1y + ((x - p1x)*(w/h)*sin(n5) + (y - p1y)*cos(n5))/n2 + 3)/2)*2 - 1)" },
+						Intermediate3 = Input { Value = "abs(frac((p1x + ((x - p1x)*cos(n6) - (y - p1y)*(h/w)*sin(n6))/n3 + 3)/2)*2 - 1)" },
+						Intermediate4 = Input { Value = "abs(frac((p1y + ((x - p1x)*(w/h)*sin(n6) + (y - p1y)*cos(n6))/n3 + 3)/2)*2 - 1)" },
+						LUTIn2 = Input {
+							SourceOp = "CustomTool1LUTIn2",
+							Source = "Value"
+						},
+						LUTIn3 = Input {
+							SourceOp = "CustomTool1LUTIn3",
+							Source = "Value"
+						},
+						LUTIn4 = Input {
+							SourceOp = "CustomTool1LUTIn4",
+							Source = "Value"
+						},
+						RedExpression = Input { Value = "if(n1 <= 0, r1, if(n1 >= 1, r2, (getr1b(i1, i2)*(1 - n4) + getr2b(i3, i4)*n4)*n7))" },
+						PointIn1 = Input { Expression = "ZoomCtrl.ZtCenter" },
+						GreenExpression = Input { Value = "if(n1 <= 0, g1, if(n1 >= 1, g2, (getg1b(i1, i2)*(1 - n4) + getg2b(i3, i4)*n4)*n7))" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 55, 49.5 } }
+				},
+				CustomTool1LUTIn1 = LUTBezier {
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					CtrlWZoom = false
+				},
+				CustomTool1LUTIn2 = LUTBezier {
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					CtrlWZoom = false
+				},
+				CustomTool1LUTIn3 = LUTBezier {
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					CtrlWZoom = false
+				},
+				CustomTool1LUTIn4 = LUTBezier {
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					CtrlWZoom = false
+				},
+				ZoomFinal = DirectionalBlur {
+					Inputs = {
+						Input = Input {
+							SourceOp = "ZoomCam",
+							Source = "Output"
+						},
+						Length = Input { Expression = "ZoomCtrl.ZtBlur * ZoomCtrl.V" },
+						Center = Input { Expression = "ZoomCtrl.ZtCenter" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 275, 49.5 } }
+				}
+			
+			}
+		}
+	},
+	ActiveTool = "ZoomThrough"
+}
