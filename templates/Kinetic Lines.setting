@@ -1,0 +1,331 @@
+{
+	Tools = ordered() {
+		KineticLines = MacroOperator {
+			CtrlWZoom = false,
+			Inputs = ordered() {
+				Input1 = InstanceInput { SourceOp = "KinCtrl", Source = "LineList", Name = "Lines (0:00 Text)" },
+				Input2 = InstanceInput { SourceOp = "KinCtrl", Source = "FpsOverride", Name = "Frame Rate Override" },
+				Input3 = InstanceInput { SourceOp = "Line", Source = "Font", Name = "Font", ControlGroup = 2 },
+				Input4 = InstanceInput { SourceOp = "Line", Source = "Style", ControlGroup = 2 },
+				Input5 = InstanceInput { SourceOp = "KinCtrl", Source = "KinSize", Name = "Size" },
+				Input6 = InstanceInput { SourceOp = "Line", Source = "Red1", Name = "Color", ControlGroup = 3 },
+				Input7 = InstanceInput { SourceOp = "Line", Source = "Green1", ControlGroup = 3 },
+				Input8 = InstanceInput { SourceOp = "Line", Source = "Blue1", ControlGroup = 3 },
+				Input9 = InstanceInput { SourceOp = "KinCtrl", Source = "KinPos", Name = "Position" },
+				Input10 = InstanceInput { SourceOp = "KinCtrl", Source = "KinIn", Name = "Pop Frames" },
+				Input11 = InstanceInput { SourceOp = "KinCtrl", Source = "KinOut", Name = "Fade Out Frames" },
+				Input12 = InstanceInput { SourceOp = "KinCtrl", Source = "KinBounce", Name = "Bounce" },
+				Input13 = InstanceInput { SourceOp = "KinCtrl", Source = "KinGrow", Name = "Grow From" },
+				Input14 = InstanceInput { SourceOp = "KinCtrl", Source = "KinRise", Name = "Rise" },
+				Input15 = InstanceInput { SourceOp = "KinCtrl", Source = "KinTilt", Name = "Tilt" },
+				Input16 = InstanceInput { SourceOp = "KinCtrl", Source = "KinBox", Name = "Box Opacity" },
+				Input17 = InstanceInput { SourceOp = "Box", Source = "Red1", Name = "Box Color", ControlGroup = 4 },
+				Input18 = InstanceInput { SourceOp = "Box", Source = "Green1", ControlGroup = 4 },
+				Input19 = InstanceInput { SourceOp = "Box", Source = "Blue1", ControlGroup = 4 },
+				Input20 = InstanceInput { SourceOp = "KinCtrl", Source = "KinPadX", Name = "Box Padding X" },
+				Input21 = InstanceInput { SourceOp = "KinCtrl", Source = "KinPadY", Name = "Box Padding Y" },
+			},
+			Outputs = {
+				MainOutput1 = InstanceOutput { SourceOp = "KinOut", Source = "Output" }
+			},
+			ViewInfo = GroupInfo { Pos = { 0, 0 } },
+			Tools = ordered() {
+				KinCtrl = Background {
+					UserControls = {
+						FpsOverride = {
+							LINKID_DataType = "Number",
+							INP_Integer = false,
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Controls",
+							LINKS_Name = "Frame Rate Override",
+							INP_MaxScale = 120,
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						T = {
+							LINKID_DataType = "Number",
+							INP_Integer = false,
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Driver",
+							LINKS_Name = "T",
+							INP_MaxScale = 1,
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						Back = {
+							LINKID_DataType = "Number",
+							INP_Integer = false,
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Driver",
+							LINKS_Name = "Back",
+							INP_MaxScale = 2,
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						Fade = {
+							LINKID_DataType = "Number",
+							INP_Integer = false,
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Driver",
+							LINKS_Name = "Fade",
+							INP_MaxScale = 1,
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						Span = {
+							LINKID_DataType = "Point",
+							LINKS_Name = "Span",
+							INPID_InputControl = "OffsetControl",
+							ICS_ControlPage = "Driver"
+						},
+						Idx = {
+							LINKID_DataType = "Number",
+							INP_Integer = false,
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Driver",
+							LINKS_Name = "Idx",
+							INP_MaxScale = 100,
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						KinBounce = {
+							LINKID_DataType = "Number",
+							INP_Integer = false,
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Controls",
+							LINKS_Name = "Bounce",
+							INP_MaxScale = 3,
+							INP_Default = 1,
+							INP_MinScale = 0
+						},
+						KinGrow = {
+							LINKID_DataType = "Number",
+							INP_Integer = false,
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Controls",
+							LINKS_Name = "Grow From",
+							INP_MaxScale = 1.5,
+							INP_Default = 0.6,
+							INP_MinScale = 0
+						},
+						KinRise = {
+							LINKID_DataType = "Number",
+							INP_Integer = false,
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Controls",
+							LINKS_Name = "Rise",
+							INP_MaxScale = 0.3,
+							INP_Default = 0.04,
+							INP_MinScale = -0.3
+						},
+						KinTilt = {
+							LINKID_DataType = "Number",
+							INP_Integer = false,
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Controls",
+							LINKS_Name = "Tilt",
+							INP_MaxScale = 30,
+							INP_Default = 0,
+							INP_MinScale = -30
+						},
+						KinBox = {
+							LINKID_DataType = "Number",
+							INP_Integer = false,
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Controls",
+							LINKS_Name = "Box Opacity",
+							INP_MaxScale = 1,
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						P = {
+							LINKID_DataType = "Number",
+							INP_Integer = false,
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Driver",
+							LINKS_Name = "P",
+							INP_MaxScale = 1,
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						KinPadY = {
+							LINKID_DataType = "Number",
+							INP_Integer = false,
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Controls",
+							LINKS_Name = "Box Padding Y",
+							INP_MaxScale = 1,
+							INP_Default = 0.15,
+							INP_MinScale = 0
+						},
+						KinPos = {
+							LINKID_DataType = "Point",
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "Position",
+							INPID_PreviewControl = "CrosshairControl",
+							ICS_ControlPage = "Controls"
+						},
+						KinSize = {
+							LINKID_DataType = "Number",
+							INP_Integer = false,
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Controls",
+							LINKS_Name = "Size",
+							INP_MaxScale = 0.4,
+							INP_Default = 0.11,
+							INP_MinScale = 0.02
+						},
+						KinPadX = {
+							LINKID_DataType = "Number",
+							INP_Integer = false,
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Controls",
+							LINKS_Name = "Box Padding X",
+							INP_MaxScale = 1,
+							INP_Default = 0.25,
+							INP_MinScale = 0
+						},
+						LineList = {
+							LINKID_DataType = "Text",
+							INPID_InputControl = "TextEditControl",
+							LINKS_Name = "Lines (0:00 Text)",
+							ICS_ControlPage = "Controls",
+							INPS_DefaultText = "0% FIRST LINE\n25% THEN THIS\n50% TWO LINES|IN ONE\n75% LAST ONE",
+							TEC_Lines = 8
+						},
+						KinOut = {
+							LINKID_DataType = "Number",
+							INP_Integer = false,
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Controls",
+							LINKS_Name = "Fade Out Frames",
+							INP_MaxScale = 40,
+							INP_Default = 3,
+							INP_MinScale = 0
+						},
+						KinIn = {
+							LINKID_DataType = "Number",
+							INP_Integer = false,
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Controls",
+							LINKS_Name = "Pop Frames",
+							INP_MaxScale = 40,
+							INP_Default = 8,
+							INP_MinScale = 1
+						}
+					},
+					Inputs = {
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						T = Input { Expression = "iif(Span.X < 0, 0, min(max((P - Span.X)*max(comp.RenderEnd - comp.RenderStart, 1)/max(KinIn, 1), 0), 1))" },
+						Back = Input { Expression = "(function(t, s) t = t - 1 return 1 + (s + 1)*t*t*t + s*t*t end)(T, 1.70158*KinBounce)" },
+						Fade = Input { Expression = "iif(Span.X < 0, 0, min(T*3, 1) * iif(KinOut <= 0, 1, min(max((Span.Y - P)*max(comp.RenderEnd - comp.RenderStart, 1)/KinOut, 0), 1)))" },
+						Span = Input { Expression = "(function(c, p)\n  local a, b = -1, 2\n  for i = 1, #c do\n    if c[i][1] <= p + 0.000001 then a = c[i][1] elseif c[i][1] < b then b = c[i][1] end\n  end\n  return Point(a, b)\nend)((function(txt, fps, len)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local stamp, name = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n    if stamp then\n      local f\n      local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n      if pct then f = tonumber(pct) / 100 * len\n      elseif fr then f = tonumber(fr)\n      elseif stamp:match(\"^[%d:%.]+$\") then\n        local sec = 0\n        for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n        if sec then f = math.floor(sec * fps + 0.5) end\n      end\n      if f then out[#out + 1] = {f / len, name} end\n    end\n  end\n  table.sort(out, function(a, b) return a[1] < b[1] end)\n  return out\nend)(KinCtrl.LineList.Value, iif(KinCtrl.FpsOverride > 0, KinCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), max(comp.RenderEnd - comp.RenderStart, 1)), P)" },
+						TopLeftAlpha = Input { Value = 0 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
+						Idx = Input { Expression = "(function(c, p)\n  local n = 0\n  for i = 1, #c do if c[i][1] <= p + 0.000001 then n = i end end\n  return n\nend)((function(txt, fps, len)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local stamp, name = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n    if stamp then\n      local f\n      local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n      if pct then f = tonumber(pct) / 100 * len\n      elseif fr then f = tonumber(fr)\n      elseif stamp:match(\"^[%d:%.]+$\") then\n        local sec = 0\n        for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n        if sec then f = math.floor(sec * fps + 0.5) end\n      end\n      if f then out[#out + 1] = {f / len, name} end\n    end\n  end\n  table.sort(out, function(a, b) return a[1] < b[1] end)\n  return out\nend)(KinCtrl.LineList.Value, iif(KinCtrl.FpsOverride > 0, KinCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), max(comp.RenderEnd - comp.RenderStart, 1)), P)" },
+						P = Input { Expression = "min(max((time - comp.RenderStart) / max(comp.RenderEnd - comp.RenderStart, 1), 0), 1)" },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } }
+					},
+					CtrlWZoom = false,
+					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } }
+				},
+				Line = TextPlus {
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -275, 16.5 } },
+					Inputs = {
+						Size = Input { Expression = "KinCtrl.KinSize * (KinCtrl.KinGrow + (1 - KinCtrl.KinGrow)*KinCtrl.Back)" },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Font = Input { Value = "Microsoft JhengHei" },
+						Center = Input { Expression = "Point(KinCtrl.KinPos.X, KinCtrl.KinPos.Y - KinCtrl.KinRise*(1 - KinCtrl.Back))" },
+						Style = Input { Value = "Bold" },
+						AngleZ = Input { Expression = "KinCtrl.KinTilt * iif(KinCtrl.Idx % 2 == 1, 1, -1)" },
+						StyledText = Input { Expression = "Text((function(c, p)\n  local s = \"\"\n  for i = 1, #c do if c[i][1] <= p + 0.000001 then s = c[i][2] end end\n  return (s:gsub(\"%s*|%s*\", \"\\n\"))\nend)((function(txt, fps, len)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local stamp, name = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n    if stamp then\n      local f\n      local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n      if pct then f = tonumber(pct) / 100 * len\n      elseif fr then f = tonumber(fr)\n      elseif stamp:match(\"^[%d:%.]+$\") then\n        local sec = 0\n        for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n        if sec then f = math.floor(sec * fps + 0.5) end\n      end\n      if f then out[#out + 1] = {f / len, name} end\n    end\n  end\n  table.sort(out, function(a, b) return a[1] < b[1] end)\n  return out\nend)(KinCtrl.LineList.Value, iif(KinCtrl.FpsOverride > 0, KinCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), max(comp.RenderEnd - comp.RenderStart, 1)), KinCtrl.P))" },
+						Wrap = Input { Value = 1 },
+						LayoutRotation = Input { Value = 1 },
+						TransformRotation = Input { Value = 1 },
+						Softness1 = Input { Value = 1 },
+						VerticalJustificationNew = Input { Value = 3 },
+						HorizontalJustificationNew = Input { Value = 3 }
+					}
+				},
+				Box = TextPlus {
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -275, 82.5 } },
+					Inputs = {
+						Size = Input { Expression = "Line.Size" },
+						ElementShape1 = Input { Value = 2 },
+						Level1 = Input { Value = 0 },
+						Red1 = Input { Value = 0.93 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						ExtendHorizontal1 = Input { Expression = "KinCtrl.KinPadX" },
+						ExtendVertical1 = Input { Expression = "KinCtrl.KinPadY" },
+						Center = Input { Expression = "Line.Center" },
+						GlobalIn = Input { Value = -480 },
+						Height = Input { Value = 1080 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Softness1 = Input { Value = 1 },
+						Font = Input {
+							Value = "Open Sans",
+							Expression = "Line.Font"
+						},
+						Green1 = Input { Value = 0.16 },
+						Style = Input {
+							Value = "Bold",
+							Expression = "Line.Style"
+						},
+						Blue1 = Input { Value = 0.16 },
+						StyledText = Input { Expression = "Line.StyledText" },
+						Wrap = Input { Value = 1 },
+						LayoutRotation = Input { Value = 1 },
+						TransformRotation = Input { Value = 1 },
+						AngleZ = Input { Expression = "Line.AngleZ" },
+						VerticalJustificationNew = Input { Value = 3 },
+						HorizontalJustificationNew = Input { Value = 3 }
+					}
+				},
+				Boxed = Merge {
+					ViewInfo = OperatorInfo { Pos = { -55, 82.5 } },
+					Inputs = {
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "Box"
+						},
+						Blend = Input { Expression = "KinCtrl.KinBox * KinCtrl.Fade" },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "KinCtrl"
+						},
+						PerformDepthMerge = Input { Value = 0 }
+					}
+				},
+				KinOut = Merge {
+					ViewInfo = OperatorInfo { Pos = { 55, 82.5 } },
+					Inputs = {
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "Line"
+						},
+						Blend = Input { Expression = "KinCtrl.Fade" },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "Boxed"
+						},
+						PerformDepthMerge = Input { Value = 0 }
+					}
+				}
+			
+			}
+		}
+	},
+	ActiveTool = "KineticLines"
+}
