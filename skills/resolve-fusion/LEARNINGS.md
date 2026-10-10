@@ -265,6 +265,6 @@
 
 - `.drfx` 是改了副檔名的 zip，裡面照 `Edit/Titles/x.setting`、`Edit/Effects/…`、`Edit/Transitions/…` 放範本。使用者對它點兩下、按 Install，Resolve 就把這個檔原封不動複製到範本資料夾的最上層（`…\Fusion\Templates\名稱.drfx`），直接讀裡面的範本。使用者實測（Windows、21.1.1 Studio）：先刪掉舊的並重啟確認範本不見，再點兩下安裝，**不用重啟就能用**。我們自己把檔案複製到那個位置也有同樣效果，但那樣要重啟。
 - 驗證範本有沒有裝起來不用看畫面：在暫時的時間軸上 `timeline:InsertFusionTitleIntoTimeline("範本名稱")`，裝了會回傳片段，沒裝回傳 nil。只對標題有效，特效和轉場沒有對應的 API。測完用 `mediaPool:DeleteTimelines({tl})` 刪掉自己建的時間軸。
-- 開發時用 `install.bat` 裝的是散開的 `.setting`，使用者用的是 `.drfx`。兩種同時存在時同名範本會不會重複顯示還沒試過；測 `.drfx` 之前先 `install.bat remove`。
+- **分工（使用者 2026-10-11 決定）：我們開發的電腦只用 `install.bat`，`.drfx` 是給下載的人用的。** 不要在開發的電腦上裝 `.drfx`，兩種同時存在時同名範本各有兩份。要測 `.drfx` 本身時先 `install.bat remove`，測完把範本資料夾最上層的 `.drfx` 刪掉、再 `install.bat install` 裝回來。
 - `scripts/drfx.py` 打包，`.github/workflows/release.yml` 在 `templates/` 有變動推上 `main` 時自動重建名為 `latest` 的 Release，下載連結固定。Release 的檔名不要有空白（GitHub 會把空白換成點）。
 - 往 `.gitignore` 用 `echo >>` 加一行之前先確認檔尾有換行，不然會和最後一行黏在一起（`tmp/dist/`），原本那條規則就失效了。
