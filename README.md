@@ -62,7 +62,8 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 把 `templates/` 裡的 `.setting` 檔依類型複製到下面資料夾的 `Titles`、`Effects`、`Transitions` 子資料夾，然後重啟 Resolve：
 
 ```
-%APPDATA%\Blackmagic Design\DaVinci Resolve\Support\Fusion\Templates\Edit\n```
+%APPDATA%\Blackmagic Design\DaVinci Resolve\Support\Fusion\Templates\Edit\
+```
 
 哪個檔案放哪個子資料夾見[安裝與移除](docs/install.md)。
 
