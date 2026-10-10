@@ -22,8 +22,11 @@ local ctrl, spec = L.panel(comp, "FrzCtrl", {
   {"FrzIn",    L.num("Settle Time (seconds)", 0.25, 0.02, 2)},
   {"FrzDrift", L.num("While Frozen: Keep Pushing In (per second)", 0.04, 0, 0.5)},
   {"FrzTilt",  L.num("While Frozen: Tilt (degrees per second)", 1.2, -15, 15)},
-  {"FrzEnd",   L.combo("A Freeze Ends By", {"Snapping Back", "Easing Back"}, 0)},
+  {"FrzBack",  L.num("Spring Back Time (seconds, 0 = cut)", 0.22, 0, 1.5)},
   {"State", L.point("State", "Driver")},
+  {"Back",  L.point("Back", "Driver")},
+  {"K",     L.num("K", 0, 0, 1, "Driver")},
+  {"Sec",   L.num("Sec", 0, 0, 1e5, "Driver")},
   {"Src",   L.num("Src", 0, -1e6, 1e6, "Driver")},
 })
 local srcs, ins = L.feeds(comp, ctrl, 1)
@@ -48,20 +51,27 @@ local BODY = [[(function(txt, fps, len, now, t0, after, pick)
   end
   table.sort(list, function(a, b) return a[1] < b[1] end)
   local ts = (now - t0) / fps
-  local late, since, left, src = 0, -1, 0, ts
+  local late, since, left, src, ended, dur = 0, -1, 0, ts, -1, 0
   for _, f in ipairs(list) do
     -- in "carry on" mode every earlier freeze pushes the later ones back
     local start = f[1] + (after == 1 and late or 0)
     if ts >= start and ts < start + f[2] then since, left, src = ts - start, start + f[2] - ts, f[1] break end
-    if ts >= start + f[2] then late = late + f[2] end
+    if ts >= start + f[2] then late = late + f[2]; ended, dur = ts - start - f[2], f[2] end
   end
   if since < 0 then src = (after == 1) and ts - late or ts end
   if pick == 1 then return t0 + math.floor(src * fps + 0.5) end
+  if pick == 3 then return Point(since < 0 and ended or -1, dur) end
   return Point(since, left)
 end)(FrzList.Value, iif(FpsOverride > 0, FpsOverride, comp:GetPrefs("Comp.FrameFormat.Rate") or 24),
   max(comp.RenderEnd - comp.RenderStart, 1), time, comp.RenderStart, FrzAfter, PICK)]]
 expr(ctrl, "Src", (BODY:gsub("PICK", "1")))
 expr(ctrl, "State", (BODY:gsub("PICK", "2")))
+-- Back: seconds since the last freeze ended (-1 = in one, or none yet) and how long that freeze was
+expr(ctrl, "Back", (BODY:gsub("PICK", "3")))
+-- K: how much of the frozen look is on. Rises over the settle time; after the freeze the video runs again and K
+-- springs back to 0, fast at first and landing softly. Sec: how long the picture has been creeping and tilting.
+expr(ctrl, "K", "iif(State.X >= 0, " .. L.SMOOTH .. "(min(State.X/FrzIn, 1)), iif(Back.X >= 0 and FrzBack > 0 and Back.X < FrzBack, (1 - Back.X/FrzBack)^3, 0))")
+expr(ctrl, "Sec", "iif(State.X >= 0, State.X, Back.Y * K)")
 
 local hold = add("TimeStretcher", "FrzHold", -3, 1)
 hold.Input = srcs[1].Output
@@ -74,20 +84,17 @@ L.color(tint, 1, 0.82, 0.25, 1)
 
 local look = add("Custom", "FrzFinal", 1, 1)
 look.Image1 = hold.Output; look.Image2 = tint.Output
--- n1: 0 outside a freeze, rises to 1 over the settle time. With "Easing Back" it also drops just before the end.
-expr(look, "NumberIn1", "iif(FrzCtrl.State.X < 0, 0, " .. L.SMOOTH .. "(min(FrzCtrl.State.X/FrzCtrl.FrzIn, iif(FrzCtrl.FrzEnd == 1, FrzCtrl.State.Y/min(FrzCtrl.FrzIn, 0.12), 1), 1)))")
+expr(look, "NumberIn1", "FrzCtrl.K")
 expr(look, "NumberIn2", "FrzCtrl.FrzLook")
 expr(look, "NumberIn4", "iif(FrzCtrl.State.X < 0, 0, FrzCtrl.FrzFlash * max(1 - FrzCtrl.State.X/0.25, 0)^2)")
 expr(look, "NumberIn5", "FrzCtrl.FrzEdge")
 -- While it is frozen the picture keeps creeping in and turning. n7 = the turn so far, n8 = the zoom: the push in,
 -- the creep, and as much more as the turn needs so that no corner of the frame is left empty.
-local EASE = "iif(FrzCtrl.FrzEnd == 1, min(FrzCtrl.State.Y/0.12, 1), 1)"
-expr(look, "NumberIn7", "iif(FrzCtrl.State.X < 0, 0, FrzCtrl.FrzTilt * FrzCtrl.State.X * " .. EASE .. ")")
-expr(look, "NumberIn8", [[(function(since, push, drift, turn, ease, asp)
-  if since < 0 then return 1 end
+expr(look, "NumberIn7", "FrzCtrl.FrzTilt * FrzCtrl.Sec")
+expr(look, "NumberIn8", [[(function(push, creep, turn, asp)
   local a = math.rad(math.abs(turn))
-  return (1 + push + drift*since*ease) * (math.cos(a) + asp*math.sin(a))
-end)(FrzCtrl.State.X, FrzCtrl.FrzZoom*NumberIn1, FrzCtrl.FrzDrift, NumberIn7, ]] .. EASE .. [[, comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height'))]])
+  return (1 + push + creep) * (math.cos(a) + asp*math.sin(a))
+end)(FrzCtrl.FrzZoom*FrzCtrl.K, FrzCtrl.FrzDrift*FrzCtrl.Sec, NumberIn7, comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height'))]])
 expr(look, "PointIn1", "FrzCtrl.FrzCenter")
 L.cx(look, "Intermediate1", "p1x + ((x - p1x)*w/h*cos(n7) - (y - p1y)*sin(n7))/n8*h/w")
 L.cx(look, "Intermediate2", "p1y + ((x - p1x)*w/h*sin(n7) + (y - p1y)*cos(n7))/n8")

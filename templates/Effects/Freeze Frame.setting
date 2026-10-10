@@ -15,7 +15,7 @@
 				Input9 = InstanceInput { SourceOp = "FrzCtrl", Source = "FrzIn", Name = "Settle Time (seconds)" },
 				Input10 = InstanceInput { SourceOp = "FrzCtrl", Source = "FrzDrift", Name = "While Frozen: Keep Pushing In (per second)" },
 				Input11 = InstanceInput { SourceOp = "FrzCtrl", Source = "FrzTilt", Name = "While Frozen: Tilt (degrees per second)" },
-				Input12 = InstanceInput { SourceOp = "FrzCtrl", Source = "FrzEnd", Name = "A Freeze Ends By" },
+				Input12 = InstanceInput { SourceOp = "FrzCtrl", Source = "FrzBack", Name = "Spring Back Time (seconds, 0 = cut)" },
 				Input13 = InstanceInput { SourceOp = "ColFrzTint", Source = "TopLeftRed", Name = "Tint Colour", ControlGroup = 3 },
 				Input14 = InstanceInput { SourceOp = "ColFrzTint", Source = "TopLeftGreen", ControlGroup = 3 },
 				Input15 = InstanceInput { SourceOp = "ColFrzTint", Source = "TopLeftBlue", ControlGroup = 3 },
@@ -26,58 +26,80 @@
 			ViewInfo = GroupInfo { Pos = { 0, 0 } },
 			Tools = ordered() {
 				FrzCtrl = Background {
-					CtrlWZoom = false,
 					Inputs = {
-						Src = Input { Expression = "(function(txt, fps, len, now, t0, after, pick)\n  local list = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local stamp, d = line:match(\"^%s*(%S+)%s*([%d%.]*)\")\n    if stamp then\n      local sec\n      local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n      if pct then sec = tonumber(pct) / 100 * len / fps\n      elseif fr then sec = tonumber(fr) / fps\n      elseif stamp:match(\"^[%d:%.]+$\") then\n        sec = 0\n        for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n      end\n      if sec then list[#list + 1] = {sec, tonumber(d) or 1} end\n    end\n  end\n  table.sort(list, function(a, b) return a[1] < b[1] end)\n  local ts = (now - t0) / fps\n  local late, since, left, src = 0, -1, 0, ts\n  for _, f in ipairs(list) do\n    -- in \"carry on\" mode every earlier freeze pushes the later ones back\n    local start = f[1] + (after == 1 and late or 0)\n    if ts >= start and ts < start + f[2] then since, left, src = ts - start, start + f[2] - ts, f[1] break end\n    if ts >= start + f[2] then late = late + f[2] end\n  end\n  if since < 0 then src = (after == 1) and ts - late or ts end\n  if pick == 1 then return t0 + math.floor(src * fps + 0.5) end\n  return Point(since, left)\nend)(FrzList.Value, iif(FpsOverride > 0, FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24),\n  max(comp.RenderEnd - comp.RenderStart, 1), time, comp.RenderStart, FrzAfter, 1)" },
-						UseFrameFormatSettings = Input { Value = 1 },
 						Width = Input { Value = 1920 },
-						Height = Input { Value = 1080 },
+						TopLeftAlpha = Input { Value = 0 },
+						Back = Input { Expression = "(function(txt, fps, len, now, t0, after, pick)\n  local list = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local stamp, d = line:match(\"^%s*(%S+)%s*([%d%.]*)\")\n    if stamp then\n      local sec\n      local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n      if pct then sec = tonumber(pct) / 100 * len / fps\n      elseif fr then sec = tonumber(fr) / fps\n      elseif stamp:match(\"^[%d:%.]+$\") then\n        sec = 0\n        for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n      end\n      if sec then list[#list + 1] = {sec, tonumber(d) or 1} end\n    end\n  end\n  table.sort(list, function(a, b) return a[1] < b[1] end)\n  local ts = (now - t0) / fps\n  local late, since, left, src, ended, dur = 0, -1, 0, ts, -1, 0\n  for _, f in ipairs(list) do\n    -- in \"carry on\" mode every earlier freeze pushes the later ones back\n    local start = f[1] + (after == 1 and late or 0)\n    if ts >= start and ts < start + f[2] then since, left, src = ts - start, start + f[2] - ts, f[1] break end\n    if ts >= start + f[2] then late = late + f[2]; ended, dur = ts - start - f[2], f[2] end\n  end\n  if since < 0 then src = (after == 1) and ts - late or ts end\n  if pick == 1 then return t0 + math.floor(src * fps + 0.5) end\n  if pick == 3 then return Point(since < 0 and ended or -1, dur) end\n  return Point(since, left)\nend)(FrzList.Value, iif(FpsOverride > 0, FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24),\n  max(comp.RenderEnd - comp.RenderStart, 1), time, comp.RenderStart, FrzAfter, 3)" },
+						K = Input { Expression = "iif(State.X >= 0, (function(t) return t*t*(3 - 2*t) end)(min(State.X/FrzIn, 1)), iif(Back.X >= 0 and FrzBack > 0 and Back.X < FrzBack, (1 - Back.X/FrzBack)^3, 0))" },
+						Sec = Input { Expression = "iif(State.X >= 0, State.X, Back.Y * K)" },
+						Src = Input { Expression = "(function(txt, fps, len, now, t0, after, pick)\n  local list = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local stamp, d = line:match(\"^%s*(%S+)%s*([%d%.]*)\")\n    if stamp then\n      local sec\n      local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n      if pct then sec = tonumber(pct) / 100 * len / fps\n      elseif fr then sec = tonumber(fr) / fps\n      elseif stamp:match(\"^[%d:%.]+$\") then\n        sec = 0\n        for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n      end\n      if sec then list[#list + 1] = {sec, tonumber(d) or 1} end\n    end\n  end\n  table.sort(list, function(a, b) return a[1] < b[1] end)\n  local ts = (now - t0) / fps\n  local late, since, left, src, ended, dur = 0, -1, 0, ts, -1, 0\n  for _, f in ipairs(list) do\n    -- in \"carry on\" mode every earlier freeze pushes the later ones back\n    local start = f[1] + (after == 1 and late or 0)\n    if ts >= start and ts < start + f[2] then since, left, src = ts - start, start + f[2] - ts, f[1] break end\n    if ts >= start + f[2] then late = late + f[2]; ended, dur = ts - start - f[2], f[2] end\n  end\n  if since < 0 then src = (after == 1) and ts - late or ts end\n  if pick == 1 then return t0 + math.floor(src * fps + 0.5) end\n  if pick == 3 then return Point(since < 0 and ended or -1, dur) end\n  return Point(since, left)\nend)(FrzList.Value, iif(FpsOverride > 0, FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24),\n  max(comp.RenderEnd - comp.RenderStart, 1), time, comp.RenderStart, FrzAfter, 1)" },
 						GlobalIn = Input { Value = -480 },
 						GlobalOut = Input { Value = 3534 },
-						TopLeftAlpha = Input { Value = 0 },
 						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						State = Input { Expression = "(function(txt, fps, len, now, t0, after, pick)\n  local list = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local stamp, d = line:match(\"^%s*(%S+)%s*([%d%.]*)\")\n    if stamp then\n      local sec\n      local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n      if pct then sec = tonumber(pct) / 100 * len / fps\n      elseif fr then sec = tonumber(fr) / fps\n      elseif stamp:match(\"^[%d:%.]+$\") then\n        sec = 0\n        for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n      end\n      if sec then list[#list + 1] = {sec, tonumber(d) or 1} end\n    end\n  end\n  table.sort(list, function(a, b) return a[1] < b[1] end)\n  local ts = (now - t0) / fps\n  local late, since, left, src = 0, -1, 0, ts\n  for _, f in ipairs(list) do\n    -- in \"carry on\" mode every earlier freeze pushes the later ones back\n    local start = f[1] + (after == 1 and late or 0)\n    if ts >= start and ts < start + f[2] then since, left, src = ts - start, start + f[2] - ts, f[1] break end\n    if ts >= start + f[2] then late = late + f[2] end\n  end\n  if since < 0 then src = (after == 1) and ts - late or ts end\n  if pick == 1 then return t0 + math.floor(src * fps + 0.5) end\n  return Point(since, left)\nend)(FrzList.Value, iif(FpsOverride > 0, FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24),\n  max(comp.RenderEnd - comp.RenderStart, 1), time, comp.RenderStart, FrzAfter, 2)" }
+						State = Input { Expression = "(function(txt, fps, len, now, t0, after, pick)\n  local list = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local stamp, d = line:match(\"^%s*(%S+)%s*([%d%.]*)\")\n    if stamp then\n      local sec\n      local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n      if pct then sec = tonumber(pct) / 100 * len / fps\n      elseif fr then sec = tonumber(fr) / fps\n      elseif stamp:match(\"^[%d:%.]+$\") then\n        sec = 0\n        for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n      end\n      if sec then list[#list + 1] = {sec, tonumber(d) or 1} end\n    end\n  end\n  table.sort(list, function(a, b) return a[1] < b[1] end)\n  local ts = (now - t0) / fps\n  local late, since, left, src, ended, dur = 0, -1, 0, ts, -1, 0\n  for _, f in ipairs(list) do\n    -- in \"carry on\" mode every earlier freeze pushes the later ones back\n    local start = f[1] + (after == 1 and late or 0)\n    if ts >= start and ts < start + f[2] then since, left, src = ts - start, start + f[2] - ts, f[1] break end\n    if ts >= start + f[2] then late = late + f[2]; ended, dur = ts - start - f[2], f[2] end\n  end\n  if since < 0 then src = (after == 1) and ts - late or ts end\n  if pick == 1 then return t0 + math.floor(src * fps + 0.5) end\n  if pick == 3 then return Point(since < 0 and ended or -1, dur) end\n  return Point(since, left)\nend)(FrzList.Value, iif(FpsOverride > 0, FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24),\n  max(comp.RenderEnd - comp.RenderStart, 1), time, comp.RenderStart, FrzAfter, 2)" },
+						Height = Input { Value = 1080 },
+						UseFrameFormatSettings = Input { Value = 1 }
 					},
 					UserControls = {
-						FrzFlash = {
-							INP_MinScale = 0,
-							INP_MaxScale = 3,
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							INP_Integer = false,
-							LINKS_Name = "Flash",
-							INP_Default = 0.6
+						State = {
+							INPID_InputControl = "OffsetControl",
+							LINKID_DataType = "Point",
+							LINKS_Name = "State",
+							ICS_ControlPage = "Driver"
 						},
-						FrzEdge = {
+						FrzAfter = {
+							{
+								CCS_AddString = "Jump Ahead (stays with the sound)"
+							},
+							{
+								CCS_AddString = "Carry On From The Frozen Frame (picture runs late)"
+							},
+							INPID_InputControl = "ComboControl",
+							LINKS_Name = "After A Freeze",
+							INP_Default = 0,
+							LINKID_DataType = "Number",
+							INP_Integer = true,
+							ICS_ControlPage = "Controls"
+						},
+						K = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "K",
+							INP_Default = 0,
 							INP_MinScale = 0,
 							INP_MaxScale = 1,
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
 							INP_Integer = false,
-							LINKS_Name = "Dark Corners",
-							INP_Default = 0.4
+							ICS_ControlPage = "Driver"
+						},
+						Sec = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Sec",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 100000,
+							INP_Integer = false,
+							ICS_ControlPage = "Driver"
+						},
+						Src = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Src",
+							INP_Default = 0,
+							INP_MinScale = -1000000,
+							INP_MaxScale = 1000000,
+							INP_Integer = false,
+							ICS_ControlPage = "Driver"
 						},
 						FpsOverride = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Frame Rate Override",
+							INP_Default = 0,
 							INP_MinScale = 0,
 							INP_MaxScale = 120,
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
 							INP_Integer = false,
-							LINKS_Name = "Frame Rate Override",
-							INP_Default = 0
-						},
-						FrzIn = {
-							INP_MinScale = 0.02,
-							INP_MaxScale = 2,
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							INP_Integer = false,
-							LINKS_Name = "Settle Time (seconds)",
-							INP_Default = 0.25
+							ICS_ControlPage = "Controls"
 						},
 						FrzLook = {
 							{
@@ -92,158 +114,167 @@
 							{
 								CCS_AddString = "High Contrast"
 							},
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
 							INPID_InputControl = "ComboControl",
-							INP_Integer = true,
 							LINKS_Name = "Colour",
-							INP_Default = 1
-						},
-						FrzDrift = {
-							INP_MinScale = 0,
-							INP_MaxScale = 0.5,
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							INP_Integer = false,
-							LINKS_Name = "While Frozen: Keep Pushing In (per second)",
-							INP_Default = 0.04
-						},
-						FrzAfter = {
-							{
-								CCS_AddString = "Jump Ahead (stays with the sound)"
-							},
-							{
-								CCS_AddString = "Carry On From The Frozen Frame (picture runs late)"
-							},
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "ComboControl",
+							INP_Default = 1,
 							INP_Integer = true,
-							LINKS_Name = "After A Freeze",
-							INP_Default = 0
-						},
-						FrzTilt = {
-							INP_MinScale = -15,
-							INP_MaxScale = 15,
 							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							INP_Integer = false,
-							LINKS_Name = "While Frozen: Tilt (degrees per second)",
-							INP_Default = 1.2
-						},
-						Src = {
-							INP_MinScale = -1000000,
-							INP_MaxScale = 1000000,
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Driver",
-							INPID_InputControl = "SliderControl",
-							INP_Integer = false,
-							LINKS_Name = "Src",
-							INP_Default = 0
-						},
-						FrzList = {
-							INPS_DefaultText = "0:01.5 1.5",
-							LINKID_DataType = "Text",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "TextEditControl",
-							LINKS_Name = "Freezes (0:00 seconds)",
-							TEC_Lines = 5
+							ICS_ControlPage = "Controls"
 						},
 						FrzZoom = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Push In",
+							INP_Default = 0.15,
 							INP_MinScale = 0,
 							INP_MaxScale = 1,
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
 							INP_Integer = false,
-							LINKS_Name = "Push In",
-							INP_Default = 0.15
-						},
-						FrzEnd = {
-							{
-								CCS_AddString = "Snapping Back"
-							},
-							{
-								CCS_AddString = "Easing Back"
-							},
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "ComboControl",
-							INP_Integer = true,
-							LINKS_Name = "A Freeze Ends By",
-							INP_Default = 0
+							ICS_ControlPage = "Controls"
 						},
 						FrzCenter = {
-							LINKID_DataType = "Point",
-							ICS_ControlPage = "Controls",
 							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "Push In Towards",
 							INPID_PreviewControl = "CrosshairControl",
-							LINKS_Name = "Push In Towards"
-						},
-						State = {
-							INPID_InputControl = "OffsetControl",
-							LINKS_Name = "State",
 							LINKID_DataType = "Point",
+							ICS_ControlPage = "Controls"
+						},
+						FrzFlash = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Flash",
+							INP_Default = 0.6,
+							INP_MinScale = 0,
+							INP_MaxScale = 3,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls"
+						},
+						FrzEdge = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Dark Corners",
+							INP_Default = 0.4,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls"
+						},
+						FrzIn = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Settle Time (seconds)",
+							INP_Default = 0.25,
+							INP_MinScale = 0.02,
+							INP_MaxScale = 2,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls"
+						},
+						FrzDrift = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "While Frozen: Keep Pushing In (per second)",
+							INP_Default = 0.04,
+							INP_MinScale = 0,
+							INP_MaxScale = 0.5,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls"
+						},
+						FrzTilt = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "While Frozen: Tilt (degrees per second)",
+							INP_Default = 1.2,
+							INP_MinScale = -15,
+							INP_MaxScale = 15,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls"
+						},
+						Back = {
+							INPID_InputControl = "OffsetControl",
+							LINKID_DataType = "Point",
+							LINKS_Name = "Back",
 							ICS_ControlPage = "Driver"
+						},
+						FrzBack = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Spring Back Time (seconds, 0 = cut)",
+							INP_Default = 0.22,
+							INP_MinScale = 0,
+							INP_MaxScale = 1.5,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls"
+						},
+						FrzList = {
+							INPID_InputControl = "TextEditControl",
+							LINKS_Name = "Freezes (0:00 seconds)",
+							LINKID_DataType = "Text",
+							INPS_DefaultText = "0:01.5 1.5",
+							TEC_Lines = 5,
+							ICS_ControlPage = "Controls"
 						}
 					},
+					CtrlWZoom = false,
 					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } }
 				},
 				SrcA = BrightnessContrast {
 					ViewInfo = OperatorInfo { Pos = { -495, 16.5 } }
 				},
 				FrzHold = TimeStretcher {
-					ViewInfo = OperatorInfo { Pos = { -275, 49.5 } },
 					Inputs = {
-						InterpolateBetweenFrames = Input { Value = 0 },
-						SourceTime = Input {
-							Expression = "FrzCtrl.Src",
-							Source = "Value",
-							SourceOp = "TimeStretcher1源时间"
-						},
 						Input = Input {
 							Source = "Output",
 							SourceOp = "SrcA"
 						},
+						InterpolateBetweenFrames = Input { Value = 0 },
+						SourceTime = Input {
+							Source = "Value",
+							Expression = "FrzCtrl.Src",
+							SourceOp = "TimeStretcher1源时间"
+						},
 						SampleSpread = Input { Disabled = true }
-					}
+					},
+					ViewInfo = OperatorInfo { Pos = { -275, 49.5 } }
 				},
 				["TimeStretcher1源时间"] = BezierSpline {
-					CtrlWZoom = false,
 					KeyFrames = {
-						[232] = { 0, Flags = { Linear = true } }
+						[234] = { 0, Flags = { Linear = true } }
 					},
+					SplineColor = { Green = 217, Blue = 243, Red = 233 },
 					NameSet = true,
-					SplineColor = { Blue = 243, Green = 217, Red = 233 }
+					CtrlWZoom = false
 				},
 				ColFrzTint = Background {
-					ViewInfo = OperatorInfo { Pos = { -275, -148.5 } },
 					Inputs = {
-						Height = Input { Value = 16 },
-						TopLeftRed = Input { Value = 1 },
-						TopLeftBlue = Input { Value = 0.25 },
+						Width = Input { Value = 16 },
 						GlobalIn = Input { Value = -480 },
-						TopLeftGreen = Input { Value = 0.82 },
+						TopLeftBlue = Input { Value = 0.25 },
 						GlobalOut = Input { Value = 3534 },
 						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						Width = Input { Value = 16 }
-					}
+						TopLeftRed = Input { Value = 1 },
+						Height = Input { Value = 16 },
+						TopLeftGreen = Input { Value = 0.82 }
+					},
+					ViewInfo = OperatorInfo { Pos = { -275, -148.5 } }
 				},
 				FrzFinal = Custom {
-					ViewInfo = OperatorInfo { Pos = { 165, 49.5 } },
 					Inputs = {
-						PointIn1 = Input { Expression = "FrzCtrl.FrzCenter" },
-						Intermediate1 = Input { Value = "p1x + ((x - p1x)*w/h*cos(n7) - (y - p1y)*sin(n7))/n8*h/w" },
-						Intermediate2 = Input { Value = "p1y + ((x - p1x)*w/h*sin(n7) + (y - p1y)*cos(n7))/n8" },
-						Intermediate3 = Input { Value = "0.299*getr1d(i1, i2) + 0.587*getg1d(i1, i2) + 0.114*getb1d(i1, i2)" },
-						Intermediate4 = Input { Value = "min(max((i3 - 0.45)*6 + 0.5, 0), 1)" },
+						Image1 = Input {
+							Source = "Output",
+							SourceOp = "FrzHold"
+						},
+						Image2 = Input {
+							Source = "Output",
+							SourceOp = "ColFrzTint"
+						},
+						NumberIn1 = Input { Expression = "FrzCtrl.K" },
 						LUTIn1 = Input {
 							Source = "Value",
 							SourceOp = "CustomTool1LUTIn1"
 						},
-						Intermediate5 = Input { Value = "1 - n5*n1*min(((x - 0.5)^2 + (y - 0.5)^2)*2.2, 1)" },
+						LUTIn2 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn2"
+						},
 						LUTIn3 = Input {
 							Source = "Value",
 							SourceOp = "CustomTool1LUTIn3"
@@ -252,72 +283,66 @@
 							Source = "Value",
 							SourceOp = "CustomTool1LUTIn4"
 						},
-						NumberIn1 = Input { Expression = "iif(FrzCtrl.State.X < 0, 0, (function(t) return t*t*(3 - 2*t) end)(min(FrzCtrl.State.X/FrzCtrl.FrzIn, iif(FrzCtrl.FrzEnd == 1, FrzCtrl.State.Y/min(FrzCtrl.FrzIn, 0.12), 1), 1)))" },
-						NumberIn2 = Input { Expression = "FrzCtrl.FrzLook" },
-						NumberIn4 = Input { Expression = "iif(FrzCtrl.State.X < 0, 0, FrzCtrl.FrzFlash * max(1 - FrzCtrl.State.X/0.25, 0)^2)" },
 						NumberIn5 = Input { Expression = "FrzCtrl.FrzEdge" },
-						Image2 = Input {
-							Source = "Output",
-							SourceOp = "ColFrzTint"
-						},
-						RedExpression = Input { Value = "if(n1 <= 0 && n4 <= 0, r1, (getr1d(i1, i2) + (if(n2 == 0, getr1d(i1, i2), if(n2 == 1, i3, if(n2 == 2, i3*getr2b(0.5, 0.5)*1.2, i4*(0.35 + 0.65*getr2b(0.5, 0.5)) + (1 - i4)*0.06))) - getr1d(i1, i2))*n1)*i5 + n4)" },
-						Image1 = Input {
-							Source = "Output",
-							SourceOp = "FrzHold"
-						},
-						NumberIn7 = Input { Expression = "iif(FrzCtrl.State.X < 0, 0, FrzCtrl.FrzTilt * FrzCtrl.State.X * iif(FrzCtrl.FrzEnd == 1, min(FrzCtrl.State.Y/0.12, 1), 1))" },
-						GreenExpression = Input { Value = "if(n1 <= 0 && n4 <= 0, g1, (getg1d(i1, i2) + (if(n2 == 0, getg1d(i1, i2), if(n2 == 1, i3, if(n2 == 2, i3*getg2b(0.5, 0.5)*1.2, i4*(0.35 + 0.65*getg2b(0.5, 0.5)) + (1 - i4)*0.06))) - getg1d(i1, i2))*n1)*i5 + n4)" },
+						NumberIn7 = Input { Expression = "FrzCtrl.FrzTilt * FrzCtrl.Sec" },
+						NumberIn8 = Input { Expression = "(function(push, creep, turn, asp)\n  local a = math.rad(math.abs(turn))\n  return (1 + push + creep) * (math.cos(a) + asp*math.sin(a))\nend)(FrzCtrl.FrzZoom*FrzCtrl.K, FrzCtrl.FrzDrift*FrzCtrl.Sec, NumberIn7, comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height'))" },
+						PointIn1 = Input { Expression = "FrzCtrl.FrzCenter" },
 						BlueExpression = Input { Value = "if(n1 <= 0 && n4 <= 0, b1, (getb1d(i1, i2) + (if(n2 == 0, getb1d(i1, i2), if(n2 == 1, i3, if(n2 == 2, i3*getb2b(0.5, 0.5)*1.2, i4*(0.35 + 0.65*getb2b(0.5, 0.5)) + (1 - i4)*0.06))) - getb1d(i1, i2))*n1)*i5 + n4)" },
-						NumberIn8 = Input { Expression = "(function(since, push, drift, turn, ease, asp)\n  if since < 0 then return 1 end\n  local a = math.rad(math.abs(turn))\n  return (1 + push + drift*since*ease) * (math.cos(a) + asp*math.sin(a))\nend)(FrzCtrl.State.X, FrzCtrl.FrzZoom*NumberIn1, FrzCtrl.FrzDrift, NumberIn7, iif(FrzCtrl.FrzEnd == 1, min(FrzCtrl.State.Y/0.12, 1), 1), comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height'))" },
-						LUTIn2 = Input {
-							Source = "Value",
-							SourceOp = "CustomTool1LUTIn2"
-						}
-					}
+						Intermediate1 = Input { Value = "p1x + ((x - p1x)*w/h*cos(n7) - (y - p1y)*sin(n7))/n8*h/w" },
+						GreenExpression = Input { Value = "if(n1 <= 0 && n4 <= 0, g1, (getg1d(i1, i2) + (if(n2 == 0, getg1d(i1, i2), if(n2 == 1, i3, if(n2 == 2, i3*getg2b(0.5, 0.5)*1.2, i4*(0.35 + 0.65*getg2b(0.5, 0.5)) + (1 - i4)*0.06))) - getg1d(i1, i2))*n1)*i5 + n4)" },
+						Intermediate2 = Input { Value = "p1y + ((x - p1x)*w/h*sin(n7) + (y - p1y)*cos(n7))/n8" },
+						RedExpression = Input { Value = "if(n1 <= 0 && n4 <= 0, r1, (getr1d(i1, i2) + (if(n2 == 0, getr1d(i1, i2), if(n2 == 1, i3, if(n2 == 2, i3*getr2b(0.5, 0.5)*1.2, i4*(0.35 + 0.65*getr2b(0.5, 0.5)) + (1 - i4)*0.06))) - getr1d(i1, i2))*n1)*i5 + n4)" },
+						Intermediate3 = Input { Value = "0.299*getr1d(i1, i2) + 0.587*getg1d(i1, i2) + 0.114*getb1d(i1, i2)" },
+						NumberIn2 = Input { Expression = "FrzCtrl.FrzLook" },
+						Intermediate4 = Input { Value = "min(max((i3 - 0.45)*6 + 0.5, 0), 1)" },
+						NumberIn4 = Input { Expression = "iif(FrzCtrl.State.X < 0, 0, FrzCtrl.FrzFlash * max(1 - FrzCtrl.State.X/0.25, 0)^2)" },
+						Intermediate5 = Input { Value = "1 - n5*n1*min(((x - 0.5)^2 + (y - 0.5)^2)*2.2, 1)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 165, 49.5 } }
 				},
 				CustomTool1LUTIn1 = LUTBezier {
-					CtrlWZoom = false,
 					NameSet = true,
 					KeyColorSplines = {
 						[0] = {
 							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
-							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
 						}
 					},
-					SplineColor = { Blue = 0, Green = 0, Red = 0 }
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					CtrlWZoom = false
 				},
 				CustomTool1LUTIn2 = LUTBezier {
-					CtrlWZoom = false,
 					NameSet = true,
 					KeyColorSplines = {
 						[0] = {
 							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
-							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
 						}
 					},
-					SplineColor = { Blue = 0, Green = 0, Red = 0 }
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					CtrlWZoom = false
 				},
 				CustomTool1LUTIn3 = LUTBezier {
-					CtrlWZoom = false,
 					NameSet = true,
 					KeyColorSplines = {
 						[0] = {
 							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
-							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
 						}
 					},
-					SplineColor = { Blue = 0, Green = 0, Red = 0 }
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					CtrlWZoom = false
 				},
 				CustomTool1LUTIn4 = LUTBezier {
-					CtrlWZoom = false,
 					NameSet = true,
 					KeyColorSplines = {
 						[0] = {
 							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
-							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
 						}
 					},
-					SplineColor = { Blue = 0, Green = 0, Red = 0 }
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					CtrlWZoom = false
 				}
 			
 			}
