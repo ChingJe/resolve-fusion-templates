@@ -1,7 +1,7 @@
 -- Reaction Mark: the little drawn symbols variety shows put next to a face. An anger mark, a sweat drop,
 -- a question mark, an exclamation mark, or focus lines around a spot. All drawn by the template, no image files.
 -- A title, so it has no image input. FX_SRC=media previews it over the clip. FX_EXPORT=1 dumps the macro source.
-local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "lib.lua")
+local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "../lib.lua")
 local comp = L.comp()
 if not comp then return end
 

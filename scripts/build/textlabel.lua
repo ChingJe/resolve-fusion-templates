@@ -2,7 +2,7 @@
 -- a colour set and an entrance, then stack several of them on different tracks to build bigger graphics.
 -- A title, so it has no image input. FX_SRC=media previews it over the clip. FX_EXPORT=1 dumps the macro source.
 -- FX_TEXTFILE reads the text from a UTF-8 file, FX_POS="0.5,0.5" moves it.
-local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "lib.lua")
+local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "../lib.lua")
 local comp = L.comp()
 if not comp then return end
 

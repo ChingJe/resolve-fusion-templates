@@ -4,7 +4,7 @@
 -- A title, so it has no image input. FX_SRC=media previews it over the clip. FX_EXPORT=1 dumps the macro source.
 -- FX_TEXT="0% One|50% Two" overrides the list for a test render (| stands for a new line there),
 -- FX_TEXTFILE reads it from a UTF-8 file, FX_CUE="10=1,60=2" keyframes Line Number.
-local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "lib.lua")
+local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "../lib.lua")
 local comp = L.comp()
 if not comp then return end
 

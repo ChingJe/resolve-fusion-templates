@@ -1,5 +1,5 @@
--- Shared helpers for the build scripts. Every build script loads this file from its own folder:
---   local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "lib.lua")
+-- Shared helpers for the build scripts. Every script in build/ loads this file relative to itself:
+--   local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "../lib.lua")
 local L = {}
 -- Where this file is, as an absolute path with forward slashes (the Saver needs absolute paths).
 do
@@ -10,6 +10,8 @@ do
     p:close()
     dir = cwd .. "/" .. dir
   end
+  -- the build scripts load this file as build/../lib.lua: fold that back
+  dir = dir:gsub("[^/]+/%.%./", "")
   L.S = dir
 end
 L.OUT = L.S .. "out/"

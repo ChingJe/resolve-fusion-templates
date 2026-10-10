@@ -1,7 +1,7 @@
 -- Sub Window: shrinks the clip into a small framed window in a corner, the reaction window of a variety show.
 -- Put the clip on a track above the main picture and drop this on it. Everything outside the window is clear.
 -- FX_EXPORT=1 dumps the macro source.
-local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "lib.lua")
+local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "../lib.lua")
 local comp = L.comp()
 if not comp then return end
 comp:Lock()

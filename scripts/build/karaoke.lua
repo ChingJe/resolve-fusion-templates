@@ -2,7 +2,7 @@
 -- Lines come from one text box; each starts with a time ("0:02 Text"), or Line Number is keyframed 1, 2, 3.
 -- A title, so it has no image input. FX_EXPORT=1 dumps the macro source.
 -- FX_TEXTFILE reads the list from a UTF-8 file, FX_CUE="10=1,60=2" keyframes Line Number for a test.
-local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "lib.lua")
+local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "../lib.lua")
 local comp = L.comp()
 if not comp then return end
 comp:Lock()

@@ -1,7 +1,7 @@
 -- Countdown: a clock that runs down to zero in real seconds, with an optional ring that empties around it.
 -- In the last few seconds it changes colour and throbs once a second. It can also count up.
 -- A title, so it has no image input. FX_EXPORT=1 dumps the macro source.
-local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "lib.lua")
+local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "../lib.lua")
 local comp = L.comp()
 if not comp then return end
 comp:Lock()

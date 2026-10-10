@@ -12,6 +12,7 @@ want() { [ ${#ONLY[@]} -eq 0 ] && return 0; for o in "${ONLY[@]}"; do [ "$o" = "
 shot() { # name, script, then environment assignments
   local name=$1 script=$2; shift 2
   want "$name" || return 0
+  [ -f "build/$script" ] && script="build/$script"
   rm -f out/gif_[0-9]*.png
   env FX_PREFIX=gif_ "$@" timeout 500 "$FU" -l lua "$script" > "out/gif_$name.log" 2>&1
   python gif.py gif_ "../previews/$name.gif" 12 480
@@ -34,7 +35,7 @@ shot text-label-combined compose.lua "FX_TEMPLATE=$T/Titles/Text Label.setting" 
 shot reaction-mark   compose.lua    "FX_TEMPLATE=$T/Titles/Reaction Mark.setting" FX_SPEC=$X/marks.txt
 shot whip-pan        whippan.lua
 shot zoom-through    zoomthrough.lua
-shot stripe-wipe     barwipe.lua    FX_SET="BwRows=1"
+shot stripe-wipe     stripewipe.lua FX_SET="BwRows=1"
 shot glitch-cut      glitchcut.lua
 shot glitch-hits     glitchhits.lua
 shot sub-window      subwindow.lua

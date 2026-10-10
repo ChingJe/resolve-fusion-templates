@@ -38,7 +38,7 @@ t.Size:SetExpression("ComicCtrl.TextSize * ComicCtrl.Zoom")
 4. 改腳本，重跑，直到畫面正確。
 5. 匯出並包成巨集（見「打包成範本」），貼回合成裡再算一次，確認巨集能載入。
 
-共用工具（新範本都用這一套）：
+共用工具（新範本都用這一套），放在 `scripts/` 最上層：
 
 | 檔案 | 用途 |
 |---|---|
@@ -52,7 +52,7 @@ t.Size:SetExpression("ComicCtrl.TextSize * ComicCtrl.Zoom")
 | `gif.py` | 把算好的畫格轉成 GIF |
 | `previews.sh` | 一次重算 `previews/` 裡所有的 GIF（或只算指定的幾個），各範本用的設定和 `fixtures/` 裡的文字都寫在裡面 |
 
-每個範本一支建置腳本，控制項清單也寫在裡面：
+每個範本一支建置腳本，放在 `scripts/build/`，控制項清單也寫在裡面：
 
 | 檔案 | 範本 | 類型 |
 |---|---|---|
@@ -72,7 +72,7 @@ t.Size:SetExpression("ComicCtrl.TextSize * ComicCtrl.Zoom")
 | `reaction.lua` | Reaction Mark，怒氣、汗滴、問號、驚嘆號、集中線 | 標題 |
 | `whippan.lua` | Whip Pan，甩鏡 | 轉場 |
 | `zoomthrough.lua` | Zoom Through，衝進前一段、衝出來是後一段 | 轉場 |
-| `barwipe.lua` | Stripe Wipe，彩色色帶依序掃過 | 轉場 |
+| `stripewipe.lua` | Stripe Wipe，彩色色帶依序掃過 | 轉場 |
 | `glitchcut.lua` | Glitch Cut，訊號不良式的轉場 | 轉場 |
 | `glitchhits.lua` | Glitch Hits，在指定時間點故障一下 | 特效 |
 | `subwindow.lua` | Sub Window，角落的子畫面 | 特效 |
@@ -90,9 +90,9 @@ t.Size:SetExpression("ComicCtrl.TextSize * ComicCtrl.Zoom")
 
 ```bash
 "$FU" -l lua lab.lua                       # 開實驗時間軸
-"$FU" -l lua timeslice.lua                 # 建置並算測試畫格到 out/
-FX_SRC=media "$FU" -l lua timeslice.lua    # 改用真實片段再看一次（畫格不可進 git）
-FX_EXPORT=1 "$FU" -l lua timeslice.lua     # 匯出節點與規格
+"$FU" -l lua build/timeslice.lua           # 建置並算測試畫格到 out/
+FX_SRC=media "$FU" -l lua build/timeslice.lua  # 改用真實片段再看一次（畫格不可進 git）
+FX_EXPORT=1 "$FU" -l lua build/timeslice.lua   # 匯出節點與規格
 python macro.py timeslice "../templates/Effects/Time Slice.setting"
 FX_TEMPLATE="../templates/Effects/Time Slice.setting" FX_INPUTS=1 "$FU" -l lua check.lua
 cmd.exe //c "..\\install.bat install nopause"          # 同步到 Resolve 的範本資料夾

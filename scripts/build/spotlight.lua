@@ -1,7 +1,7 @@
 -- Spotlight: everything outside one spot goes dark (and soft, and grey if wanted) so the viewer looks at that spot.
 -- The spot can also work as a magnifying glass. For tutorials and for pointing at a detail.
 -- FX_EXPORT=1 dumps the macro source.
-local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "lib.lua")
+local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "../lib.lua")
 local comp = L.comp()
 if not comp then return end
 comp:Lock()

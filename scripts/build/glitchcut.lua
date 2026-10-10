@@ -1,7 +1,7 @@
 -- Glitch Cut transition: the picture breaks up like a bad digital signal and what comes back is the next clip.
 -- Bands of lines jump sideways and flicker over to the second clip one after another.
 -- FX_EXPORT=1 dumps the macro source.
-local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "lib.lua")
+local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "../lib.lua")
 local comp = L.comp()
 if not comp then return end
 comp:Lock()

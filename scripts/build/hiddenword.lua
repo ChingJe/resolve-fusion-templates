@@ -1,7 +1,7 @@
 -- Hidden Word: a caption in which one *marked* word is covered by a sticker until the reveal, the quiz-show
 -- way of holding back an answer. At the reveal the sticker comes off and the word pops out in another colour.
 -- A title, so it has no image input. FX_EXPORT=1 dumps the macro source. FX_TEXTFILE reads the text from a UTF-8 file.
-local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "lib.lua")
+local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "../lib.lua")
 local comp = L.comp()
 if not comp then return end
 comp:Lock()

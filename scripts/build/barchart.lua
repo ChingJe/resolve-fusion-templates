@@ -2,7 +2,7 @@
 -- Rows come from one text box, one per line: "Name 42". The longest bar fills the chart width.
 -- A title, so it has no image input. FX_SRC=media previews it over the clip. FX_EXPORT=1 dumps the macro source.
 -- FX_TEXT="A 10|B 25" overrides the rows for a test render (| stands for a new line), FX_TEXTFILE reads a UTF-8 file.
-local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "lib.lua")
+local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "../lib.lua")
 local comp = L.comp()
 if not comp then return end
 local MAX = 8 -- rows the chart can show; the tools for every row exist whether it is used or not

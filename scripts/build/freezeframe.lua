@@ -2,7 +2,7 @@
 -- stops to introduce a character. Put a Text Label on the track above for the name.
 -- One freeze per line: "0:02 1.5" is a freeze two seconds in that lasts a second and a half.
 -- FX_EXPORT=1 dumps the macro source. FX_TEXT="0:01 1|0:03 0.5" overrides the list.
-local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "lib.lua")
+local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "../lib.lua")
 local comp = L.comp()
 if not comp then return end
 comp:Lock()

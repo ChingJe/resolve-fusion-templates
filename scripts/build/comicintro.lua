@@ -1,7 +1,7 @@
 -- Comic Intro: comic pages flip past while the camera keeps pulling back, until the pages turn out to be
 -- inside the letters of a title, which then settles as white letters on a coloured box.
 -- Every comic panel plays a different part of the clip. FX_SRC=media uses the clip, FX_EXPORT=1 dumps the macro source.
-local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "lib.lua")
+local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "../lib.lua")
 local comp = L.comp()
 if not comp then return end
 -- the camera pulls back out of this point, which has to lie inside a stroke of a letter
