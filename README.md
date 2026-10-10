@@ -2,7 +2,7 @@
 
 DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會出現在 Edit 頁面的特效庫，拖到時間軸上就能用，參數在 Inspector 調整。
 
-在 Resolve 21 Studio（Windows）上製作。
+在 Resolve 21 Studio（Windows）上製作。只在這個環境試過：免費版和 Mac 能不能用，沒有測過。
 
 ## 關於這個專案
 
@@ -99,6 +99,8 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 
 ## 已知限制
 
+- **只在 Studio 版試過。** 安裝和使用範本理論上不需要 Studio 版的功能，但沒有在免費版上實際裝過。自己改範本用的建置腳本則一定要 Studio 版。
+- **中文範本預設用「微軟正黑體」（Microsoft JhengHei）**，這是 Windows 內建的字型。電腦上沒有這個字型時（例如 Mac），文字可能變成方塊或換成別的字型，請在範本的 `Font` 參數改成你有的中文字型。Fusion 的文字不會自動替換缺字的字型，所以選了沒有中文的字型，中文一樣會變方塊。
 - 這些範本都是在 Fusion 頁面的合成裡驗證的：能載入、算圖結果正確。從 Edit 頁面的特效庫拖到時間軸上這條路還沒有逐一實測。
 - 參數裡的「片段的哪個位置」都是 0 到 1 的比例，不是秒數。
 
@@ -115,6 +117,8 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 [MIT](LICENSE)。範本和腳本可以自由使用、修改、再散佈，再散佈時保留授權條文即可。
 
 **用這些範本做出來的影片不需要標示出處**，可以用在任何用途，包含商業用途。
+
+本專案與 Blackmagic Design 無關，也沒有得到它的認可。DaVinci Resolve 和 Fusion 是 Blackmagic Design Pty. Ltd. 的商標。
 
 ## 結構
 
