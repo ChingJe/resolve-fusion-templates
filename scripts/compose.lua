@@ -1,7 +1,7 @@
 -- Paste one template several times with different settings and stack the copies over the test picture,
 -- to see how instances combine. FX_TEMPLATE = the .setting, FX_SPEC = a UTF-8 text file: one block per copy,
 -- blocks separated by an empty line, each line "Control Name=value" (a number, "x,y" for a point, or text; | is a new line).
-local L = dofile("D:/davinci/scripts/lib.lua")
+local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "lib.lua")
 local comp = L.comp()
 if not comp then return end
 local settings = bmd.readfile(os.getenv("FX_TEMPLATE"))

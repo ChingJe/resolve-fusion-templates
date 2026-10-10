@@ -94,11 +94,13 @@ t.Size:SetExpression("ComicCtrl.TextSize * ComicCtrl.Zoom")
 FX_SRC=media "$FU" -l lua timeslice.lua    # 改用真實片段再看一次（畫格不可進 git）
 FX_EXPORT=1 "$FU" -l lua timeslice.lua     # 匯出節點與規格
 python macro.py timeslice "../templates/Effects/Time Slice.setting"
-FX_TEMPLATE="D:/davinci/templates/Effects/Time Slice.setting" FX_INPUTS=1 "$FU" -l lua check.lua
-cmd.exe //c "D:\\davinci\\install.bat install nopause"   # 同步到 Resolve 的範本資料夾
+FX_TEMPLATE="../templates/Effects/Time Slice.setting" FX_INPUTS=1 "$FU" -l lua check.lua
+cmd.exe //c "..\\install.bat install nopause"          # 同步到 Resolve 的範本資料夾
 ```
 
-`lib.lua` 會檢查目前專案是 `testsss`、時間軸是 `FX Lab`，不是就拒絕執行。換專案時用環境變數 `FX_PROJECT`、`FX_TIMELINE` 指定。
+**第一次使用**：把 `scripts/local.example.lua` 複製成 `scripts/local.lua`，填上實驗用的專案名稱、時間軸名稱、媒體池裡一個片段的名稱。這個檔案不進 git。`lib.lua` 會檢查 Resolve 目前開的專案和時間軸是不是這裡寫的那個，不是就拒絕執行，所以腳本不會誤改別的專案。也可以用環境變數 `FX_PROJECT`、`FX_TIMELINE`、`FX_MEDIA` 臨時指定。
+
+腳本用自己所在的位置找 `lib.lua` 和輸出資料夾，repo 放在哪裡、從哪個資料夾執行都可以。`fuscript` 不在預設位置時設環境變數 `FUSCRIPT`，`ffmpeg` 不在 PATH 裡時設 `FFMPEG`。
 
 預覽圖一律用 `lib.lua` 的 `testsource`（漸層、移動的球、轉動的橫條、畫格編號）當輸入，不用真實素材。畫格編號可以直接看出每一格取的是哪個時間點。
 

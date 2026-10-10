@@ -1,7 +1,7 @@
 -- Stripe Wipe transition: bands of flat colour sweep across the picture one after another and leave the next
 -- clip behind them, the way variety shows change topic. The frame can be split into rows that start one after another.
 -- FX_EXPORT=1 dumps the macro source.
-local L = dofile("D:/davinci/scripts/lib.lua")
+local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "lib.lua")
 local comp = L.comp()
 if not comp then return end
 comp:Lock()

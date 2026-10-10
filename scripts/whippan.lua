@@ -1,7 +1,7 @@
 -- Whip Pan transition: the camera seems to swing away so fast that the picture smears, and lands on the next clip.
 -- The first clip slides out, the second follows right behind it, and both are blurred along the move.
 -- FX_EXPORT=1 dumps the macro source.
-local L = dofile("D:/davinci/scripts/lib.lua")
+local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "lib.lua")
 local comp = L.comp()
 if not comp then return end
 comp:Lock()

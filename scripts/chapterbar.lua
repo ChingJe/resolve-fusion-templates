@@ -2,7 +2,7 @@
 -- Chapters come from one text box, one per line, "0:00 Name" like a YouTube description.
 -- A title, so it has no image input. FX_SRC=media previews it over the clip. FX_EXPORT=1 dumps the macro source.
 -- FX_TEXT="0:00 Intro|0:02 Next" overrides the chapter list for a test render (| stands for a new line).
-local L = dofile("D:/davinci/scripts/lib.lua")
+local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "lib.lua")
 local comp = L.comp()
 if not comp then return end
 local SPLITS = 19 -- chapter boundaries the bar can show as gaps; names work for any number of chapters

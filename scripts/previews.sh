@@ -3,8 +3,10 @@
 # text stays readable at 480 pixels wide. Run in scripts/ with Resolve open on the lab timeline.
 # ./previews.sh            all of them
 # ./previews.sh photo-stack comic-intro      only these
-FU="/c/Program Files/Blackmagic Design/DaVinci Resolve/fuscript.exe"
-T="D:/davinci/templates"; X="D:/davinci/scripts/fixtures"
+FU="${FUSCRIPT:-/c/Program Files/Blackmagic Design/DaVinci Resolve/fuscript.exe}"
+cd "$(dirname "$0")"
+HERE="$(pwd -W 2>/dev/null || pwd)"
+T="$HERE/../templates"; X="$HERE/fixtures"
 export FX_WIDTH=480 FX_STEPS=4
 want() { [ ${#ONLY[@]} -eq 0 ] && return 0; for o in "${ONLY[@]}"; do [ "$o" = "$1" ] && return 0; done; return 1; }
 shot() { # name, script, then environment assignments

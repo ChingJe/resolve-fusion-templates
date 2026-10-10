@@ -1,6 +1,6 @@
 -- Time Slice: the frame is cut into strips and every strip lags a few frames behind its neighbour.
 -- FX_SRC=media uses the clip, anything else uses the procedural stand-in. FX_EXPORT=1 dumps the macro source.
-local L = dofile("D:/davinci/scripts/lib.lua")
+local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "lib.lua")
 local comp = L.comp()
 if not comp then return end
 local MAX = 16

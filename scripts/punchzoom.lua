@@ -2,7 +2,7 @@
 -- channels pulled apart, a zoom blur, a shake, a twist and a flash. Hits can also come from a tempo.
 -- Hits come from one text box, one per line: "0:01.5" or "0:01.5 1.4" (the second number scales that hit).
 -- FX_SRC=media uses the clip. FX_EXPORT=1 dumps the macro source. FX_TEXT="0:01|0:02 1.5" overrides the list.
-local L = dofile("D:/davinci/scripts/lib.lua")
+local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "lib.lua")
 local comp = L.comp()
 if not comp then return end
 

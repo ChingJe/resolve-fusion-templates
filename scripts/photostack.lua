@@ -2,7 +2,7 @@
 -- and grows until it fills the frame. That last photo can wait on the first frame, so that the clip which
 -- follows on the timeline starts from its beginning, or play along. FX_SRC=media uses the clip. FX_EXPORT=1 dumps the macro source.
 -- FX_SET="PsCount=9 PsSlide=0.3" overrides controls for a test render.
-local L = dofile("D:/davinci/scripts/lib.lua")
+local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "lib.lua")
 local comp = L.comp()
 if not comp then return end
 local useMedia = os.getenv("FX_SRC") == "media"

@@ -1,7 +1,7 @@
 -- Glitch Hits: at each listed moment the picture breaks up for a fraction of a second, like a bad digital signal.
 -- Hits come from one text box, one per line: "0:01.5" or "0:01.5 1.4" (the second number scales that hit).
 -- Random bursts can be added on top. FX_EXPORT=1 dumps the macro source. FX_TEXT="0:01|0:02 1.5" overrides the list.
-local L = dofile("D:/davinci/scripts/lib.lua")
+local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "lib.lua")
 local comp = L.comp()
 if not comp then return end
 comp:Lock()

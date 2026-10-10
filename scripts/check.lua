@@ -1,7 +1,7 @@
 -- Paste a finished template into an otherwise empty lab comp, feed it the procedural stand-in, render, clean up.
 -- FX_TEMPLATE = path of the .setting, FX_PREFIX = frame name prefix, FX_INPUTS = number of image inputs (0..2)
 -- FX_SRC=media feeds the clip into the first input instead of the stand-in (frames must not go into git)
-local L = dofile("D:/davinci/scripts/lib.lua")
+local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "lib.lua")
 local comp = L.comp()
 if not comp then return end
 local settings = bmd.readfile(os.getenv("FX_TEMPLATE"))

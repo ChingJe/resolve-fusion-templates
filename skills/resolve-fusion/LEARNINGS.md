@@ -202,3 +202,9 @@
 - 改名時 `install.bat` 不會刪掉範本資料夾裡舊檔名的那一份，要自己刪，不然特效庫裡新舊兩個都在。要改的地方：`templates/` 的檔名、建置腳本裡 `L.ship` 的 `name`、`docs/templates/` 的檔名和內文、`previews/` 的 GIF、`previews.sh`、README、SKILL.md 的表格。
 - 內建範本包在 `C:\Program Files\Blackmagic Design\DaVinci Resolve\Fusion\Templates\Templates.drfx`，它是 zip 檔，`unzip -l` 可以列出全部名稱（Resolve 21.1.1 有 417 個）。取名前先比對，避免和內建的同名或只差一個字母。
 - 內建範本解壓到暫存資料夾後，可以直接用 `check.lua` 貼進實驗合成算圖，和我們的做並排比較。內建的 `Glitch` 轉場不是包成單一群組，`check.lua` 讀不了；其他試過的都可以。
+
+### 腳本不寫死路徑
+
+- 在 `fuscript` 裡，`debug.getinfo(1, "S").source` 是 `@` 加上執行時給的路徑，原樣不變：給相對路徑就是相對的。要絕對路徑得自己接上目前資料夾（Windows 用 `io.popen("cd")` 讀）。`Saver` 的輸出路徑必須是絕對的。
+- Lua 字串裡比對路徑分隔符號的樣式要寫 `[/\\]`（兩個反斜線）。透過殼層的 heredoc 餵給 Python 再寫進 Lua 檔時，反斜線會被吃掉一半，變成一個，Lua 報 `invalid escape sequence`。需要反斜線時在 Python 裡用 `chr(92)` 組出來，改完一定要實際跑一支。
+- 跟機器有關的設定（專案名稱、素材檔名）放在不進 git 的 `scripts/local.lua`，repo 裡只留範例檔。素材檔名也算私人資訊，不要寫進腳本的預設值。

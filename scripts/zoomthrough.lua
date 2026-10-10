@@ -1,7 +1,7 @@
 -- Zoom Through transition: the camera dives into the first clip and comes out in the second one.
 -- Both clips are zoomed by the same accelerating move, so it reads as one continuous push (or pull).
 -- FX_EXPORT=1 dumps the macro source.
-local L = dofile("D:/davinci/scripts/lib.lua")
+local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "lib.lua")
 local comp = L.comp()
 if not comp then return end
 comp:Lock()

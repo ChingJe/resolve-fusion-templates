@@ -1,9 +1,28 @@
--- Shared helpers for the build scripts. Load with: local L = dofile("D:/davinci/scripts/lib.lua")
+-- Shared helpers for the build scripts. Every build script loads this file from its own folder:
+--   local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "lib.lua")
 local L = {}
-L.S = "D:/davinci/scripts/"
+-- Where this file is, as an absolute path with forward slashes (the Saver needs absolute paths).
+do
+  local dir = (debug.getinfo(1, "S").source:match("^@(.*[/\\])") or ""):gsub("\\", "/")
+  if not dir:match("^%a:/") and not dir:match("^/") then
+    local p = io.popen(package.config:sub(1, 1) == "\\" and "cd" or "pwd")
+    local cwd = p:read("*l"):gsub("\\", "/")
+    p:close()
+    dir = cwd .. "/" .. dir
+  end
+  L.S = dir
+end
 L.OUT = L.S .. "out/"
-L.PROJECT = os.getenv("FX_PROJECT") or "testsss"
-L.TIMELINE = os.getenv("FX_TIMELINE") or "FX Lab"
+-- Which Resolve project the scripts may touch is machine specific: scripts/local.lua (not in git, see
+-- local.example.lua) or the environment variables FX_PROJECT, FX_TIMELINE, FX_MEDIA.
+do
+  local f = io.open(L.S .. "local.lua", "r")
+  local cfg = {}
+  if f then f:close(); cfg = dofile(L.S .. "local.lua") or {} end
+  L.PROJECT = os.getenv("FX_PROJECT") or cfg.project
+  L.TIMELINE = os.getenv("FX_TIMELINE") or cfg.timeline or "FX Lab"
+  L.MEDIA = os.getenv("FX_MEDIA") or cfg.media
+end
 L.resolve = bmd.scriptapp("Resolve")
 
 -- Returns the Fusion comp of the lab clip, or nil when Resolve is not where we expect it to be.
@@ -12,6 +31,7 @@ function L.comp()
   local pn = proj and proj:GetName()
   local tl = proj and proj:GetCurrentTimeline()
   local tn = tl and tl:GetName()
+  if not L.PROJECT then print("NO_PROJECT_SET copy scripts/local.example.lua to scripts/local.lua and fill it in") return nil end
   if pn ~= L.PROJECT or tn ~= L.TIMELINE then
     print("WRONG_PLACE project=" .. tostring(pn) .. " timeline=" .. tostring(tn))
     return nil

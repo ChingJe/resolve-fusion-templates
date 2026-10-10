@@ -1,7 +1,7 @@
 -- Video Wall transition: pull back from clip A to a wall of screens, slide across, push into clip B.
 -- Built in the lab clip comp with two procedural stand-ins. FX_SRC=media uses the clip for A and a later
 -- part of the same clip for B. FX_EXPORT=1 dumps the macro source.
-local L = dofile("D:/davinci/scripts/lib.lua")
+local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "lib.lua")
 local comp = L.comp()
 if not comp then return end
 

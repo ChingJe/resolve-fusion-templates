@@ -15,7 +15,7 @@ for _ in range(hold):
     shutil.copy(os.path.join(seq, '%04d.png' % (n - 1)), os.path.join(seq, '%04d.png' % n)); n += 1
 vf = ('scale=%s:-1:flags=lanczos,split[a][b];[a]palettegen=stats_mode=diff[p];'
       '[b][p]paletteuse=dither=bayer:bayer_scale=5:diff_mode=rectangle') % width
-subprocess.run(['C:/ffmpeg/bin/ffmpeg', '-y', '-loglevel', 'error', '-framerate', fps, '-i', os.path.join(seq, '%04d.png'),
+subprocess.run([os.environ.get('FFMPEG') or shutil.which('ffmpeg') or 'C:/ffmpeg/bin/ffmpeg', '-y', '-loglevel', 'error', '-framerate', fps, '-i', os.path.join(seq, '%04d.png'),
                 '-vf', vf, '-loop', '0', dest], check=True)
 shutil.rmtree(seq)
 print(dest, n, 'frames', os.path.getsize(dest) // 1024, 'KB')

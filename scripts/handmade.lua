@@ -1,7 +1,7 @@
 -- Handmade: makes the clip look animated by hand. It moves in steps like stop motion, every step sits a little
 -- differently on the table, the outlines wobble, colours are cut down to a few flat steps and paper grain shows through.
 -- FX_EXPORT=1 dumps the macro source.
-local L = dofile("D:/davinci/scripts/lib.lua")
+local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "lib.lua")
 local comp = L.comp()
 if not comp then return end
 comp:Lock()

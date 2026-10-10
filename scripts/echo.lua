@@ -1,6 +1,6 @@
 -- Echo: anything that moves drags fading copies of itself behind it. The copies are earlier frames of the clip
 -- laid over the current one. FX_EXPORT=1 dumps the macro source.
-local L = dofile("D:/davinci/scripts/lib.lua")
+local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "lib.lua")
 local comp = L.comp()
 if not comp then return end
 local MAX = 8

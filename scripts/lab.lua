@@ -1,11 +1,13 @@
 -- Create (or reopen) the lab timeline: one 5 second clip with an empty Fusion comp to build in.
--- FX_MEDIA is the clip in the media pool to use.
-local resolve = bmd.scriptapp("Resolve")
+-- The project, the timeline name and the media pool clip to use come from scripts/local.lua (see local.example.lua).
+local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "lib.lua")
+local resolve = L.resolve
 local proj = resolve:GetProjectManager():GetCurrentProject()
-local want = os.getenv("FX_PROJECT") or "testsss"
+local want = L.PROJECT
+if not want or not L.MEDIA then print("NOT_SET copy scripts/local.example.lua to scripts/local.lua and fill it in") return end
 if not proj or proj:GetName() ~= want then print("WRONG_PROJECT", proj and proj:GetName()) return end
-local media = os.getenv("FX_MEDIA") or "arambb.mp4"
-local name = os.getenv("FX_TIMELINE") or "FX Lab"
+local media = L.MEDIA
+local name = L.TIMELINE
 local mp = proj:GetMediaPool()
 local clip
 for _, c in ipairs(mp:GetRootFolder():GetClipList()) do if c:GetName() == media then clip = c end end
