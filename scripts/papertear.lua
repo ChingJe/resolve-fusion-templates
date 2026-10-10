@@ -1,4 +1,4 @@
--- Paper Tear transition: a ragged edge sweeps across, clip A is torn away like a sheet of paper and clip B is underneath.
+-- Paper Tear transition: clip A is ripped in two along a ragged line and the halves are pulled apart, clip B is underneath.
 -- Built in the lab clip comp with two procedural stand-ins. FX_SRC=media uses the clip for A and a later
 -- part of the same clip for B. FX_EXPORT=1 dumps the macro source.
 local L = dofile("D:/davinci/scripts/lib.lua")
@@ -13,7 +13,9 @@ local add, expr = L.adder(comp), L.expr
 local ctrl = add("Background", "TearCtrl", -5, -3)
 ctrl.UserControls = {
   TearAngle  = L.num("Angle", 12, -180, 180),
+  TearOffset = L.num("Line Position", 0, -0.5, 0.5),
   TearRough  = L.num("Roughness", 0.05, 0, 0.2),
+  TearGap    = L.num("Rip Gap", 0.02, 0, 0.1),
   TearEdge   = L.num("Paper Edge Width", 0.012, 0, 0.05),
   TearShadow = L.num("Shadow", 0.6, 0, 1),
   TearShadowW = L.num("Shadow Width", 0.03, 0, 0.15),
@@ -21,7 +23,8 @@ ctrl.UserControls = {
   TearSteps  = L.num("Stop Motion Steps", 0, 0, 24, nil, true),
   P  = L.num("P", 0, 0, 1, "Driver"),
   Q  = L.num("Q", 0, 0, 1, "Driver"),
-  E  = L.num("E", 0, -2, 2, "Driver"),
+  F  = L.num("F", 0, -1, 20, "Driver"),
+  Slide = L.num("Slide", 0, 0, 3, "Driver"),
 }
 ctrl = ctrl:Refresh()
 ctrl:SetInput("UseFrameFormatSettings", 1)
@@ -30,10 +33,12 @@ local curve = ctrl.P:GetConnectedOutput():GetTool()
 curve:SetAttrs({TOOLS_Name = "TearProgress"})
 curve:SetInput("Source", "Transition")
 curve:SetInput("Curve", "Linear")
--- eased, then optionally held on a few steps so the tear jerks along like stop motion
-expr(ctrl, "Q", "(function(p, n) if n >= 1 then p = floor(p*n + 0.5)/n end return p*p*(3 - 2*p) end)(P, TearSteps)")
--- the edge starts and ends far enough off screen that nothing of it shows at either end
-expr(ctrl, "E", "(function(r) return -r + 2*r*Q end)(0.6 + TearRough + TearEdge + TearShadowW)")
+-- optionally held on a few steps so the tear jerks along like stop motion
+expr(ctrl, "Q", "iif(TearSteps >= 1, floor(P*TearSteps + 0.5)/max(TearSteps, 1), P)")
+-- F: how far the rip has travelled along its line (0 one end of the frame, 1 the other), done before Q = 0.5.
+-- Slide: how far each half has then been pulled away sideways; it starts while the rip is still running.
+expr(ctrl, "F", "Q*2.8")
+expr(ctrl, "Slide", "(0.7 + abs(TearOffset) + TearRough) * (function(t) return t*t*(3 - 2*t) end)(min(max((Q - 0.25)/0.75, 0), 1))")
 
 local srcA = add("BrightnessContrast", "SrcA", -5, 0)
 local srcB = add("BrightnessContrast", "SrcB", -5, 2)
@@ -70,18 +75,33 @@ expr(cut, "NumberIn3", "TearCtrl.TearRough")
 expr(cut, "NumberIn4", "TearCtrl.TearEdge")
 expr(cut, "NumberIn5", "TearCtrl.TearShadow")
 expr(cut, "NumberIn6", "TearCtrl.TearShadowW")
-expr(cut, "NumberIn7", "TearCtrl.E")
--- i1 across the tear, i2 along it, both in units of the frame width
-cut:SetInput("Intermediate1", "(x - 0.5)*cos(n2) + (y - 0.5)*(h/w)*sin(n2)")
-cut:SetInput("Intermediate2", "0.5 + 0.75*((y - 0.5)*(h/w)*cos(n2) - (x - 0.5)*sin(n2))")
--- i3 distance from the torn edge of A, positive on the side where A is still there
-cut:SetInput("Intermediate3", "i1 - n7 - n3*2*(getr3b(0.27, i2) - 0.5)")
--- i4 how far the white paper core shows at this spot, i5 paper grain, i6 shadow that A casts on B
-cut:SetInput("Intermediate4", "n4*(0.25 + 1.5*getr3b(0.71, frac(i2*3.7)))")
-cut:SetInput("Intermediate5", "0.9 + 0.1*getr3b(frac(x*5), frac(y*5))")
-cut:SetInput("Intermediate6", "1 - n5*max(0, 1 + i3/max(n6, 0.0001))^2")
+expr(cut, "NumberIn7", "TearCtrl.F")
+expr(cut, "NumberIn8", "TearCtrl.TearGap")
+expr(cut, "PointIn1", "Point(TearCtrl.TearOffset, TearCtrl.Slide)")
+-- The rip line stays where it is on the paper. The rip travels along it and leaves a narrow gap behind,
+-- then the two halves of A slide apart without changing shape.
+-- i1 position along the line (0..1 across the frame), i2 how far each half has been pulled here
+cut:SetInput("Intermediate1", "0.5 + ((y - 0.5)*(h/w)*cos(n2) - (x - 0.5)*sin(n2))/(abs(sin(n2)) + (h/w)*abs(cos(n2)))")
+cut:SetInput("Intermediate2", "n8*min(max((n7 - i1)/0.12, 0), 1) + p1y")
+-- i3 distance across the line in units of the frame width, measured on the paper before it was pulled
+cut:SetInput("Intermediate3", "(x - 0.5)*cos(n2) + (y - 0.5)*(h/w)*sin(n2) - p1x - n3*2*(getr3b(0.27, 0.5 + 0.75*((y - 0.5)*(h/w)*cos(n2) - (x - 0.5)*sin(n2))) - 0.5)")
+-- i4 > 0 inside the half that moves one way, i5 > 0 inside the other half, both negative in the gap
+cut:SetInput("Intermediate4", "i3 - i2")
+cut:SetInput("Intermediate5", "-i3 - i2")
+-- i6 how far the white paper core shows at this spot, i7 paper grain, i8 shadow the halves cast on B
+cut:SetInput("Intermediate6", "n4*(0.25 + 1.5*getr3b(0.71, frac(i1*3.7)))*min(i2/0.004, 1)")
+cut:SetInput("Intermediate7", "0.9 + 0.1*getr3b(frac(x*5), frac(y*5))")
+cut:SetInput("Intermediate8", "1 - n5*max(0, 1 - max(min(-i4, -i5), 0)/max(n6, 0.0001))^2")
+-- a half only covers the spots where the picture it carries exists; beyond the old frame edge B shows
 local function chan(c)
-  return string.format("if(n1 <= 0, %s1, if(n1 >= 1, %s2, if(i3 > i4, %s1, if(i3 > 0, i5, %s2*i6))))", c, c, c, c)
+  local function half(sign, inside, core)
+    local sx = string.format("(x %s i2*cos(n2))", sign)
+    local sy = string.format("(y %s i2*sin(n2)*w/h)", sign)
+    return string.format("if(min(min(%s, 1 - %s), min(%s, 1 - %s)) < 0, %s2, if(%s > %s, get%s1b(%s, %s), i7))",
+      sx, sx, sy, sy, c, inside, core, c, sx, sy)
+  end
+  return string.format("if(n1 <= 0, %s1, if(n1 >= 1, %s2, if(i4 > 0, %s, if(i5 > 0, %s, %s2*i8))))",
+    c, c, half("-", "i4", "i6"), half("+", "i5", "i6*0.5"), c)
 end
 cut:SetInput("RedExpression", chan("r"))
 cut:SetInput("GreenExpression", chan("g"))
@@ -100,6 +120,8 @@ if os.getenv("FX_EXPORT") == "1" then
     {"MAIN", "SrcB", "Input"},
     {"OUT", "TearCut", "Output"},
     {"CTL", "TearCtrl", "TearAngle", "Angle"},
+    {"CTL", "TearCtrl", "TearOffset", "Line Position"},
+    {"CTL", "TearCtrl", "TearGap", "Rip Gap"},
     {"CTL", "TearCtrl", "TearRough", "Roughness"},
     {"CTL", "TearCtrl", "TearSeed", "Tear Shape"},
     {"CTL", "TearCtrl", "TearEdge", "Paper Edge Width"},

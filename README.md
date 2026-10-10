@@ -13,7 +13,7 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 | [Time Slice](#time-slice) | 特效 | 畫面切成直條，每條比隔壁晚幾格 |
 | [Photo Stack](#photo-stack) | 特效 | 影片的幾個片刻變成照片滑到桌上，最後一張放大成全畫面 |
 | [Video Wall](#video-wall) | 轉場 | 拉遠成一面影片牆，橫移，再推進下一段 |
-| [Paper Tear](#paper-tear) | 轉場 | 前一段像紙一樣被撕掉，露出後一段 |
+| [Paper Tear](#paper-tear) | 轉場 | 前一段像紙一樣被撕成兩半拉開，露出後一段 |
 | [Chapter Bar](#chapter-bar) | 標題 | 有章節的進度條 |
 | [Kinetic Lines](#kinetic-lines) | 標題 | 一行行文字照寫好的時間彈出來 |
 | [Number Counter](#number-counter) | 標題 | 數字跳動 |
@@ -147,7 +147,7 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 
 ### Paper Tear
 
-一道不規則的撕裂邊掃過畫面，前一段像紙一樣被撕掉，露出底下的後一段。撕邊看得到白色的紙芯，並在後一段上留下陰影。
+前一段像一張紙，沿著一條不規則的線從一頭裂到另一頭，然後兩半往兩邊拉開，露出底下的後一段。撕邊看得到白色的紙芯，並在後一段上留下陰影。
 
 ![Paper Tear](previews/paper-tear.png)
 
@@ -155,16 +155,19 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 
 | 參數 | 作用 |
 |---|---|
-| `Angle` | 撕的方向。0 是由左往右，90 是由下往上 |
+| `Angle` | 撕裂線的方向。0 是直的、由下往上裂，90 是橫的；加 180 就從另一頭開始裂 |
+| `Line Position` | 撕裂線往旁邊偏多少，0 是通過畫面中央 |
+| `Rip Gap` | 裂開後、拉開前，裂縫的寬度 |
 | `Roughness` | 撕邊起伏的幅度，0 是直線 |
 | `Tear Shape` | 換一種撕邊的形狀 |
 | `Paper Edge Width` | 白色紙芯露出的寬度 |
 | `Shadow`、`Shadow Width` | 陰影的濃度與寬度 |
-| `Stop Motion Steps` | 撕的過程分成幾步跳著走，0 是平滑移動 |
+| `Stop Motion Steps` | 整個過程分成幾步跳著走，0 是平滑移動 |
 
 **注意**
 
-- 兩段影片本身照常播放，只有撕邊會跟著 `Stop Motion Steps` 卡頓。
+- 兩段影片本身照常播放，只有撕開的動作會跟著 `Stop Motion Steps` 卡頓。
+- 算圖偏慢，在 Edit 頁面不會即時播放。
 
 ### Chapter Bar
 
