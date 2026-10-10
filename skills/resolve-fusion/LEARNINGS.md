@@ -9,6 +9,7 @@
 下次有機會就測，測完把結果寫進 SKILL.md。
 
 - 這天做的五個範本（Time Slice、Video Wall、Photo Stack、Chapter Bar、Number Counter）都只驗證到「貼進 Fusion 合成能載入、算圖正確」。從 Edit 頁面的特效庫拖到時間軸上，一個都還沒試過。
+- Chapter Bar 用時間寫章節（`1:25 名稱`）時，要靠合成的影格率把秒換成影格。在實驗用的片段合成裡換算正確（47.95 fps、1 秒落在第 48 格）。標題從 Edit 頁面拖進時間軸後，讀到的影格率和時間單位是不是時間軸的，還沒試過。不對的話用 `Frame Rate Override` 手動填，或改用百分比寫法。
 - Video Wall 是第一個轉場。不確定 `MacroOperator` 包的轉場能不能從特效庫拖到剪接點上；不行的話把最外層改成 `GroupOperator`。
 - Video Wall 的其他螢幕會取前一段更早、後一段更晚的畫格。轉場合成裡拿不拿得到這些畫格不知道，拿不到的話螢幕會是黑的或定格，把 `Time Offset` 調成 0 可以避開。
 - Photo Stack 的靜態照片取自整支來源影片（用 `Stills From`、`Stills To` 控制範圍），和影片版 Comic Intro 有同樣的疑問。
@@ -39,6 +40,7 @@
 - 做完範本後，`OpenPage("edit")`、`SetCurrentTimeline()`、`GetCurrentPage()` 都不回傳值，時間軸停在 `FX Lab` 切不回去。前面的建置和算圖都正常。原因沒查出來，多半是 Resolve 跳了對話框。遇到就不要重試，請使用者看一下畫面。
 
 ### 雜項
+- 在 Git Bash 的 heredoc 裡跑 Python 改檔時，字串裡的 `\n` 會被吃成真的換行，比對不到原文。含跳脫字元的修改改用編輯工具。
 
 - 在 Git Bash 的 heredoc 裡寫 Lua 字串，Windows 路徑的反斜線會出問題，一律用正斜線（`D:/davinci/...`）。
 - `timeline:InsertFusionTitleIntoTimeline("名稱")` 在範本尚未被掃描到時回傳 nil，不能拿來當作「不重啟就測試新範本」的方法。

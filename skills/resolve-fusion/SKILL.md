@@ -81,6 +81,7 @@ FX_TEMPLATE="D:/davinci/templates/Time Slice.setting" FX_INPUTS=1 "$FU" -l lua c
 - **跳格要用 `StepRender = true, Steps = N`**。`Step = N` 會被忽略，整段全算。
 - 跳格算圖有時回傳 `false`，但畫格其實都寫出來了，以檔案為準。
 - 取樣的畫格可能剛好都落在動態模糊的瞬間，看起來全糊。換一組畫格，或挑邊緣最銳利的再判斷。
+- 測試用的中文字串不要走環境變數，會被殼層弄亂。寫進 UTF-8 檔案，在腳本裡用 `io.open` 讀。
 - `Saver` 的檔名前綴不要以數字結尾。`cj1.png` 加上畫格編號後不會是預期的 `cj10072.png`。
 
 ## Fusion 節點的坑
@@ -103,6 +104,11 @@ FX_TEMPLATE="D:/davinci/templates/Time Slice.setting" FX_INPUTS=1 "$FU" -l lua c
 - `GetToolList(false)` 會連巨集裡面的節點一起列出來，要分辨就看 `tool.ParentTool`。
 - **數量可調的元素**：節點數不能在執行時改變，所以照最大數量建好，用控制項決定用幾個。沒用到的那幾層把 `Merge` 的 `Blend` 設成 0。位置不要寫死，用運算式依序號和數量算出來（Photo Stack 用向日葵螺旋：角度 `k*2.39996`、半徑 `sqrt(k/n)`），再加一個種子控制項轉動整個排列。
 - 小尺寸顯示的影像先用 `BetterResize` 縮小再接 `TimeStretcher`。接到全尺寸畫布的 `Merge` 時，`Size` 要乘上「畫布寬 ÷ 小圖寬」。
+- **不限數量的清單用一個多行文字框**（`TEC_Lines` 設行數），在運算式裡用 `gmatch` 逐行拆。Chapter Bar 的章節清單就是這樣做的，每個需要結果的運算式各自呼叫同一段解析函式（建置腳本裡存成字串再嵌進去）。
+- 自訂控制項可以是座標：`LINKID_DataType = "Point"`、`INPID_InputControl = "OffsetControl"`。一個運算式回傳 `Point(a, b)` 就能一次帶出兩個數，其他地方用 `.X`、`.Y` 讀。
+- `Custom` 能收的數值總共十六個（8 個 `NumberIn` 加 4 個 `PointIn`）。不夠就再串一個 `Custom` 接著處理。
+- 運算式裡可以呼叫 `comp:GetPrefs("Comp.FrameFormat.Rate")` 取得合成的影格率。
+- **`Text+` 不會自動換字型**。字型沒有的字會變成方塊，`Open Sans` 就沒有中文。要顯示中文，預設字型用 `Microsoft JhengHei`。
 - `comp:Paste()` 在有節點被選取時會自動多插一個 `Merge`。貼之前先呼叫 `comp:SetActiveTool(nil)` 和 `comp.CurrentFrame.FlowView:Select()`，貼完檢查有沒有多出來的節點。
 
 ## 影片輸入的坑

@@ -3,38 +3,27 @@
 		ChapterBar = MacroOperator {
 			CtrlWZoom = false,
 			Inputs = ordered() {
-				Input1 = InstanceInput { SourceOp = "BarCtrl", Source = "Chapters", Name = "Chapters" },
-				Input2 = InstanceInput { SourceOp = "BarCtrl", Source = "EvenSplit", Name = "Even Chapters" },
-				Input3 = InstanceInput { SourceOp = "BarCtrl", Source = "Name1", Name = "Chapter 1 Name" },
-				Input4 = InstanceInput { SourceOp = "BarCtrl", Source = "Name2", Name = "Chapter 2 Name" },
-				Input5 = InstanceInput { SourceOp = "BarCtrl", Source = "Start2", Name = "Chapter 2 Start" },
-				Input6 = InstanceInput { SourceOp = "BarCtrl", Source = "Name3", Name = "Chapter 3 Name" },
-				Input7 = InstanceInput { SourceOp = "BarCtrl", Source = "Start3", Name = "Chapter 3 Start" },
-				Input8 = InstanceInput { SourceOp = "BarCtrl", Source = "Name4", Name = "Chapter 4 Name" },
-				Input9 = InstanceInput { SourceOp = "BarCtrl", Source = "Start4", Name = "Chapter 4 Start" },
-				Input10 = InstanceInput { SourceOp = "BarCtrl", Source = "Name5", Name = "Chapter 5 Name" },
-				Input11 = InstanceInput { SourceOp = "BarCtrl", Source = "Start5", Name = "Chapter 5 Start" },
-				Input12 = InstanceInput { SourceOp = "BarCtrl", Source = "Name6", Name = "Chapter 6 Name" },
-				Input13 = InstanceInput { SourceOp = "BarCtrl", Source = "Start6", Name = "Chapter 6 Start" },
-				Input14 = InstanceInput { SourceOp = "Fill", Source = "TopLeftRed", Name = "Bar Color", ControlGroup = 2 },
-				Input15 = InstanceInput { SourceOp = "Fill", Source = "TopLeftGreen", ControlGroup = 2 },
-				Input16 = InstanceInput { SourceOp = "Fill", Source = "TopLeftBlue", ControlGroup = 2 },
-				Input17 = InstanceInput { SourceOp = "Track", Source = "TopLeftRed", Name = "Track Color", ControlGroup = 3 },
-				Input18 = InstanceInput { SourceOp = "Track", Source = "TopLeftGreen", ControlGroup = 3 },
-				Input19 = InstanceInput { SourceOp = "Track", Source = "TopLeftBlue", ControlGroup = 3 },
-				Input20 = InstanceInput { SourceOp = "BarCtrl", Source = "TrackOpacity", Name = "Track Opacity" },
-				Input21 = InstanceInput { SourceOp = "BarCtrl", Source = "BarY", Name = "Bar Position" },
-				Input22 = InstanceInput { SourceOp = "BarCtrl", Source = "BarH", Name = "Bar Height" },
-				Input23 = InstanceInput { SourceOp = "BarCtrl", Source = "BarMargin", Name = "Side Margin" },
-				Input24 = InstanceInput { SourceOp = "BarCtrl", Source = "BarGap", Name = "Chapter Gap" },
-				Input25 = InstanceInput { SourceOp = "BarCtrl", Source = "Knob", Name = "Knob Size" },
-				Input26 = InstanceInput { SourceOp = "BarCtrl", Source = "ShowLabel", Name = "Show Chapter Name" },
-				Input27 = InstanceInput { SourceOp = "BarCtrl", Source = "LabelSize", Name = "Name Size" },
-				Input28 = InstanceInput { SourceOp = "Label", Source = "Font", Name = "Name Font", ControlGroup = 4 },
-				Input29 = InstanceInput { SourceOp = "Label", Source = "Style", ControlGroup = 4 },
-				Input30 = InstanceInput { SourceOp = "Label", Source = "Red1", Name = "Name Color", ControlGroup = 5 },
-				Input31 = InstanceInput { SourceOp = "Label", Source = "Green1", ControlGroup = 5 },
-				Input32 = InstanceInput { SourceOp = "Label", Source = "Blue1", ControlGroup = 5 },
+				Input1 = InstanceInput { SourceOp = "BarCtrl", Source = "ChapterList", Name = "Chapters (0:00 Name)" },
+				Input2 = InstanceInput { SourceOp = "BarCtrl", Source = "FpsOverride", Name = "Frame Rate Override" },
+				Input3 = InstanceInput { SourceOp = "Fill", Source = "TopLeftRed", Name = "Bar Color", ControlGroup = 2 },
+				Input4 = InstanceInput { SourceOp = "Fill", Source = "TopLeftGreen", ControlGroup = 2 },
+				Input5 = InstanceInput { SourceOp = "Fill", Source = "TopLeftBlue", ControlGroup = 2 },
+				Input6 = InstanceInput { SourceOp = "Track", Source = "TopLeftRed", Name = "Track Color", ControlGroup = 3 },
+				Input7 = InstanceInput { SourceOp = "Track", Source = "TopLeftGreen", ControlGroup = 3 },
+				Input8 = InstanceInput { SourceOp = "Track", Source = "TopLeftBlue", ControlGroup = 3 },
+				Input9 = InstanceInput { SourceOp = "BarCtrl", Source = "TrackOpacity", Name = "Track Opacity" },
+				Input10 = InstanceInput { SourceOp = "BarCtrl", Source = "BarY", Name = "Bar Position" },
+				Input11 = InstanceInput { SourceOp = "BarCtrl", Source = "BarH", Name = "Bar Height" },
+				Input12 = InstanceInput { SourceOp = "BarCtrl", Source = "BarMargin", Name = "Side Margin" },
+				Input13 = InstanceInput { SourceOp = "BarCtrl", Source = "BarGap", Name = "Chapter Gap" },
+				Input14 = InstanceInput { SourceOp = "BarCtrl", Source = "Knob", Name = "Knob Size" },
+				Input15 = InstanceInput { SourceOp = "BarCtrl", Source = "ShowLabel", Name = "Show Chapter Name" },
+				Input16 = InstanceInput { SourceOp = "BarCtrl", Source = "LabelSize", Name = "Name Size" },
+				Input17 = InstanceInput { SourceOp = "Label", Source = "Font", Name = "Name Font", ControlGroup = 4 },
+				Input18 = InstanceInput { SourceOp = "Label", Source = "Style", ControlGroup = 4 },
+				Input19 = InstanceInput { SourceOp = "Label", Source = "Red1", Name = "Name Color", ControlGroup = 5 },
+				Input20 = InstanceInput { SourceOp = "Label", Source = "Green1", ControlGroup = 5 },
+				Input21 = InstanceInput { SourceOp = "Label", Source = "Blue1", ControlGroup = 5 },
 			},
 			Outputs = {
 				MainOutput1 = InstanceOutput { SourceOp = "BarOut", Source = "Output" }
@@ -42,482 +31,605 @@
 			ViewInfo = GroupInfo { Pos = { 0, 0 } },
 			Tools = ordered() {
 				BarCtrl = Background {
+					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } },
 					Inputs = {
-						S1 = Input { Expression = "iif(1 < Chapters, iif(EvenSplit == 1, 1/Chapters, Start2), 2)" },
-						Width = Input { Value = 1920 },
-						Height = Input { Value = 1080 },
-						S2 = Input { Expression = "iif(2 < Chapters, iif(EvenSplit == 1, 2/Chapters, Start3), 2)" },
-						S3 = Input { Expression = "iif(3 < Chapters, iif(EvenSplit == 1, 3/Chapters, Start4), 2)" },
+						S17 = Input { Expression = "(function(c)\n  local n = 0\n  for i = 1, #c do\n    if c[i][1] > 0.0001 then n = n + 1; if n == 17 then return c[i][1] end end\n  end\n  return 2\nend)((function(txt, fps, len)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local stamp, name = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n    if stamp then\n      local f\n      local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n      if pct then f = tonumber(pct) / 100 * len\n      elseif fr then f = tonumber(fr)\n      elseif stamp:match(\"^[%d:%.]+$\") then\n        local sec = 0\n        for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n        if sec then f = math.floor(sec * fps + 0.5) end\n      end\n      if f then out[#out + 1] = {f / len, name} end\n    end\n  end\n  table.sort(out, function(a, b) return a[1] < b[1] end)\n  return out\nend)(BarCtrl.ChapterList.Value, iif(BarCtrl.FpsOverride > 0, BarCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), max(comp.RenderEnd - comp.RenderStart, 1)))" },
+						P = Input { Expression = "min(max((time - comp.RenderStart) / max(comp.RenderEnd - comp.RenderStart, 1), 0), 1)" },
+						S19 = Input { Expression = "(function(c)\n  local n = 0\n  for i = 1, #c do\n    if c[i][1] > 0.0001 then n = n + 1; if n == 19 then return c[i][1] end end\n  end\n  return 2\nend)((function(txt, fps, len)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local stamp, name = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n    if stamp then\n      local f\n      local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n      if pct then f = tonumber(pct) / 100 * len\n      elseif fr then f = tonumber(fr)\n      elseif stamp:match(\"^[%d:%.]+$\") then\n        local sec = 0\n        for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n        if sec then f = math.floor(sec * fps + 0.5) end\n      end\n      if f then out[#out + 1] = {f / len, name} end\n    end\n  end\n  table.sort(out, function(a, b) return a[1] < b[1] end)\n  return out\nend)(BarCtrl.ChapterList.Value, iif(BarCtrl.FpsOverride > 0, BarCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), max(comp.RenderEnd - comp.RenderStart, 1)))" },
+						S18 = Input { Expression = "(function(c)\n  local n = 0\n  for i = 1, #c do\n    if c[i][1] > 0.0001 then n = n + 1; if n == 18 then return c[i][1] end end\n  end\n  return 2\nend)((function(txt, fps, len)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local stamp, name = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n    if stamp then\n      local f\n      local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n      if pct then f = tonumber(pct) / 100 * len\n      elseif fr then f = tonumber(fr)\n      elseif stamp:match(\"^[%d:%.]+$\") then\n        local sec = 0\n        for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n        if sec then f = math.floor(sec * fps + 0.5) end\n      end\n      if f then out[#out + 1] = {f / len, name} end\n    end\n  end\n  table.sort(out, function(a, b) return a[1] < b[1] end)\n  return out\nend)(BarCtrl.ChapterList.Value, iif(BarCtrl.FpsOverride > 0, BarCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), max(comp.RenderEnd - comp.RenderStart, 1)))" },
+						S7 = Input { Expression = "(function(c)\n  local n = 0\n  for i = 1, #c do\n    if c[i][1] > 0.0001 then n = n + 1; if n == 7 then return c[i][1] end end\n  end\n  return 2\nend)((function(txt, fps, len)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local stamp, name = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n    if stamp then\n      local f\n      local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n      if pct then f = tonumber(pct) / 100 * len\n      elseif fr then f = tonumber(fr)\n      elseif stamp:match(\"^[%d:%.]+$\") then\n        local sec = 0\n        for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n        if sec then f = math.floor(sec * fps + 0.5) end\n      end\n      if f then out[#out + 1] = {f / len, name} end\n    end\n  end\n  table.sort(out, function(a, b) return a[1] < b[1] end)\n  return out\nend)(BarCtrl.ChapterList.Value, iif(BarCtrl.FpsOverride > 0, BarCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), max(comp.RenderEnd - comp.RenderStart, 1)))" },
+						S12 = Input { Expression = "(function(c)\n  local n = 0\n  for i = 1, #c do\n    if c[i][1] > 0.0001 then n = n + 1; if n == 12 then return c[i][1] end end\n  end\n  return 2\nend)((function(txt, fps, len)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local stamp, name = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n    if stamp then\n      local f\n      local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n      if pct then f = tonumber(pct) / 100 * len\n      elseif fr then f = tonumber(fr)\n      elseif stamp:match(\"^[%d:%.]+$\") then\n        local sec = 0\n        for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n        if sec then f = math.floor(sec * fps + 0.5) end\n      end\n      if f then out[#out + 1] = {f / len, name} end\n    end\n  end\n  table.sort(out, function(a, b) return a[1] < b[1] end)\n  return out\nend)(BarCtrl.ChapterList.Value, iif(BarCtrl.FpsOverride > 0, BarCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), max(comp.RenderEnd - comp.RenderStart, 1)))" },
+						S10 = Input { Expression = "(function(c)\n  local n = 0\n  for i = 1, #c do\n    if c[i][1] > 0.0001 then n = n + 1; if n == 10 then return c[i][1] end end\n  end\n  return 2\nend)((function(txt, fps, len)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local stamp, name = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n    if stamp then\n      local f\n      local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n      if pct then f = tonumber(pct) / 100 * len\n      elseif fr then f = tonumber(fr)\n      elseif stamp:match(\"^[%d:%.]+$\") then\n        local sec = 0\n        for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n        if sec then f = math.floor(sec * fps + 0.5) end\n      end\n      if f then out[#out + 1] = {f / len, name} end\n    end\n  end\n  table.sort(out, function(a, b) return a[1] < b[1] end)\n  return out\nend)(BarCtrl.ChapterList.Value, iif(BarCtrl.FpsOverride > 0, BarCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), max(comp.RenderEnd - comp.RenderStart, 1)))" },
+						S9 = Input { Expression = "(function(c)\n  local n = 0\n  for i = 1, #c do\n    if c[i][1] > 0.0001 then n = n + 1; if n == 9 then return c[i][1] end end\n  end\n  return 2\nend)((function(txt, fps, len)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local stamp, name = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n    if stamp then\n      local f\n      local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n      if pct then f = tonumber(pct) / 100 * len\n      elseif fr then f = tonumber(fr)\n      elseif stamp:match(\"^[%d:%.]+$\") then\n        local sec = 0\n        for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n        if sec then f = math.floor(sec * fps + 0.5) end\n      end\n      if f then out[#out + 1] = {f / len, name} end\n    end\n  end\n  table.sort(out, function(a, b) return a[1] < b[1] end)\n  return out\nend)(BarCtrl.ChapterList.Value, iif(BarCtrl.FpsOverride > 0, BarCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), max(comp.RenderEnd - comp.RenderStart, 1)))" },
 						UseFrameFormatSettings = Input { Value = 1 },
-						S4 = Input { Expression = "iif(4 < Chapters, iif(EvenSplit == 1, 4/Chapters, Start5), 2)" },
+						S6 = Input { Expression = "(function(c)\n  local n = 0\n  for i = 1, #c do\n    if c[i][1] > 0.0001 then n = n + 1; if n == 6 then return c[i][1] end end\n  end\n  return 2\nend)((function(txt, fps, len)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local stamp, name = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n    if stamp then\n      local f\n      local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n      if pct then f = tonumber(pct) / 100 * len\n      elseif fr then f = tonumber(fr)\n      elseif stamp:match(\"^[%d:%.]+$\") then\n        local sec = 0\n        for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n        if sec then f = math.floor(sec * fps + 0.5) end\n      end\n      if f then out[#out + 1] = {f / len, name} end\n    end\n  end\n  table.sort(out, function(a, b) return a[1] < b[1] end)\n  return out\nend)(BarCtrl.ChapterList.Value, iif(BarCtrl.FpsOverride > 0, BarCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), max(comp.RenderEnd - comp.RenderStart, 1)))" },
+						S4 = Input { Expression = "(function(c)\n  local n = 0\n  for i = 1, #c do\n    if c[i][1] > 0.0001 then n = n + 1; if n == 4 then return c[i][1] end end\n  end\n  return 2\nend)((function(txt, fps, len)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local stamp, name = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n    if stamp then\n      local f\n      local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n      if pct then f = tonumber(pct) / 100 * len\n      elseif fr then f = tonumber(fr)\n      elseif stamp:match(\"^[%d:%.]+$\") then\n        local sec = 0\n        for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n        if sec then f = math.floor(sec * fps + 0.5) end\n      end\n      if f then out[#out + 1] = {f / len, name} end\n    end\n  end\n  table.sort(out, function(a, b) return a[1] < b[1] end)\n  return out\nend)(BarCtrl.ChapterList.Value, iif(BarCtrl.FpsOverride > 0, BarCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), max(comp.RenderEnd - comp.RenderStart, 1)))" },
+						LabelFade = Input { Expression = "iif(Span.X <= 0, 1, min(max((time - comp.RenderStart - Span.X*(comp.RenderEnd - comp.RenderStart))/10, 0), 1))" },
+						Span = Input { Expression = "(function(c, p)\n  local a, b = 0, 1\n  for i = 1, #c do\n    if c[i][1] <= p + 0.000001 then a = c[i][1] elseif c[i][1] < b then b = c[i][1] end\n  end\n  return Point(max(a, 0), min(b, 1))\nend)((function(txt, fps, len)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local stamp, name = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n    if stamp then\n      local f\n      local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n      if pct then f = tonumber(pct) / 100 * len\n      elseif fr then f = tonumber(fr)\n      elseif stamp:match(\"^[%d:%.]+$\") then\n        local sec = 0\n        for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n        if sec then f = math.floor(sec * fps + 0.5) end\n      end\n      if f then out[#out + 1] = {f / len, name} end\n    end\n  end\n  table.sort(out, function(a, b) return a[1] < b[1] end)\n  return out\nend)(BarCtrl.ChapterList.Value, iif(BarCtrl.FpsOverride > 0, BarCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), max(comp.RenderEnd - comp.RenderStart, 1)), P)" },
+						S1 = Input { Expression = "(function(c)\n  local n = 0\n  for i = 1, #c do\n    if c[i][1] > 0.0001 then n = n + 1; if n == 1 then return c[i][1] end end\n  end\n  return 2\nend)((function(txt, fps, len)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local stamp, name = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n    if stamp then\n      local f\n      local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n      if pct then f = tonumber(pct) / 100 * len\n      elseif fr then f = tonumber(fr)\n      elseif stamp:match(\"^[%d:%.]+$\") then\n        local sec = 0\n        for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n        if sec then f = math.floor(sec * fps + 0.5) end\n      end\n      if f then out[#out + 1] = {f / len, name} end\n    end\n  end\n  table.sort(out, function(a, b) return a[1] < b[1] end)\n  return out\nend)(BarCtrl.ChapterList.Value, iif(BarCtrl.FpsOverride > 0, BarCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), max(comp.RenderEnd - comp.RenderStart, 1)))" },
+						S2 = Input { Expression = "(function(c)\n  local n = 0\n  for i = 1, #c do\n    if c[i][1] > 0.0001 then n = n + 1; if n == 2 then return c[i][1] end end\n  end\n  return 2\nend)((function(txt, fps, len)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local stamp, name = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n    if stamp then\n      local f\n      local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n      if pct then f = tonumber(pct) / 100 * len\n      elseif fr then f = tonumber(fr)\n      elseif stamp:match(\"^[%d:%.]+$\") then\n        local sec = 0\n        for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n        if sec then f = math.floor(sec * fps + 0.5) end\n      end\n      if f then out[#out + 1] = {f / len, name} end\n    end\n  end\n  table.sort(out, function(a, b) return a[1] < b[1] end)\n  return out\nend)(BarCtrl.ChapterList.Value, iif(BarCtrl.FpsOverride > 0, BarCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), max(comp.RenderEnd - comp.RenderStart, 1)))" },
+						S3 = Input { Expression = "(function(c)\n  local n = 0\n  for i = 1, #c do\n    if c[i][1] > 0.0001 then n = n + 1; if n == 3 then return c[i][1] end end\n  end\n  return 2\nend)((function(txt, fps, len)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local stamp, name = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n    if stamp then\n      local f\n      local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n      if pct then f = tonumber(pct) / 100 * len\n      elseif fr then f = tonumber(fr)\n      elseif stamp:match(\"^[%d:%.]+$\") then\n        local sec = 0\n        for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n        if sec then f = math.floor(sec * fps + 0.5) end\n      end\n      if f then out[#out + 1] = {f / len, name} end\n    end\n  end\n  table.sort(out, function(a, b) return a[1] < b[1] end)\n  return out\nend)(BarCtrl.ChapterList.Value, iif(BarCtrl.FpsOverride > 0, BarCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), max(comp.RenderEnd - comp.RenderStart, 1)))" },
 						GlobalIn = Input { Value = -480 },
+						S5 = Input { Expression = "(function(c)\n  local n = 0\n  for i = 1, #c do\n    if c[i][1] > 0.0001 then n = n + 1; if n == 5 then return c[i][1] end end\n  end\n  return 2\nend)((function(txt, fps, len)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local stamp, name = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n    if stamp then\n      local f\n      local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n      if pct then f = tonumber(pct) / 100 * len\n      elseif fr then f = tonumber(fr)\n      elseif stamp:match(\"^[%d:%.]+$\") then\n        local sec = 0\n        for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n        if sec then f = math.floor(sec * fps + 0.5) end\n      end\n      if f then out[#out + 1] = {f / len, name} end\n    end\n  end\n  table.sort(out, function(a, b) return a[1] < b[1] end)\n  return out\nend)(BarCtrl.ChapterList.Value, iif(BarCtrl.FpsOverride > 0, BarCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), max(comp.RenderEnd - comp.RenderStart, 1)))" },
 						GlobalOut = Input { Value = 3534 },
 						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						Cur = Input { Expression = "1 + iif(P >= S1, 1, 0) + iif(P >= S2, 1, 0) + iif(P >= S3, 1, 0) + iif(P >= S4, 1, 0) + iif(P >= S5, 1, 0)" },
-						CurStart = Input { Expression = "iif(Cur == 2, S1, iif(Cur == 3, S2, iif(Cur == 4, S3, iif(Cur == 5, S4, iif(Cur == 6, S5, 0)))))" },
-						CurEnd = Input { Expression = "iif(Cur == 1, min(S1, 1), iif(Cur == 2, min(S2, 1), iif(Cur == 3, min(S3, 1), iif(Cur == 4, min(S4, 1), iif(Cur == 5, min(S5, 1), 1)))))" },
-						LabelFade = Input { Expression = "iif(Cur <= 1, 1, min(max((time - (comp.RenderStart + CurStart*(comp.RenderEnd - comp.RenderStart)))/10, 0), 1))" },
+						S8 = Input { Expression = "(function(c)\n  local n = 0\n  for i = 1, #c do\n    if c[i][1] > 0.0001 then n = n + 1; if n == 8 then return c[i][1] end end\n  end\n  return 2\nend)((function(txt, fps, len)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local stamp, name = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n    if stamp then\n      local f\n      local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n      if pct then f = tonumber(pct) / 100 * len\n      elseif fr then f = tonumber(fr)\n      elseif stamp:match(\"^[%d:%.]+$\") then\n        local sec = 0\n        for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n        if sec then f = math.floor(sec * fps + 0.5) end\n      end\n      if f then out[#out + 1] = {f / len, name} end\n    end\n  end\n  table.sort(out, function(a, b) return a[1] < b[1] end)\n  return out\nend)(BarCtrl.ChapterList.Value, iif(BarCtrl.FpsOverride > 0, BarCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), max(comp.RenderEnd - comp.RenderStart, 1)))" },
+						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
+						S11 = Input { Expression = "(function(c)\n  local n = 0\n  for i = 1, #c do\n    if c[i][1] > 0.0001 then n = n + 1; if n == 11 then return c[i][1] end end\n  end\n  return 2\nend)((function(txt, fps, len)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local stamp, name = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n    if stamp then\n      local f\n      local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n      if pct then f = tonumber(pct) / 100 * len\n      elseif fr then f = tonumber(fr)\n      elseif stamp:match(\"^[%d:%.]+$\") then\n        local sec = 0\n        for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n        if sec then f = math.floor(sec * fps + 0.5) end\n      end\n      if f then out[#out + 1] = {f / len, name} end\n    end\n  end\n  table.sort(out, function(a, b) return a[1] < b[1] end)\n  return out\nend)(BarCtrl.ChapterList.Value, iif(BarCtrl.FpsOverride > 0, BarCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), max(comp.RenderEnd - comp.RenderStart, 1)))" },
 						TopLeftAlpha = Input { Value = 0 },
-						S5 = Input { Expression = "iif(5 < Chapters, iif(EvenSplit == 1, 5/Chapters, Start6), 2)" },
-						P = Input { Expression = "min(max((time - comp.RenderStart) / max(comp.RenderEnd - comp.RenderStart, 1), 0), 1)" }
+						S13 = Input { Expression = "(function(c)\n  local n = 0\n  for i = 1, #c do\n    if c[i][1] > 0.0001 then n = n + 1; if n == 13 then return c[i][1] end end\n  end\n  return 2\nend)((function(txt, fps, len)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local stamp, name = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n    if stamp then\n      local f\n      local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n      if pct then f = tonumber(pct) / 100 * len\n      elseif fr then f = tonumber(fr)\n      elseif stamp:match(\"^[%d:%.]+$\") then\n        local sec = 0\n        for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n        if sec then f = math.floor(sec * fps + 0.5) end\n      end\n      if f then out[#out + 1] = {f / len, name} end\n    end\n  end\n  table.sort(out, function(a, b) return a[1] < b[1] end)\n  return out\nend)(BarCtrl.ChapterList.Value, iif(BarCtrl.FpsOverride > 0, BarCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), max(comp.RenderEnd - comp.RenderStart, 1)))" },
+						S14 = Input { Expression = "(function(c)\n  local n = 0\n  for i = 1, #c do\n    if c[i][1] > 0.0001 then n = n + 1; if n == 14 then return c[i][1] end end\n  end\n  return 2\nend)((function(txt, fps, len)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local stamp, name = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n    if stamp then\n      local f\n      local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n      if pct then f = tonumber(pct) / 100 * len\n      elseif fr then f = tonumber(fr)\n      elseif stamp:match(\"^[%d:%.]+$\") then\n        local sec = 0\n        for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n        if sec then f = math.floor(sec * fps + 0.5) end\n      end\n      if f then out[#out + 1] = {f / len, name} end\n    end\n  end\n  table.sort(out, function(a, b) return a[1] < b[1] end)\n  return out\nend)(BarCtrl.ChapterList.Value, iif(BarCtrl.FpsOverride > 0, BarCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), max(comp.RenderEnd - comp.RenderStart, 1)))" },
+						S15 = Input { Expression = "(function(c)\n  local n = 0\n  for i = 1, #c do\n    if c[i][1] > 0.0001 then n = n + 1; if n == 15 then return c[i][1] end end\n  end\n  return 2\nend)((function(txt, fps, len)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local stamp, name = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n    if stamp then\n      local f\n      local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n      if pct then f = tonumber(pct) / 100 * len\n      elseif fr then f = tonumber(fr)\n      elseif stamp:match(\"^[%d:%.]+$\") then\n        local sec = 0\n        for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n        if sec then f = math.floor(sec * fps + 0.5) end\n      end\n      if f then out[#out + 1] = {f / len, name} end\n    end\n  end\n  table.sort(out, function(a, b) return a[1] < b[1] end)\n  return out\nend)(BarCtrl.ChapterList.Value, iif(BarCtrl.FpsOverride > 0, BarCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), max(comp.RenderEnd - comp.RenderStart, 1)))" },
+						S16 = Input { Expression = "(function(c)\n  local n = 0\n  for i = 1, #c do\n    if c[i][1] > 0.0001 then n = n + 1; if n == 16 then return c[i][1] end end\n  end\n  return 2\nend)((function(txt, fps, len)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local stamp, name = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n    if stamp then\n      local f\n      local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n      if pct then f = tonumber(pct) / 100 * len\n      elseif fr then f = tonumber(fr)\n      elseif stamp:match(\"^[%d:%.]+$\") then\n        local sec = 0\n        for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n        if sec then f = math.floor(sec * fps + 0.5) end\n      end\n      if f then out[#out + 1] = {f / len, name} end\n    end\n  end\n  table.sort(out, function(a, b) return a[1] < b[1] end)\n  return out\nend)(BarCtrl.ChapterList.Value, iif(BarCtrl.FpsOverride > 0, BarCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), max(comp.RenderEnd - comp.RenderStart, 1)))" }
 					},
 					UserControls = {
-						Knob = {
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "Knob Size",
-							INP_Default = 1.3,
-							INP_MinScale = 0,
-							INP_MaxScale = 3,
-							INP_Integer = false
-						},
-						Name2 = {
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "TextEditControl",
-							LINKS_Name = "Chapter 2 Name",
-							INPS_DefaultText = "Part 1",
-							TEC_Lines = 1,
-							LINKID_DataType = "Text"
-						},
-						Start2 = {
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "Chapter 2 Start",
-							INP_Default = 0.166666666666667,
-							INP_MinScale = 0,
-							INP_MaxScale = 1,
-							INP_Integer = false
-						},
 						BarMargin = {
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
 							LINKID_DataType = "Number",
-							LINKS_Name = "Side Margin",
 							INP_Default = 0.04,
-							INP_MinScale = 0,
+							INPID_InputControl = "SliderControl",
 							INP_MaxScale = 0.3,
-							INP_Integer = false
-						},
-						S2 = {
-							ICS_ControlPage = "Driver",
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "S2",
-							INP_Default = 2,
-							INP_MinScale = 0,
-							INP_MaxScale = 2,
-							INP_Integer = false
-						},
-						Name3 = {
+							LINKS_Name = "Side Margin",
 							ICS_ControlPage = "Controls",
-							INPID_InputControl = "TextEditControl",
-							LINKS_Name = "Chapter 3 Name",
-							INPS_DefaultText = "Part 2",
-							TEC_Lines = 1,
-							LINKID_DataType = "Text"
-						},
-						Name1 = {
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "TextEditControl",
-							LINKS_Name = "Chapter 1 Name",
-							INPS_DefaultText = "Intro",
-							TEC_Lines = 1,
-							LINKID_DataType = "Text"
-						},
-						Start3 = {
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "Chapter 3 Start",
-							INP_Default = 0.333333333333333,
 							INP_MinScale = 0,
-							INP_MaxScale = 1,
-							INP_Integer = false
-						},
-						CurStart = {
-							ICS_ControlPage = "Driver",
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "CurStart",
-							INP_Default = 0,
-							INP_MinScale = 0,
-							INP_MaxScale = 1,
-							INP_Integer = false
-						},
-						S3 = {
-							ICS_ControlPage = "Driver",
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "S3",
-							INP_Default = 2,
-							INP_MinScale = 0,
-							INP_MaxScale = 2,
 							INP_Integer = false
 						},
 						P = {
-							ICS_ControlPage = "Driver",
-							INPID_InputControl = "SliderControl",
 							LINKID_DataType = "Number",
-							LINKS_Name = "P",
 							INP_Default = 0,
-							INP_MinScale = 0,
-							INP_MaxScale = 1,
-							INP_Integer = false
-						},
-						Chapters = {
-							ICS_ControlPage = "Controls",
 							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "Chapters",
-							INP_Default = 4,
-							INP_MinScale = 1,
-							INP_MaxScale = 6,
-							INP_Integer = true
-						},
-						Start4 = {
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "Chapter 4 Start",
-							INP_Default = 0.5,
-							INP_MinScale = 0,
 							INP_MaxScale = 1,
-							INP_Integer = false
-						},
-						Name4 = {
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "TextEditControl",
-							LINKS_Name = "Chapter 4 Name",
-							INPS_DefaultText = "Part 3",
-							TEC_Lines = 1,
-							LINKID_DataType = "Text"
-						},
-						S4 = {
+							LINKS_Name = "P",
 							ICS_ControlPage = "Driver",
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "S4",
-							INP_Default = 2,
 							INP_MinScale = 0,
-							INP_MaxScale = 2,
-							INP_Integer = false
-						},
-						Name5 = {
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "TextEditControl",
-							LINKS_Name = "Chapter 5 Name",
-							INPS_DefaultText = "Part 4",
-							TEC_Lines = 1,
-							LINKID_DataType = "Text"
-						},
-						Cur = {
-							ICS_ControlPage = "Driver",
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "Cur",
-							INP_Default = 1,
-							INP_MinScale = 1,
-							INP_MaxScale = 6,
-							INP_Integer = false
-						},
-						ShowLabel = {
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "CheckboxControl",
-							LINKS_Name = "Show Chapter Name",
-							INP_Default = 1,
-							LINKID_DataType = "Number",
-							INP_Integer = true
-						},
-						EvenSplit = {
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "CheckboxControl",
-							LINKS_Name = "Even Chapters",
-							INP_Default = 1,
-							LINKID_DataType = "Number",
-							INP_Integer = true
-						},
-						S5 = {
-							ICS_ControlPage = "Driver",
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "S5",
-							INP_Default = 2,
-							INP_MinScale = 0,
-							INP_MaxScale = 2,
-							INP_Integer = false
-						},
-						Name6 = {
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "TextEditControl",
-							LINKS_Name = "Chapter 6 Name",
-							INPS_DefaultText = "Outro",
-							TEC_Lines = 1,
-							LINKID_DataType = "Text"
-						},
-						BarY = {
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "Bar Position",
-							INP_Default = 0.06,
-							INP_MinScale = 0,
-							INP_MaxScale = 1,
-							INP_Integer = false
-						},
-						Start6 = {
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "Chapter 6 Start",
-							INP_Default = 0.833333333333333,
-							INP_MinScale = 0,
-							INP_MaxScale = 1,
-							INP_Integer = false
-						},
-						BarH = {
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "Bar Height",
-							INP_Default = 0.012,
-							INP_MinScale = 0.002,
-							INP_MaxScale = 0.05,
-							INP_Integer = false
-						},
-						CurEnd = {
-							ICS_ControlPage = "Driver",
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "CurEnd",
-							INP_Default = 1,
-							INP_MinScale = 0,
-							INP_MaxScale = 1,
-							INP_Integer = false
-						},
-						LabelFade = {
-							ICS_ControlPage = "Driver",
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "LabelFade",
-							INP_Default = 1,
-							INP_MinScale = 0,
-							INP_MaxScale = 1,
-							INP_Integer = false
-						},
-						LabelSize = {
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "Name Size",
-							INP_Default = 0.035,
-							INP_MinScale = 0.01,
-							INP_MaxScale = 0.1,
 							INP_Integer = false
 						},
 						BarGap = {
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
 							LINKID_DataType = "Number",
-							LINKS_Name = "Chapter Gap",
 							INP_Default = 0.004,
-							INP_MinScale = 0,
+							INPID_InputControl = "SliderControl",
 							INP_MaxScale = 0.02,
+							LINKS_Name = "Chapter Gap",
+							ICS_ControlPage = "Controls",
+							INP_MinScale = 0,
 							INP_Integer = false
 						},
-						S1 = {
-							ICS_ControlPage = "Driver",
-							INPID_InputControl = "SliderControl",
+						S17 = {
 							LINKID_DataType = "Number",
-							LINKS_Name = "S1",
 							INP_Default = 2,
-							INP_MinScale = 0,
+							INPID_InputControl = "SliderControl",
 							INP_MaxScale = 2,
+							LINKS_Name = "S17",
+							ICS_ControlPage = "Driver",
+							INP_MinScale = 0,
 							INP_Integer = false
 						},
 						TrackOpacity = {
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
 							LINKID_DataType = "Number",
-							LINKS_Name = "Track Opacity",
 							INP_Default = 0.35,
-							INP_MinScale = 0,
+							INPID_InputControl = "SliderControl",
 							INP_MaxScale = 1,
+							LINKS_Name = "Track Opacity",
+							ICS_ControlPage = "Controls",
+							INP_MinScale = 0,
 							INP_Integer = false
 						},
-						Start5 = {
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
+						BarH = {
 							LINKID_DataType = "Number",
-							LINKS_Name = "Chapter 5 Start",
-							INP_Default = 0.666666666666667,
+							INP_Default = 0.012,
+							INPID_InputControl = "SliderControl",
+							INP_MaxScale = 0.05,
+							LINKS_Name = "Bar Height",
+							ICS_ControlPage = "Controls",
+							INP_MinScale = 0.002,
+							INP_Integer = false
+						},
+						Knob = {
+							LINKID_DataType = "Number",
+							INP_Default = 1.3,
+							INPID_InputControl = "SliderControl",
+							INP_MaxScale = 3,
+							LINKS_Name = "Knob Size",
+							ICS_ControlPage = "Controls",
 							INP_MinScale = 0,
+							INP_Integer = false
+						},
+						S19 = {
+							LINKID_DataType = "Number",
+							INP_Default = 2,
+							INPID_InputControl = "SliderControl",
+							INP_MaxScale = 2,
+							LINKS_Name = "S19",
+							ICS_ControlPage = "Driver",
+							INP_MinScale = 0,
+							INP_Integer = false
+						},
+						ShowLabel = {
+							LINKID_DataType = "Number",
+							INP_Default = 1,
+							INPID_InputControl = "CheckboxControl",
+							LINKS_Name = "Show Chapter Name",
+							ICS_ControlPage = "Controls",
+							INP_Integer = true
+						},
+						BarY = {
+							LINKID_DataType = "Number",
+							INP_Default = 0.06,
+							INPID_InputControl = "SliderControl",
 							INP_MaxScale = 1,
+							LINKS_Name = "Bar Position",
+							ICS_ControlPage = "Controls",
+							INP_MinScale = 0,
+							INP_Integer = false
+						},
+						S18 = {
+							LINKID_DataType = "Number",
+							INP_Default = 2,
+							INPID_InputControl = "SliderControl",
+							INP_MaxScale = 2,
+							LINKS_Name = "S18",
+							ICS_ControlPage = "Driver",
+							INP_MinScale = 0,
+							INP_Integer = false
+						},
+						LabelSize = {
+							LINKID_DataType = "Number",
+							INP_Default = 0.035,
+							INPID_InputControl = "SliderControl",
+							INP_MaxScale = 0.1,
+							LINKS_Name = "Name Size",
+							ICS_ControlPage = "Controls",
+							INP_MinScale = 0.01,
+							INP_Integer = false
+						},
+						FpsOverride = {
+							LINKID_DataType = "Number",
+							INP_Default = 0,
+							INPID_InputControl = "SliderControl",
+							INP_MaxScale = 120,
+							LINKS_Name = "Frame Rate Override",
+							ICS_ControlPage = "Controls",
+							INP_MinScale = 0,
+							INP_Integer = false
+						},
+						ChapterList = {
+							LINKID_DataType = "Text",
+							INPS_DefaultText = "0% Intro\n25% Part 1\n50% Part 2\n75% Outro",
+							INPID_InputControl = "TextEditControl",
+							LINKS_Name = "Chapters (0:00 Name)",
+							ICS_ControlPage = "Controls",
+							TEC_Lines = 8
+						},
+						LabelFade = {
+							LINKID_DataType = "Number",
+							INP_Default = 1,
+							INPID_InputControl = "SliderControl",
+							INP_MaxScale = 1,
+							LINKS_Name = "LabelFade",
+							ICS_ControlPage = "Driver",
+							INP_MinScale = 0,
+							INP_Integer = false
+						},
+						Span = {
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "Span"
+						},
+						S1 = {
+							LINKID_DataType = "Number",
+							INP_Default = 2,
+							INPID_InputControl = "SliderControl",
+							INP_MaxScale = 2,
+							LINKS_Name = "S1",
+							ICS_ControlPage = "Driver",
+							INP_MinScale = 0,
+							INP_Integer = false
+						},
+						S2 = {
+							LINKID_DataType = "Number",
+							INP_Default = 2,
+							INPID_InputControl = "SliderControl",
+							INP_MaxScale = 2,
+							LINKS_Name = "S2",
+							ICS_ControlPage = "Driver",
+							INP_MinScale = 0,
+							INP_Integer = false
+						},
+						S3 = {
+							LINKID_DataType = "Number",
+							INP_Default = 2,
+							INPID_InputControl = "SliderControl",
+							INP_MaxScale = 2,
+							LINKS_Name = "S3",
+							ICS_ControlPage = "Driver",
+							INP_MinScale = 0,
+							INP_Integer = false
+						},
+						S4 = {
+							LINKID_DataType = "Number",
+							INP_Default = 2,
+							INPID_InputControl = "SliderControl",
+							INP_MaxScale = 2,
+							LINKS_Name = "S4",
+							ICS_ControlPage = "Driver",
+							INP_MinScale = 0,
+							INP_Integer = false
+						},
+						S5 = {
+							LINKID_DataType = "Number",
+							INP_Default = 2,
+							INPID_InputControl = "SliderControl",
+							INP_MaxScale = 2,
+							LINKS_Name = "S5",
+							ICS_ControlPage = "Driver",
+							INP_MinScale = 0,
+							INP_Integer = false
+						},
+						S6 = {
+							LINKID_DataType = "Number",
+							INP_Default = 2,
+							INPID_InputControl = "SliderControl",
+							INP_MaxScale = 2,
+							LINKS_Name = "S6",
+							ICS_ControlPage = "Driver",
+							INP_MinScale = 0,
+							INP_Integer = false
+						},
+						S7 = {
+							LINKID_DataType = "Number",
+							INP_Default = 2,
+							INPID_InputControl = "SliderControl",
+							INP_MaxScale = 2,
+							LINKS_Name = "S7",
+							ICS_ControlPage = "Driver",
+							INP_MinScale = 0,
+							INP_Integer = false
+						},
+						S8 = {
+							LINKID_DataType = "Number",
+							INP_Default = 2,
+							INPID_InputControl = "SliderControl",
+							INP_MaxScale = 2,
+							LINKS_Name = "S8",
+							ICS_ControlPage = "Driver",
+							INP_MinScale = 0,
+							INP_Integer = false
+						},
+						S9 = {
+							LINKID_DataType = "Number",
+							INP_Default = 2,
+							INPID_InputControl = "SliderControl",
+							INP_MaxScale = 2,
+							LINKS_Name = "S9",
+							ICS_ControlPage = "Driver",
+							INP_MinScale = 0,
+							INP_Integer = false
+						},
+						S10 = {
+							LINKID_DataType = "Number",
+							INP_Default = 2,
+							INPID_InputControl = "SliderControl",
+							INP_MaxScale = 2,
+							LINKS_Name = "S10",
+							ICS_ControlPage = "Driver",
+							INP_MinScale = 0,
+							INP_Integer = false
+						},
+						S11 = {
+							LINKID_DataType = "Number",
+							INP_Default = 2,
+							INPID_InputControl = "SliderControl",
+							INP_MaxScale = 2,
+							LINKS_Name = "S11",
+							ICS_ControlPage = "Driver",
+							INP_MinScale = 0,
+							INP_Integer = false
+						},
+						S12 = {
+							LINKID_DataType = "Number",
+							INP_Default = 2,
+							INPID_InputControl = "SliderControl",
+							INP_MaxScale = 2,
+							LINKS_Name = "S12",
+							ICS_ControlPage = "Driver",
+							INP_MinScale = 0,
+							INP_Integer = false
+						},
+						S13 = {
+							LINKID_DataType = "Number",
+							INP_Default = 2,
+							INPID_InputControl = "SliderControl",
+							INP_MaxScale = 2,
+							LINKS_Name = "S13",
+							ICS_ControlPage = "Driver",
+							INP_MinScale = 0,
+							INP_Integer = false
+						},
+						S14 = {
+							LINKID_DataType = "Number",
+							INP_Default = 2,
+							INPID_InputControl = "SliderControl",
+							INP_MaxScale = 2,
+							LINKS_Name = "S14",
+							ICS_ControlPage = "Driver",
+							INP_MinScale = 0,
+							INP_Integer = false
+						},
+						S15 = {
+							LINKID_DataType = "Number",
+							INP_Default = 2,
+							INPID_InputControl = "SliderControl",
+							INP_MaxScale = 2,
+							LINKS_Name = "S15",
+							ICS_ControlPage = "Driver",
+							INP_MinScale = 0,
+							INP_Integer = false
+						},
+						S16 = {
+							LINKID_DataType = "Number",
+							INP_Default = 2,
+							INPID_InputControl = "SliderControl",
+							INP_MaxScale = 2,
+							LINKS_Name = "S16",
+							ICS_ControlPage = "Driver",
+							INP_MinScale = 0,
 							INP_Integer = false
 						}
 					},
-					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } },
 					CtrlWZoom = false
 				},
 				Track = Background {
+					ViewInfo = OperatorInfo { Pos = { -385, -16.5 } },
 					Inputs = {
-						TopLeftBlue = Input { Value = 1 },
 						GlobalIn = Input { Value = -480 },
-						Height = Input { Value = 1080 },
+						TopLeftRed = Input { Value = 1 },
 						GlobalOut = Input { Value = 3534 },
 						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						UseFrameFormatSettings = Input { Value = 1 },
-						TopLeftRed = Input { Value = 1 },
+						TopLeftGreen = Input { Value = 1 },
 						Width = Input { Value = 1920 },
-						TopLeftGreen = Input { Value = 1 }
-					},
-					ViewInfo = OperatorInfo { Pos = { -385, -16.5 } }
+						Height = Input { Value = 1080 },
+						TopLeftBlue = Input { Value = 1 },
+						UseFrameFormatSettings = Input { Value = 1 }
+					}
 				},
 				Fill = Background {
+					ViewInfo = OperatorInfo { Pos = { -385, 49.5 } },
 					Inputs = {
-						TopLeftBlue = Input { Value = 0.16 },
 						GlobalIn = Input { Value = -480 },
-						Height = Input { Value = 1080 },
+						TopLeftRed = Input { Value = 0.93 },
 						GlobalOut = Input { Value = 3534 },
 						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						UseFrameFormatSettings = Input { Value = 1 },
-						TopLeftRed = Input { Value = 0.93 },
+						TopLeftGreen = Input { Value = 0.16 },
 						Width = Input { Value = 1920 },
-						TopLeftGreen = Input { Value = 0.16 }
-					},
-					ViewInfo = OperatorInfo { Pos = { -385, 49.5 } }
+						Height = Input { Value = 1080 },
+						TopLeftBlue = Input { Value = 0.16 },
+						UseFrameFormatSettings = Input { Value = 1 }
+					}
 				},
 				BarDraw = Custom {
+					ViewInfo = OperatorInfo { Pos = { -275, 16.5 } },
 					Inputs = {
+						LUTIn3 = Input {
+							SourceOp = "CustomTool1LUTIn3",
+							Source = "Value"
+						},
 						LUTIn4 = Input {
 							SourceOp = "CustomTool1LUTIn4",
 							Source = "Value"
 						},
-						Intermediate1 = Input { Value = "(x - n4)/(1 - 2*n4)" },
-						Intermediate2 = Input { Value = "if(abs(y - n2) < n3/2, 1, 0) * if(i1 >= 0, 1, 0) * if(i1 <= 1, 1, 0)" },
-						Intermediate3 = Input { Value = "min(min(abs(i1 - p1x), abs(i1 - p1y)), min(min(abs(i1 - p2x), abs(i1 - p2y)), abs(i1 - p3x)))" },
-						Intermediate4 = Input { Value = "i2 * if(i3 > n5/2, 1, 0)" },
-						Intermediate5 = Input { Value = "if(i1 <= n1, 1, 0)" },
-						Image1 = Input {
-							SourceOp = "Track",
-							Source = "Output"
-						},
-						Intermediate6 = Input { Value = "if(sqrt(((x - n4 - n1*(1 - 2*n4))*w/h)^2 + (y - n2)^2) < n3*n7/2, 1, 0)" },
+						Intermediate3 = Input { Value = "min(min(min(min(min(min(min(min(abs(i1 - n8), abs(i1 - p1x)), abs(i1 - p1y)), abs(i1 - p2x)), abs(i1 - p2y)), abs(i1 - p3x)), abs(i1 - p3y)), abs(i1 - p4x)), abs(i1 - p4y))" },
+						RedExpression = Input { Value = "i4 * if(i5 > 0, r2, r1*n6)" },
 						Image2 = Input {
 							SourceOp = "Fill",
 							Source = "Output"
 						},
+						GreenExpression = Input { Value = "i4 * if(i5 > 0, g2, g1*n6)" },
+						Image1 = Input {
+							SourceOp = "Track",
+							Source = "Output"
+						},
+						BlueExpression = Input { Value = "i4 * if(i5 > 0, b2, b1*n6)" },
 						NumberIn1 = Input { Expression = "BarCtrl.P" },
+						Intermediate4 = Input { Value = "i2 * if(i3 > n5/2, 1, 0)" },
 						NumberIn2 = Input { Expression = "BarCtrl.BarY" },
-						RedExpression = Input { Value = "if(i6 > 0, r2, i4 * if(i5 > 0, r2, r1*n6))" },
+						Intermediate5 = Input { Value = "if(i1 <= n1, 1, 0)" },
 						NumberIn3 = Input { Expression = "BarCtrl.BarH" },
-						GreenExpression = Input { Value = "if(i6 > 0, g2, i4 * if(i5 > 0, g2, g1*n6))" },
+						AlphaExpression = Input { Value = "i4 * if(i5 > 0, 1, n6)" },
 						NumberIn4 = Input { Expression = "BarCtrl.BarMargin" },
-						BlueExpression = Input { Value = "if(i6 > 0, b2, i4 * if(i5 > 0, b2, b1*n6))" },
+						Intermediate2 = Input { Value = "if(abs(y - n2) < n3/2, 1, 0) * if(i1 >= 0, 1, 0) * if(i1 <= 1, 1, 0)" },
 						NumberIn5 = Input { Expression = "BarCtrl.BarGap" },
-						AlphaExpression = Input { Value = "if(i6 > 0, 1, i4 * if(i5 > 0, 1, n6))" },
+						PointIn1 = Input { Expression = "Point(BarCtrl.S2, BarCtrl.S3)" },
 						NumberIn6 = Input { Expression = "BarCtrl.TrackOpacity" },
-						NumberIn7 = Input { Expression = "BarCtrl.Knob" },
-						PointIn1 = Input { Expression = "Point(BarCtrl.S1, BarCtrl.S2)" },
+						PointIn2 = Input { Expression = "Point(BarCtrl.S4, BarCtrl.S5)" },
+						NumberIn8 = Input { Expression = "BarCtrl.S1" },
+						PointIn3 = Input { Expression = "Point(BarCtrl.S6, BarCtrl.S7)" },
 						LUTIn1 = Input {
 							SourceOp = "CustomTool1LUTIn1",
 							Source = "Value"
 						},
-						PointIn3 = Input { Expression = "Point(BarCtrl.S5, 2)" },
-						PointIn2 = Input { Expression = "Point(BarCtrl.S3, BarCtrl.S4)" },
+						PointIn4 = Input { Expression = "Point(BarCtrl.S8, BarCtrl.S9)" },
+						Intermediate1 = Input { Value = "(x - n4)/(1 - 2*n4)" },
 						LUTIn2 = Input {
 							SourceOp = "CustomTool1LUTIn2",
 							Source = "Value"
-						},
-						LUTIn3 = Input {
-							SourceOp = "CustomTool1LUTIn3",
-							Source = "Value"
 						}
-					},
-					ViewInfo = OperatorInfo { Pos = { -275, 16.5 } }
+					}
 				},
 				CustomTool1LUTIn1 = LUTBezier {
+					NameSet = true,
+					CtrlWZoom = false,
 					KeyColorSplines = {
 						[0] = {
-							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
 							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
 						}
 					},
-					NameSet = true,
-					SplineColor = { Blue = 0, Red = 0, Green = 0 },
-					CtrlWZoom = false
+					SplineColor = { Green = 0, Blue = 0, Red = 0 }
 				},
 				CustomTool1LUTIn2 = LUTBezier {
+					NameSet = true,
+					CtrlWZoom = false,
 					KeyColorSplines = {
 						[0] = {
-							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
 							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
 						}
 					},
-					NameSet = true,
-					SplineColor = { Blue = 0, Red = 0, Green = 0 },
-					CtrlWZoom = false
+					SplineColor = { Green = 0, Blue = 0, Red = 0 }
 				},
 				CustomTool1LUTIn3 = LUTBezier {
+					NameSet = true,
+					CtrlWZoom = false,
 					KeyColorSplines = {
 						[0] = {
-							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
 							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
 						}
 					},
-					NameSet = true,
-					SplineColor = { Blue = 0, Red = 0, Green = 0 },
-					CtrlWZoom = false
+					SplineColor = { Green = 0, Blue = 0, Red = 0 }
 				},
 				CustomTool1LUTIn4 = LUTBezier {
+					NameSet = true,
+					CtrlWZoom = false,
 					KeyColorSplines = {
 						[0] = {
-							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
 							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
 						}
 					},
+					SplineColor = { Green = 0, Blue = 0, Red = 0 }
+				},
+				BarCut = Custom {
+					ViewInfo = OperatorInfo { Pos = { -165, 16.5 } },
+					Inputs = {
+						LUTIn3 = Input {
+							SourceOp = "CustomTool1LUTIn31",
+							Source = "Value"
+						},
+						LUTIn4 = Input {
+							SourceOp = "CustomTool1LUTIn41",
+							Source = "Value"
+						},
+						Intermediate3 = Input { Value = "if(i2 > n5/2, 1, 0)" },
+						RedExpression = Input { Value = "if(i4 > 0, r2, r1*i3)" },
+						Image2 = Input {
+							SourceOp = "Fill",
+							Source = "Output"
+						},
+						GreenExpression = Input { Value = "if(i4 > 0, g2, g1*i3)" },
+						Image1 = Input {
+							SourceOp = "BarDraw",
+							Source = "Output"
+						},
+						BlueExpression = Input { Value = "if(i4 > 0, b2, b1*i3)" },
+						NumberIn1 = Input { Expression = "BarCtrl.P" },
+						Intermediate4 = Input { Value = "if(sqrt(((x - n4 - n1*(1 - 2*n4))*w/h)^2 + (y - n2)^2) < n3*n6/2, 1, 0)" },
+						NumberIn2 = Input { Expression = "BarCtrl.BarY" },
+						AlphaExpression = Input { Value = "if(i4 > 0, 1, a1*i3)" },
+						NumberIn3 = Input { Expression = "BarCtrl.BarH" },
+						Intermediate2 = Input { Value = "min(min(min(min(min(min(min(min(min(abs(i1 - n7), abs(i1 - n8)), abs(i1 - p1x)), abs(i1 - p1y)), abs(i1 - p2x)), abs(i1 - p2y)), abs(i1 - p3x)), abs(i1 - p3y)), abs(i1 - p4x)), abs(i1 - p4y))" },
+						NumberIn4 = Input { Expression = "BarCtrl.BarMargin" },
+						NumberIn7 = Input { Expression = "BarCtrl.S10" },
+						NumberIn5 = Input { Expression = "BarCtrl.BarGap" },
+						PointIn1 = Input { Expression = "Point(BarCtrl.S12, BarCtrl.S13)" },
+						NumberIn6 = Input { Expression = "BarCtrl.Knob" },
+						PointIn2 = Input { Expression = "Point(BarCtrl.S14, BarCtrl.S15)" },
+						NumberIn8 = Input { Expression = "BarCtrl.S11" },
+						PointIn3 = Input { Expression = "Point(BarCtrl.S16, BarCtrl.S17)" },
+						LUTIn1 = Input {
+							SourceOp = "CustomTool1LUTIn11",
+							Source = "Value"
+						},
+						PointIn4 = Input { Expression = "Point(BarCtrl.S18, BarCtrl.S19)" },
+						Intermediate1 = Input { Value = "(x - n4)/(1 - 2*n4)" },
+						LUTIn2 = Input {
+							SourceOp = "CustomTool1LUTIn21",
+							Source = "Value"
+						}
+					}
+				},
+				CustomTool1LUTIn11 = LUTBezier {
 					NameSet = true,
-					SplineColor = { Blue = 0, Red = 0, Green = 0 },
-					CtrlWZoom = false
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					SplineColor = { Green = 0, Blue = 0, Red = 0 }
+				},
+				CustomTool1LUTIn21 = LUTBezier {
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					SplineColor = { Green = 0, Blue = 0, Red = 0 }
+				},
+				CustomTool1LUTIn31 = LUTBezier {
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					SplineColor = { Green = 0, Blue = 0, Red = 0 }
+				},
+				CustomTool1LUTIn41 = LUTBezier {
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					SplineColor = { Green = 0, Blue = 0, Red = 0 }
 				},
 				Label = TextPlus {
 					Inputs = {
-						Width = Input { Value = 1920 },
-						Height = Input { Value = 1080 },
-						Size = Input { Expression = "BarCtrl.LabelSize" },
-						Center = Input { Expression = "Point(BarCtrl.BarMargin + (BarCtrl.CurStart + BarCtrl.CurEnd)/2*(1 - 2*BarCtrl.BarMargin), BarCtrl.BarY + BarCtrl.BarH/2 + BarCtrl.LabelSize*0.75)" },
 						Wrap = Input { Value = 1 },
-						LayoutRotation = Input { Value = 1 },
+						Font = Input { Value = "Microsoft JhengHei" },
 						TransformRotation = Input { Value = 1 },
-						UseFrameFormatSettings = Input { Value = 1 },
+						Style = Input { Value = "Bold" },
 						VerticalJustificationNew = Input { Value = 3 },
-						HorizontalJustificationNew = Input { Value = 3 },
+						StyledText = Input { Expression = "Text((function(c, p)\n  local name = \"\"\n  for i = 1, #c do if c[i][1] <= p + 0.000001 then name = c[i][2] end end\n  return name\nend)((function(txt, fps, len)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local stamp, name = line:match(\"^%s*(%S+)%s*(.-)%s*$\")\n    if stamp then\n      local f\n      local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n      if pct then f = tonumber(pct) / 100 * len\n      elseif fr then f = tonumber(fr)\n      elseif stamp:match(\"^[%d:%.]+$\") then\n        local sec = 0\n        for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n        if sec then f = math.floor(sec * fps + 0.5) end\n      end\n      if f then out[#out + 1] = {f / len, name} end\n    end\n  end\n  table.sort(out, function(a, b) return a[1] < b[1] end)\n  return out\nend)(BarCtrl.ChapterList.Value, iif(BarCtrl.FpsOverride > 0, BarCtrl.FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), max(comp.RenderEnd - comp.RenderStart, 1)), BarCtrl.P))" },
+						Size = Input { Expression = "BarCtrl.LabelSize" },
+						Center = Input { Expression = "Point(BarCtrl.BarMargin + (BarCtrl.Span.X + BarCtrl.Span.Y)/2*(1 - 2*BarCtrl.BarMargin), BarCtrl.BarY + BarCtrl.BarH/2 + BarCtrl.LabelSize*0.75)" },
 						GlobalIn = Input { Value = -480 },
 						GlobalOut = Input { Value = 3534 },
 						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						Font = Input { Value = "Open Sans" },
-						Style = Input { Value = "Bold" },
+						Width = Input { Value = 1920 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						HorizontalJustificationNew = Input { Value = 3 },
 						Softness1 = Input { Value = 1 },
-						StyledText = Input { Expression = "Text(iif(BarCtrl.Cur == 6, BarCtrl.Name6.Value, iif(BarCtrl.Cur == 5, BarCtrl.Name5.Value, iif(BarCtrl.Cur == 4, BarCtrl.Name4.Value, iif(BarCtrl.Cur == 3, BarCtrl.Name3.Value, iif(BarCtrl.Cur == 2, BarCtrl.Name2.Value, BarCtrl.Name1.Value))))))" }
+						LayoutRotation = Input { Value = 1 },
+						Height = Input { Value = 1080 }
 					},
-					Version = 1,
-					ViewInfo = OperatorInfo { Pos = { -275, -49.5 } }
+					ViewInfo = OperatorInfo { Pos = { -275, -49.5 } },
+					Version = 1
 				},
 				BarOut = Merge {
+					ViewInfo = OperatorInfo { Pos = { -55, 16.5 } },
 					Inputs = {
-						Blend = Input { Expression = "BarCtrl.ShowLabel * BarCtrl.LabelFade" },
 						PerformDepthMerge = Input { Value = 0 },
+						Blend = Input { Expression = "BarCtrl.ShowLabel * BarCtrl.LabelFade" },
 						Foreground = Input {
 							SourceOp = "Label",
 							Source = "Output"
 						},
 						Background = Input {
-							SourceOp = "BarDraw",
+							SourceOp = "BarCut",
 							Source = "Output"
 						}
-					},
-					ViewInfo = OperatorInfo { Pos = { -165, 16.5 } }
+					}
 				}
 			
 			}
