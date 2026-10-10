@@ -2,7 +2,7 @@
 # Builds previews/showcase.gif, the picture at the top of the README: nine of the preview GIFs playing side by side.
 # Run in scripts/ after the previews it uses have been rendered. Needs ffmpeg.
 FFMPEG="${FFMPEG:-ffmpeg}"
-LIST="comic-intro photo-stack paper-tear video-wall freeze-frame variety-caption pen-mark zoom-callout split-screen"
+LIST="comic-intro photo-stack-colours paper-tear video-wall freeze-frame variety-caption pen-mark zoom-callout split-screen"
 cd "$(dirname "$0")/../previews" || exit 1
 inputs=(); filter=""; i=0
 for n in $LIST; do
