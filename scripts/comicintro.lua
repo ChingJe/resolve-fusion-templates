@@ -30,6 +30,8 @@ ctrl.UserControls = {
   TextSize  = num("Text Size", 0.2, 0.02, 0.5),
   PageStart = num("Pages Start Size", 2.4, 0.3, 6),
   PageEnd   = num("Pages End Size", 0.5, 0.1, 3),
+  PageTint  = num("Page Tint", 0.65, 0, 1),
+  Thick     = num("Depth", 1, 0, 2), -- not called Depth: a Background already has an input with that ID
   PScale = num("PScale", 1, 0, 6, "Driver"),
   P      = num("P", 0, 0, 1, "Driver"),
   K      = num("K", 0, 0, 100, "Driver"),
@@ -164,12 +166,74 @@ red:SetInput("ExtendHorizontal1", 0.25)
 red:SetInput("ExtendVertical1", 0.2)
 red:SetInput("Red1", 0.84); red:SetInput("Green1", 0.07); red:SetInput("Blue1", 0.09)
 
-local plate = add("Merge", "Plate", -1, 2)
-plate.Background = black.Output
-plate.Foreground = red.Output
+-- While the title is magnified the two Text+ images are many times bigger than the frame. Anything that blurs,
+-- grows or shadows them has to work on a copy cut down to the frame, or it tries to process the whole thing
+-- (at Start Zoom 60 that is 3600 times the pixels; Resolve crashed on it).
+local clear = add("Background", "ClearBase", -4, -4)
+color(clear, 0, 0, 0); clear.TopLeftAlpha = 0
+clear:SetInput("UseFrameFormatSettings", 1)
+local function framed(name, tool, x, y)
+  local m = add("Merge", name, x, y)
+  m.Background = clear.Output; m.Foreground = tool.Output
+  -- the Merge alone is not enough: without SetDomain the oversized area is still carried along and Resolve crashes
+  local d = add("SetDomain", name .. "Cut", x + 1, y)
+  d.Input = m.Output
+  d:SetInput("Mode", "Set")
+  return d
+end
+local textIn = framed("TextInFrame", text, -3, -4)
+local boxIn = framed("BoxInFrame", red, -1, -4)
+-- the box casts a soft shadow on the backdrop
+local boxDrop = add("Shadow", "BoxDrop", -1, 3)
+boxDrop.Input = boxIn.Output
+boxDrop:SetInput("ShadowOffset", {0.504, 0.492})
+boxDrop:SetInput("Softness", 8)
+expr(boxDrop, "Alpha", "min(0.7*ComicCtrl.Thick, 1)")
+local plate0 = add("Merge", "PlateFlat", -1, 2)
+plate0.Background = black.Output
+plate0.Foreground = boxDrop.Output
+-- a light line around every letter, as if the cut edge of a thick plate caught the light
+local rimGrow = add("ErodeDilate", "RimGrow", -3, -2)
+rimGrow.Input = textIn.Output
+rimGrow:SetInput("Filter", 3)
+expr(rimGrow, "XAmount", "min(0.0016*ComicCtrl.Zoom, 0.02)")
+local rim = add("Custom", "RimLine", -2, -3)
+rim.Image1 = rimGrow.Output; rim.Image2 = textIn.Output
+expr(rim, "NumberIn1", "BoxText.Red1"); expr(rim, "NumberIn2", "BoxText.Green1"); expr(rim, "NumberIn3", "BoxText.Blue1")
+rim:SetInput("Intermediate1", "max(a1 - a2, 0)")
+rim:SetInput("RedExpression", "i1*(n1 + (1 - n1)*0.7)"); rim:SetInput("GreenExpression", "i1*(n2 + (1 - n2)*0.7)")
+rim:SetInput("BlueExpression", "i1*(n3 + (1 - n3)*0.7)"); rim:SetInput("AlphaExpression", "i1")
+local plate = add("Merge", "Plate", 0, 2)
+plate.Background = plate0.Output
+plate.Foreground = rim.Output
+expr(plate, "Blend", "min(0.9*ComicCtrl.Thick, 1)")
+
+-- the pages get the colour of the box, like looking at them through tinted glass
+local tint = add("Custom", "PageTintMix", -1, 0)
+tint.Image1 = blur.Output
+expr(tint, "NumberIn1", "ComicCtrl.PageTint")
+expr(tint, "NumberIn2", "BoxText.Red1"); expr(tint, "NumberIn3", "BoxText.Green1"); expr(tint, "NumberIn4", "BoxText.Blue1")
+tint:SetInput("Intermediate1", "r1*0.3 + g1*0.59 + b1*0.11")
+tint:SetInput("RedExpression",   "r1 + (min(i1*1.6*n2 + 0.5*i1*i1, 1) - r1)*n1")
+tint:SetInput("GreenExpression", "g1 + (min(i1*1.6*n3 + 0.5*i1*i1, 1) - g1)*n1")
+tint:SetInput("BlueExpression",  "b1 + (min(i1*1.6*n4 + 0.5*i1*i1, 1) - b1)*n1")
+tint:SetInput("AlphaExpression", "1")
+-- the plate is thick, so it throws a shadow onto the pages seen through the letters:
+-- the letter shapes shifted and blurred, dark wherever that copy has moved away
+local shift = add("Transform", "DepthShift", -3, -1)
+shift.Input = textIn.Output
+expr(shift, "Center", "Point(0.5 + 0.004*ComicCtrl.Thick*min(ComicCtrl.Zoom, 14), 0.5 - 0.006*ComicCtrl.Thick*min(ComicCtrl.Zoom, 14))")
+local soft = add("Blur", "DepthSoft", -2, -1)
+soft.Input = shift.Output
+expr(soft, "XBlurSize", "min(1.3*ComicCtrl.Zoom, 24)")
+local shade = add("Custom", "PageShade", 0, 1)
+shade.Image1 = tint.Output; shade.Image2 = soft.Output
+expr(shade, "NumberIn1", "min(0.9*ComicCtrl.Thick, 1)")
+for _, c in ipairs({"Red", "Green", "Blue"}) do shade:SetInput(c .. "Expression", string.lower(c:sub(1, 1)) .. "1*(1 - n1*(1 - a2))") end
+shade:SetInput("AlphaExpression", "1")
 
 local cover = add("Merge", "CoverMerge", 0, 0)
-cover.Background = blur.Output
+cover.Background = shade.Output
 cover.Foreground = plate.Output
 cover.EffectMask = text.Output
 cover:SetInput("ApplyMaskInverted", 1)
@@ -181,13 +245,19 @@ expr(win, "Height", "ComicCtrl.WinSize")
 
 local winMerge = add("Merge", "WindowMerge", 1, 0)
 winMerge.Background = cover.Output
-winMerge.Foreground = blur.Output
+winMerge.Foreground = tint.Output
 winMerge.EffectMask = win.Mask
 expr(winMerge, "Blend", "ComicCtrl.WinFade")
 
 local white = add("Merge", "WhiteFill", 2, 0)
 white.Background = winMerge.Output
-white.Foreground = text.Output
+-- the finished letters stand a little above the box
+local textDrop = add("Shadow", "TextDrop", 2, -1)
+textDrop.Input = textIn.Output
+textDrop:SetInput("ShadowOffset", {0.5025, 0.4955})
+textDrop:SetInput("Softness", 3)
+expr(textDrop, "Alpha", "min(0.55*ComicCtrl.Thick, 1)")
+white.Foreground = textDrop.Output
 expr(white, "Blend", "ComicCtrl.White")
 
 local glow = add("SoftGlow", "FinishGlow", 3, 0)
@@ -223,6 +293,8 @@ if os.getenv("FX_EXPORT") == "1" then
     {"CTL", "ComicCtrl", "PageStart", "Pages Start Size"},
     {"CTL", "ComicCtrl", "PageEnd", "Pages End Size"},
     {"CTL", "PageInk", "NumberIn4", "Halftone"},
+    {"CTL", "ComicCtrl", "PageTint", "Page Tint"},
+    {"CTL", "ComicCtrl", "Thick", "Depth"},
     {"CTL", "ComicCtrl", "MaxZoom", "Start Zoom"},
     {"CTL", "ComicCtrl", "PivotX", "Zoom Pivot X"},
     {"CTL", "ComicCtrl", "PivotY", "Zoom Pivot Y"},
@@ -230,5 +302,6 @@ if os.getenv("FX_EXPORT") == "1" then
   src.Input = feed.Output
 else
   for name, value in string.gmatch(os.getenv("FX_SET") or "", "(%w+)=([%d%.%-]+)") do ctrl:SetInput(name, tonumber(value)) end
-  L.render(comp, glow.Output, os.getenv("FX_PREFIX") or "ci", tonumber(os.getenv("FX_STEPS") or "12"))
+  local dbg = os.getenv("FX_DEBUG") and comp:FindTool(os.getenv("FX_DEBUG"))
+  L.render(comp, dbg and dbg.Output or glow.Output, os.getenv("FX_PREFIX") or "ci", tonumber(os.getenv("FX_STEPS") or "12"))
 end

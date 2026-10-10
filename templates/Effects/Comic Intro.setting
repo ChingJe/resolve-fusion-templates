@@ -23,9 +23,11 @@
 				Input17 = InstanceInput { SourceOp = "ComicCtrl", Source = "PageStart", Name = "Pages Start Size" },
 				Input18 = InstanceInput { SourceOp = "ComicCtrl", Source = "PageEnd", Name = "Pages End Size" },
 				Input19 = InstanceInput { SourceOp = "PageInk", Source = "NumberIn4", Name = "Halftone" },
-				Input20 = InstanceInput { SourceOp = "ComicCtrl", Source = "MaxZoom", Name = "Start Zoom" },
-				Input21 = InstanceInput { SourceOp = "ComicCtrl", Source = "PivotX", Name = "Zoom Pivot X" },
-				Input22 = InstanceInput { SourceOp = "ComicCtrl", Source = "PivotY", Name = "Zoom Pivot Y" },
+				Input20 = InstanceInput { SourceOp = "ComicCtrl", Source = "PageTint", Name = "Page Tint" },
+				Input21 = InstanceInput { SourceOp = "ComicCtrl", Source = "Thick", Name = "Depth" },
+				Input22 = InstanceInput { SourceOp = "ComicCtrl", Source = "MaxZoom", Name = "Start Zoom" },
+				Input23 = InstanceInput { SourceOp = "ComicCtrl", Source = "PivotX", Name = "Zoom Pivot X" },
+				Input24 = InstanceInput { SourceOp = "ComicCtrl", Source = "PivotY", Name = "Zoom Pivot Y" },
 			},
 			Outputs = {
 				MainOutput1 = InstanceOutput { SourceOp = "FinishGlow", Source = "Output" }
@@ -37,246 +39,238 @@
 				},
 				TileSize = BetterResize {
 					Inputs = {
+						Width = Input { Value = 960 },
+						Height = Input { Value = 540 },
+						HiQOnly = Input { Value = 0 },
+						PixelAspect = Input { Value = { 1, 1 } },
 						Input = Input {
 							SourceOp = "Src",
 							Source = "Output"
-						},
-						Height = Input { Value = 540 },
-						Width = Input { Value = 960 },
-						HiQOnly = Input { Value = 0 },
-						PixelAspect = Input { Value = { 1, 1 } }
+						}
 					},
 					ViewInfo = OperatorInfo { Pos = { -825, 148.5 } }
 				},
 				Part9 = TimeStretcher {
 					Inputs = {
-						SourceTime = Input {
-							SourceOp = "TimeStretcher1源时间8",
-							Source = "Value",
-							Expression = "comp.GlobalStart + floor((time - comp.GlobalStart) + 8 * (comp.GlobalEnd - comp.GlobalStart + 1) / 9) % (comp.GlobalEnd - comp.GlobalStart + 1)"
-						},
 						SampleSpread = Input { Disabled = true },
 						Input = Input {
 							SourceOp = "TileSize",
 							Source = "Output"
 						},
-						InterpolateBetweenFrames = Input { Value = 0 }
+						InterpolateBetweenFrames = Input { Value = 0 },
+						SourceTime = Input {
+							SourceOp = "TimeStretcher1源时间8",
+							Source = "Value",
+							Expression = "comp.GlobalStart + floor((time - comp.GlobalStart) + 8 * (comp.GlobalEnd - comp.GlobalStart + 1) / 9) % (comp.GlobalEnd - comp.GlobalStart + 1)"
+						}
 					},
 					ViewInfo = OperatorInfo { Pos = { 165, 148.5 } }
 				},
 				["TimeStretcher1源时间8"] = BezierSpline {
 					KeyFrames = {
-						[232] = { 0, Flags = { Linear = true } }
+						[210] = { 0, Flags = { Linear = true } }
 					},
-					SplineColor = { Green = 217, Blue = 243, Red = 233 },
+					SplineColor = { Blue = 243, Red = 233, Green = 217 },
 					CtrlWZoom = false,
 					NameSet = true
 				},
 				Part8 = TimeStretcher {
 					Inputs = {
-						SourceTime = Input {
-							SourceOp = "TimeStretcher1源时间7",
-							Source = "Value",
-							Expression = "comp.GlobalStart + floor((time - comp.GlobalStart) + 7 * (comp.GlobalEnd - comp.GlobalStart + 1) / 9) % (comp.GlobalEnd - comp.GlobalStart + 1)"
-						},
 						SampleSpread = Input { Disabled = true },
 						Input = Input {
 							SourceOp = "TileSize",
 							Source = "Output"
 						},
-						InterpolateBetweenFrames = Input { Value = 0 }
+						InterpolateBetweenFrames = Input { Value = 0 },
+						SourceTime = Input {
+							SourceOp = "TimeStretcher1源时间7",
+							Source = "Value",
+							Expression = "comp.GlobalStart + floor((time - comp.GlobalStart) + 7 * (comp.GlobalEnd - comp.GlobalStart + 1) / 9) % (comp.GlobalEnd - comp.GlobalStart + 1)"
+						}
 					},
 					ViewInfo = OperatorInfo { Pos = { 55, 148.5 } }
 				},
 				["TimeStretcher1源时间7"] = BezierSpline {
 					KeyFrames = {
-						[232] = { 0, Flags = { Linear = true } }
+						[210] = { 0, Flags = { Linear = true } }
 					},
-					SplineColor = { Green = 217, Blue = 243, Red = 233 },
+					SplineColor = { Blue = 243, Red = 233, Green = 217 },
 					CtrlWZoom = false,
 					NameSet = true
 				},
 				Part7 = TimeStretcher {
 					Inputs = {
-						SourceTime = Input {
-							SourceOp = "TimeStretcher1源时间6",
-							Source = "Value",
-							Expression = "comp.GlobalStart + floor((time - comp.GlobalStart) + 6 * (comp.GlobalEnd - comp.GlobalStart + 1) / 9) % (comp.GlobalEnd - comp.GlobalStart + 1)"
-						},
 						SampleSpread = Input { Disabled = true },
 						Input = Input {
 							SourceOp = "TileSize",
 							Source = "Output"
 						},
-						InterpolateBetweenFrames = Input { Value = 0 }
+						InterpolateBetweenFrames = Input { Value = 0 },
+						SourceTime = Input {
+							SourceOp = "TimeStretcher1源时间6",
+							Source = "Value",
+							Expression = "comp.GlobalStart + floor((time - comp.GlobalStart) + 6 * (comp.GlobalEnd - comp.GlobalStart + 1) / 9) % (comp.GlobalEnd - comp.GlobalStart + 1)"
+						}
 					},
 					ViewInfo = OperatorInfo { Pos = { -55, 148.5 } }
 				},
 				["TimeStretcher1源时间6"] = BezierSpline {
 					KeyFrames = {
-						[232] = { 0, Flags = { Linear = true } }
+						[210] = { 0, Flags = { Linear = true } }
 					},
-					SplineColor = { Green = 217, Blue = 243, Red = 233 },
+					SplineColor = { Blue = 243, Red = 233, Green = 217 },
 					CtrlWZoom = false,
 					NameSet = true
 				},
 				Part6 = TimeStretcher {
 					Inputs = {
-						SourceTime = Input {
-							SourceOp = "TimeStretcher1源时间5",
-							Source = "Value",
-							Expression = "comp.GlobalStart + floor((time - comp.GlobalStart) + 5 * (comp.GlobalEnd - comp.GlobalStart + 1) / 9) % (comp.GlobalEnd - comp.GlobalStart + 1)"
-						},
 						SampleSpread = Input { Disabled = true },
 						Input = Input {
 							SourceOp = "TileSize",
 							Source = "Output"
 						},
-						InterpolateBetweenFrames = Input { Value = 0 }
+						InterpolateBetweenFrames = Input { Value = 0 },
+						SourceTime = Input {
+							SourceOp = "TimeStretcher1源时间5",
+							Source = "Value",
+							Expression = "comp.GlobalStart + floor((time - comp.GlobalStart) + 5 * (comp.GlobalEnd - comp.GlobalStart + 1) / 9) % (comp.GlobalEnd - comp.GlobalStart + 1)"
+						}
 					},
 					ViewInfo = OperatorInfo { Pos = { -165, 148.5 } }
 				},
 				["TimeStretcher1源时间5"] = BezierSpline {
 					KeyFrames = {
-						[232] = { 0, Flags = { Linear = true } }
+						[210] = { 0, Flags = { Linear = true } }
 					},
-					SplineColor = { Green = 217, Blue = 243, Red = 233 },
+					SplineColor = { Blue = 243, Red = 233, Green = 217 },
 					CtrlWZoom = false,
 					NameSet = true
 				},
 				Part5 = TimeStretcher {
 					Inputs = {
-						SourceTime = Input {
-							SourceOp = "TimeStretcher1源时间4",
-							Source = "Value",
-							Expression = "comp.GlobalStart + floor((time - comp.GlobalStart) + 4 * (comp.GlobalEnd - comp.GlobalStart + 1) / 9) % (comp.GlobalEnd - comp.GlobalStart + 1)"
-						},
 						SampleSpread = Input { Disabled = true },
 						Input = Input {
 							SourceOp = "TileSize",
 							Source = "Output"
 						},
-						InterpolateBetweenFrames = Input { Value = 0 }
+						InterpolateBetweenFrames = Input { Value = 0 },
+						SourceTime = Input {
+							SourceOp = "TimeStretcher1源时间4",
+							Source = "Value",
+							Expression = "comp.GlobalStart + floor((time - comp.GlobalStart) + 4 * (comp.GlobalEnd - comp.GlobalStart + 1) / 9) % (comp.GlobalEnd - comp.GlobalStart + 1)"
+						}
 					},
 					ViewInfo = OperatorInfo { Pos = { -275, 148.5 } }
 				},
 				["TimeStretcher1源时间4"] = BezierSpline {
 					KeyFrames = {
-						[232] = { 0, Flags = { Linear = true } }
+						[210] = { 0, Flags = { Linear = true } }
 					},
-					SplineColor = { Green = 217, Blue = 243, Red = 233 },
+					SplineColor = { Blue = 243, Red = 233, Green = 217 },
 					CtrlWZoom = false,
 					NameSet = true
 				},
 				Part4 = TimeStretcher {
 					Inputs = {
-						SourceTime = Input {
-							SourceOp = "TimeStretcher1源时间3",
-							Source = "Value",
-							Expression = "comp.GlobalStart + floor((time - comp.GlobalStart) + 3 * (comp.GlobalEnd - comp.GlobalStart + 1) / 9) % (comp.GlobalEnd - comp.GlobalStart + 1)"
-						},
 						SampleSpread = Input { Disabled = true },
 						Input = Input {
 							SourceOp = "TileSize",
 							Source = "Output"
 						},
-						InterpolateBetweenFrames = Input { Value = 0 }
+						InterpolateBetweenFrames = Input { Value = 0 },
+						SourceTime = Input {
+							SourceOp = "TimeStretcher1源时间3",
+							Source = "Value",
+							Expression = "comp.GlobalStart + floor((time - comp.GlobalStart) + 3 * (comp.GlobalEnd - comp.GlobalStart + 1) / 9) % (comp.GlobalEnd - comp.GlobalStart + 1)"
+						}
 					},
 					ViewInfo = OperatorInfo { Pos = { -385, 148.5 } }
 				},
 				["TimeStretcher1源时间3"] = BezierSpline {
 					KeyFrames = {
-						[232] = { 0, Flags = { Linear = true } }
+						[210] = { 0, Flags = { Linear = true } }
 					},
-					SplineColor = { Green = 217, Blue = 243, Red = 233 },
+					SplineColor = { Blue = 243, Red = 233, Green = 217 },
 					CtrlWZoom = false,
 					NameSet = true
 				},
 				Part3 = TimeStretcher {
 					Inputs = {
-						SourceTime = Input {
-							SourceOp = "TimeStretcher1源时间2",
-							Source = "Value",
-							Expression = "comp.GlobalStart + floor((time - comp.GlobalStart) + 2 * (comp.GlobalEnd - comp.GlobalStart + 1) / 9) % (comp.GlobalEnd - comp.GlobalStart + 1)"
-						},
 						SampleSpread = Input { Disabled = true },
 						Input = Input {
 							SourceOp = "TileSize",
 							Source = "Output"
 						},
-						InterpolateBetweenFrames = Input { Value = 0 }
+						InterpolateBetweenFrames = Input { Value = 0 },
+						SourceTime = Input {
+							SourceOp = "TimeStretcher1源时间2",
+							Source = "Value",
+							Expression = "comp.GlobalStart + floor((time - comp.GlobalStart) + 2 * (comp.GlobalEnd - comp.GlobalStart + 1) / 9) % (comp.GlobalEnd - comp.GlobalStart + 1)"
+						}
 					},
 					ViewInfo = OperatorInfo { Pos = { -495, 148.5 } }
 				},
 				["TimeStretcher1源时间2"] = BezierSpline {
 					KeyFrames = {
-						[232] = { 0, Flags = { Linear = true } }
+						[210] = { 0, Flags = { Linear = true } }
 					},
-					SplineColor = { Green = 217, Blue = 243, Red = 233 },
+					SplineColor = { Blue = 243, Red = 233, Green = 217 },
 					CtrlWZoom = false,
 					NameSet = true
 				},
 				Part2 = TimeStretcher {
 					Inputs = {
-						SourceTime = Input {
-							SourceOp = "TimeStretcher1源时间1",
-							Source = "Value",
-							Expression = "comp.GlobalStart + floor((time - comp.GlobalStart) + 1 * (comp.GlobalEnd - comp.GlobalStart + 1) / 9) % (comp.GlobalEnd - comp.GlobalStart + 1)"
-						},
 						SampleSpread = Input { Disabled = true },
 						Input = Input {
 							SourceOp = "TileSize",
 							Source = "Output"
 						},
-						InterpolateBetweenFrames = Input { Value = 0 }
+						InterpolateBetweenFrames = Input { Value = 0 },
+						SourceTime = Input {
+							SourceOp = "TimeStretcher1源时间1",
+							Source = "Value",
+							Expression = "comp.GlobalStart + floor((time - comp.GlobalStart) + 1 * (comp.GlobalEnd - comp.GlobalStart + 1) / 9) % (comp.GlobalEnd - comp.GlobalStart + 1)"
+						}
 					},
 					ViewInfo = OperatorInfo { Pos = { -605, 148.5 } }
 				},
 				["TimeStretcher1源时间1"] = BezierSpline {
 					KeyFrames = {
-						[232] = { 0, Flags = { Linear = true } }
+						[210] = { 0, Flags = { Linear = true } }
 					},
-					SplineColor = { Green = 217, Blue = 243, Red = 233 },
+					SplineColor = { Blue = 243, Red = 233, Green = 217 },
 					CtrlWZoom = false,
 					NameSet = true
 				},
 				Part1 = TimeStretcher {
 					Inputs = {
-						SourceTime = Input {
-							SourceOp = "TimeStretcher1源时间",
-							Source = "Value",
-							Expression = "comp.GlobalStart + floor((time - comp.GlobalStart) + 0 * (comp.GlobalEnd - comp.GlobalStart + 1) / 9) % (comp.GlobalEnd - comp.GlobalStart + 1)"
-						},
 						SampleSpread = Input { Disabled = true },
 						Input = Input {
 							SourceOp = "TileSize",
 							Source = "Output"
 						},
-						InterpolateBetweenFrames = Input { Value = 0 }
+						InterpolateBetweenFrames = Input { Value = 0 },
+						SourceTime = Input {
+							SourceOp = "TimeStretcher1源时间",
+							Source = "Value",
+							Expression = "comp.GlobalStart + floor((time - comp.GlobalStart) + 0 * (comp.GlobalEnd - comp.GlobalStart + 1) / 9) % (comp.GlobalEnd - comp.GlobalStart + 1)"
+						}
 					},
 					ViewInfo = OperatorInfo { Pos = { -715, 148.5 } }
 				},
 				["TimeStretcher1源时间"] = BezierSpline {
 					KeyFrames = {
-						[232] = { 0, Flags = { Linear = true } }
+						[210] = { 0, Flags = { Linear = true } }
 					},
-					SplineColor = { Green = 217, Blue = 243, Red = 233 },
+					SplineColor = { Blue = 243, Red = 233, Green = 217 },
 					CtrlWZoom = false,
 					NameSet = true
 				},
 				ComicCtrl = Background {
-					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } },
 					Inputs = {
-						Flash = Input { Expression = "max(1 - abs(P - 0.83) / 0.07, 0)" },
-						GlobalIn = Input { Value = -480 },
-						GlobalOut = Input { Value = 3534 },
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						P = Input { Expression = "min(max((time - comp.RenderStart) / max(comp.RenderEnd - comp.RenderStart, 1), 0), 1)" },
-						UseFrameFormatSettings = Input { Value = 1 },
-						K = Input { Expression = "P * PageCount" },
 						PScale = Input { Expression = "PageStart * (PageEnd/max(PageStart, 0.001)) ^ min(P/0.8, 1)" },
 						Width = Input { Value = 1920 },
-						Height = Input { Value = 1080 },
+						K = Input { Expression = "P * PageCount" },
 						E = Input { Expression = "min((K - floor(K)) / 0.55, 1)" },
 						Scroll = Input { Expression = "floor(K) + E*E*(3 - 2*E)" },
 						BlurLen = Input { Expression = "0.10 * sin(3.14159265 * E)" },
@@ -285,362 +279,380 @@
 						Zoom = Input { Expression = "MaxZoom ^ (1 - ZE) * (1 + 0.05*(1 - P))" },
 						WinSize = Input { Expression = "(2*max(max(PivotX, 1 - PivotX), max(PivotY, 1 - PivotY)) + 0.05) * Zoom / (MaxZoom*1.05)" },
 						WinFade = Input { Expression = "1 - min(max((ZE - 0.40) / 0.22, 0), 1)" },
-						White = Input { Expression = "min(max((P - 0.76) / 0.08, 0), 1)" }
+						White = Input { Expression = "min(max((P - 0.76) / 0.08, 0), 1)" },
+						Flash = Input { Expression = "max(1 - abs(P - 0.83) / 0.07, 0)" },
+						Height = Input { Value = 1080 },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						UseFrameFormatSettings = Input { Value = 1 },
+						P = Input { Expression = "min(max((time - comp.RenderStart) / max(comp.RenderEnd - comp.RenderStart, 1), 0), 1)" }
 					},
 					UserControls = {
-						Flash = {
-							INP_Default = 0,
-							INP_MinScale = 0,
-							INP_MaxScale = 1,
-							LINKID_DataType = "Number",
-							INPID_InputControl = "SliderControl",
-							ICS_ControlPage = "Driver",
-							LINKS_Name = "Flash"
-						},
-						PageCount = {
-							INP_Default = 30,
-							INP_MinScale = 5,
-							INP_MaxScale = 80,
-							LINKID_DataType = "Number",
-							INPID_InputControl = "SliderControl",
-							ICS_ControlPage = "Comic",
-							LINKS_Name = "Page Count"
-						},
-						MaxZoom = {
-							INP_Default = 60,
-							INP_MinScale = 2,
-							INP_MaxScale = 120,
-							LINKID_DataType = "Number",
-							INPID_InputControl = "SliderControl",
-							ICS_ControlPage = "Comic",
-							LINKS_Name = "Start Zoom"
-						},
-						PivotX = {
-							INP_Default = 0.5482,
-							INP_MinScale = 0,
-							INP_MaxScale = 1,
-							LINKID_DataType = "Number",
-							INPID_InputControl = "SliderControl",
-							ICS_ControlPage = "Comic",
-							LINKS_Name = "Zoom Pivot X"
-						},
-						PivotY = {
-							INP_Default = 0.4995,
-							INP_MinScale = 0,
-							INP_MaxScale = 1,
-							LINKID_DataType = "Number",
-							INPID_InputControl = "SliderControl",
-							ICS_ControlPage = "Comic",
-							LINKS_Name = "Zoom Pivot Y"
-						},
-						TextSize = {
-							INP_Default = 0.2,
-							INP_MinScale = 0.02,
-							INP_MaxScale = 0.5,
-							LINKID_DataType = "Number",
-							INPID_InputControl = "SliderControl",
-							ICS_ControlPage = "Comic",
-							LINKS_Name = "Text Size"
-						},
-						PageStart = {
-							INP_Default = 2.4,
-							INP_MinScale = 0.3,
-							INP_MaxScale = 6,
-							LINKID_DataType = "Number",
-							INPID_InputControl = "SliderControl",
-							ICS_ControlPage = "Comic",
-							LINKS_Name = "Pages Start Size"
-						},
 						PageEnd = {
-							INP_Default = 0.5,
 							INP_MinScale = 0.1,
 							INP_MaxScale = 3,
 							LINKID_DataType = "Number",
 							INPID_InputControl = "SliderControl",
 							ICS_ControlPage = "Comic",
-							LINKS_Name = "Pages End Size"
+							LINKS_Name = "Pages End Size",
+							INP_Default = 0.5
+						},
+						PageTint = {
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Comic",
+							LINKS_Name = "Page Tint",
+							INP_Default = 0.65
+						},
+						Thick = {
+							INP_MinScale = 0,
+							INP_MaxScale = 2,
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Comic",
+							LINKS_Name = "Depth",
+							INP_Default = 1
 						},
 						PScale = {
-							INP_Default = 1,
 							INP_MinScale = 0,
 							INP_MaxScale = 6,
 							LINKID_DataType = "Number",
 							INPID_InputControl = "SliderControl",
 							ICS_ControlPage = "Driver",
-							LINKS_Name = "PScale"
-						},
-						P = {
-							INP_Default = 0,
-							INP_MinScale = 0,
-							INP_MaxScale = 1,
-							LINKID_DataType = "Number",
-							INPID_InputControl = "SliderControl",
-							ICS_ControlPage = "Driver",
-							LINKS_Name = "P"
+							LINKS_Name = "PScale",
+							INP_Default = 1
 						},
 						K = {
-							INP_Default = 0,
 							INP_MinScale = 0,
 							INP_MaxScale = 100,
 							LINKID_DataType = "Number",
 							INPID_InputControl = "SliderControl",
 							ICS_ControlPage = "Driver",
-							LINKS_Name = "K"
+							LINKS_Name = "K",
+							INP_Default = 0
 						},
 						E = {
-							INP_Default = 0,
 							INP_MinScale = 0,
 							INP_MaxScale = 1,
 							LINKID_DataType = "Number",
 							INPID_InputControl = "SliderControl",
 							ICS_ControlPage = "Driver",
-							LINKS_Name = "E"
+							LINKS_Name = "E",
+							INP_Default = 0
 						},
 						Scroll = {
-							INP_Default = 0,
 							INP_MinScale = 0,
 							INP_MaxScale = 100,
 							LINKID_DataType = "Number",
 							INPID_InputControl = "SliderControl",
 							ICS_ControlPage = "Driver",
-							LINKS_Name = "Scroll"
+							LINKS_Name = "Scroll",
+							INP_Default = 0
 						},
 						BlurLen = {
-							INP_Default = 0,
 							INP_MinScale = 0,
 							INP_MaxScale = 1,
 							LINKID_DataType = "Number",
 							INPID_InputControl = "SliderControl",
 							ICS_ControlPage = "Driver",
-							LINKS_Name = "BlurLen"
+							LINKS_Name = "BlurLen",
+							INP_Default = 0
 						},
 						ZT = {
-							INP_Default = 0,
 							INP_MinScale = 0,
 							INP_MaxScale = 1,
 							LINKID_DataType = "Number",
 							INPID_InputControl = "SliderControl",
 							ICS_ControlPage = "Driver",
-							LINKS_Name = "ZT"
+							LINKS_Name = "ZT",
+							INP_Default = 0
 						},
 						ZE = {
-							INP_Default = 0,
 							INP_MinScale = 0,
 							INP_MaxScale = 1,
 							LINKID_DataType = "Number",
 							INPID_InputControl = "SliderControl",
 							ICS_ControlPage = "Driver",
-							LINKS_Name = "ZE"
+							LINKS_Name = "ZE",
+							INP_Default = 0
 						},
 						Zoom = {
-							INP_Default = 1,
 							INP_MinScale = 0,
 							INP_MaxScale = 120,
 							LINKID_DataType = "Number",
 							INPID_InputControl = "SliderControl",
 							ICS_ControlPage = "Driver",
-							LINKS_Name = "Zoom"
+							LINKS_Name = "Zoom",
+							INP_Default = 1
 						},
 						WinSize = {
-							INP_Default = 0,
 							INP_MinScale = 0,
 							INP_MaxScale = 3,
 							LINKID_DataType = "Number",
 							INPID_InputControl = "SliderControl",
 							ICS_ControlPage = "Driver",
-							LINKS_Name = "WinSize"
+							LINKS_Name = "WinSize",
+							INP_Default = 0
 						},
 						WinFade = {
-							INP_Default = 0,
 							INP_MinScale = 0,
 							INP_MaxScale = 1,
 							LINKID_DataType = "Number",
 							INPID_InputControl = "SliderControl",
 							ICS_ControlPage = "Driver",
-							LINKS_Name = "WinFade"
+							LINKS_Name = "WinFade",
+							INP_Default = 0
 						},
 						White = {
-							INP_Default = 0,
 							INP_MinScale = 0,
 							INP_MaxScale = 1,
 							LINKID_DataType = "Number",
 							INPID_InputControl = "SliderControl",
 							ICS_ControlPage = "Driver",
-							LINKS_Name = "White"
+							LINKS_Name = "White",
+							INP_Default = 0
+						},
+						Flash = {
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Driver",
+							LINKS_Name = "Flash",
+							INP_Default = 0
+						},
+						PageCount = {
+							INP_MinScale = 5,
+							INP_MaxScale = 80,
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Comic",
+							LINKS_Name = "Page Count",
+							INP_Default = 30
+						},
+						MaxZoom = {
+							INP_MinScale = 2,
+							INP_MaxScale = 120,
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Comic",
+							LINKS_Name = "Start Zoom",
+							INP_Default = 60
+						},
+						PivotX = {
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Comic",
+							LINKS_Name = "Zoom Pivot X",
+							INP_Default = 0.5482
+						},
+						PivotY = {
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Comic",
+							LINKS_Name = "Zoom Pivot Y",
+							INP_Default = 0.4995
+						},
+						TextSize = {
+							INP_MinScale = 0.02,
+							INP_MaxScale = 0.5,
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Comic",
+							LINKS_Name = "Text Size",
+							INP_Default = 0.2
+						},
+						P = {
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Driver",
+							LINKS_Name = "P",
+							INP_Default = 0
+						},
+						PageStart = {
+							INP_MinScale = 0.3,
+							INP_MaxScale = 6,
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Comic",
+							LINKS_Name = "Pages Start Size",
+							INP_Default = 2.4
 						}
 					},
+					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } },
 					CtrlWZoom = false
 				},
 				AtlasBase = Background {
 					Inputs = {
-						GlobalIn = Input { Value = -480 },
-						GlobalOut = Input { Value = 3534 },
 						Width = Input { Value = 2880 },
 						Height = Input { Value = 1620 },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
 						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } }
 					},
 					ViewInfo = OperatorInfo { Pos = { -825, 214.5 } }
 				},
 				Tile1 = Merge {
 					Inputs = {
-						Foreground = Input {
-							SourceOp = "Part1",
-							Source = "Output"
-						},
 						Background = Input {
 							SourceOp = "AtlasBase",
 							Source = "Output"
 						},
 						PerformDepthMerge = Input { Value = 0 },
-						Center = Input { Value = { 0.166666666666667, 0.166666666666667 } }
+						Center = Input { Value = { 0.166666666666667, 0.166666666666667 } },
+						Foreground = Input {
+							SourceOp = "Part1",
+							Source = "Output"
+						}
 					},
 					ViewInfo = OperatorInfo { Pos = { -715, 214.5 } }
 				},
 				Tile2 = Merge {
 					Inputs = {
-						Foreground = Input {
-							SourceOp = "Part2",
-							Source = "Output"
-						},
 						Background = Input {
 							SourceOp = "Tile1",
 							Source = "Output"
 						},
 						PerformDepthMerge = Input { Value = 0 },
-						Center = Input { Value = { 0.5, 0.166666666666667 } }
+						Center = Input { Value = { 0.5, 0.166666666666667 } },
+						Foreground = Input {
+							SourceOp = "Part2",
+							Source = "Output"
+						}
 					},
 					ViewInfo = OperatorInfo { Pos = { -605, 214.5 } }
 				},
 				Tile3 = Merge {
 					Inputs = {
-						Foreground = Input {
-							SourceOp = "Part3",
-							Source = "Output"
-						},
 						Background = Input {
 							SourceOp = "Tile2",
 							Source = "Output"
 						},
 						PerformDepthMerge = Input { Value = 0 },
-						Center = Input { Value = { 0.833333333333333, 0.166666666666667 } }
+						Center = Input { Value = { 0.833333333333333, 0.166666666666667 } },
+						Foreground = Input {
+							SourceOp = "Part3",
+							Source = "Output"
+						}
 					},
 					ViewInfo = OperatorInfo { Pos = { -495, 214.5 } }
 				},
 				Tile4 = Merge {
 					Inputs = {
-						Foreground = Input {
-							SourceOp = "Part4",
-							Source = "Output"
-						},
 						Background = Input {
 							SourceOp = "Tile3",
 							Source = "Output"
 						},
 						PerformDepthMerge = Input { Value = 0 },
-						Center = Input { Value = { 0.166666666666667, 0.5 } }
+						Center = Input { Value = { 0.166666666666667, 0.5 } },
+						Foreground = Input {
+							SourceOp = "Part4",
+							Source = "Output"
+						}
 					},
 					ViewInfo = OperatorInfo { Pos = { -385, 214.5 } }
 				},
 				Tile5 = Merge {
 					Inputs = {
-						Foreground = Input {
-							SourceOp = "Part5",
-							Source = "Output"
-						},
 						Background = Input {
 							SourceOp = "Tile4",
 							Source = "Output"
 						},
-						PerformDepthMerge = Input { Value = 0 }
+						PerformDepthMerge = Input { Value = 0 },
+						Foreground = Input {
+							SourceOp = "Part5",
+							Source = "Output"
+						}
 					},
 					ViewInfo = OperatorInfo { Pos = { -275, 214.5 } }
 				},
 				Tile6 = Merge {
 					Inputs = {
-						Foreground = Input {
-							SourceOp = "Part6",
-							Source = "Output"
-						},
 						Background = Input {
 							SourceOp = "Tile5",
 							Source = "Output"
 						},
 						PerformDepthMerge = Input { Value = 0 },
-						Center = Input { Value = { 0.833333333333333, 0.5 } }
+						Center = Input { Value = { 0.833333333333333, 0.5 } },
+						Foreground = Input {
+							SourceOp = "Part6",
+							Source = "Output"
+						}
 					},
 					ViewInfo = OperatorInfo { Pos = { -165, 214.5 } }
 				},
 				Tile7 = Merge {
 					Inputs = {
-						Foreground = Input {
-							SourceOp = "Part7",
-							Source = "Output"
-						},
 						Background = Input {
 							SourceOp = "Tile6",
 							Source = "Output"
 						},
 						PerformDepthMerge = Input { Value = 0 },
-						Center = Input { Value = { 0.166666666666667, 0.833333333333333 } }
+						Center = Input { Value = { 0.166666666666667, 0.833333333333333 } },
+						Foreground = Input {
+							SourceOp = "Part7",
+							Source = "Output"
+						}
 					},
 					ViewInfo = OperatorInfo { Pos = { -55, 214.5 } }
 				},
 				Tile8 = Merge {
 					Inputs = {
-						Foreground = Input {
-							SourceOp = "Part8",
-							Source = "Output"
-						},
 						Background = Input {
 							SourceOp = "Tile7",
 							Source = "Output"
 						},
 						PerformDepthMerge = Input { Value = 0 },
-						Center = Input { Value = { 0.5, 0.833333333333333 } }
+						Center = Input { Value = { 0.5, 0.833333333333333 } },
+						Foreground = Input {
+							SourceOp = "Part8",
+							Source = "Output"
+						}
 					},
 					ViewInfo = OperatorInfo { Pos = { 55, 214.5 } }
 				},
 				Tile9 = Merge {
 					Inputs = {
-						Foreground = Input {
-							SourceOp = "Part9",
-							Source = "Output"
-						},
 						Background = Input {
 							SourceOp = "Tile8",
 							Source = "Output"
 						},
 						PerformDepthMerge = Input { Value = 0 },
-						Center = Input { Value = { 0.833333333333333, 0.833333333333333 } }
+						Center = Input { Value = { 0.833333333333333, 0.833333333333333 } },
+						Foreground = Input {
+							SourceOp = "Part9",
+							Source = "Output"
+						}
 					},
 					ViewInfo = OperatorInfo { Pos = { 165, 214.5 } }
 				},
 				PageBase = Background {
 					Inputs = {
-						Depth = Input { Value = 4 },
-						UseFrameFormatSettings = Input { Value = 1 },
-						GlobalIn = Input { Value = -480 },
-						GlobalOut = Input { Value = 3534 },
 						Width = Input { Value = 1920 },
 						Height = Input { Value = 1080 },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Depth = Input { Value = 4 },
 						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } }
 					},
 					ViewInfo = OperatorInfo { Pos = { -495, 16.5 } }
 				},
 				PageCells = Custom {
 					Inputs = {
-						Image1 = Input {
-							SourceOp = "PageBase",
-							Source = "Output"
+						NumberIn2 = Input {
+							Value = 0.5,
+							Expression = "max(ComicCtrl.PScale, 0.001)"
 						},
-						PointIn1 = Input { Expression = "Point(ComicCtrl.PivotX, ComicCtrl.PivotY)" },
-						RedExpression = Input { Value = "frac(i4)" },
-						BlueExpression = Input { Value = "frac(abs(sin((floor(i4) + i2*7.13)*78.233)*43758.5453))" },
-						GreenExpression = Input { Value = "frac(frac(i1)*3)" },
-						AlphaExpression = Input { Value = "min(min(frac(i4), 1-frac(i4))/i3, min(frac(frac(i1)*3), 1-frac(frac(i1)*3))*h/(3*w))" },
-						Intermediate4 = Input { Value = "((x - p1x)/n2 + p1x + 8)*i3" },
-						Intermediate1 = Input { Value = "((y - p1y)/n2 + p1y + 8) + n1" },
-						Intermediate3 = Input { Value = "2 + floor(frac(abs(sin(i2*12.9898)*43758.5453))*2)" },
 						LUTIn1 = Input {
 							SourceOp = "CustomTool1LUTIn1",
 							Source = "Value"
@@ -649,17 +661,34 @@
 							SourceOp = "CustomTool1LUTIn2",
 							Source = "Value"
 						},
-						LUTIn3 = Input {
-							SourceOp = "CustomTool1LUTIn3",
-							Source = "Value"
+						PointIn1 = Input {
+							Value = { 0.5482, 0.4995 },
+							Expression = "Point(ComicCtrl.PivotX, ComicCtrl.PivotY)"
 						},
 						LUTIn4 = Input {
 							SourceOp = "CustomTool1LUTIn4",
 							Source = "Value"
 						},
-						NumberIn1 = Input { Expression = "ComicCtrl.Scroll" },
+						BlueExpression = Input { Value = "frac(abs(sin((floor(i4) + i2*7.13)*78.233)*43758.5453))" },
+						GreenExpression = Input { Value = "frac(frac(i1)*3)" },
+						AlphaExpression = Input { Value = "min(min(frac(i4), 1-frac(i4))/i3, min(frac(frac(i1)*3), 1-frac(frac(i1)*3))*h/(3*w))" },
+						RedExpression = Input { Value = "frac(i4)" },
+						Intermediate1 = Input { Value = "((y - p1y)/n2 + p1y + 8) + n1" },
+						Intermediate4 = Input { Value = "((x - p1x)/n2 + p1x + 8)*i3" },
 						Intermediate2 = Input { Value = "floor(frac(i1)*3) + floor(i1)*3" },
-						NumberIn2 = Input { Expression = "max(ComicCtrl.PScale, 0.001)" }
+						LUTIn3 = Input {
+							SourceOp = "CustomTool1LUTIn3",
+							Source = "Value"
+						},
+						Intermediate3 = Input { Value = "2 + floor(frac(abs(sin(i2*12.9898)*43758.5453))*2)" },
+						Image1 = Input {
+							SourceOp = "PageBase",
+							Source = "Output"
+						},
+						NumberIn1 = Input {
+							Value = 27,
+							Expression = "ComicCtrl.Scroll"
+						}
 					},
 					ViewInfo = OperatorInfo { Pos = { -385, 16.5 } }
 				},
@@ -670,7 +699,7 @@
 							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
 						}
 					},
-					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					SplineColor = { Blue = 0, Red = 0, Green = 0 },
 					CtrlWZoom = false,
 					NameSet = true
 				},
@@ -681,7 +710,7 @@
 							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
 						}
 					},
-					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					SplineColor = { Blue = 0, Red = 0, Green = 0 },
 					CtrlWZoom = false,
 					NameSet = true
 				},
@@ -692,7 +721,7 @@
 							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
 						}
 					},
-					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					SplineColor = { Blue = 0, Red = 0, Green = 0 },
 					CtrlWZoom = false,
 					NameSet = true
 				},
@@ -703,52 +732,61 @@
 							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
 						}
 					},
-					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					SplineColor = { Blue = 0, Red = 0, Green = 0 },
 					CtrlWZoom = false,
 					NameSet = true
 				},
 				PageInk = Custom {
 					Inputs = {
-						GreenExpression = Input { Value = "if(a1 < 0.006, 0.95, if(a1 < 0.0095, 0.05, getg2d(i5, i6) * (1 - n4*i7)))" },
-						BlueExpression = Input { Value = "if(a1 < 0.006, 0.95, if(a1 < 0.0095, 0.05, getb2d(i5, i6) * (1 - n4*i7)))" },
-						AlphaExpression = Input { Value = "1" },
-						LUTIn1 = Input {
-							SourceOp = "CustomTool1LUTIn11",
-							Source = "Value"
+						NumberIn2 = Input {
+							Value = 0.5,
+							Expression = "max(ComicCtrl.PScale, 0.001)"
 						},
-						NumberIn3 = Input { Value = 150 },
-						NumberIn4 = Input { Value = 0.14 },
-						LUTIn4 = Input {
-							SourceOp = "CustomTool1LUTIn41",
-							Source = "Value"
-						},
-						Intermediate5 = Input { Value = "(i4 - 3*floor(i4/3) + 0.004 + 0.992*r1) / 3" },
-						Intermediate6 = Input { Value = "(floor(i4/3) + 0.5 + (g1 - 0.5)*0.992*i3/3) / 3" },
-						Intermediate7 = Input { Value = "if(dist(frac(((x - p1x)/n2 + p1x + 8)*n3), frac(i1*n3*h/w), 0.5, 0.5) < 0.3, 1, 0)" },
-						Image2 = Input {
-							SourceOp = "Tile9",
-							Source = "Output"
-						},
-						Image1 = Input {
-							SourceOp = "PageCells",
-							Source = "Output"
-						},
-						PointIn1 = Input { Expression = "Point(ComicCtrl.PivotX, ComicCtrl.PivotY)" },
-						Intermediate1 = Input { Value = "((y - p1y)/n2 + p1y + 8) + n1" },
-						NumberIn2 = Input { Expression = "max(ComicCtrl.PScale, 0.001)" },
-						Intermediate2 = Input { Value = "floor(frac(i1)*3) + floor(i1)*3" },
 						LUTIn2 = Input {
 							SourceOp = "CustomTool1LUTIn21",
 							Source = "Value"
 						},
+						Intermediate7 = Input { Value = "if(dist(frac(((x - p1x)/n2 + p1x + 8)*n3), frac(i1*n3*h/w), 0.5, 0.5) < 0.3, 1, 0)" },
+						LUTIn4 = Input {
+							SourceOp = "CustomTool1LUTIn41",
+							Source = "Value"
+						},
+						Intermediate1 = Input { Value = "((y - p1y)/n2 + p1y + 8) + n1" },
+						Intermediate2 = Input { Value = "floor(frac(i1)*3) + floor(i1)*3" },
 						Intermediate3 = Input { Value = "2 + floor(frac(abs(sin(i2*12.9898)*43758.5453))*2)" },
-						NumberIn1 = Input { Expression = "ComicCtrl.Scroll" },
 						Intermediate4 = Input { Value = "floor(b1*8.999)" },
+						RedExpression = Input { Value = "if(a1 < 0.006, 0.95, if(a1 < 0.0095, 0.05, getr2d(i5, i6) * (1 - n4*i7)))" },
+						GreenExpression = Input { Value = "if(a1 < 0.006, 0.95, if(a1 < 0.0095, 0.05, getg2d(i5, i6) * (1 - n4*i7)))" },
+						PointIn1 = Input {
+							Value = { 0.5482, 0.4995 },
+							Expression = "Point(ComicCtrl.PivotX, ComicCtrl.PivotY)"
+						},
+						BlueExpression = Input { Value = "if(a1 < 0.006, 0.95, if(a1 < 0.0095, 0.05, getb2d(i5, i6) * (1 - n4*i7)))" },
+						Intermediate6 = Input { Value = "(floor(i4/3) + 0.5 + (g1 - 0.5)*0.992*i3/3) / 3" },
+						AlphaExpression = Input { Value = "1" },
+						NumberIn1 = Input {
+							Value = 27,
+							Expression = "ComicCtrl.Scroll"
+						},
+						LUTIn1 = Input {
+							SourceOp = "CustomTool1LUTIn11",
+							Source = "Value"
+						},
 						LUTIn3 = Input {
 							SourceOp = "CustomTool1LUTIn31",
 							Source = "Value"
 						},
-						RedExpression = Input { Value = "if(a1 < 0.006, 0.95, if(a1 < 0.0095, 0.05, getr2d(i5, i6) * (1 - n4*i7)))" }
+						Image2 = Input {
+							SourceOp = "Tile9",
+							Source = "Output"
+						},
+						NumberIn3 = Input { Value = 150 },
+						NumberIn4 = Input { Value = 0.14 },
+						Image1 = Input {
+							SourceOp = "PageCells",
+							Source = "Output"
+						},
+						Intermediate5 = Input { Value = "(i4 - 3*floor(i4/3) + 0.004 + 0.992*r1) / 3" }
 					},
 					ViewInfo = OperatorInfo { Pos = { -275, 16.5 } }
 				},
@@ -759,7 +797,7 @@
 							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
 						}
 					},
-					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					SplineColor = { Blue = 0, Red = 0, Green = 0 },
 					CtrlWZoom = false,
 					NameSet = true
 				},
@@ -770,7 +808,7 @@
 							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
 						}
 					},
-					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					SplineColor = { Blue = 0, Red = 0, Green = 0 },
 					CtrlWZoom = false,
 					NameSet = true
 				},
@@ -781,7 +819,7 @@
 							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
 						}
 					},
-					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					SplineColor = { Blue = 0, Red = 0, Green = 0 },
 					CtrlWZoom = false,
 					NameSet = true
 				},
@@ -792,107 +830,526 @@
 							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
 						}
 					},
-					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					SplineColor = { Blue = 0, Red = 0, Green = 0 },
 					CtrlWZoom = false,
 					NameSet = true
 				},
 				FlipBlur = DirectionalBlur {
 					Inputs = {
-						Length = Input { Expression = "ComicCtrl.BlurLen" },
+						Length = Input {
+							Value = 3.58979302984161e-10,
+							Expression = "ComicCtrl.BlurLen"
+						},
+						Angle = Input { Value = 90 },
 						Input = Input {
 							SourceOp = "PageInk",
 							Source = "Output"
-						},
-						Angle = Input { Value = 90 }
+						}
 					},
 					ViewInfo = OperatorInfo { Pos = { -165, 16.5 } }
 				},
+				PageTintMix = Custom {
+					Inputs = {
+						NumberIn2 = Input {
+							Value = 0.84,
+							Expression = "BoxText.Red1"
+						},
+						LUTIn2 = Input {
+							SourceOp = "CustomTool1LUTIn23",
+							Source = "Value"
+						},
+						LUTIn3 = Input {
+							SourceOp = "CustomTool1LUTIn33",
+							Source = "Value"
+						},
+						LUTIn4 = Input {
+							SourceOp = "CustomTool1LUTIn43",
+							Source = "Value"
+						},
+						BlueExpression = Input { Value = "b1 + (min(i1*1.6*n4 + 0.5*i1*i1, 1) - b1)*n1" },
+						AlphaExpression = Input { Value = "1" },
+						LUTIn1 = Input {
+							SourceOp = "CustomTool1LUTIn13",
+							Source = "Value"
+						},
+						Intermediate1 = Input { Value = "r1*0.3 + g1*0.59 + b1*0.11" },
+						GreenExpression = Input { Value = "g1 + (min(i1*1.6*n3 + 0.5*i1*i1, 1) - g1)*n1" },
+						RedExpression = Input { Value = "r1 + (min(i1*1.6*n2 + 0.5*i1*i1, 1) - r1)*n1" },
+						NumberIn3 = Input {
+							Value = 0.07,
+							Expression = "BoxText.Green1"
+						},
+						NumberIn4 = Input {
+							Value = 0.09,
+							Expression = "BoxText.Blue1"
+						},
+						Image1 = Input {
+							SourceOp = "FlipBlur",
+							Source = "Output"
+						},
+						NumberIn1 = Input {
+							Value = 0.65,
+							Expression = "ComicCtrl.PageTint"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { -55, 16.5 } }
+				},
+				CustomTool1LUTIn13 = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Blue = 0, Red = 0, Green = 0 },
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn23 = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Blue = 0, Red = 0, Green = 0 },
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn33 = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Blue = 0, Red = 0, Green = 0 },
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn43 = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Blue = 0, Red = 0, Green = 0 },
+					CtrlWZoom = false,
+					NameSet = true
+				},
 				TitleText = TextPlus {
 					Inputs = {
-						GlobalIn = Input { Value = -480 },
-						GlobalOut = Input { Value = 3534 },
-						Center = Input { Expression = "Point(0.5 + (0.5 - ComicCtrl.PivotX)*(ComicCtrl.Zoom - 1), 0.5 + (0.5 - ComicCtrl.PivotY)*(ComicCtrl.Zoom - 1))" },
-						StyledText = Input { Value = "YOUR TITLE" },
-						Font = Input { Value = "Impact" },
-						Style = Input { Value = "Regular" },
-						Size = Input { Expression = "ComicCtrl.TextSize * ComicCtrl.Zoom" },
 						Wrap = Input { Value = 1 },
 						LayoutRotation = Input { Value = 1 },
 						TransformRotation = Input { Value = 1 },
 						Softness1 = Input { Value = 1 },
 						VerticalJustificationNew = Input { Value = 3 },
-						Width = Input { Value = 1920 },
-						Height = Input { Value = 1080 },
 						UseFrameFormatSettings = Input { Value = 1 },
 						HorizontalJustificationNew = Input { Value = 3 },
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } }
+						Center = Input {
+							Value = { 0.499743617021277, 0.500002659574468 },
+							Expression = "Point(0.5 + (0.5 - ComicCtrl.PivotX)*(ComicCtrl.Zoom - 1), 0.5 + (0.5 - ComicCtrl.PivotY)*(ComicCtrl.Zoom - 1))"
+						},
+						Height = Input { Value = 1080 },
+						StyledText = Input { Value = "YOUR TITLE" },
+						GlobalOut = Input { Value = 3534 },
+						Font = Input { Value = "Impact" },
+						GlobalIn = Input { Value = -480 },
+						Style = Input { Value = "Regular" },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Size = Input {
+							Value = 0.201063829787234,
+							Expression = "ComicCtrl.TextSize * ComicCtrl.Zoom"
+						},
+						Width = Input { Value = 1920 }
 					},
 					ViewInfo = OperatorInfo { Pos = { -165, -49.5 } },
 					Version = 1
 				},
 				Backdrop = Background {
 					Inputs = {
-						GlobalIn = Input { Value = -480 },
-						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
 						Width = Input { Value = 1920 },
 						Height = Input { Value = 1080 },
 						TopLeftRed = Input { Value = 0.02 },
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						TopLeftGreen = Input { Value = 0.02 },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						UseFrameFormatSettings = Input { Value = 1 },
 						TopLeftBlue = Input { Value = 0.025 },
-						UseFrameFormatSettings = Input { Value = 1 }
+						TopLeftGreen = Input { Value = 0.02 }
 					},
 					ViewInfo = OperatorInfo { Pos = { -165, 82.5 } }
 				},
 				BoxText = TextPlus {
 					Inputs = {
-						GlobalIn = Input { Value = -480 },
-						GlobalOut = Input { Value = 3534 },
-						Center = Input { Expression = "TitleText.Center" },
-						StyledText = Input { Expression = "TitleText.StyledText.Value" },
-						Font = Input {
-							Value = "Open Sans",
-							Expression = "TitleText.Font"
-						},
-						Style = Input {
-							Value = "Bold",
-							Expression = "TitleText.Style"
-						},
-						Size = Input { Expression = "TitleText.Size" },
-						HorizontalJustificationNew = Input { Value = 3 },
 						Wrap = Input { Value = 1 },
-						LayoutRotation = Input { Value = 1 },
-						TransformRotation = Input { Value = 1 },
-						Softness1 = Input { Value = 1 },
-						VerticalJustificationNew = Input { Value = 3 },
-						Width = Input { Value = 1920 },
-						Height = Input { Value = 1080 },
 						ElementShape1 = Input { Value = 2 },
 						Level1 = Input { Value = 0 },
 						ExtendHorizontal1 = Input { Value = 0.25 },
-						UseFrameFormatSettings = Input { Value = 1 },
+						ExtendVertical1 = Input { Value = 0.2 },
 						Red1 = Input { Value = 0.84 },
 						Green1 = Input { Value = 0.07 },
 						Blue1 = Input { Value = 0.09 },
+						HorizontalJustificationNew = Input { Value = 3 },
+						VerticalJustificationNew = Input { Value = 3 },
+						Width = Input { Value = 1920 },
+						Style = Input {
+							Value = "Regular",
+							Expression = "TitleText.Style"
+						},
+						TransformRotation = Input { Value = 1 },
+						StyledText = Input { Expression = "TitleText.StyledText.Value" },
+						Softness1 = Input { Value = 1 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Center = Input {
+							Value = { 0.499743617021277, 0.500002659574468 },
+							Expression = "TitleText.Center"
+						},
+						Height = Input { Value = 1080 },
+						Font = Input {
+							Value = "Impact",
+							Expression = "TitleText.Font"
+						},
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
 						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						ExtendVertical1 = Input { Value = 0.2 }
+						Size = Input {
+							Value = 0.201063829787234,
+							Expression = "TitleText.Size"
+						},
+						LayoutRotation = Input { Value = 1 }
 					},
 					ViewInfo = OperatorInfo { Pos = { -165, 115.5 } },
 					Version = 1
 				},
-				Plate = Merge {
+				ClearBase = Background {
 					Inputs = {
+						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						TopLeftAlpha = Input { Value = 0 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } }
+					},
+					ViewInfo = OperatorInfo { Pos = { -385, -115.5 } }
+				},
+				BoxInFrame = Merge {
+					Inputs = {
+						Background = Input {
+							SourceOp = "ClearBase",
+							Source = "Output"
+						},
+						PerformDepthMerge = Input { Value = 0 },
 						Foreground = Input {
 							SourceOp = "BoxText",
 							Source = "Output"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { -55, -115.5 } }
+				},
+				BoxInFrameCut = SetDomain {
+					Inputs = {
+						Input = Input {
+							SourceOp = "BoxInFrame",
+							Source = "Output"
 						},
+						Mode = Input { Value = FuID { "Set" } }
+					},
+					ViewInfo = OperatorInfo { Pos = { 55, -115.5 } }
+				},
+				BoxDrop = Shadow {
+					Inputs = {
+						Softness = Input { Value = 8 },
+						Alpha = Input {
+							Value = 0.7,
+							Expression = "min(0.7*ComicCtrl.Thick, 1)"
+						},
+						Input = Input {
+							SourceOp = "BoxInFrameCut",
+							Source = "Output"
+						},
+						ShadowOffset = Input { Value = { 0.504, 0.492 } }
+					},
+					ViewInfo = OperatorInfo { Pos = { -55, 115.5 } }
+				},
+				PlateFlat = Merge {
+					Inputs = {
 						Background = Input {
 							SourceOp = "Backdrop",
 							Source = "Output"
 						},
-						PerformDepthMerge = Input { Value = 0 }
+						PerformDepthMerge = Input { Value = 0 },
+						Foreground = Input {
+							SourceOp = "BoxDrop",
+							Source = "Output"
+						}
 					},
 					ViewInfo = OperatorInfo { Pos = { -55, 82.5 } }
+				},
+				TextInFrame = Merge {
+					Inputs = {
+						Background = Input {
+							SourceOp = "ClearBase",
+							Source = "Output"
+						},
+						PerformDepthMerge = Input { Value = 0 },
+						Foreground = Input {
+							SourceOp = "TitleText",
+							Source = "Output"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { -275, -115.5 } }
+				},
+				TextInFrameCut = SetDomain {
+					Inputs = {
+						Input = Input {
+							SourceOp = "TextInFrame",
+							Source = "Output"
+						},
+						Mode = Input { Value = FuID { "Set" } }
+					},
+					ViewInfo = OperatorInfo { Pos = { -165, -115.5 } }
+				},
+				TextDrop = Shadow {
+					Inputs = {
+						Softness = Input { Value = 3 },
+						Alpha = Input {
+							Value = 0.55,
+							Expression = "min(0.55*ComicCtrl.Thick, 1)"
+						},
+						Input = Input {
+							SourceOp = "TextInFrameCut",
+							Source = "Output"
+						},
+						ShadowOffset = Input { Value = { 0.5025, 0.4955 } }
+					},
+					ViewInfo = OperatorInfo { Pos = { 275, -16.5 } }
+				},
+				DepthShift = Transform {
+					Inputs = {
+						Center = Input { Expression = "Point(0.5 + 0.004*ComicCtrl.Thick*min(ComicCtrl.Zoom, 14), 0.5 - 0.006*ComicCtrl.Thick*min(ComicCtrl.Zoom, 14))" },
+						Input = Input {
+							SourceOp = "TextInFrameCut",
+							Source = "Output"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { -275, -16.5 } }
+				},
+				DepthSoft = Blur {
+					Inputs = {
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						XBlurSize = Input {
+							Value = 1.30691489361702,
+							Expression = "min(1.3*ComicCtrl.Zoom, 24)"
+						},
+						Input = Input {
+							SourceOp = "DepthShift",
+							Source = "Output"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { -165, -16.5 } }
+				},
+				PageShade = Custom {
+					Inputs = {
+						LUTIn1 = Input {
+							SourceOp = "CustomTool1LUTIn14",
+							Source = "Value"
+						},
+						LUTIn2 = Input {
+							SourceOp = "CustomTool1LUTIn24",
+							Source = "Value"
+						},
+						GreenExpression = Input { Value = "g1*(1 - n1*(1 - a2))" },
+						LUTIn4 = Input {
+							SourceOp = "CustomTool1LUTIn44",
+							Source = "Value"
+						},
+						BlueExpression = Input { Value = "b1*(1 - n1*(1 - a2))" },
+						AlphaExpression = Input { Value = "1" },
+						Image2 = Input {
+							SourceOp = "DepthSoft",
+							Source = "Output"
+						},
+						RedExpression = Input { Value = "r1*(1 - n1*(1 - a2))" },
+						LUTIn3 = Input {
+							SourceOp = "CustomTool1LUTIn34",
+							Source = "Value"
+						},
+						Image1 = Input {
+							SourceOp = "PageTintMix",
+							Source = "Output"
+						},
+						NumberIn1 = Input {
+							Value = 0.9,
+							Expression = "min(0.9*ComicCtrl.Thick, 1)"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 55, 49.5 } }
+				},
+				CustomTool1LUTIn14 = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Blue = 0, Red = 0, Green = 0 },
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn24 = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Blue = 0, Red = 0, Green = 0 },
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn34 = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Blue = 0, Red = 0, Green = 0 },
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn44 = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Blue = 0, Red = 0, Green = 0 },
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				RimGrow = ErodeDilate {
+					Inputs = {
+						Filter = Input { Value = 3 },
+						XAmount = Input {
+							Value = 0.00160851063829787,
+							Expression = "min(0.0016*ComicCtrl.Zoom, 0.02)"
+						},
+						Input = Input {
+							SourceOp = "TextInFrameCut",
+							Source = "Output"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { -275, -49.5 } }
+				},
+				RimLine = Custom {
+					Inputs = {
+						NumberIn2 = Input {
+							Value = 0.07,
+							Expression = "BoxText.Green1"
+						},
+						LUTIn2 = Input {
+							SourceOp = "CustomTool1LUTIn22",
+							Source = "Value"
+						},
+						LUTIn3 = Input {
+							SourceOp = "CustomTool1LUTIn32",
+							Source = "Value"
+						},
+						LUTIn4 = Input {
+							SourceOp = "CustomTool1LUTIn42",
+							Source = "Value"
+						},
+						BlueExpression = Input { Value = "i1*(n3 + (1 - n3)*0.7)" },
+						AlphaExpression = Input { Value = "i1" },
+						GreenExpression = Input { Value = "i1*(n2 + (1 - n2)*0.7)" },
+						Intermediate1 = Input { Value = "max(a1 - a2, 0)" },
+						LUTIn1 = Input {
+							SourceOp = "CustomTool1LUTIn12",
+							Source = "Value"
+						},
+						Image2 = Input {
+							SourceOp = "TextInFrameCut",
+							Source = "Output"
+						},
+						NumberIn3 = Input {
+							Value = 0.09,
+							Expression = "BoxText.Blue1"
+						},
+						RedExpression = Input { Value = "i1*(n1 + (1 - n1)*0.7)" },
+						Image1 = Input {
+							SourceOp = "RimGrow",
+							Source = "Output"
+						},
+						NumberIn1 = Input {
+							Value = 0.84,
+							Expression = "BoxText.Red1"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { -165, -82.5 } }
+				},
+				CustomTool1LUTIn12 = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Blue = 0, Red = 0, Green = 0 },
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn22 = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Blue = 0, Red = 0, Green = 0 },
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn32 = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Blue = 0, Red = 0, Green = 0 },
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				CustomTool1LUTIn42 = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Blue = 0, Red = 0, Green = 0 },
+					CtrlWZoom = false,
+					NameSet = true
+				},
+				Plate = Merge {
+					Inputs = {
+						Background = Input {
+							SourceOp = "PlateFlat",
+							Source = "Output"
+						},
+						Blend = Input { Expression = "min(0.9*ComicCtrl.Thick, 1)" },
+						PerformDepthMerge = Input { Value = 0 },
+						Foreground = Input {
+							SourceOp = "RimLine",
+							Source = "Output"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 55, 82.5 } }
 				},
 				CoverMerge = Merge {
 					Inputs = {
@@ -902,12 +1359,12 @@
 							Source = "Output"
 						},
 						ApplyMaskInverted = Input { Value = 1 },
-						Foreground = Input {
-							SourceOp = "Plate",
+						Background = Input {
+							SourceOp = "PageShade",
 							Source = "Output"
 						},
-						Background = Input {
-							SourceOp = "FlipBlur",
+						Foreground = Input {
+							SourceOp = "Plate",
 							Source = "Output"
 						}
 					},
@@ -915,15 +1372,15 @@
 				},
 				PageWindow = RectangleMask {
 					Inputs = {
-						Filter = Input { Value = FuID { "Fast Gaussian" } },
-						Width = Input { Expression = "ComicCtrl.WinSize" },
-						Height = Input { Expression = "ComicCtrl.WinSize" },
-						PixelAspect = Input { Value = { 1, 1 } },
 						MaskWidth = Input { Value = 1920 },
 						MaskHeight = Input { Value = 1080 },
 						ClippingMode = Input { Value = FuID { "None" } },
+						PixelAspect = Input { Value = { 1, 1 } },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						Height = Input { Expression = "ComicCtrl.WinSize" },
+						UseFrameFormatSettings = Input { Value = 1 },
 						Center = Input { Expression = "Point(ComicCtrl.PivotX, ComicCtrl.PivotY)" },
-						UseFrameFormatSettings = Input { Value = 1 }
+						Width = Input { Expression = "ComicCtrl.WinSize" }
 					},
 					ViewInfo = OperatorInfo { Pos = { 55, -16.5 } }
 				},
@@ -934,13 +1391,13 @@
 							SourceOp = "PageWindow",
 							Source = "Mask"
 						},
-						Blend = Input { Expression = "ComicCtrl.WinFade" },
-						Foreground = Input {
-							SourceOp = "FlipBlur",
-							Source = "Output"
-						},
 						Background = Input {
 							SourceOp = "CoverMerge",
+							Source = "Output"
+						},
+						Blend = Input { Expression = "ComicCtrl.WinFade" },
+						Foreground = Input {
+							SourceOp = "PageTintMix",
 							Source = "Output"
 						}
 					},
@@ -948,16 +1405,16 @@
 				},
 				WhiteFill = Merge {
 					Inputs = {
-						Foreground = Input {
-							SourceOp = "TitleText",
-							Source = "Output"
-						},
 						Background = Input {
 							SourceOp = "WindowMerge",
 							Source = "Output"
 						},
+						Blend = Input { Expression = "ComicCtrl.White" },
 						PerformDepthMerge = Input { Value = 0 },
-						Blend = Input { Expression = "ComicCtrl.White" }
+						Foreground = Input {
+							SourceOp = "TextDrop",
+							Source = "Output"
+						}
 					},
 					ViewInfo = OperatorInfo { Pos = { 275, 16.5 } }
 				},
@@ -970,7 +1427,10 @@
 						},
 						Threshold = Input { Value = 0.7 },
 						XGlowSize = Input { Value = 14 },
-						Gain = Input { Expression = "0.12 + 0.9*ComicCtrl.Flash" }
+						Gain = Input {
+							Value = 0.202066869300912,
+							Expression = "0.12 + 0.9*ComicCtrl.Flash"
+						}
 					},
 					ViewInfo = OperatorInfo { Pos = { 385, 16.5 } }
 				}
