@@ -15,7 +15,7 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 | 範本 | 類型 | 說明 |
 |---|---|---|
 | [Comic Intro](docs/templates/comic-intro.md) | 特效 | 漫畫頁邊翻邊拉遠，退到發現它們在標題的筆畫裡，最後定格成紅框白字。漫畫格播的是片段裡不同時間點的畫面 |
-| [Photo Stack](docs/templates/photo-stack.md) | 特效 | 影片的幾個片刻變成照片滑到桌上，最後一張放大成全畫面，正片接著從頭播 |
+| [Photo Stack](docs/templates/photo-stack.md) | 特效 | 影片的幾個片刻變成照片滑到桌上，最後一張才是正片，放大成全畫面後無縫接下去 |
 
 ### 強調與節奏
 

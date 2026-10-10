@@ -20,8 +20,11 @@ ctrl.UserControls = {
   PsDone     = L.num("Stack Complete At", 0.67, 0.2, 0.9),
   PsSeed     = L.num("Layout Seed", 1, 0, 50, nil, true),
   PsPlay     = L.check("Photos Play As Video", 1),
-  PsLive     = L.combo("Last Photo", {"Plays, Then Rewinds To The First Frame", "Plays The Moments Before The Clip",
-                                      "Waits On The First Frame", "Plays Along", "Waits On The Last Frame"}, 0),
+  PsStart    = L.num("Last Photo Arrives After (seconds)", 2, 0, 10),
+  PsLive     = L.combo("Last Photo", {"Plays Along", "Plays, Then Rewinds To The First Frame",
+                                      "Waits On The First Frame", "Waits On The Last Frame"}, 0),
+  Land = L.num("Land", 0, 0, 1, "Driver"),
+  Done = L.num("Done", 0, 0, 1, "Driver"),
   PhotoSize  = L.num("Photo Size", 0.36, 0.15, 0.7),
   Spread     = L.num("Spread", 1, 0, 1.6),
   Tilt       = L.num("Tilt", 1, 0, 3),
@@ -46,10 +49,15 @@ ctrl = ctrl:Refresh()
 ctrl:SetInput("UseFrameFormatSettings", 1)
 expr(ctrl, "P", L.P)
 -- Z: the live photo growing to full frame at the end, eased at both ends
-expr(ctrl, "Z", "(function(t) return t*t*t*(t*(6*t - 15) + 10) end)(min(max((P - PsDone)/max(0.95 - PsDone, 0.01), 0), 1))")
+-- Land: when the last photo sets off, as a part of the clip. Given in seconds it is the one moment the user
+-- can count on: cut the piece that many seconds before the first frame they want to see in that photo.
+-- With 0 seconds it follows from Stack Complete At instead. Done: when the last photo has come to rest.
+expr(ctrl, "Land", "iif(PsStart > 0, min(PsStart*(comp:GetPrefs('Comp.FrameFormat.Rate') or 24)/max(comp.RenderEnd - comp.RenderStart, 1), 0.6), max(PsDone - 0.01 - PsSlide, 0.02))")
+expr(ctrl, "Done", "iif(PsStart > 0, min(Land + PsSlide + 0.01, 0.9), PsDone)")
+expr(ctrl, "Z", "(function(t) return t*t*t*(t*(6*t - 15) + 10) end)(min(max((P - Done)/max(0.95 - Done, 0.01), 0), 1))")
 -- Gap: time between two photos setting off, so that the last one has landed when the stack is complete.
 -- A long Slide Time with many photos leaves no room and everything sets off at once.
-expr(ctrl, "Gap", "max(PsDone - 0.03 - PsSlide, 0) / max(PsCount - 1, 1)")
+expr(ctrl, "Gap", "max(Land - 0.02, 0) / max(PsCount - 1, 1)")
 -- Fit: the photo size actually used; beyond six photos they shrink a little so the pile stays readable
 expr(ctrl, "Fit", "PhotoSize * (6/max(PsCount, 6))^0.4")
 expr(ctrl, "Aspect", "Width/Height")
@@ -83,28 +91,28 @@ L.color(paper, 0.97, 0.96, 0.93)
 paper:SetInput("UseFrameFormatSettings", 1)
 paper.EffectMask = paperMask.Mask
 
--- What the last photo shows. The first three choices are for an intro piece placed in front of the clip:
--- they all end on the very frame the clip starts with, so nothing of the clip is used up by the intro.
---   0 plays the opening of the clip while the stack builds, then winds back to the first frame as it grows
---   1 plays the footage that comes just before the clip in the source and arrives at the first frame at the end
---   2 stays on the first frame   3 plays along with the clip (and ends wherever the clip is)   4 stays on the last frame
+-- What the last photo shows. It is not on screen before it sets off (Land), so playing along with the clip
+-- means the viewer first sees the clip at that moment and it runs on unbroken into whatever follows.
+--   0 plays along with the clip
+--   1 starts on the first frame when it sets off, plays, then winds back to the first frame as it grows
+--   2 stays on the first frame   3 stays on the last frame
+-- 1 and 2 are for a piece placed in front of a clip that has no spare footage before its start.
 local liveSrc = add("TimeStretcher", "LiveFrame", -5, 2)
 liveSrc.Input = src.Output
 liveSrc:SetInput("InterpolateBetweenFrames", 0)
-expr(liveSrc, "SourceTime", [[(function(m, rs, re, p, z, done)
-  if m == 0 then return rs + floor(min(p, done)*(re - rs)*(1 - z) + 0.5)
-  elseif m == 1 then return max(comp.GlobalStart, rs - (re - time))
-  elseif m == 2 then return rs
-  elseif m == 3 then return time end
+expr(liveSrc, "SourceTime", [[(function(m, rs, re, p, z, land, done)
+  if m == 0 then return time
+  elseif m == 1 then return rs + floor(max(min(p, done) - land, 0)*(re - rs)*(1 - z) + 0.5)
+  elseif m == 2 then return rs end
   return re
-end)(StackCtrl.PsLive, comp.RenderStart, comp.RenderEnd, StackCtrl.P, StackCtrl.Z, StackCtrl.PsDone)]])
+end)(StackCtrl.PsLive, comp.RenderStart, comp.RenderEnd, StackCtrl.P, StackCtrl.Z, StackCtrl.Land, StackCtrl.Done)]])
 
 -- Layers 1..MAX-1 are stills and only the first PsCount-1 of them are used; the last layer is the live clip.
 local last = table_
 for k = 1, MAX do
   local live = (k == MAX)
   local image = liveSrc
-  local slot = live and "(StackCtrl.PsCount - 1)" or tostring(k - 1) -- position in the arrival order
+  local slot = tostring(k - 1) -- position in the arrival order (the last photo uses Land instead)
   if not live then
     image = add("TimeStretcher", "Still" .. k, -4 + k, 0)
     image.Input = small.Output
@@ -138,7 +146,7 @@ end)(comp.GlobalStart, comp.GlobalEnd - comp.GlobalStart + 1,
   end
 
   -- fall: 1 while the photo is still outside the frame, easing down to 0 once it has come to rest
-  local t0 = string.format("(0.02 + %s*StackCtrl.Gap)", slot)
+  local t0 = live and "StackCtrl.Land" or string.format("(0.02 + %s*StackCtrl.Gap)", slot)
   local fall = string.format("((1 - min(max((StackCtrl.P - %s)/StackCtrl.PsSlide, 0), 1))^4)", t0)
   local drop = add("Transform", "Drop" .. k, -4 + k, 2)
   drop.Input = card.Output
@@ -193,6 +201,7 @@ if os.getenv("FX_EXPORT") == "1" then
     {"NAME", "PhotoStack"},
     {"MAIN", "Src", "Input"},
     {"OUT", "Finish", "Output"},
+    {"CTL", "StackCtrl", "PsStart", "Last Photo Arrives After (seconds)"},
     {"CTL", "StackCtrl", "PsLive", "Last Photo"},
     {"CTL", "StackCtrl", "PsCount", "Photo Count"},
     {"CTL", "StackCtrl", "PsSlide", "Slide Time"},

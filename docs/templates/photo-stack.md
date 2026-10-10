@@ -6,31 +6,25 @@
 
 ![Photo Stack](../../previews/photo-stack.png)
 
-**用法**：最後一張照片就是片段本身，它放大成全畫面後接回影片。怎麼接用 `Last Photo` 選。
+**用法**：前面幾張照片先疊上來，最後一張才是正片。它在 `Last Photo Arrives After` 設定的秒數（預設 2 秒）飛進來，觀眾從這一刻才第一次看到正片；之後它放大成全畫面，直接接到後面的片段，中間沒有斷點。
 
-當開場用（預設）：最後放大完的畫面是正片的第一格，正片接著從頭播，一格都不會少。
+所以切法是「從正片想開始的那一格，往前數 2 秒」：
 
-1. 在時間軸上把正片複製一份，放在正片的正前方。
-2. 把前面那一份的尾端往前剪，留下開場要的長度（例如 5 秒）。開頭不要動，它要和正片從同一格開始。
-3. 把 Photo Stack 拖到前面這一小段上。
-4. 把這一小段的聲音靜音或換成音樂，不然正片開始後同一段聲音會再播一次。
+1. 找到正片要開始的那一格，往前 2 秒切一刀。
+2. 再往後切一刀，切出開場要的長度（建議 4 到 6 秒）。
+3. 把 Photo Stack 拖到這一段上。
 
-這種用法下，最後那張照片在等的時候要顯示什麼，有三個選擇：
+這一段開頭的 2 秒不會出現在任何一張照片裡，只會變成很暗很糊的背景，所以那 2 秒拍到什麼都沒關係。
 
-| `Last Photo` | 最後那張照片 |
-|---|---|
-| `Plays, Then Rewinds To The First Frame`（預設） | 照片疊上來的時候播正片的開頭，放大的同時快速倒帶回第一格 |
-| `Plays The Moments Before The Clip` | 播來源影片裡正片開始之前的那幾秒，放大完剛好播到第一格，接點完全連續 |
-| `Waits On The First Frame` | 一直停在第一格不動 |
-
-直接套在片段開頭（`Plays Along`）：先把片段開頭切出想要的長度，再拖到那一段上。最後一張照片跟著片段一起播，放大時影片已經播到這一段的結尾，所以這一段的內容只會在小照片裡出現。想讓它不動就選 `Waits On The Last Frame`，它會停在這一段的最後一格。
+正片就是從來源影片的第一格開始、前面沒有多的 2 秒時，改用另一種做法：把正片複製一份放在它正前方，尾端剪成開場的長度，套上特效，`Last Photo` 選 `Plays, Then Rewinds To The First Frame` 或 `Waits On The First Frame`。這一小段的聲音記得靜音。
 
 | 參數 | 作用 |
 |---|---|
-| `Last Photo` | 最後一張照片顯示什麼，五個選項見上面的說明 |
+| `Last Photo Arrives After` | 最後一張照片在這一段開始後幾秒飛進來。其他照片會在這之前排完。0 是改用 `Stack Complete At` 決定 |
+| `Last Photo` | 最後一張照片播什麼。`Plays Along`：跟著片段播，接點無縫。`Plays, Then Rewinds To The First Frame`：飛進來時從這一段的第一格開始播，放大時倒帶回第一格。`Waits On The First Frame`、`Waits On The Last Frame`：停在第一格或最後一格 |
 | `Photo Count` | 照片張數，1 到 12 |
 | `Slide Time` | 每張滑進來花多久。調大，同時在空中的照片就多 |
-| `Stack Complete At` | 整疊在片段的哪個位置排完，之後開始放大 |
+| `Stack Complete At` | 整疊在片段的哪個位置排完，之後開始放大。只有 `Last Photo Arrives After` 設成 0 時才有作用 |
 | `Layout Seed` | 換一種排法 |
 | `Photos Play As Video` | 照片播影片還是定格 |
 | `Stills From`、`Stills To` | 其他照片從來源影片的哪個範圍取 |
@@ -42,8 +36,9 @@
 
 **注意**
 
-- `Plays The Moments Before The Clip` 需要來源影片在正片的起點之前還有畫面。正片如果是從來源影片的第一格開始，前面沒東西可播，照片會停在第一格。
-- `Plays, Then Rewinds To The First Frame` 會讓觀眾先瞄到正片開頭幾秒的內容，再倒回去。不想提前露出就用另外兩個。
+- `Last Photo Arrives After` 最多只會用到這一段長度的六成，再長就擠不下放大的時間。這一段太短（例如 3 秒）而秒數設 2 時，照片實際飛進來的時間會比設定的早，接點還是無縫，但第一眼看到的不是你算好的那一格。把這一段拉長，或把秒數調小。
+- 秒數是用來源影片的影格率換算的。變速過的片段沒有測過。
+- `Plays, Then Rewinds To The First Frame` 會讓觀眾先看到正片開頭幾秒，再倒回去。
 - 背景那層模糊的畫面不受 `Last Photo` 影響，一直是片段正在播的畫面。
 
 - `Stills From`、`Stills To` 是以整支來源影片的比例計，不是剪進時間軸的那一段。
