@@ -8,6 +8,7 @@ DaVinci Resolve 的 Fusion 範本（特效、轉場、標題），以及用腳�
 |---|---|
 | `templates/` | 範本原始檔（`.setting`） |
 | `scripts/` | 建置、匯出、打包、驗證用的腳本 |
+| `docs/` | 給使用者看的說明：每個範本一份、安裝方式、時間清單的寫法。README 只放總覽和分類 |
 | `previews/` | 預覽圖 |
 | `skills/resolve-fusion/` | 做法文件與學習記錄 |
 

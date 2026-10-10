@@ -6,332 +6,65 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 
 ## 範本
 
+依用途分成四類。點範本名稱看預覽圖、用法和完整的參數說明。
+
+### 開場
+
+把影片的開頭做成一段有設計感的片頭。
+
 | 範本 | 類型 | 說明 |
 |---|---|---|
-| [Comic Intro](#comic-intro) | 標題 | 漫畫頁快速翻動，鏡頭從字裡拉遠，最後定格成紅框白字的標題 |
-| [Comic Intro Video](#comic-intro-video) | 特效 | 同上，但每個漫畫格播的是片段裡不同時間點的畫面 |
-| [Time Slice](#time-slice) | 特效 | 畫面切成直條，每條比隔壁晚幾格 |
-| [Photo Stack](#photo-stack) | 特效 | 影片的幾個片刻變成照片滑到桌上，最後一張放大成全畫面 |
-| [Punch Zoom](#punch-zoom) | 特效 | 在指定的時間點推近再彈回，可加 RGB 分離、模糊、震動、閃白 |
-| [Video Wall](#video-wall) | 轉場 | 拉遠成一面影片牆，橫移，再推進下一段 |
-| [Paper Tear](#paper-tear) | 轉場 | 前一段像紙一樣被撕成兩半拉開，露出後一段 |
-| [Chapter Bar](#chapter-bar) | 標題 | 有章節的進度條 |
-| [Kinetic Lines](#kinetic-lines) | 標題 | 一行行文字照寫好的時間彈出來 |
-| [Number Counter](#number-counter) | 標題 | 數字跳動 |
+| [Comic Intro](docs/templates/comic-intro.md) | 標題 | 漫畫頁快速翻動，鏡頭從字裡拉遠，最後定格成紅框白字的標題 |
+| [Comic Intro Video](docs/templates/comic-intro-video.md) | 特效 | 同上，但每個漫畫格播的是片段裡不同時間點的畫面 |
+| [Photo Stack](docs/templates/photo-stack.md) | 特效 | 影片的幾個片刻變成照片滑到桌上，最後一張放大成全畫面 |
 
-三種類型的用法不同：
+### 強調與節奏
 
-- **標題**：從特效庫拖到影片上方的軌道。
-- **特效**：從特效庫拖到片段上。
-- **轉場**：從特效庫拖到兩個片段的交界。
+套在片段上，讓畫面在某些時刻更有力道。
 
-所有動畫都跟著片段長度伸縮：片段（或標題、轉場）拉多長，動畫就走多久。
+| 範本 | 類型 | 說明 |
+|---|---|---|
+| [Punch Zoom](docs/templates/punch-zoom.md) | 特效 | 在指定的時間點或照拍子推近再彈回，可加 RGB 分離、模糊、震動、閃白 |
+| [Time Slice](docs/templates/time-slice.md) | 特效 | 畫面切成直條，每條比隔壁晚幾格，動作像波浪一樣掃過去 |
+
+### 轉場
+
+放在兩個片段的交界。
+
+| 範本 | 類型 | 說明 |
+|---|---|---|
+| [Paper Tear](docs/templates/paper-tear.md) | 轉場 | 前一段像紙一樣被撕成兩半拉開，露出後一段 |
+| [Video Wall](docs/templates/video-wall.md) | 轉場 | 拉遠成一面影片牆，橫移，再推進下一段 |
+
+### 文字與資訊
+
+疊在影片上方的軌道，背景透明。
+
+| 範本 | 類型 | 說明 |
+|---|---|---|
+| [Kinetic Lines](docs/templates/kinetic-lines.md) | 標題 | 一行行文字照寫好的時間彈出來 |
+| [Number Counter](docs/templates/number-counter.md) | 標題 | 數字從一個值跳到另一個值 |
+| [Chapter Bar](docs/templates/chapter-bar.md) | 標題 | 有章節名稱的進度條 |
 
 預覽圖的輸入是程序產生的測試畫面。畫面上的數字是畫格編號，用來看出每一格取的是哪個時間點。
 
-### Comic Intro
+## 文件
 
-漫畫頁快速翻動，鏡頭從字裡拉遠，最後定格成紅框白字的標題。漫畫格裡是程序畫出來的圖案，不需要素材。
-
-![Comic Intro](previews/comic-intro.png)
-
-**用法**：拖到時間軸上，拉成想要的長度。
-
-| 參數 | 作用 |
+| 文件 | 內容 |
 |---|---|
-| `Text` | 標題文字 |
-| `Font`、`Style` | 字型 |
-| `Text Size`、`Text Color` | 文字大小與顏色 |
-| `Box Color` | 文字底框的顏色 |
-| `Box Padding X`、`Box Padding Y` | 底框在文字四周的留白，底框會自動貼合文字 |
-| `Background Color` | 最後定格時的背景色 |
-| `Frames Per Page` | 每一頁停留幾格，數字越小翻得越快 |
-| `Start Zoom` | 開頭放大幾倍 |
-| `Zoom Pivot X`、`Zoom Pivot Y` | 鏡頭從畫面上哪一點拉遠 |
+| [安裝與移除](docs/install.md) | 檔案放哪裡、三種類型各自怎麼拖 |
+| [時間清單的寫法](docs/time-list.md) | Chapter Bar、Kinetic Lines、Punch Zoom 共用的時間點寫法 |
+| [docs/templates/](docs/templates) | 每個範本一份：預覽圖、用法、參數、注意事項 |
+| [做法與踩過的坑](skills/resolve-fusion/SKILL.md) | 這些範本是怎麼用腳本做出來的，想自己改範本時看這份 |
 
-**注意**
+## 快速安裝
 
-- `Zoom Pivot` 要落在某個字母的筆畫上，開頭才會是「從字裡面看出去」。改了文字之後通常要跟著調。
-
-### Comic Intro Video
-
-和 Comic Intro 相同的動畫，但每個漫畫格播的是片段裡不同時間點的畫面。
-
-![Comic Intro Video](previews/comic-intro-video.png)
-
-**用法**：先把片段開頭切出想要的長度，再拖到那一段上。
-
-| 參數 | 作用 |
-|---|---|
-| `Text` | 標題文字 |
-| `Font`、`Style` | 字型 |
-| `Text Size`、`Text Color` | 文字大小與顏色 |
-| `Box Color` | 文字底框的顏色 |
-| `Box Padding X`、`Box Padding Y` | 底框在文字四周的留白 |
-| `Background Color` | 最後定格時的背景色 |
-| `Page Count` | 整段總共翻幾頁 |
-| `Halftone` | 漫畫網點的強度，0 是沒有 |
-| `Start Zoom` | 開頭放大幾倍 |
-| `Zoom Pivot X`、`Zoom Pivot Y` | 鏡頭從畫面上哪一點拉遠 |
-
-**注意**
-
-- 漫畫格取的是整支來源影片的畫面，不只是剪進時間軸的那一段。
-- 動畫結束在標題畫面，不會接回原片。
-
-### Time Slice
-
-畫面切成直條，每條比隔壁晚幾格。畫面裡有東西在動時，動作會像波浪一樣掃過去。
-
-![Time Slice](previews/time-slice.png)
-
-**用法**：拖到片段上，整個片段都會套用。
-
-| 參數 | 作用 |
-|---|---|
-| `Slices` | 切成幾條，2 到 16 |
-| `Delay Per Slice` | 每條比前一條晚幾格 |
-| `Horizontal Strips` | 改成橫條 |
-| `From Center` | 中間最即時，往兩邊越來越晚 |
-| `Reverse` | 延遲的方向反過來 |
-| `Edge Softness` | 條與條之間的交界柔化 |
-
-**注意**
-
-- 畫面動得慢時效果不明顯，把 `Delay Per Slice` 調大。
-
-### Photo Stack
-
-影片的幾個片刻變成照片，一張張滑到桌上，最後一張放大成全畫面。
-
-![Photo Stack](previews/photo-stack.png)
-
-**用法**：先把片段開頭切出想要的長度，再拖到那一段上。最後一張照片就是片段本身正在播的畫面，放大之後會無縫接回原片。
-
-| 參數 | 作用 |
-|---|---|
-| `Photo Count` | 照片張數，1 到 12 |
-| `Slide Time` | 每張滑進來花多久。調大，同時在空中的照片就多 |
-| `Stack Complete At` | 整疊在片段的哪個位置排完，之後開始放大 |
-| `Layout Seed` | 換一種排法 |
-| `Photos Play As Video` | 照片播影片還是定格 |
-| `Stills From`、`Stills To` | 其他照片從來源影片的哪個範圍取 |
-| `Photo Size`、`Spread`、`Tilt` | 照片大小、散開程度、傾斜程度 |
-| `Border`、`Corner Roundness`、`Paper Color` | 白邊的寬度、圓角、顏色 |
-| `Shadow`、`Shadow Softness`、`Shadow Distance` | 陰影的濃度、柔和度、距離 |
-| `Motion Blur` | 滑動時的動態模糊 |
-| `Backdrop Brightness`、`Backdrop Blur` | 背景的亮度與模糊，背景是片段本身的畫面 |
-
-**注意**
-
-- `Stills From`、`Stills To` 是以整支來源影片的比例計，不是剪進時間軸的那一段。
-- 算圖偏慢，在 Edit 頁面不會即時播放。嫌慢先關 `Motion Blur`，再不行關 `Photos Play As Video`。
-
-### Punch Zoom
-
-畫面在指定的時間點快速推近再彈回。每一下可以同時帶 RGB 分離、放射狀模糊、震動、扭轉、閃白，各自獨立開關。時間點可以自己列，也可以填 BPM 讓它照拍子打。
-
-![Punch Zoom](previews/punch-zoom.png)
-
-**用法**：拖到片段上，在 `Hits` 裡列出時間點，或填 `Tempo`。
-
-| 參數 | 作用 |
-|---|---|
-| `Hits` | 時間點清單，一行一下，寫法見下方 |
-| `Tempo` | 填 BPM 就照拍子自動打，0 是關閉。可以和 `Hits` 同時用 |
-| `Every N Beats` | 每幾拍打一下 |
-| `First Beat At` | 第一拍在片段開頭後幾秒 |
-| `Frame Rate Override` | 時間點不對時，填上片段的影格率。0 是自動 |
-| `Zoom`、`Zoom Center` | 推多近、往畫面上哪一點推 |
-| `Punch In`、`Spring Back` | 推進去和彈回來各花幾秒 |
-| `Stay Zoomed Until Next Hit` | 推近後停住，下一下才退回去 |
-| `RGB Split` | 推的瞬間紅綠藍往外錯開的程度，0 是關閉 |
-| `Zoom Blur` | 推的瞬間放射狀模糊的程度，0 是關閉 |
-| `Shake` | 推的瞬間畫面亂晃的幅度，0 是關閉 |
-| `Twist` | 推的瞬間畫面轉幾度，0 是關閉 |
-| `Flash` | 推的瞬間變亮的程度，0 是關閉 |
-
-時間點的寫法和 [Chapter Bar](#chapter-bar) 相同（`1:25`、`0:07.5`、`120f`、`25%`），從片段開頭算起。後面可以再加一個數字，單獨調整那一下的力道：
+把 `templates/` 裡的 `.setting` 檔依類型複製到下面資料夾的 `Titles`、`Effects`、`Transitions` 子資料夾，然後重啟 Resolve：
 
 ```
-0:01.2
-0:03 1.5
-0:04.5 0.6
-```
+%APPDATA%\Blackmagic Design\DaVinci Resolve\Support\Fusion\Templates\Edit\n```
 
-**注意**
-
-- 開了 `Stay Zoomed Until Next Hit` 之後，第一下推近、第二下退回、第三下再推近，依此類推，所以時間點要成對地寫。寫成單數個，最後會一直停在近景。
-- 這個模式下 `Zoom` 通常要調大（0.3 左右），並把 `Zoom Center` 移到想留在畫面裡的東西上。時間後面的力道數字只對推近那一下有用。
-- RGB 分離、模糊、震動、閃白在推近和退回時各出現一下，不會在停住期間持續。
-- `Stay Zoomed Until Next Hit` 不建議和 `Tempo` 一起開，不然每一拍都會切換一次遠近。
-- 推近就是把畫面裁切放大，`Zoom` 調太大會糊。
-- 時間是從片段在時間軸上的開頭算起，修剪片段開頭之後要重填。
-
-### Video Wall
-
-從前一段拉遠，發現它只是一面影片牆裡的一格；鏡頭橫移，再推進另一格變成後一段。
-
-![Video Wall](previews/video-wall.png)
-
-**用法**：拖到兩個片段的交界，拉成想要的長度。
-
-| 參數 | 作用 |
-|---|---|
-| `Pull Back` | 拉多遠。1 是剛好看到整面 3×3 的牆 |
-| `Gap` | 螢幕之間的間隔 |
-| `Time Offset` | 其他螢幕和主畫面差幾格 |
-| `Other Screens Brightness` | 其他螢幕的亮度，調低可以突顯主畫面 |
-
-**注意**
-
-- 牆上其他螢幕顯示的是前一段較早、後一段較晚的畫面。出現黑色螢幕時把 `Time Offset` 調成 0。
-
-### Paper Tear
-
-前一段像一張紙，沿著一條不規則的線從一頭裂到另一頭，然後兩半往兩邊拉開，露出底下的後一段。撕邊看得到白色的紙芯，並在後一段上留下陰影。
-
-![Paper Tear](previews/paper-tear.png)
-
-**用法**：拖到兩個片段的交界，拉成想要的長度。
-
-| 參數 | 作用 |
-|---|---|
-| `Angle` | 撕裂線的方向。0 是直的、由下往上裂，90 是橫的；加 180 就從另一頭開始裂 |
-| `Line Position` | 撕裂線往旁邊偏多少，0 是通過畫面中央 |
-| `Rip Gap` | 裂開後、拉開前，裂縫的寬度 |
-| `Roughness` | 撕邊起伏的幅度，0 是直線 |
-| `Tear Shape` | 換一種撕邊的形狀 |
-| `Paper Edge Width` | 白色紙芯露出的寬度 |
-| `Shadow`、`Shadow Width` | 陰影的濃度與寬度 |
-| `Rip Time` | 裂開佔整個轉場的多少。調小是很快裂完、慢慢拉開；調大是慢慢裂、最後一下子拉開 |
-| `Stop Motion Steps` | 整個過程分成幾步跳著走，0 是平滑移動 |
-
-**注意**
-
-- 兩段影片本身照常播放，只有撕開的動作會跟著 `Stop Motion Steps` 卡頓。
-- 算圖偏慢，在 Edit 頁面不會即時播放。
-
-### Chapter Bar
-
-畫面底部的進度條，分成有名稱的章節，目前章節的名稱顯示在該段上方。
-
-![Chapter Bar](previews/chapter-bar.png)
-
-**用法**：拖到影片上方的軌道，拉到和整支影片一樣長。
-
-| 參數 | 作用 |
-|---|---|
-| `Chapters` | 章節清單，一行一章，寫法見下方 |
-| `Frame Rate Override` | 換章的時間點不對時，填上時間軸的影格率。0 是自動 |
-| `Bar Color`、`Track Color`、`Track Opacity` | 已播放部分的顏色、底條的顏色與透明度 |
-| `Bar Position`、`Bar Height`、`Side Margin` | 上下位置、粗細、左右留白 |
-| `Chapter Gap` | 章節之間的缺口寬度，0 是一整條 |
-| `Knob Size` | 進度位置那顆圓點的大小，0 是沒有 |
-| `Show Chapter Name` | 是否顯示章節名稱 |
-| `Name Font`、`Name Size`、`Name Color` | 名稱的字型、大小、顏色 |
-
-章節清單和 YouTube 說明欄的寫法相同：
-
-```
-0:00 開場
-1:25 第一段
-4:10 第二段
-9:30 結尾
-```
-
-每行開頭可以是下面三種，可以混用：
-
-| 寫法 | 例子 | 說明 |
-|---|---|---|
-| 時間 | `1:25`、`1:02:03`、`0:07.5`、`42` | 從標題片段開頭算起，秒可以帶小數，會四捨五入到最近的一格 |
-| 影格數 | `120f` | 精確到格 |
-| 比例 | `25%` | 片段長度的百分比 |
-
-**注意**
-
-- 開頭不是這三種寫法的行會被略過；順序寫亂了會自動排好。
-- 章節名稱不限數量，進度條上的缺口最多畫 19 個，也就是 20 章。超過的章節名稱照常切換，只是條上不再切開。
-- 名稱的預設字型是微軟正黑體。換字型時要選有中文字的，不然中文會變成方塊。
-
-### Kinetic Lines
-
-一行行文字照寫好的時間彈出來，後一行取代前一行。適合金句、歌詞、重點條列。
-
-![Kinetic Lines](previews/kinetic-lines.png)
-
-**用法**：拖到影片上方的軌道，拉成想要的長度。背景是透明的。
-
-| 參數 | 作用 |
-|---|---|
-| `Lines` | 文字清單，一行一句，寫法見下方 |
-| `Frame Rate Override` | 出現的時間點不對時，填上時間軸的影格率。0 是自動 |
-| `Font`、`Size`、`Color`、`Position` | 字型、大小、顏色、位置 |
-| `Pop Frames` | 彈出來花幾格 |
-| `Fade Out Frames` | 下一行出現前，花幾格淡出。0 是直接換 |
-| `Bounce` | 彈過頭再回來的幅度，0 是不彈 |
-| `Grow From` | 從多大開始長。1 是不縮放 |
-| `Rise` | 從下方多遠升上來，負數是從上方落下 |
-| `Tilt` | 傾斜角度，單數行和雙數行往相反方向歪 |
-| `Box Opacity`、`Box Color` | 文字底框的不透明度與顏色，0 是沒有底框 |
-| `Box Padding X`、`Box Padding Y` | 底框在文字四周的留白 |
-
-每行開頭寫時間，後面寫文字，時間的寫法和 [Chapter Bar](#chapter-bar) 相同（`1:25`、`120f`、`25%`）：
-
-```
-0:00 第一句
-0:02.5 第二句
-0:05 這一句|分成兩行
-0:08
-```
-
-**注意**
-
-- 文字裡的 `|` 會換行。
-- 只寫時間、後面不寫字的那一行，會讓畫面從那個時間點起清空。
-- 第一行的時間之前不顯示任何東西。
-- 預設字型是微軟正黑體。換字型時要選有中文字的，不然中文會變成方塊。
-
-### Number Counter
-
-數字從一個值跳到另一個值，數完時彈一下。
-
-![Number Counter](previews/number-counter.png)
-
-**用法**：拖到影片上方的軌道，拉成想要的長度。背景是透明的。
-
-| 參數 | 作用 |
-|---|---|
-| `Start Value`、`End Value` | 起始值與結束值 |
-| `Decimals` | 小數位數，0 到 3 |
-| `Thousands Separator` | 是否加千分位逗號 |
-| `Prefix`、`Suffix` | 前後綴，例如 `$`、`%` |
-| `Count Finishes At` | 在片段的哪個位置數完，之後停在結束值 |
-| `Pop` | 數完時彈一下的幅度，0 是不彈 |
-| `Font`、`Size`、`Color` | 字型、大小、顏色 |
-| `Position` | 位置 |
-
-**注意**
-
-- 數字跳動時寬度會變。用每個數字等寬的字型（預設的 Open Sans 就是），文字才不會左右晃。
-
-## 安裝
-
-把 `templates/` 裡的 `.setting` 檔複製到 Resolve 的範本資料夾，依類型放進對應的子資料夾：
-
-```
-%APPDATA%\Blackmagic Design\DaVinci Resolve\Support\Fusion\Templates\Edit\
-```
-
-| 檔案 | 子資料夾 | 在特效庫的位置 |
-|---|---|---|
-| `Comic Intro.setting`、`Chapter Bar.setting`、`Kinetic Lines.setting`、`Number Counter.setting` | `Titles` | Titles → Fusion Titles |
-| `Comic Intro Video.setting`、`Time Slice.setting`、`Photo Stack.setting`、`Punch Zoom.setting` | `Effects` | Effects → Fusion Effects |
-| `Video Wall.setting`、`Paper Tear.setting` | `Transitions` | Video Transitions → Fusion Transitions |
-
-子資料夾不存在就自己建。Resolve 只在啟動時掃描這個資料夾，放進去之後要重啟才會出現。
-
-移除時把檔案刪掉再重啟。
+哪個檔案放哪個子資料夾見[安裝與移除](docs/install.md)。
 
 ## 已知限制
 
@@ -351,6 +84,7 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 | 路徑 | 內容 |
 |---|---|
 | `templates/` | 範本檔（`.setting`） |
+| `docs/` | 每個範本的說明、安裝方式、時間清單的寫法 |
 | `previews/` | 預覽圖 |
 | `scripts/` | 建置、匯出、打包、驗證用的腳本 |
 | `skills/resolve-fusion/` | 做法文件與學習記錄 |
