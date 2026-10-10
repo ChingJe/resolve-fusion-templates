@@ -156,6 +156,23 @@ cmd.exe //c "..\\install.bat install nopause"          # 同步到 Resolve 的�
 - **`Text+` 不會自動換字型**。字型沒有的字會變成方塊，`Open Sans` 就沒有中文。要顯示中文，預設字型用 `Microsoft JhengHei`。
 - `comp:Paste()` 在有節點被選取時會自動多插一個 `Merge`。貼之前先呼叫 `comp:SetActiveTool(nil)` 和 `comp.CurrentFrame.FlowView:Select()`，貼完檢查有沒有多出來的節點。
 
+## `Custom` 節點的長度和效能
+
+每次做新範本都會碰到，先讀這一節。
+
+### 運算式太長會讓 Resolve 當機
+
+- 症狀：Resolve 直接跳出問題報告，有時是設定運算式的當下，有時是幾分鐘後在完全無關的地方（下一支腳本、貼上範本時），所以很容易怪錯對象。曾經連當三次才找到。原因（推測，但符合全部三次）：`Custom` 節點的 `Intermediate`、`RedExpression` 等欄位塞了太長的字串。最早的 27 個範本最長 427 字元都沒事，出事的是 473、1075、3549 字元。
+- 做法：`Custom` 的運算式一律用 `L.cx(tool, "Intermediate1", "...")` 設定，超過 430 字元會拒絕。新腳本寫完先跑 `FX_DRY=1 fuscript -l lua build/xxx.lua`：這個模式不連 Resolve（`fuscript` 沒開 Resolve 也能跑純 Lua），只量每條運算式的長度，印出最長的那條。
+- 太長時的拆法：先把重複用到的子式放進中間變數；一個節點放不下就拆成兩個 `Custom`（第二個讀第一個的輸出）；跟像素無關的計算搬到控制節點的 Lua 運算式，算好再用 `PointIn` 傳進來。
+- Resolve 當機後 `tasklist` 可能還看得到 `Resolve.exe`，那是問題報告視窗。用 PowerShell `Get-Process Resolve | select MainWindowTitle` 可以分辨。這時不要 `taskkill fuscript.exe`，也不要繼續送腳本。
+
+### 很慢：運算量 = 運算式長度 × 像素數
+
+- `Custom` 是逐像素直譯，`if()` 沒用到的分支也照算。把九種形狀寫在同一個節點裡用 `if(n1 == k, ...)` 挑，每格要 9 秒。
+- 三個解法，Pen Mark 都用上了：（1）距離場這種平滑的東西在半解析度的 `Background` 上算，最後一個全解析度的 `Custom` 用 `getr2b(x, y)` 取樣，線條一樣銳利。（2）每一類形狀一個 `Custom`，用 `Dissolve`（`Mix` 設 0 或 1）挑，沒被選到的那邊 Fusion 不會去算。（3）彎曲、波浪、手抖都做在「座標」上：先一個 `Custom` 把每個像素的座標扭一下存進 R、G（float32），後面的節點只要算直線。
+- 不同大小的圖可以接同一個 `Dissolve`，`Mix` 是 0 或 1 時原樣通過。用 16×16、填常數的 `Background` 當「這一層關掉」的替身。
+
 ## 影片輸入的坑
 
 - 時間軸片段的 Fusion 合成，**時間單位是來源影片的影格**，不是時間軸的。48fps 的影片在 24fps 時間軸上放 5 秒，合成範圍是 0 到 235。所以翻頁速度之類的參數要用「整段幾次」來定義，不要用「每幾格一次」。

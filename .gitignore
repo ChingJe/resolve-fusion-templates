@@ -7,8 +7,6 @@
 
 # build intermediates and test renders
 scripts/out/
-scripts/raw.setting
-scripts/vraw.setting
 scripts/*.png
 
 # machine specific settings for the build scripts
