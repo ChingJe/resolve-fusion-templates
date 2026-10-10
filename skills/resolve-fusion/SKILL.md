@@ -58,7 +58,7 @@ t.Size:SetExpression("ComicCtrl.TextSize * ComicCtrl.Zoom")
 |---|---|---|
 | `comicintro.lua` | Comic Intro，漫畫頁邊翻邊拉遠，退進標題的筆畫裡 | 特效 |
 | `timeslice.lua` | Time Slice，畫面切成直條、每條延遲幾格 | 特效 |
-| `videowall.lua` | Video Wall，拉遠成影片牆再推進下一段 | 轉場 |
+| `videowall.lua` | Video Wall，拉遠成影片牆、橫移、再推進下一段，螢幕有圓角邊框陰影 | 轉場 |
 | `photostack.lua` | Photo Stack，影片的幾個瞬間變成照片疊起來 | 特效 |
 | `chapterbar.lua` | Chapter Bar，有章節名稱的進度條 | 標題 |
 | `counter.lua` | Number Counter，數字跳動 | 標題 |

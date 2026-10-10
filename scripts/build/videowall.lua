@@ -1,123 +1,169 @@
--- Video Wall transition: pull back from clip A to a wall of screens, slide across, push into clip B.
--- Built in the lab clip comp with two procedural stand-ins. FX_SRC=media uses the clip for A and a later
--- part of the same clip for B. FX_EXPORT=1 dumps the macro source.
+-- Video Wall transition: pull back from clip A to a wall of screens, travel across, push into clip B.
+-- The screens have rounded corners, a frame and a shadow on the wall; the other screens play other parts of the two clips.
+-- FX_EXPORT=1 dumps the macro source, FX_DRY=1 only measures the Custom expressions.
 local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "../lib.lua")
 local comp = L.comp()
 if not comp then return end
-
 comp:Lock()
 comp:StartUndo("Build Video Wall")
 local mediaIn, mediaOut = L.clear(comp)
 local add, expr = L.adder(comp), L.expr
 
-local ctrl = add("Background", "WallCtrl", -5, -3)
-ctrl.UserControls = {
-  PullBack = L.num("Pull Back", 1, 0.4, 2),
-  Gutter   = L.num("Gap", 0.02, 0, 0.08),
-  TimeOffset = L.num("Time Offset", 12, 0, 60),
-  Dim      = L.num("Other Screens Brightness", 0.75, 0, 1),
-  P     = L.num("P", 0, 0, 1, "Driver"),
-  ViewS = L.num("ViewS", 0.33, 0, 2, "Driver"),
-  CX    = L.num("CX", 0.5, 0, 1, "Driver"),
-}
-ctrl = ctrl:Refresh()
-ctrl:SetInput("UseFrameFormatSettings", 1)
--- built-in transitions take their 0..1 progress from an AnimCurves modifier, so do the same
-ctrl:AddModifier("P", "LUTLookup")
-local curve = ctrl.P:GetConnectedOutput():GetTool()
-curve:SetAttrs({TOOLS_Name = "WallProgress"})
-curve:SetInput("Source", "Transition")
-curve:SetInput("Curve", "Linear")
-expr(ctrl, "ViewS", "(1 - 2*Gutter)/3 + (PullBack - (1 - 2*Gutter)/3) * sin(3.14159265*P)^2")
-expr(ctrl, "CX", "1/6 + (4/6) * P*P*(3 - 2*P)")
+local ctrl, spec = L.panel(comp, "WallCtrl", {
+  {"VwPull",   L.num("Pull Back", 1, 0.4, 2)},
+  {"VwDir",    L.combo("Camera Moves", {"Right", "Left", "Up", "Down", "Diagonally Up", "Diagonally Down"}, 0)},
+  {"VwSnap",   L.num("Camera Snap", 2, 1, 5)},
+  {"VwTilt",   L.num("Camera Tilt (degrees)", 3, -20, 20)},
+  {"VwBlur",   L.num("Motion Blur", 0.4, 0, 2)},
+  {"VwGap",    L.num("Gap", 0.04, 0, 0.1)},
+  {"VwRound",  L.num("Corner Roundness", 0.04, 0, 0.2)},
+  {"VwFrame",  L.num("Screen Frame Width", 0.008, 0, 0.04)},
+  {"VwDepth",  L.num("Depth", 1, 0, 2)},
+  {"VwShow",   L.combo("Other Screens Show", {"Other Parts Of The Clips", "Moments Just Before And After"}, 0)},
+  {"VwOffset", L.num("Before And After: Seconds Apart", 0.5, 0, 5)},
+  {"VwDim",    L.num("Other Screens Brightness", 0.75, 0, 1)},
+  {"FpsOverride", L.num("Frame Rate Override", 0, 0, 120)},
+  {"P",     L.num("P", 0, 0, 1, "Driver")},
+  {"S",     L.num("S", 0, 0, 1, "Driver")},
+  {"V",     L.num("V", 0, 0, 1, "Driver")},
+  {"ViewS", L.num("ViewS", 0.33, 0, 2, "Driver")},
+  {"Off",   L.num("Off", 0, 0, 500, "Driver")},
+  {"Edge",  L.num("Edge", 0, 0, 1, "Driver")},
+  {"From",  L.point("From", "Driver")},
+  {"To",    L.point("To", "Driver")},
+  {"Cam",   L.point("Cam", "Driver")},
+})
+local srcs, ins = L.feeds(comp, ctrl, 2)
+-- S: how far along the camera is, V: its speed (1 at the fastest moment, 0 at both ends)
+expr(ctrl, "S", "iif(P < 0.5, 0.5*(2*P)^VwSnap, 1 - 0.5*(2 - 2*P)^VwSnap)")
+expr(ctrl, "V", "iif(P <= 0 or P >= 1, 0, (1 - abs(2*P - 1))^(VwSnap - 1))")
+-- the view is exactly one screen at both ends. In between it widens at an even rate (even in zoom factor, not in size).
+expr(ctrl, "ViewS", "(1 - 2*VwGap)/3 * (VwPull*3/(1 - 2*VwGap)) ^ (sin(3.14159265*P)^2)")
+-- the wall is 3 x 3 screens that repeat for ever. From, To: column and row (0..2, row 0 at the bottom) of clip A and clip B.
+expr(ctrl, "From", "Point(({0, 2, 1, 1, 0, 0})[VwDir + 1], ({1, 1, 0, 2, 0, 2})[VwDir + 1])")
+expr(ctrl, "To",   "Point(({2, 0, 1, 1, 2, 2})[VwDir + 1], ({1, 1, 2, 0, 2, 0})[VwDir + 1])")
+expr(ctrl, "Cam", "Point((From.X + (To.X - From.X)*S + 0.5)/3, (From.Y + (To.Y - From.Y)*S + 0.5)/3)")
+expr(ctrl, "Off", "VwOffset * iif(FpsOverride > 0, FpsOverride, comp:GetPrefs('Comp.FrameFormat.Rate') or 24)")
+-- the round corners and the tilt come in over the first moments, so the first and last frame are the plain clips
+expr(ctrl, "Edge", L.SMOOTH .. "(min(min(P, 1 - P)/0.12, 1))")
 
-local srcA = add("BrightnessContrast", "SrcA", -5, 0)
-local srcB = add("BrightnessContrast", "SrcB", -5, 2)
-local a, b
-if os.getenv("FX_SRC") == "media" then
-  a = mediaIn
-  b = add("TimeStretcher", "PrevLater", -6, 2)
-  b.Input = mediaIn.Output
-  b:SetInput("InterpolateBetweenFrames", 0)
-  expr(b, "SourceTime", "time + 1500")
-else
-  a, b = L.testsource(comp, "A", 0), L.testsource(comp, "B", 1)
+local colWall = add("Background", "ColWall", -5, -5)
+L.color(colWall, 0.20, 0.21, 0.25)
+local colFrame = add("Background", "ColFrame", -4, -5)
+L.color(colFrame, 0.02, 0.02, 0.025)
+for _, c in ipairs({colWall, colFrame}) do
+  c:SetInput("UseFrameFormatSettings", 0); c:SetInput("Width", 16); c:SetInput("Height", 16)
 end
-srcA.Input = a.Output; srcB.Input = b.Output
 
--- the other seven screens: small copies of A (earlier moments) and B (later moments)
+-- the other screens: small copies of the two clips at other moments, laid out as a 3 x 3 sheet
 local TW, TH = 960, 540
-local smallA = add("BetterResize", "SmallA", -4, 0)
-smallA.Input = srcA.Output
-local smallB = add("BetterResize", "SmallB", -4, 2)
-smallB.Input = srcB.Output
-for _, s in ipairs({smallA, smallB}) do s:SetInput("Width", TW); s:SetInput("Height", TH); s:SetInput("KeepAspect", 0) end
-local atlas = add("Background", "WallBase", -4, 6)
-L.color(atlas, 0, 0, 0)
-atlas:SetInput("UseFrameFormatSettings", 0)
-atlas:SetInput("Width", TW * 3); atlas:SetInput("Height", TH * 3)
-local last, n = atlas, 0
+local small = {}
+for i = 1, 2 do
+  small[i] = add("BetterResize", "Small" .. string.char(64 + i), -4, (i - 1)*2)
+  small[i].Input = srcs[i].Output
+  small[i]:SetInput("Width", TW); small[i]:SetInput("Height", TH); small[i]:SetInput("KeepAspect", 0)
+end
+local sheet = add("Background", "WallBase", -4, 6)
+L.color(sheet, 0, 0, 0)
+sheet:SetInput("UseFrameFormatSettings", 0)
+sheet:SetInput("Width", TW*3); sheet:SetInput("Height", TH*3)
+local last, count = sheet, {0, 0}
 for id = 0, 8 do
-  if id ~= 3 and id ~= 5 then -- 3 is clip A itself, 5 is clip B itself
-    n = n + 1
-    local fromA = (n % 2 == 1)
-    local ts = add("TimeStretcher", "Screen" .. id, -3 + n, fromA and 0 or 2)
-    ts.Input = (fromA and smallA or smallB).Output
-    ts:SetInput("InterpolateBetweenFrames", 0)
-    expr(ts, "SourceTime", string.format("time %s floor(%d * WallCtrl.TimeOffset)", fromA and "-" or "+", math.ceil(n / 2)))
-    local m = add("Merge", "Place" .. id, -3 + n, 6)
-    m.Background = last.Output
-    m.Foreground = ts.Output
-    m:SetInput("Center", {(id % 3 + 0.5) / 3, (math.floor(id / 3) + 0.5) / 3})
-    last = m
-  end
+  local which = id % 2 + 1 -- clip A on the even screens, clip B on the odd ones
+  count[which] = count[which] + 1
+  local j = count[which]
+  local ts = add("TimeStretcher", "Screen" .. id, -3 + id, which == 1 and 0 or 2)
+  ts.Input = small[which].Output
+  ts:SetInput("InterpolateBetweenFrames", 0)
+  -- either a different part of the whole clip on every screen (wrapping at its end), or a little earlier (A) / later (B)
+  expr(ts, "SourceTime", string.format(
+    "iif(WallCtrl.VwShow == 0, comp.GlobalStart + floor((time - comp.GlobalStart) + %d*(comp.GlobalEnd - comp.GlobalStart + 1)/%d) %% (comp.GlobalEnd - comp.GlobalStart + 1), time %s floor(%d*WallCtrl.Off))",
+    j, which == 1 and 6 or 5, which == 1 and "-" or "+", j))
+  local m = add("Merge", "Place" .. id, -3 + id, 6)
+  m.Background = last.Output; m.Foreground = ts.Output
+  m:SetInput("Center", {(id % 3 + 0.5)/3, (math.floor(id/3) + 0.5)/3})
+  last = m
 end
 
--- the camera: every output pixel looks up a spot on the (endlessly repeating) wall
-local cam = add("Custom", "WallCam", 6, 3)
-cam.Image1 = srcA.Output
-cam.Image2 = srcB.Output
-cam.Image3 = last.Output
+-- pass 1, the camera: for every pixel, where on the wall it looks.
+-- R, G = position inside the screen (0..1), B = number of the screen, A = distance to the edge of the screen
+-- in screen widths (negative inside), with round corners.
+local float = add("Background", "WallFloat", 2, 3)
+L.color(float, 0, 0, 0)
+float:SetInput("Depth", 4)
+float:SetInput("UseFrameFormatSettings", 1)
+local map = add("Custom", "WallMap", 3, 3)
+map.Image1 = float.Output
+expr(map, "NumberIn1", "WallCtrl.ViewS")
+expr(map, "NumberIn2", "WallCtrl.VwGap")
+expr(map, "NumberIn3", "WallCtrl.VwRound * WallCtrl.Edge")
+expr(map, "NumberIn4", "WallCtrl.VwTilt * WallCtrl.V * WallCtrl.Edge")
+expr(map, "PointIn1", "WallCtrl.Cam")
+L.cx(map, "Intermediate1", "10 + p1x + ((x - 0.5)*cos(n4) - (y - 0.5)*(h/w)*sin(n4))*n1")
+L.cx(map, "Intermediate2", "10 + p1y + ((x - 0.5)*(w/h)*sin(n4) + (y - 0.5)*cos(n4))*n1")
+L.cx(map, "Intermediate3", "frac(i1)*3")
+L.cx(map, "Intermediate4", "frac(i2)*3")
+L.cx(map, "Intermediate5", "abs(frac(i3) - 0.5) - (0.5 - n2) + n3")
+L.cx(map, "Intermediate6", "(abs(frac(i4) - 0.5) - (0.5 - n2))*h/w + n3")
+L.cx(map, "RedExpression", "(frac(i3) - n2)/(1 - 2*n2)")
+L.cx(map, "GreenExpression", "(frac(i4) - n2)/(1 - 2*n2)")
+L.cx(map, "BlueExpression", "floor(i3) + floor(i4)*3")
+L.cx(map, "AlphaExpression", "sqrt(max(i5, 0)^2 + max(i6, 0)^2) + min(max(i5, i6), 0) - n3")
+
+-- pass 2: the two screens that show the clips themselves, at full sharpness
+local main = add("Custom", "WallMain", 4, 2)
+main.Image1 = map.Output; main.Image2 = srcs[1].Output; main.Image3 = srcs[2].Output
+expr(main, "NumberIn1", "WallCtrl.From.X + WallCtrl.From.Y*3")
+expr(main, "NumberIn2", "WallCtrl.To.X + WallCtrl.To.Y*3")
+expr(main, "NumberIn3", "WallCtrl.P")
+for _, c in ipairs({"Red", "Green", "Blue"}) do
+  local k = c:sub(1, 1):lower()
+  L.cx(main, c .. "Expression", string.format(
+    "if(n3 <= 0, %s2, if(n3 >= 1, %s3, if(abs(b1 - n1) < 0.5, get%s2d(r1, g1), if(abs(b1 - n2) < 0.5, get%s3d(r1, g1), 0))))", k, k, k, k))
+end
+L.cx(main, "AlphaExpression", "if(n3*(1 - n3) <= 0, 1, if(min(abs(b1 - n1), abs(b1 - n2)) < 0.5, 1, 0))")
+
+-- pass 3: the other screens, the frames around them, the wall and the shadows on it
+local cam = add("Custom", "WallCam", 5, 3)
+cam.Image1 = map.Output; cam.Image2 = main.Output; cam.Image3 = last.Output
 expr(cam, "NumberIn1", "WallCtrl.P")
-expr(cam, "NumberIn2", "WallCtrl.ViewS")
-expr(cam, "NumberIn3", "WallCtrl.Gutter")
-expr(cam, "NumberIn4", "WallCtrl.CX")
-expr(cam, "NumberIn6", "WallCtrl.Dim")
-cam:SetInput("Intermediate1", "10 + n4 + (x - 0.5)*n2")
-cam:SetInput("Intermediate2", "10.5 + (y - 0.5)*n2")
-cam:SetInput("Intermediate3", "floor(frac(i1)*3)")
-cam:SetInput("Intermediate4", "floor(frac(i2)*3)")
-cam:SetInput("Intermediate5", "(frac(frac(i1)*3) - n3)/(1 - 2*n3)")
-cam:SetInput("Intermediate6", "(frac(frac(i2)*3) - n3)/(1 - 2*n3)")
-cam:SetInput("Intermediate7", "i3 + i4*3")
-cam:SetInput("Intermediate8", "if(min(min(i5, 1 - i5), min(i6, 1 - i6)) > 0, 1, 0)")
-local function chan(c)
-  return string.format(
-    "if(n1 <= 0, %s1, if(n1 >= 1, %s2, if(i8 < 1, 0.03, if(abs(i7 - 3) < 0.5, get%s1b(i5, i6), if(abs(i7 - 5) < 0.5, get%s2b(i5, i6), get%s3b((i3 + i5)/3, (i4 + i6)/3)*n6)))))",
-    c, c, c, c, c)
+expr(cam, "NumberIn2", "WallCtrl.VwDim")
+expr(cam, "NumberIn3", "WallCtrl.VwFrame")
+expr(cam, "NumberIn4", "min(0.85*WallCtrl.VwDepth, 1)")
+expr(cam, "NumberIn5", "0.004 + 0.022*WallCtrl.VwDepth")
+expr(cam, "NumberIn6", "WallCtrl.ViewS")
+-- how far the shadow is thrown (to the lower right), as a part of the picture
+expr(cam, "PointIn1", "Point(0.006*WallCtrl.VwDepth/WallCtrl.ViewS, 0.012*WallCtrl.VwDepth/WallCtrl.ViewS)")
+expr(cam, "PointIn2", "Point(ColWall.TopLeftRed, ColWall.TopLeftGreen)")
+expr(cam, "PointIn3", "Point(ColWall.TopLeftBlue, ColFrame.TopLeftRed)")
+expr(cam, "PointIn4", "Point(ColFrame.TopLeftGreen, ColFrame.TopLeftBlue)")
+L.cx(cam, "Intermediate1", "3*n6/w") -- one pixel, in screen widths
+L.cx(cam, "Intermediate2", "n4*min(max(0.5 - geta1d(x - p1x, y + p1y)/(2*n5), 0), 1)") -- shadow
+L.cx(cam, "Intermediate3", "min(max(0.5 - a1/i1, 0), 1)")        -- 1 inside the screen
+L.cx(cam, "Intermediate4", "min(max(0.5 - (a1 - n3)/i1, 0), 1)") -- 1 inside the screen and its frame
+L.cx(cam, "Intermediate5", "(b1 - 3*floor(b1/3) + min(max(r1, 0.003), 0.997))/3")
+L.cx(cam, "Intermediate6", "(floor(b1/3) + min(max(g1, 0.003), 0.997))/3")
+local function chan(k, wall, frame)
+  return string.format("if(n1*(1 - n1) <= 0, %s2, %s*(1 - i2)*(1 - i4) + %s*(i4 - i3) + i3*if(a2 > 0.5, %s2, get%s3b(i5, i6)*n2))", k, wall, frame, k, k)
 end
-cam:SetInput("RedExpression", chan("r"))
-cam:SetInput("GreenExpression", chan("g"))
-cam:SetInput("BlueExpression", chan("b"))
-cam:SetInput("AlphaExpression", "1")
+L.cx(cam, "RedExpression", chan("r", "p2x", "p3y"))
+L.cx(cam, "GreenExpression", chan("g", "p2y", "p4x"))
+L.cx(cam, "BlueExpression", chan("b", "p3x", "p4y"))
+L.cx(cam, "AlphaExpression", "1")
 
-mediaOut.Input = cam.Output
+local blur = add("DirectionalBlur", "WallFinal", 6, 3)
+blur.Input = cam.Output
+blur:SetInput("Type", "Linear")
+expr(blur, "Angle", "math.deg(math.atan2((WallCtrl.To.Y - WallCtrl.From.Y)*(comp:GetPrefs('Comp.FrameFormat.Height') or 9), (WallCtrl.To.X - WallCtrl.From.X)*(comp:GetPrefs('Comp.FrameFormat.Width') or 16)))")
+expr(blur, "Length", "0.06 * WallCtrl.VwBlur * WallCtrl.V^2")
+
+mediaOut.Input = blur.Output
 comp:EndUndo(true)
 comp:Unlock()
-
-if os.getenv("FX_EXPORT") == "1" then
-  srcA.Input = nil; srcB.Input = nil
-  L.export(comp, "videowall", {
-    {"NAME", "VideoWall"},
-    {"MAIN", "SrcA", "Input"},
-    {"MAIN", "SrcB", "Input"},
-    {"OUT", "WallCam", "Output"},
-    {"CTL", "WallCtrl", "PullBack", "Pull Back"},
-    {"CTL", "WallCtrl", "Gutter", "Gap"},
-    {"CTL", "WallCtrl", "TimeOffset", "Time Offset"},
-    {"CTL", "WallCtrl", "Dim", "Other Screens Brightness"},
-  })
-  srcA.Input = a.Output; srcB.Input = b.Output
-else
-  L.render(comp, cam.Output, os.getenv("FX_PREFIX") or "vw", tonumber(os.getenv("FX_STEPS") or "12"))
-end
+spec[#spec + 1] = {"CTL", "ColWall", "TopLeftRed", "Wall Colour", "3"}
+spec[#spec + 1] = {"CTL", "ColWall", "TopLeftGreen", "", "3"}
+spec[#spec + 1] = {"CTL", "ColWall", "TopLeftBlue", "", "3"}
+spec[#spec + 1] = {"CTL", "ColFrame", "TopLeftRed", "Screen Frame Colour", "4"}
+spec[#spec + 1] = {"CTL", "ColFrame", "TopLeftGreen", "", "4"}
+spec[#spec + 1] = {"CTL", "ColFrame", "TopLeftBlue", "", "4"}
+L.ship(comp, {slug = "videowall", name = "VideoWall", out = blur, ctrl = ctrl, srcs = srcs, ins = ins, spec = spec, prefix = "vw"})

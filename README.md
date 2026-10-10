@@ -48,7 +48,7 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 | 範本 | 類型 | 說明 |
 |---|---|---|
 | [Paper Tear](docs/templates/paper-tear.md) | 轉場 | 前一段像紙一樣被撕成兩半拉開，露出後一段 |
-| [Video Wall](docs/templates/video-wall.md) | 轉場 | 拉遠成一面影片牆，橫移，再推進下一段 |
+| [Video Wall](docs/templates/video-wall.md) | 轉場 | 拉遠成一面有圓角螢幕的影片牆，傾斜著橫移，再推進下一段 |
 | [Whip Pan](docs/templates/whip-pan.md) | 轉場 | 鏡頭甩開，畫面拉成一道模糊，停下來時是下一段 |
 | [Zoom Through](docs/templates/zoom-through.md) | 轉場 | 往前一段裡面衝進去，衝出來是下一段 |
 | [Stripe Wipe](docs/templates/stripe-wipe.md) | 轉場 | 幾條純色的色帶依序掃過畫面，掃完換成下一段 |
