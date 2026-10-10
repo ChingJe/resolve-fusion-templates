@@ -15,6 +15,7 @@
 | `sheet.py`、`gif.py` | 把算好的畫格拼成總覽圖、轉成 GIF |
 | `t.sh` | 測試用：跑一支建置腳本、算圖、拼總覽圖 |
 | `previews.sh` | 重算 `previews/` 裡的 GIF |
+| `showcase.sh` | 把九個預覽 GIF 拼成 README 最上面那張 `previews/showcase.gif` |
 | `fixtures/` | 預覽用的範例文字和設定 |
 | `local.example.lua` | 複製成 `local.lua` 並填上自己的 Resolve 專案名稱，腳本才會執行 |
 | `out/` | 算圖和匯出的暫存檔，不進 git |

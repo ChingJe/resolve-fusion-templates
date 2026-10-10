@@ -2,6 +2,10 @@
 
 DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會出現在 Edit 頁面的特效庫，拖到時間軸上就能用，參數在 Inspector 調整。
 
+![九個範本的預覽](previews/showcase.gif)
+
+上圖由左到右、由上到下：Comic Intro、Photo Stack、Paper Tear、Video Wall、Freeze Frame、Variety Caption、Pen Mark、Zoom Callout、Split Screen。全部範本見[下方的列表](#範本)。
+
 在 Resolve 21 Studio（Windows）上製作。只在這個環境試過：免費版和 Mac 能不能用，沒有測過。
 
 ## 關於這個專案
