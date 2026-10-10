@@ -19,6 +19,9 @@
 | `Flash` | 停住那一刻閃白的程度 |
 | `Dark Corners` | 停格時四角變暗的程度 |
 | `Settle Time` | 推近和變色花幾秒到位 |
+| `While Frozen: Keep Pushing In` | 停住的期間畫面繼續慢慢推近，每秒多推多少。0 是到位後就完全不動 |
+| `While Frozen: Tilt` | 停住的期間畫面慢慢傾斜，每秒轉幾度。正負決定方向，0 是不轉。傾斜時會自動多放大一點，四個角不會露出空白 |
+| `A Freeze Ends By` | `Snapping Back` 時間一到直接切回正常畫面；`Easing Back` 最後一小段時間滑回去 |
 
 時間點可以寫成 `1:25`、`120f`、`25%` 三種，從片段開頭算起，詳見[時間清單的寫法](../time-list.md)。
 
