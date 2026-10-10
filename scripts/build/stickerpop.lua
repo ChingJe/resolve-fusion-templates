@@ -78,16 +78,20 @@ expr(move, "Center", "StkCtrl.At")
 expr(move, "Size", "StkCtrl.Scale")
 expr(move, "Angle", "StkCtrl.Ang")
 expr(move, "FlipHoriz", "StkCtrl.StkFlip")
+-- a picture that is turned by exactly 0 degrees keeps its own edges as the limit of what later tools may draw, so the
+-- outline and the shadow got cut off wherever the picture touches its edge, and flickered as it wobbled through 0
+local room = add("SetDomain", "StkRoom", -2, 0)
+room.Input = move.Output; room:SetInput("Mode", "Set")
 
 -- the outline: the shape of the picture grown outwards, filled with one colour, behind the picture
 local grow = add("ErodeDilate", "StkGrow", -1, 1)
-grow.Input = move.Output; grow:SetInput("Filter", 3)
+grow.Input = room.Output; grow:SetInput("Filter", 3)
 expr(grow, "XAmount", "StkCtrl.StkOutline * StkCtrl.Scale")
 local col = add("Background", "ColStkOutline", -3, -5)
 col:SetInput("UseFrameFormatSettings", 0); col:SetInput("Width", 16); col:SetInput("Height", 16)
 L.color(col, 1, 1, 1, 1)
 local ink = add("Custom", "StkInk", 0, 0)
-ink.Image1 = move.Output; ink.Image2 = grow.Output; ink.Image3 = col.Output
+ink.Image1 = room.Output; ink.Image2 = grow.Output; ink.Image3 = col.Output
 expr(ink, "NumberIn1", "iif(StkCtrl.StkOutline > 0, 1, 0)")
 L.cx(ink, "Intermediate1", "(1 - a1)*a2*n1")
 for _, c in ipairs({"r", "g", "b"}) do
@@ -118,6 +122,20 @@ spec[#spec + 1] = {"CTL", "ColStkOutline", "TopLeftBlue", "", "3"}
 if not L.DRY then
   comp:Lock()
   local stk = L.sticker(comp)
+  -- FX_PNG=path tests with a real picture (frames must not go into git); FX_FIT=1 fits it into the frame first,
+  -- the way a clip on the timeline arrives
+  if os.getenv("FX_PNG") then
+    stk = add("Loader", "PrevPng", -9, -1)
+    stk:SetInput("Clip", os.getenv("FX_PNG")); stk:SetInput("Loop", 1)
+    if os.getenv("FX_FIT") == "1" then
+      local bg = add("Background", "PrevPngBg", -9, 0)
+      bg:SetInput("UseFrameFormatSettings", 1); L.color(bg, 0, 0, 0, 0)
+      local fit = add("Merge", "PrevPngFit", -8, 0)
+      fit.Background = bg.Output; fit.Foreground = stk.Output
+      fit:SetInput("Size", 1254 / 1920 * 1080 / 1254)
+      stk = fit
+    end
+  end
   srcs[1].Input = stk.Output; ins[1] = stk
   comp:Unlock()
 end

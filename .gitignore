@@ -11,3 +11,5 @@ scripts/*.png
 
 # machine specific settings for the build scripts
 scripts/local.lua
+
+tmp/
