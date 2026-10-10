@@ -1,0 +1,1502 @@
+{
+	Tools = ordered() {
+		PenMark = MacroOperator {
+			CtrlWZoom = false,
+			Inputs = ordered() {
+				Input1 = InstanceInput { SourceOp = "PenCtrl", Source = "PenShape", Name = "Shape" },
+				Input2 = InstanceInput { SourceOp = "PenCtrl", Source = "PenPos", Name = "Position" },
+				Input3 = InstanceInput { SourceOp = "PenCtrl", Source = "PenW", Name = "Width" },
+				Input4 = InstanceInput { SourceOp = "PenCtrl", Source = "PenH", Name = "Height" },
+				Input5 = InstanceInput { SourceOp = "PenCtrl", Source = "PenAngle", Name = "Angle" },
+				Input6 = InstanceInput { SourceOp = "PenCtrl", Source = "PenFrom", Name = "Arrow: From" },
+				Input7 = InstanceInput { SourceOp = "PenCtrl", Source = "PenTo", Name = "Arrow: To" },
+				Input8 = InstanceInput { SourceOp = "PenCtrl", Source = "PenBend", Name = "Arrow: Bend" },
+				Input9 = InstanceInput { SourceOp = "PenCtrl", Source = "PenHead", Name = "Arrow: Head Size" },
+				Input10 = InstanceInput { SourceOp = "PenCtrl", Source = "PenThick", Name = "Thickness" },
+				Input11 = InstanceInput { SourceOp = "PenCtrl", Source = "PenTaper", Name = "Thin Ends" },
+				Input12 = InstanceInput { SourceOp = "PenCtrl", Source = "PenWobble", Name = "Wobble" },
+				Input13 = InstanceInput { SourceOp = "PenCtrl", Source = "PenSeed", Name = "Wobble Seed" },
+				Input14 = InstanceInput { SourceOp = "PenCtrl", Source = "PenPasses", Name = "Times Drawn Over" },
+				Input15 = InstanceInput { SourceOp = "PenCtrl", Source = "PenBoil", Name = "Redraw Every (frames, 0 = never)" },
+				Input16 = InstanceInput { SourceOp = "PenCtrl", Source = "PenOverlap", Name = "Circle: Overlap" },
+				Input17 = InstanceInput { SourceOp = "PenCtrl", Source = "PenStart", Name = "Circle: Start Angle" },
+				Input18 = InstanceInput { SourceOp = "PenCtrl", Source = "PenCorner", Name = "Corners: Length" },
+				Input19 = InstanceInput { SourceOp = "PenCtrl", Source = "PenWaves", Name = "Wavy Line: Waves" },
+				Input20 = InstanceInput { SourceOp = "PenCtrl", Source = "PenOpacity", Name = "Opacity" },
+				Input21 = InstanceInput { SourceOp = "PenCtrl", Source = "PenEdge", Name = "Outline" },
+				Input22 = InstanceInput { SourceOp = "PenCtrl", Source = "PenDraw", Name = "Draw (seconds)" },
+				Input23 = InstanceInput { SourceOp = "PenCtrl", Source = "PenExit", Name = "Leaves By" },
+				Input24 = InstanceInput { SourceOp = "PenCtrl", Source = "PenOut", Name = "Leave (seconds)" },
+				Input25 = InstanceInput { SourceOp = "PenCtrl", Source = "FpsOverride", Name = "Frame Rate Override" },
+				Input26 = InstanceInput { SourceOp = "ColPen", Source = "TopLeftRed", Name = "Colour", ControlGroup = 3 },
+				Input27 = InstanceInput { SourceOp = "ColPen", Source = "TopLeftGreen", ControlGroup = 3 },
+				Input28 = InstanceInput { SourceOp = "ColPen", Source = "TopLeftBlue", ControlGroup = 3 },
+				Input29 = InstanceInput { SourceOp = "ColPenEdge", Source = "TopLeftRed", Name = "Outline Colour", ControlGroup = 4 },
+				Input30 = InstanceInput { SourceOp = "ColPenEdge", Source = "TopLeftGreen", ControlGroup = 4 },
+				Input31 = InstanceInput { SourceOp = "ColPenEdge", Source = "TopLeftBlue", ControlGroup = 4 },
+			},
+			Outputs = {
+				MainOutput1 = InstanceOutput { SourceOp = "PenFinal", Source = "Output" }
+			},
+			ViewInfo = GroupInfo { Pos = { 0, 0 } },
+			Tools = ordered() {
+				PenCtrl = Background {
+					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } },
+					Inputs = {
+						S3 = Input { Expression = "(function(s, A, B, H, i)\n  local P\n  if s == 6 then P = {{-A, 0}, {A, 0}, {A, 0}, {A - H*0.883, H*0.469}, {A, 0}, {A - H*0.883, -H*0.469}}\n  elseif s == 7 then P = {{-A, 0}, {-0.3*A, -B}, {-0.3*A, -B}, {A, B}}\n  elseif s == 8 then P = {{-A, B}, {A, -B}, {A, B}, {-A, -B}}\n  else P = {{-A, 0}, {A, 0}} end\n  local p = P[i] or {99, 99 + i}\n  return Point(p[1], p[2])\nend)(PenShape, A, B, PenHead, 3)" },
+						S4 = Input { Expression = "(function(s, A, B, H, i)\n  local P\n  if s == 6 then P = {{-A, 0}, {A, 0}, {A, 0}, {A - H*0.883, H*0.469}, {A, 0}, {A - H*0.883, -H*0.469}}\n  elseif s == 7 then P = {{-A, 0}, {-0.3*A, -B}, {-0.3*A, -B}, {A, B}}\n  elseif s == 8 then P = {{-A, B}, {A, -B}, {A, B}, {-A, -B}}\n  else P = {{-A, 0}, {A, 0}} end\n  local p = P[i] or {99, 99 + i}\n  return Point(p[1], p[2])\nend)(PenShape, A, B, PenHead, 4)" },
+						S5 = Input { Expression = "(function(s, A, B, H, i)\n  local P\n  if s == 6 then P = {{-A, 0}, {A, 0}, {A, 0}, {A - H*0.883, H*0.469}, {A, 0}, {A - H*0.883, -H*0.469}}\n  elseif s == 7 then P = {{-A, 0}, {-0.3*A, -B}, {-0.3*A, -B}, {A, B}}\n  elseif s == 8 then P = {{-A, B}, {A, -B}, {A, B}, {-A, -B}}\n  else P = {{-A, 0}, {A, 0}} end\n  local p = P[i] or {99, 99 + i}\n  return Point(p[1], p[2])\nend)(PenShape, A, B, PenHead, 5)" },
+						S6 = Input { Expression = "(function(s, A, B, H, i)\n  local P\n  if s == 6 then P = {{-A, 0}, {A, 0}, {A, 0}, {A - H*0.883, H*0.469}, {A, 0}, {A - H*0.883, -H*0.469}}\n  elseif s == 7 then P = {{-A, 0}, {-0.3*A, -B}, {-0.3*A, -B}, {A, B}}\n  elseif s == 8 then P = {{-A, B}, {A, -B}, {A, B}, {-A, -B}}\n  else P = {{-A, 0}, {A, 0}} end\n  local p = P[i] or {99, 99 + i}\n  return Point(p[1], p[2])\nend)(PenShape, A, B, PenHead, 6)" },
+						GlobalIn = Input { Value = -480 },
+						Width = Input { Value = 1920 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Height = Input { Value = 1080 },
+						PenFrom = Input { Value = { 0.3, 0.3 } },
+						TopLeftAlpha = Input { Value = 0 },
+						PenTo = Input { Value = { 0.6, 0.6 } },
+						B = Input { Expression = "PenH/2" },
+						GlobalOut = Input { Value = 3534 },
+						Mid = Input { Expression = "iif(PenShape == 6, Point((PenFrom.X + PenTo.X)/2, (PenFrom.Y + PenTo.Y)/2), Point(PenPos.X, PenPos.Y))" },
+						UseFrameFormatSettings = Input { Value = 1 },
+						A = Input { Expression = "iif(PenShape == 6, math.sqrt(((PenTo.X - PenFrom.X)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')))^2 + (PenTo.Y - PenFrom.Y)^2)/2, PenW/2)" },
+						Ang = Input { Expression = "iif(PenShape == 6, math.deg(math.atan2(PenTo.Y - PenFrom.Y, (PenTo.X - PenFrom.X)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')))), PenAngle)" },
+						D = Input { Expression = "PenPasses * iif(PenDraw <= 0, 1, 1 - (1 - min(max((time - comp.RenderStart + 1)/(PenDraw*iif(FpsOverride > 0, FpsOverride, comp:GetPrefs('Comp.FrameFormat.Rate') or 24)), 0), 1))^1.5)" },
+						E = Input { Expression = "iif(PenExit == 1 and PenOut > 0, 1 - min(max((comp.RenderEnd - time)/(PenOut*iif(FpsOverride > 0, FpsOverride, comp:GetPrefs('Comp.FrameFormat.Rate') or 24)), 0), 1), 0)" },
+						Fade = Input { Expression = "iif(PenExit == 0 and PenOut > 0, min(max((comp.RenderEnd - time + 1)/(PenOut*iif(FpsOverride > 0, FpsOverride, comp:GetPrefs('Comp.FrameFormat.Rate') or 24)), 0), 1), 1)" },
+						Split = Input { Expression = "iif(PenShape == 6, 0.75, iif(PenShape == 7, 0.3, iif(PenShape == 8, 0.5, 1)))" },
+						S1 = Input { Expression = "(function(s, A, B, H, i)\n  local P\n  if s == 6 then P = {{-A, 0}, {A, 0}, {A, 0}, {A - H*0.883, H*0.469}, {A, 0}, {A - H*0.883, -H*0.469}}\n  elseif s == 7 then P = {{-A, 0}, {-0.3*A, -B}, {-0.3*A, -B}, {A, B}}\n  elseif s == 8 then P = {{-A, B}, {A, -B}, {A, B}, {-A, -B}}\n  else P = {{-A, 0}, {A, 0}} end\n  local p = P[i] or {99, 99 + i}\n  return Point(p[1], p[2])\nend)(PenShape, A, B, PenHead, 1)" },
+						S2 = Input { Expression = "(function(s, A, B, H, i)\n  local P\n  if s == 6 then P = {{-A, 0}, {A, 0}, {A, 0}, {A - H*0.883, H*0.469}, {A, 0}, {A - H*0.883, -H*0.469}}\n  elseif s == 7 then P = {{-A, 0}, {-0.3*A, -B}, {-0.3*A, -B}, {A, B}}\n  elseif s == 8 then P = {{-A, B}, {A, -B}, {A, B}, {-A, -B}}\n  else P = {{-A, 0}, {A, 0}} end\n  local p = P[i] or {99, 99 + i}\n  return Point(p[1], p[2])\nend)(PenShape, A, B, PenHead, 2)" }
+					},
+					UserControls = {
+						PenStart = {
+							INP_MaxScale = 180,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Circle: Start Angle",
+							INP_Default = 120,
+							INP_MinScale = -180
+						},
+						PenCorner = {
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Corners: Length",
+							INP_Default = 0.35,
+							INP_MinScale = 0.05
+						},
+						PenWaves = {
+							INP_MaxScale = 30,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Wavy Line: Waves",
+							INP_Default = 6,
+							INP_MinScale = 1
+						},
+						PenOpacity = {
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Opacity",
+							INP_Default = 1,
+							INP_MinScale = 0
+						},
+						PenShape = {
+							{
+								CCS_AddString = "Circle"
+							},
+							{
+								CCS_AddString = "Line"
+							},
+							{
+								CCS_AddString = "Wavy Line"
+							},
+							{
+								CCS_AddString = "Highlighter"
+							},
+							{
+								CCS_AddString = "Box"
+							},
+							{
+								CCS_AddString = "Corners"
+							},
+							{
+								CCS_AddString = "Arrow"
+							},
+							{
+								CCS_AddString = "Tick"
+							},
+							{
+								CCS_AddString = "Cross"
+							},
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "ComboControl",
+							LINKS_Name = "Shape",
+							INP_Default = 0,
+							INP_Integer = true
+						},
+						PenEdge = {
+							INP_MaxScale = 0.01,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Outline",
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						PenPos = {
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "Position",
+							INPID_PreviewControl = "CrosshairControl"
+						},
+						PenExit = {
+							{
+								CCS_AddString = "Fading"
+							},
+							{
+								CCS_AddString = "Being Erased"
+							},
+							{
+								CCS_AddString = "Staying"
+							},
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "ComboControl",
+							LINKS_Name = "Leaves By",
+							INP_Default = 0,
+							INP_Integer = true
+						},
+						PenOut = {
+							INP_MaxScale = 3,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Leave (seconds)",
+							INP_Default = 0.25,
+							INP_MinScale = 0
+						},
+						FpsOverride = {
+							INP_MaxScale = 120,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Frame Rate Override",
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						Mid = {
+							LINKS_Name = "Mid",
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl"
+						},
+						A = {
+							INP_MaxScale = 5,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "A",
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						Ang = {
+							INP_MaxScale = 360,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Ang",
+							INP_Default = 0,
+							INP_MinScale = -360
+						},
+						D = {
+							INP_MaxScale = 3,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "D",
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						E = {
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "E",
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						Fade = {
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Fade",
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						Split = {
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Split",
+							INP_Default = 1,
+							INP_MinScale = 0
+						},
+						S1 = {
+							LINKS_Name = "S1",
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl"
+						},
+						S2 = {
+							LINKS_Name = "S2",
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl"
+						},
+						S3 = {
+							LINKS_Name = "S3",
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl"
+						},
+						S4 = {
+							LINKS_Name = "S4",
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl"
+						},
+						S5 = {
+							LINKS_Name = "S5",
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl"
+						},
+						S6 = {
+							LINKS_Name = "S6",
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl"
+						},
+						PenW = {
+							INP_MaxScale = 2,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Width",
+							INP_Default = 0.3,
+							INP_MinScale = 0.01
+						},
+						PenH = {
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Height",
+							INP_Default = 0.3,
+							INP_MinScale = 0.01
+						},
+						PenAngle = {
+							INP_MaxScale = 180,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Angle",
+							INP_Default = 0,
+							INP_MinScale = -180
+						},
+						PenFrom = {
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "Arrow: From",
+							INPID_PreviewControl = "CrosshairControl"
+						},
+						PenTo = {
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "Arrow: To",
+							INPID_PreviewControl = "CrosshairControl"
+						},
+						PenBend = {
+							INP_MaxScale = 0.6,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Arrow: Bend",
+							INP_Default = 0.15,
+							INP_MinScale = -0.6
+						},
+						PenHead = {
+							INP_MaxScale = 0.3,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Arrow: Head Size",
+							INP_Default = 0.06,
+							INP_MinScale = 0
+						},
+						PenThick = {
+							INP_MaxScale = 0.05,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Thickness",
+							INP_Default = 0.01,
+							INP_MinScale = 0.001
+						},
+						PenTaper = {
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Thin Ends",
+							INP_Default = 0.5,
+							INP_MinScale = 0
+						},
+						PenWobble = {
+							INP_MaxScale = 4,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Wobble",
+							INP_Default = 1,
+							INP_MinScale = 0
+						},
+						PenSeed = {
+							INP_MaxScale = 50,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Wobble Seed",
+							INP_Default = 1,
+							INP_MinScale = 0
+						},
+						PenPasses = {
+							INP_MaxScale = 2,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = true,
+							LINKS_Name = "Times Drawn Over",
+							INP_Default = 1,
+							INP_MinScale = 1
+						},
+						PenDraw = {
+							INP_MaxScale = 3,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Draw (seconds)",
+							INP_Default = 0.4,
+							INP_MinScale = 0
+						},
+						PenBoil = {
+							INP_MaxScale = 24,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = true,
+							LINKS_Name = "Redraw Every (frames, 0 = never)",
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						B = {
+							INP_MaxScale = 5,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "B",
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						PenOverlap = {
+							INP_MaxScale = 0.5,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Circle: Overlap",
+							INP_Default = 0.1,
+							INP_MinScale = 0
+						}
+					},
+					CtrlWZoom = false
+				},
+				PenFloat = Background {
+					ViewInfo = OperatorInfo { Pos = { -605, -16.5 } },
+					Inputs = {
+						Height = Input {
+							Value = 1080,
+							Expression = "comp:GetPrefs('Comp.FrameFormat.Height')/2"
+						},
+						TopLeftAlpha = Input { Value = 0 },
+						Width = Input {
+							Value = 1920,
+							Expression = "comp:GetPrefs('Comp.FrameFormat.Width')/2"
+						},
+						GlobalIn = Input { Value = -480 },
+						Depth = Input { Value = 4 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } }
+					}
+				},
+				PenWarp2 = Custom {
+					ViewInfo = OperatorInfo { Pos = { -495, 115.5 } },
+					Inputs = {
+						Intermediate3 = Input { Value = "min(max((i1 + n6)/(2*n6), 0), 1)" },
+						RedExpression = Input { Value = "i1 + n2*n4*(sin(i1/n4*190 + i2/n4*110 + n3*97) + 0.5*sin(i1/n4*430 - i2/n4*310 + n3*211))" },
+						GreenExpression = Input { Value = "i2 + n2*n4*(sin(i2/n4*170 - i1/n4*130 + n3*133) + 0.5*sin(i2/n4*390 + i1/n4*290 + n3*57)) - n5*8*n6*i3*(1 - i3) - n7*sin(i3*360*n8)" },
+						BlueExpression = Input { Value = "0" },
+						Image1 = Input {
+							SourceOp = "PenFloat",
+							Source = "Output"
+						},
+						AlphaExpression = Input { Value = "0" },
+						PointIn1 = Input { Expression = "PenCtrl.Mid" },
+						NumberIn1 = Input { Expression = "PenCtrl.Ang" },
+						LUTIn1 = Input {
+							SourceOp = "CustomTool1LUTIn14",
+							Source = "Value"
+						},
+						LUTIn2 = Input {
+							SourceOp = "CustomTool1LUTIn24",
+							Source = "Value"
+						},
+						LUTIn3 = Input {
+							SourceOp = "CustomTool1LUTIn34",
+							Source = "Value"
+						},
+						NumberIn4 = Input { Expression = "max(PenCtrl.A, iif(PenCtrl.PenShape == 1 or PenCtrl.PenShape == 6, 0, PenCtrl.B), 0.001)" },
+						NumberIn5 = Input { Expression = "iif(PenCtrl.PenShape == 6, PenCtrl.PenBend, 0)" },
+						NumberIn6 = Input { Expression = "max(PenCtrl.A, 0.0005)" },
+						NumberIn7 = Input { Expression = "iif(PenCtrl.PenShape == 2, PenCtrl.B, 0)" },
+						NumberIn8 = Input { Expression = "PenCtrl.PenWaves" },
+						NumberIn3 = Input { Expression = "PenCtrl.PenSeed + 2*7.1 + iif(PenCtrl.PenBoil > 0, floor(time/PenCtrl.PenBoil)*3.3, 0)" },
+						Intermediate1 = Input { Value = "(x - p1x)*w/h*cos(n1) + (y - p1y)*sin(n1)" },
+						NumberIn2 = Input { Expression = "PenCtrl.PenWobble * 0.035" },
+						Intermediate2 = Input { Value = "(y - p1y)*cos(n1) - (x - p1x)*w/h*sin(n1)" },
+						LUTIn4 = Input {
+							SourceOp = "CustomTool1LUTIn44",
+							Source = "Value"
+						}
+					}
+				},
+				CustomTool1LUTIn14 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn24 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn34 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn44 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				PenBox2 = Custom {
+					ViewInfo = OperatorInfo { Pos = { -275, 148.5 } },
+					Inputs = {
+						LUTIn3 = Input {
+							SourceOp = "CustomTool1LUTIn37",
+							Source = "Value"
+						},
+						NumberIn4 = Input { Expression = "PenCtrl.PenCorner * min(PenCtrl.A, PenCtrl.B)" },
+						RedExpression = Input { Value = "if(n3 == 3, i1, if(n3 == 4 || (n1 - abs(r1) < n4 && n2 - abs(g1) < n4), abs(i1), 9))" },
+						Intermediate3 = Input { Value = "g1/n2" },
+						GreenExpression = Input { Value = "if(n3 == 3, (i2 + 1)/2, if(n3 == 5, max(n1 - abs(r1), n2 - abs(g1))/n4, if(i3 >= abs(i2), (i2 + 1)/8, if(i2 > abs(i3), 0.25 + (1 - i3)/8, if(i3 <= -abs(i2), 0.5 + (1 - i2)/8, 0.75 + (i3 + 1)/8)))))" },
+						LUTIn4 = Input {
+							SourceOp = "CustomTool1LUTIn47",
+							Source = "Value"
+						},
+						BlueExpression = Input { Value = "9" },
+						Image1 = Input {
+							SourceOp = "PenWarp2",
+							Source = "Output"
+						},
+						AlphaExpression = Input { Value = "0" },
+						LUTIn1 = Input {
+							SourceOp = "CustomTool1LUTIn17",
+							Source = "Value"
+						},
+						NumberIn3 = Input { Expression = "PenCtrl.PenShape" },
+						NumberIn1 = Input { Expression = "max(PenCtrl.A, 0.0005)" },
+						Intermediate1 = Input { Value = "sqrt(max(abs(r1) - n1, 0)^2 + max(abs(g1) - n2, 0)^2) + min(max(abs(r1) - n1, abs(g1) - n2), 0)" },
+						NumberIn2 = Input { Expression = "max(PenCtrl.B, 0.0005)" },
+						Intermediate2 = Input { Value = "r1/n1" },
+						LUTIn2 = Input {
+							SourceOp = "CustomTool1LUTIn27",
+							Source = "Value"
+						}
+					}
+				},
+				CustomTool1LUTIn17 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn27 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn37 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn47 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				PenLines2 = Custom {
+					ViewInfo = OperatorInfo { Pos = { -275, 115.5 } },
+					Inputs = {
+						Intermediate3 = Input { Value = "min(max(((r1 - n1)*(n3 - n1) + (g1 - n2)*(n4 - n2))/((n3 - n1)^2 + (n4 - n2)^2), 0), 1)" },
+						RedExpression = Input { Value = "sqrt((r1 - p1x - (p2x - p1x)*i1)^2 + (g1 - p1y - (p2y - p1y)*i1)^2)" },
+						GreenExpression = Input { Value = "n5*i1" },
+						BlueExpression = Input { Value = "min(i4, i5)" },
+						Image1 = Input {
+							SourceOp = "PenWarp2",
+							Source = "Output"
+						},
+						AlphaExpression = Input { Value = "n5 + (1 - n5)*if(i4 < i5, i2, i3)" },
+						PointIn1 = Input { Expression = "PenCtrl.S1" },
+						NumberIn1 = Input { Expression = "PenCtrl.S5.X" },
+						LUTIn1 = Input {
+							SourceOp = "CustomTool1LUTIn16",
+							Source = "Value"
+						},
+						LUTIn2 = Input {
+							SourceOp = "CustomTool1LUTIn26",
+							Source = "Value"
+						},
+						LUTIn3 = Input {
+							SourceOp = "CustomTool1LUTIn36",
+							Source = "Value"
+						},
+						NumberIn4 = Input { Expression = "PenCtrl.S6.Y" },
+						PointIn3 = Input { Expression = "PenCtrl.S3" },
+						NumberIn5 = Input { Expression = "PenCtrl.Split" },
+						PointIn4 = Input { Expression = "PenCtrl.S4" },
+						Intermediate5 = Input { Value = "sqrt((r1 - n1 - (n3 - n1)*i3)^2 + (g1 - n2 - (n4 - n2)*i3)^2)" },
+						Intermediate4 = Input { Value = "sqrt((r1 - p3x - (p4x - p3x)*i2)^2 + (g1 - p3y - (p4y - p3y)*i2)^2)" },
+						NumberIn3 = Input { Expression = "PenCtrl.S6.X" },
+						LUTIn4 = Input {
+							SourceOp = "CustomTool1LUTIn46",
+							Source = "Value"
+						},
+						Intermediate1 = Input { Value = "min(max(((r1 - p1x)*(p2x - p1x) + (g1 - p1y)*(p2y - p1y))/((p2x - p1x)^2 + (p2y - p1y)^2), 0), 1)" },
+						NumberIn2 = Input { Expression = "PenCtrl.S5.Y" },
+						Intermediate2 = Input { Value = "min(max(((r1 - p3x)*(p4x - p3x) + (g1 - p3y)*(p4y - p3y))/((p4x - p3x)^2 + (p4y - p3y)^2), 0), 1)" },
+						PointIn2 = Input { Expression = "PenCtrl.S2" }
+					}
+				},
+				CustomTool1LUTIn16 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn26 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn36 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn46 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				PenPickB2 = Dissolve {
+					Transitions = {
+						[0] = "DFTDissolve"
+					},
+					ViewInfo = OperatorInfo { Pos = { -55, 115.5 } },
+					Inputs = {
+						Background = Input {
+							SourceOp = "PenLines2",
+							Source = "Output"
+						},
+						Foreground = Input {
+							SourceOp = "PenBox2",
+							Source = "Output"
+						},
+						ProcessLayers = Input { Value = FuID { ":All" } },
+						Mix = Input { Expression = "iif(PenCtrl.PenShape >= 3 and PenCtrl.PenShape <= 5, 1, 0)" }
+					}
+				},
+				PenRound2 = Custom {
+					ViewInfo = OperatorInfo { Pos = { -275, 82.5 } },
+					Inputs = {
+						Intermediate3 = Input { Value = "sqrt((r1/(n1*n1))^2 + (g1/(n2*n2))^2)/max(i1, 0.0001)" },
+						RedExpression = Input { Value = "abs(i1 - (1 + n5*(i2/n3 - 0.5)))/i3" },
+						GreenExpression = Input { Value = "i2/n3" },
+						BlueExpression = Input { Value = "if(i2 + 1 <= n3, abs(i1 - (1 + n5*((i2 + 1)/n3 - 0.5)))/i3, 9)" },
+						Image1 = Input {
+							SourceOp = "PenWarp2",
+							Source = "Output"
+						},
+						AlphaExpression = Input { Value = "(i2 + 1)/n3" },
+						NumberIn1 = Input { Expression = "max(PenCtrl.A, 0.0005)" },
+						NumberIn2 = Input { Expression = "max(PenCtrl.B, 0.0005)" },
+						NumberIn3 = Input { Expression = "1 + PenCtrl.PenOverlap" },
+						LUTIn3 = Input {
+							SourceOp = "CustomTool1LUTIn35",
+							Source = "Value"
+						},
+						NumberIn4 = Input { Expression = "PenCtrl.PenStart" },
+						NumberIn5 = Input { Expression = "0.5*PenCtrl.PenOverlap" },
+						LUTIn2 = Input {
+							SourceOp = "CustomTool1LUTIn25",
+							Source = "Value"
+						},
+						Intermediate1 = Input { Value = "sqrt((r1/n1)^2 + (g1/n2)^2)" },
+						LUTIn1 = Input {
+							SourceOp = "CustomTool1LUTIn15",
+							Source = "Value"
+						},
+						Intermediate2 = Input { Value = "frac((n4 - atan2(g1/n2, r1/n1))/360 + 3)" },
+						LUTIn4 = Input {
+							SourceOp = "CustomTool1LUTIn45",
+							Source = "Value"
+						}
+					}
+				},
+				CustomTool1LUTIn15 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn25 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn35 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn45 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				PenPickA2 = Dissolve {
+					Transitions = {
+						[0] = "DFTDissolve"
+					},
+					ViewInfo = OperatorInfo { Pos = { -55, 82.5 } },
+					Inputs = {
+						Background = Input {
+							SourceOp = "PenRound2",
+							Source = "Output"
+						},
+						Foreground = Input {
+							SourceOp = "PenPickB2",
+							Source = "Output"
+						},
+						ProcessLayers = Input { Value = FuID { ":All" } },
+						Mix = Input { Expression = "iif(PenCtrl.PenShape == 0, 0, 1)" }
+					}
+				},
+				PenWarp1 = Custom {
+					ViewInfo = OperatorInfo { Pos = { -495, -16.5 } },
+					Inputs = {
+						Intermediate3 = Input { Value = "min(max((i1 + n6)/(2*n6), 0), 1)" },
+						RedExpression = Input { Value = "i1 + n2*n4*(sin(i1/n4*190 + i2/n4*110 + n3*97) + 0.5*sin(i1/n4*430 - i2/n4*310 + n3*211))" },
+						GreenExpression = Input { Value = "i2 + n2*n4*(sin(i2/n4*170 - i1/n4*130 + n3*133) + 0.5*sin(i2/n4*390 + i1/n4*290 + n3*57)) - n5*8*n6*i3*(1 - i3) - n7*sin(i3*360*n8)" },
+						BlueExpression = Input { Value = "0" },
+						Image1 = Input {
+							SourceOp = "PenFloat",
+							Source = "Output"
+						},
+						AlphaExpression = Input { Value = "0" },
+						PointIn1 = Input { Expression = "PenCtrl.Mid" },
+						NumberIn1 = Input { Expression = "PenCtrl.Ang" },
+						LUTIn1 = Input {
+							SourceOp = "CustomTool1LUTIn1",
+							Source = "Value"
+						},
+						LUTIn2 = Input {
+							SourceOp = "CustomTool1LUTIn2",
+							Source = "Value"
+						},
+						LUTIn3 = Input {
+							SourceOp = "CustomTool1LUTIn3",
+							Source = "Value"
+						},
+						NumberIn4 = Input { Expression = "max(PenCtrl.A, iif(PenCtrl.PenShape == 1 or PenCtrl.PenShape == 6, 0, PenCtrl.B), 0.001)" },
+						NumberIn5 = Input { Expression = "iif(PenCtrl.PenShape == 6, PenCtrl.PenBend, 0)" },
+						NumberIn6 = Input { Expression = "max(PenCtrl.A, 0.0005)" },
+						NumberIn7 = Input { Expression = "iif(PenCtrl.PenShape == 2, PenCtrl.B, 0)" },
+						NumberIn8 = Input { Expression = "PenCtrl.PenWaves" },
+						NumberIn3 = Input { Expression = "PenCtrl.PenSeed + 1*7.1 + iif(PenCtrl.PenBoil > 0, floor(time/PenCtrl.PenBoil)*3.3, 0)" },
+						Intermediate1 = Input { Value = "(x - p1x)*w/h*cos(n1) + (y - p1y)*sin(n1)" },
+						NumberIn2 = Input { Expression = "PenCtrl.PenWobble * 0.035" },
+						Intermediate2 = Input { Value = "(y - p1y)*cos(n1) - (x - p1x)*w/h*sin(n1)" },
+						LUTIn4 = Input {
+							SourceOp = "CustomTool1LUTIn4",
+							Source = "Value"
+						}
+					}
+				},
+				CustomTool1LUTIn1 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn2 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn3 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn4 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				PenBox1 = Custom {
+					ViewInfo = OperatorInfo { Pos = { -275, 16.5 } },
+					Inputs = {
+						LUTIn3 = Input {
+							SourceOp = "CustomTool1LUTIn33",
+							Source = "Value"
+						},
+						NumberIn4 = Input { Expression = "PenCtrl.PenCorner * min(PenCtrl.A, PenCtrl.B)" },
+						RedExpression = Input { Value = "if(n3 == 3, i1, if(n3 == 4 || (n1 - abs(r1) < n4 && n2 - abs(g1) < n4), abs(i1), 9))" },
+						Intermediate3 = Input { Value = "g1/n2" },
+						GreenExpression = Input { Value = "if(n3 == 3, (i2 + 1)/2, if(n3 == 5, max(n1 - abs(r1), n2 - abs(g1))/n4, if(i3 >= abs(i2), (i2 + 1)/8, if(i2 > abs(i3), 0.25 + (1 - i3)/8, if(i3 <= -abs(i2), 0.5 + (1 - i2)/8, 0.75 + (i3 + 1)/8)))))" },
+						LUTIn4 = Input {
+							SourceOp = "CustomTool1LUTIn43",
+							Source = "Value"
+						},
+						BlueExpression = Input { Value = "9" },
+						Image1 = Input {
+							SourceOp = "PenWarp1",
+							Source = "Output"
+						},
+						AlphaExpression = Input { Value = "0" },
+						LUTIn1 = Input {
+							SourceOp = "CustomTool1LUTIn13",
+							Source = "Value"
+						},
+						NumberIn3 = Input { Expression = "PenCtrl.PenShape" },
+						NumberIn1 = Input { Expression = "max(PenCtrl.A, 0.0005)" },
+						Intermediate1 = Input { Value = "sqrt(max(abs(r1) - n1, 0)^2 + max(abs(g1) - n2, 0)^2) + min(max(abs(r1) - n1, abs(g1) - n2), 0)" },
+						NumberIn2 = Input { Expression = "max(PenCtrl.B, 0.0005)" },
+						Intermediate2 = Input { Value = "r1/n1" },
+						LUTIn2 = Input {
+							SourceOp = "CustomTool1LUTIn23",
+							Source = "Value"
+						}
+					}
+				},
+				CustomTool1LUTIn13 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn23 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn33 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn43 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				PenLines1 = Custom {
+					ViewInfo = OperatorInfo { Pos = { -275, -16.5 } },
+					Inputs = {
+						Intermediate3 = Input { Value = "min(max(((r1 - n1)*(n3 - n1) + (g1 - n2)*(n4 - n2))/((n3 - n1)^2 + (n4 - n2)^2), 0), 1)" },
+						RedExpression = Input { Value = "sqrt((r1 - p1x - (p2x - p1x)*i1)^2 + (g1 - p1y - (p2y - p1y)*i1)^2)" },
+						GreenExpression = Input { Value = "n5*i1" },
+						BlueExpression = Input { Value = "min(i4, i5)" },
+						Image1 = Input {
+							SourceOp = "PenWarp1",
+							Source = "Output"
+						},
+						AlphaExpression = Input { Value = "n5 + (1 - n5)*if(i4 < i5, i2, i3)" },
+						PointIn1 = Input { Expression = "PenCtrl.S1" },
+						NumberIn1 = Input { Expression = "PenCtrl.S5.X" },
+						LUTIn1 = Input {
+							SourceOp = "CustomTool1LUTIn12",
+							Source = "Value"
+						},
+						LUTIn2 = Input {
+							SourceOp = "CustomTool1LUTIn22",
+							Source = "Value"
+						},
+						LUTIn3 = Input {
+							SourceOp = "CustomTool1LUTIn32",
+							Source = "Value"
+						},
+						NumberIn4 = Input { Expression = "PenCtrl.S6.Y" },
+						PointIn3 = Input { Expression = "PenCtrl.S3" },
+						NumberIn5 = Input { Expression = "PenCtrl.Split" },
+						PointIn4 = Input { Expression = "PenCtrl.S4" },
+						Intermediate5 = Input { Value = "sqrt((r1 - n1 - (n3 - n1)*i3)^2 + (g1 - n2 - (n4 - n2)*i3)^2)" },
+						Intermediate4 = Input { Value = "sqrt((r1 - p3x - (p4x - p3x)*i2)^2 + (g1 - p3y - (p4y - p3y)*i2)^2)" },
+						NumberIn3 = Input { Expression = "PenCtrl.S6.X" },
+						LUTIn4 = Input {
+							SourceOp = "CustomTool1LUTIn42",
+							Source = "Value"
+						},
+						Intermediate1 = Input { Value = "min(max(((r1 - p1x)*(p2x - p1x) + (g1 - p1y)*(p2y - p1y))/((p2x - p1x)^2 + (p2y - p1y)^2), 0), 1)" },
+						NumberIn2 = Input { Expression = "PenCtrl.S5.Y" },
+						Intermediate2 = Input { Value = "min(max(((r1 - p3x)*(p4x - p3x) + (g1 - p3y)*(p4y - p3y))/((p4x - p3x)^2 + (p4y - p3y)^2), 0), 1)" },
+						PointIn2 = Input { Expression = "PenCtrl.S2" }
+					}
+				},
+				CustomTool1LUTIn12 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn22 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn32 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn42 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				PenPickB1 = Dissolve {
+					Transitions = {
+						[0] = "DFTDissolve"
+					},
+					ViewInfo = OperatorInfo { Pos = { -55, -16.5 } },
+					Inputs = {
+						Background = Input {
+							SourceOp = "PenLines1",
+							Source = "Output"
+						},
+						Foreground = Input {
+							SourceOp = "PenBox1",
+							Source = "Output"
+						},
+						ProcessLayers = Input { Value = FuID { ":All" } },
+						Mix = Input { Expression = "iif(PenCtrl.PenShape >= 3 and PenCtrl.PenShape <= 5, 1, 0)" }
+					}
+				},
+				PenRound1 = Custom {
+					ViewInfo = OperatorInfo { Pos = { -275, -49.5 } },
+					Inputs = {
+						Intermediate3 = Input { Value = "sqrt((r1/(n1*n1))^2 + (g1/(n2*n2))^2)/max(i1, 0.0001)" },
+						RedExpression = Input { Value = "abs(i1 - (1 + n5*(i2/n3 - 0.5)))/i3" },
+						GreenExpression = Input { Value = "i2/n3" },
+						BlueExpression = Input { Value = "if(i2 + 1 <= n3, abs(i1 - (1 + n5*((i2 + 1)/n3 - 0.5)))/i3, 9)" },
+						Image1 = Input {
+							SourceOp = "PenWarp1",
+							Source = "Output"
+						},
+						AlphaExpression = Input { Value = "(i2 + 1)/n3" },
+						NumberIn1 = Input { Expression = "max(PenCtrl.A, 0.0005)" },
+						NumberIn2 = Input { Expression = "max(PenCtrl.B, 0.0005)" },
+						NumberIn3 = Input { Expression = "1 + PenCtrl.PenOverlap" },
+						LUTIn3 = Input {
+							SourceOp = "CustomTool1LUTIn31",
+							Source = "Value"
+						},
+						NumberIn4 = Input { Expression = "PenCtrl.PenStart" },
+						NumberIn5 = Input { Expression = "0.5*PenCtrl.PenOverlap" },
+						LUTIn2 = Input {
+							SourceOp = "CustomTool1LUTIn21",
+							Source = "Value"
+						},
+						Intermediate1 = Input { Value = "sqrt((r1/n1)^2 + (g1/n2)^2)" },
+						LUTIn1 = Input {
+							SourceOp = "CustomTool1LUTIn11",
+							Source = "Value"
+						},
+						Intermediate2 = Input { Value = "frac((n4 - atan2(g1/n2, r1/n1))/360 + 3)" },
+						LUTIn4 = Input {
+							SourceOp = "CustomTool1LUTIn41",
+							Source = "Value"
+						}
+					}
+				},
+				CustomTool1LUTIn11 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn21 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn31 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn41 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				PenPickA1 = Dissolve {
+					Transitions = {
+						[0] = "DFTDissolve"
+					},
+					ViewInfo = OperatorInfo { Pos = { -55, -49.5 } },
+					Inputs = {
+						Background = Input {
+							SourceOp = "PenRound1",
+							Source = "Output"
+						},
+						Foreground = Input {
+							SourceOp = "PenPickB1",
+							Source = "Output"
+						},
+						ProcessLayers = Input { Value = FuID { ":All" } },
+						Mix = Input { Expression = "iif(PenCtrl.PenShape == 0, 0, 1)" }
+					}
+				},
+				PenNone = Background {
+					ViewInfo = OperatorInfo { Pos = { -55, 181.5 } },
+					Inputs = {
+						GlobalIn = Input { Value = -480 },
+						Width = Input { Value = 16 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Height = Input { Value = 16 },
+						TopLeftBlue = Input { Value = 9 },
+						TopLeftAlpha = Input { Value = 0 },
+						GlobalOut = Input { Value = 3534 },
+						Depth = Input { Value = 4 },
+						TopLeftRed = Input { Value = 9 }
+					}
+				},
+				PenSecond = Dissolve {
+					Transitions = {
+						[0] = "DFTDissolve"
+					},
+					ViewInfo = OperatorInfo { Pos = { 55, 148.5 } },
+					Inputs = {
+						Background = Input {
+							SourceOp = "PenNone",
+							Source = "Output"
+						},
+						Foreground = Input {
+							SourceOp = "PenPickA2",
+							Source = "Output"
+						},
+						ProcessLayers = Input { Value = FuID { ":All" } },
+						Mix = Input { Expression = "iif(PenCtrl.PenPasses >= 2, 1, 0)" }
+					}
+				},
+				PenInk = Custom {
+					ViewInfo = OperatorInfo { Pos = { 165, 16.5 } },
+					Inputs = {
+						Intermediate3 = Input { Value = "getb2b(x, y)" },
+						RedExpression = Input { Value = "i8" },
+						GreenExpression = Input { Value = "i8" },
+						BlueExpression = Input { Value = "i8" },
+						Image1 = Input {
+							SourceOp = "PenCtrl",
+							Source = "Output"
+						},
+						Intermediate6 = Input { Value = "getr3b(x, y)" },
+						Intermediate7 = Input { Value = "getg3b(x, y)" },
+						NumberIn1 = Input { Expression = "iif(PenCtrl.PenShape == 3, 0, PenCtrl.PenThick/2)" },
+						Intermediate8 = Input { Value = "max(i5, max(if(2 <= n5 && i7 <= n2 - 1 && i7 >= n3 && i6 < 8, min(max((n1*(1 - n4*(1 - min(min(i7, 1 - i7)*5, 1))) - i6)*h + 0.5, 0), 1), 0), if(2 <= n5 && geta3b(x, y) <= n2 - 1 && geta3b(x, y) >= n3 && getb3b(x, y) < 8, min(max((n1*(1 - n4*(1 - min(min(geta3b(x, y), 1 - geta3b(x, y))*5, 1))) - getb3b(x, y))*h + 0.5, 0), 1), 0)))" },
+						NumberIn2 = Input { Expression = "PenCtrl.D" },
+						NumberIn3 = Input { Expression = "PenCtrl.E" },
+						LUTIn3 = Input {
+							SourceOp = "CustomTool1LUTIn38",
+							Source = "Value"
+						},
+						NumberIn4 = Input { Expression = "iif(PenCtrl.PenShape == 3, 0, PenCtrl.PenTaper)" },
+						NumberIn5 = Input { Expression = "PenCtrl.PenPasses" },
+						Intermediate5 = Input { Value = "max(if(1 <= n5 && i2 <= n2 - 0 && i2 >= n3 && i1 < 8, min(max((n1*(1 - n4*(1 - min(min(i2, 1 - i2)*5, 1))) - i1)*h + 0.5, 0), 1), 0), if(1 <= n5 && i4 <= n2 - 0 && i4 >= n3 && i3 < 8, min(max((n1*(1 - n4*(1 - min(min(i4, 1 - i4)*5, 1))) - i3)*h + 0.5, 0), 1), 0))" },
+						Image2 = Input {
+							SourceOp = "PenPickA1",
+							Source = "Output"
+						},
+						Image3 = Input {
+							SourceOp = "PenSecond",
+							Source = "Output"
+						},
+						AlphaExpression = Input { Value = "i8" },
+						LUTIn2 = Input {
+							SourceOp = "CustomTool1LUTIn28",
+							Source = "Value"
+						},
+						Intermediate4 = Input { Value = "geta2b(x, y)" },
+						Intermediate1 = Input { Value = "getr2b(x, y)" },
+						LUTIn1 = Input {
+							SourceOp = "CustomTool1LUTIn18",
+							Source = "Value"
+						},
+						Intermediate2 = Input { Value = "getg2b(x, y)" },
+						LUTIn4 = Input {
+							SourceOp = "CustomTool1LUTIn48",
+							Source = "Value"
+						}
+					}
+				},
+				CustomTool1LUTIn18 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn28 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn38 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn48 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				PenPaintGrowB = ErodeDilate {
+					ViewInfo = OperatorInfo { Pos = { 275, 82.5 } },
+					Inputs = {
+						Filter = Input { Value = 3 },
+						XAmount = Input { Expression = "(PenCtrl.PenEdge) + (0)" },
+						Input = Input {
+							SourceOp = "PenInk",
+							Source = "Output"
+						}
+					}
+				},
+				PenPaintGrowA = ErodeDilate {
+					ViewInfo = OperatorInfo { Pos = { 275, 49.5 } },
+					Inputs = {
+						Filter = Input { Value = 3 },
+						XAmount = Input { Expression = "PenCtrl.PenEdge" },
+						Input = Input {
+							SourceOp = "PenInk",
+							Source = "Output"
+						}
+					}
+				},
+				PenPaint = Custom {
+					ViewInfo = OperatorInfo { Pos = { 385, 16.5 } },
+					Inputs = {
+						RedExpression = Input { Value = "n1*a1 + (1 - a1)*(n4*i1 + (1 - i1)*p1x*i2)" },
+						GreenExpression = Input { Value = "n2*a1 + (1 - a1)*(n5*i1 + (1 - i1)*p1y*i2)" },
+						BlueExpression = Input { Value = "n3*a1 + (1 - a1)*(n6*i1 + (1 - i1)*p2x*i2)" },
+						Image1 = Input {
+							SourceOp = "PenInk",
+							Source = "Output"
+						},
+						AlphaExpression = Input { Value = "a1 + (1 - a1)*(i1 + (1 - i1)*i2)" },
+						PointIn1 = Input { Expression = "Point(0, 0)" },
+						NumberIn1 = Input { Expression = "ColPen.TopLeftRed" },
+						LUTIn1 = Input {
+							SourceOp = "CustomTool1LUTIn19",
+							Source = "Value"
+						},
+						LUTIn2 = Input {
+							SourceOp = "CustomTool1LUTIn29",
+							Source = "Value"
+						},
+						LUTIn3 = Input {
+							SourceOp = "CustomTool1LUTIn39",
+							Source = "Value"
+						},
+						NumberIn4 = Input { Expression = "ColPenEdge.TopLeftRed" },
+						NumberIn5 = Input { Expression = "ColPenEdge.TopLeftGreen" },
+						NumberIn6 = Input { Expression = "ColPenEdge.TopLeftBlue" },
+						Image2 = Input {
+							SourceOp = "PenPaintGrowA",
+							Source = "Output"
+						},
+						NumberIn7 = Input { Expression = "iif((PenCtrl.PenEdge) > 0, 1, 0)" },
+						Image3 = Input {
+							SourceOp = "PenPaintGrowB",
+							Source = "Output"
+						},
+						NumberIn8 = Input { Expression = "iif((0) > 0, 1, 0)" },
+						NumberIn3 = Input { Expression = "ColPen.TopLeftBlue" },
+						LUTIn4 = Input {
+							SourceOp = "CustomTool1LUTIn49",
+							Source = "Value"
+						},
+						Intermediate1 = Input { Value = "a2*n7" },
+						NumberIn2 = Input { Expression = "ColPen.TopLeftGreen" },
+						Intermediate2 = Input { Value = "a3*n8" },
+						PointIn2 = Input { Expression = "Point(0, 0)" }
+					}
+				},
+				CustomTool1LUTIn19 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn29 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn39 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn49 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				PenFinal = Merge {
+					ViewInfo = OperatorInfo { Pos = { 605, 16.5 } },
+					Inputs = {
+						PerformDepthMerge = Input { Value = 0 },
+						Foreground = Input {
+							SourceOp = "PenPaint",
+							Source = "Output"
+						},
+						Background = Input {
+							SourceOp = "PenCtrl",
+							Source = "Output"
+						},
+						Blend = Input { Expression = "PenCtrl.PenOpacity * PenCtrl.Fade" }
+					}
+				},
+				ColPen = Background {
+					ViewInfo = OperatorInfo { Pos = { -275, -247.5 } },
+					Inputs = {
+						Height = Input { Value = 16 },
+						TopLeftGreen = Input { Value = 0.15 },
+						TopLeftBlue = Input { Value = 0.12 },
+						TopLeftRed = Input { Value = 0.95 },
+						GlobalIn = Input { Value = -480 },
+						Width = Input { Value = 16 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } }
+					}
+				},
+				ColPenEdge = Background {
+					ViewInfo = OperatorInfo { Pos = { -165, -247.5 } },
+					Inputs = {
+						Height = Input { Value = 16 },
+						TopLeftGreen = Input { Value = 1 },
+						TopLeftBlue = Input { Value = 1 },
+						TopLeftRed = Input { Value = 1 },
+						GlobalIn = Input { Value = -480 },
+						Width = Input { Value = 16 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } }
+					}
+				}
+			
+			}
+		}
+	},
+	ActiveTool = "PenMark"
+}

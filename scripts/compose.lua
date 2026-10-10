@@ -29,7 +29,15 @@ for block in (spec .. "\n\n"):gmatch("(.-)\n\n") do
   end
 end
 comp:Lock()
-local last = os.getenv("FX_SRC") == "media" and mediaIn or L.testsource(comp)
+local last
+if os.getenv("FX_INPUTS") == "1" then
+  -- effects: every copy gets its own stand-in clip, and they are stacked over black like clips on tracks
+  last = comp:AddTool("Background", -12, -3); last:SetAttrs({TOOLS_Name = "PrevBlack"})
+  last:SetInput("UseFrameFormatSettings", 1)
+  for i, m in ipairs(macros) do m:FindMainInput(1):ConnectTo(L.testsource(comp, string.char(64 + i), (i - 1) % 2).Output) end
+else
+  last = os.getenv("FX_SRC") == "media" and mediaIn or L.testsource(comp)
+end
 for i, m in ipairs(macros) do
   local mg = comp:AddTool("Merge", 2 + i, 6); mg:SetAttrs({TOOLS_Name = "PrevStack" .. string.char(64 + i)})
   mg.Background = last.Output; mg.Foreground = m:FindMainOutput(1)

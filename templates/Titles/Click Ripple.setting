@@ -1,0 +1,527 @@
+{
+	Tools = ordered() {
+		ClickRipple = MacroOperator {
+			CtrlWZoom = false,
+			Inputs = ordered() {
+				Input1 = InstanceInput { SourceOp = "RipCtrl", Source = "RipPos", Name = "Position" },
+				Input2 = InstanceInput { SourceOp = "RipCtrl", Source = "RipList", Name = "Click Times (one per line, empty = once at the start)" },
+				Input3 = InstanceInput { SourceOp = "RipCtrl", Source = "RipClicks", Name = "Clicks Each Time" },
+				Input4 = InstanceInput { SourceOp = "RipCtrl", Source = "RipGap", Name = "Seconds Between Those Clicks" },
+				Input5 = InstanceInput { SourceOp = "RipCtrl", Source = "RipSize", Name = "Size" },
+				Input6 = InstanceInput { SourceOp = "RipCtrl", Source = "RipLife", Name = "Ripple Lasts (seconds)" },
+				Input7 = InstanceInput { SourceOp = "RipCtrl", Source = "RipRings", Name = "Rings" },
+				Input8 = InstanceInput { SourceOp = "RipCtrl", Source = "RipThick", Name = "Ring Thickness" },
+				Input9 = InstanceInput { SourceOp = "RipCtrl", Source = "RipFill", Name = "Filled Disc" },
+				Input10 = InstanceInput { SourceOp = "RipCtrl", Source = "RipDot", Name = "Centre Dot" },
+				Input11 = InstanceInput { SourceOp = "RipCtrl", Source = "RipOpacity", Name = "Opacity" },
+				Input12 = InstanceInput { SourceOp = "RipCtrl", Source = "RipEdge", Name = "Outline" },
+				Input13 = InstanceInput { SourceOp = "RipCtrl", Source = "FpsOverride", Name = "Frame Rate Override" },
+				Input14 = InstanceInput { SourceOp = "ColRip", Source = "TopLeftRed", Name = "Colour", ControlGroup = 3 },
+				Input15 = InstanceInput { SourceOp = "ColRip", Source = "TopLeftGreen", ControlGroup = 3 },
+				Input16 = InstanceInput { SourceOp = "ColRip", Source = "TopLeftBlue", ControlGroup = 3 },
+				Input17 = InstanceInput { SourceOp = "ColRipEdge", Source = "TopLeftRed", Name = "Outline Colour", ControlGroup = 4 },
+				Input18 = InstanceInput { SourceOp = "ColRipEdge", Source = "TopLeftGreen", ControlGroup = 4 },
+				Input19 = InstanceInput { SourceOp = "ColRipEdge", Source = "TopLeftBlue", ControlGroup = 4 },
+			},
+			Outputs = {
+				MainOutput1 = InstanceOutput { SourceOp = "RipFinal", Source = "Output" }
+			},
+			ViewInfo = GroupInfo { Pos = { 0, 0 } },
+			Tools = ordered() {
+				RipCtrl = Background {
+					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } },
+					Inputs = {
+						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Hit = Input { Expression = "(function(txt, fps, len, ts, n, gap, life)\n  local a, b, any = -1, -1, false\n  local function hit(sec)\n    for k = 0, n - 1 do\n      local dt = ts - (sec + k*gap)\n      if dt >= 0 and dt < life then\n        if a < 0 or dt < a then a, b = dt, a elseif b < 0 or dt < b then b = dt end\n      end\n    end\n  end\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local stamp = line:match(\"^%s*(%S+)\")\n    if stamp then\n      local sec\n      local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n      if pct then sec = tonumber(pct) / 100 * len / fps\n      elseif fr then sec = tonumber(fr) / fps\n      elseif stamp:match(\"^[%d:%.]+$\") then\n        sec = 0\n        for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n      end\n      if sec then any = true; hit(sec) end\n    end\n  end\n  if not any then hit(0) end\n  return Point(a, b)\nend)(RipList.Value, iif(FpsOverride > 0, FpsOverride, comp:GetPrefs('Comp.FrameFormat.Rate') or 24), max(comp.RenderEnd - comp.RenderStart, 1), (time - comp.RenderStart)/iif(FpsOverride > 0, FpsOverride, comp:GetPrefs('Comp.FrameFormat.Rate') or 24), RipClicks, RipGap, RipLife)" },
+						TopLeftAlpha = Input { Value = 0 },
+						GlobalIn = Input { Value = -480 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						GlobalOut = Input { Value = 3534 }
+					},
+					UserControls = {
+						RipSize = {
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Size",
+							INP_Default = 0.14,
+							INP_MinScale = 0.02
+						},
+						Hit = {
+							LINKS_Name = "Hit",
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl"
+						},
+						RipGap = {
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Seconds Between Those Clicks",
+							INP_Default = 0.18,
+							INP_MinScale = 0.05
+						},
+						RipRings = {
+							INP_MaxScale = 3,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = true,
+							LINKS_Name = "Rings",
+							INP_Default = 2,
+							INP_MinScale = 0
+						},
+						RipPos = {
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "Position",
+							INPID_PreviewControl = "CrosshairControl"
+						},
+						RipThick = {
+							INP_MaxScale = 0.05,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Ring Thickness",
+							INP_Default = 0.008,
+							INP_MinScale = 0.001
+						},
+						RipClicks = {
+							INP_MaxScale = 3,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = true,
+							LINKS_Name = "Clicks Each Time",
+							INP_Default = 1,
+							INP_MinScale = 1
+						},
+						RipFill = {
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Filled Disc",
+							INP_Default = 0.25,
+							INP_MinScale = 0
+						},
+						RipList = {
+							INPS_DefaultText = "",
+							LINKID_DataType = "Text",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "TextEditControl",
+							LINKS_Name = "Click Times (one per line, empty = once at the start)",
+							TEC_Lines = 4
+						},
+						RipDot = {
+							INP_MaxScale = 0.2,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Centre Dot",
+							INP_Default = 0.025,
+							INP_MinScale = 0
+						},
+						FpsOverride = {
+							INP_MaxScale = 120,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Frame Rate Override",
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						RipOpacity = {
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Opacity",
+							INP_Default = 1,
+							INP_MinScale = 0
+						},
+						RipLife = {
+							INP_MaxScale = 3,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Ripple Lasts (seconds)",
+							INP_Default = 0.5,
+							INP_MinScale = 0.1
+						},
+						RipEdge = {
+							INP_MaxScale = 0.01,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Outline",
+							INP_Default = 0,
+							INP_MinScale = 0
+						}
+					},
+					CtrlWZoom = false
+				},
+				RipDrawB = Custom {
+					Inputs = {
+						Intermediate2 = Input { Value = "if(n3 > 0 && min(max(n6*(1 + 0.25*(n3 - 1)) - 0, 0), 1) > 0, min(max((n2*(1 - 0.6*min(max(n6*(1 + 0.25*(n3 - 1)) - 0, 0), 1))/2 - abs(i1 - n1*(1 - (1 - min(max(n6*(1 + 0.25*(n3 - 1)) - 0, 0), 1))^3)))*h + 0.5, 0), 1)*(1 - min(max(n6*(1 + 0.25*(n3 - 1)) - 0, 0), 1))^1.2, 0)" },
+						LUTIn3 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn31"
+						},
+						LUTIn4 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn41"
+						},
+						Image1 = Input {
+							Source = "Output",
+							SourceOp = "RipCtrl"
+						},
+						Intermediate4 = Input { Value = "if(n3 > 2 && min(max(n6*(1 + 0.25*(n3 - 1)) - 0.5, 0), 1) > 0, min(max((n2*(1 - 0.6*min(max(n6*(1 + 0.25*(n3 - 1)) - 0.5, 0), 1))/2 - abs(i1 - n1*(1 - (1 - min(max(n6*(1 + 0.25*(n3 - 1)) - 0.5, 0), 1))^3)))*h + 0.5, 0), 1)*(1 - min(max(n6*(1 + 0.25*(n3 - 1)) - 0.5, 0), 1))^1.2, 0)" },
+						PointIn1 = Input { Expression = "(function(s) if s <= 0 then return Point(RipCtrl.RipPos.X, RipCtrl.RipPos.Y) end local v = RipCtrl:GetValue('RipPos', math.floor(time - s*iif(RipCtrl.FpsOverride > 0, RipCtrl.FpsOverride, comp:GetPrefs('Comp.FrameFormat.Rate') or 24) + 0.5)) return Point(v.X or v[1], v.Y or v[2]) end)(RipCtrl.Hit.Y)" },
+						NumberIn1 = Input { Expression = "RipCtrl.RipSize/2" },
+						NumberIn2 = Input { Expression = "RipCtrl.RipThick" },
+						NumberIn3 = Input { Expression = "RipCtrl.RipRings" },
+						NumberIn4 = Input { Expression = "RipCtrl.RipFill" },
+						NumberIn5 = Input { Expression = "RipCtrl.RipDot/2" },
+						NumberIn6 = Input { Expression = "RipCtrl.Hit.Y/RipCtrl.RipLife" },
+						Intermediate1 = Input { Value = "sqrt(((x - p1x)*w/h)^2 + (y - p1y)^2)" },
+						AlphaExpression = Input { Value = "i7" },
+						BlueExpression = Input { Value = "i7" },
+						GreenExpression = Input { Value = "i7" },
+						RedExpression = Input { Value = "i7" },
+						Intermediate3 = Input { Value = "if(n3 > 1 && min(max(n6*(1 + 0.25*(n3 - 1)) - 0.25, 0), 1) > 0, min(max((n2*(1 - 0.6*min(max(n6*(1 + 0.25*(n3 - 1)) - 0.25, 0), 1))/2 - abs(i1 - n1*(1 - (1 - min(max(n6*(1 + 0.25*(n3 - 1)) - 0.25, 0), 1))^3)))*h + 0.5, 0), 1)*(1 - min(max(n6*(1 + 0.25*(n3 - 1)) - 0.25, 0), 1))^1.2, 0)" },
+						Intermediate5 = Input { Value = "n4*(1 - n6)*min(max((n1*(1 - (1 - n6)^3) - i1)*h + 0.5, 0), 1)" },
+						LUTIn2 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn21"
+						},
+						Intermediate6 = Input { Value = "min(max(1 - n6/0.6, 0), 1)*min(max((n5*min(n6*12, 1) - i1)*h + 0.5, 0), 1)" },
+						LUTIn1 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn11"
+						},
+						Intermediate7 = Input { Value = "if(n6 < 0, 0, max(max(max(i2, i3), max(i4, i5)), i6))" }
+					},
+					ViewInfo = OperatorInfo { Pos = { -165, 49.5 } }
+				},
+				CustomTool1LUTIn11 = LUTBezier {
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Green = 0, Blue = 0, Red = 0 }
+				},
+				CustomTool1LUTIn21 = LUTBezier {
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Green = 0, Blue = 0, Red = 0 }
+				},
+				CustomTool1LUTIn31 = LUTBezier {
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Green = 0, Blue = 0, Red = 0 }
+				},
+				CustomTool1LUTIn41 = LUTBezier {
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Green = 0, Blue = 0, Red = 0 }
+				},
+				RipDrawA = Custom {
+					Inputs = {
+						Intermediate2 = Input { Value = "if(n3 > 0 && min(max(n6*(1 + 0.25*(n3 - 1)) - 0, 0), 1) > 0, min(max((n2*(1 - 0.6*min(max(n6*(1 + 0.25*(n3 - 1)) - 0, 0), 1))/2 - abs(i1 - n1*(1 - (1 - min(max(n6*(1 + 0.25*(n3 - 1)) - 0, 0), 1))^3)))*h + 0.5, 0), 1)*(1 - min(max(n6*(1 + 0.25*(n3 - 1)) - 0, 0), 1))^1.2, 0)" },
+						LUTIn3 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn3"
+						},
+						LUTIn4 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn4"
+						},
+						Image1 = Input {
+							Source = "Output",
+							SourceOp = "RipCtrl"
+						},
+						Intermediate4 = Input { Value = "if(n3 > 2 && min(max(n6*(1 + 0.25*(n3 - 1)) - 0.5, 0), 1) > 0, min(max((n2*(1 - 0.6*min(max(n6*(1 + 0.25*(n3 - 1)) - 0.5, 0), 1))/2 - abs(i1 - n1*(1 - (1 - min(max(n6*(1 + 0.25*(n3 - 1)) - 0.5, 0), 1))^3)))*h + 0.5, 0), 1)*(1 - min(max(n6*(1 + 0.25*(n3 - 1)) - 0.5, 0), 1))^1.2, 0)" },
+						PointIn1 = Input { Expression = "(function(s) if s <= 0 then return Point(RipCtrl.RipPos.X, RipCtrl.RipPos.Y) end local v = RipCtrl:GetValue('RipPos', math.floor(time - s*iif(RipCtrl.FpsOverride > 0, RipCtrl.FpsOverride, comp:GetPrefs('Comp.FrameFormat.Rate') or 24) + 0.5)) return Point(v.X or v[1], v.Y or v[2]) end)(RipCtrl.Hit.X)" },
+						NumberIn1 = Input { Expression = "RipCtrl.RipSize/2" },
+						NumberIn2 = Input { Expression = "RipCtrl.RipThick" },
+						NumberIn3 = Input { Expression = "RipCtrl.RipRings" },
+						NumberIn4 = Input { Expression = "RipCtrl.RipFill" },
+						NumberIn5 = Input { Expression = "RipCtrl.RipDot/2" },
+						NumberIn6 = Input { Expression = "RipCtrl.Hit.X/RipCtrl.RipLife" },
+						Intermediate1 = Input { Value = "sqrt(((x - p1x)*w/h)^2 + (y - p1y)^2)" },
+						AlphaExpression = Input { Value = "i7" },
+						BlueExpression = Input { Value = "i7" },
+						GreenExpression = Input { Value = "i7" },
+						RedExpression = Input { Value = "i7" },
+						Intermediate3 = Input { Value = "if(n3 > 1 && min(max(n6*(1 + 0.25*(n3 - 1)) - 0.25, 0), 1) > 0, min(max((n2*(1 - 0.6*min(max(n6*(1 + 0.25*(n3 - 1)) - 0.25, 0), 1))/2 - abs(i1 - n1*(1 - (1 - min(max(n6*(1 + 0.25*(n3 - 1)) - 0.25, 0), 1))^3)))*h + 0.5, 0), 1)*(1 - min(max(n6*(1 + 0.25*(n3 - 1)) - 0.25, 0), 1))^1.2, 0)" },
+						Intermediate5 = Input { Value = "n4*(1 - n6)*min(max((n1*(1 - (1 - n6)^3) - i1)*h + 0.5, 0), 1)" },
+						LUTIn2 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn2"
+						},
+						Intermediate6 = Input { Value = "min(max(1 - n6/0.6, 0), 1)*min(max((n5*min(n6*12, 1) - i1)*h + 0.5, 0), 1)" },
+						LUTIn1 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn1"
+						},
+						Intermediate7 = Input { Value = "if(n6 < 0, 0, max(max(max(i2, i3), max(i4, i5)), i6))" }
+					},
+					ViewInfo = OperatorInfo { Pos = { -165, 16.5 } }
+				},
+				CustomTool1LUTIn1 = LUTBezier {
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Green = 0, Blue = 0, Red = 0 }
+				},
+				CustomTool1LUTIn2 = LUTBezier {
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Green = 0, Blue = 0, Red = 0 }
+				},
+				CustomTool1LUTIn3 = LUTBezier {
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Green = 0, Blue = 0, Red = 0 }
+				},
+				CustomTool1LUTIn4 = LUTBezier {
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Green = 0, Blue = 0, Red = 0 }
+				},
+				RipBoth = Merge {
+					Inputs = {
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "RipDrawB"
+						},
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "RipDrawA"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { -55, 16.5 } }
+				},
+				RipPaintGrowB = ErodeDilate {
+					Inputs = {
+						XAmount = Input { Expression = "(RipCtrl.RipEdge) + (0)" },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "RipBoth"
+						},
+						Filter = Input { Value = 3 }
+					},
+					ViewInfo = OperatorInfo { Pos = { 55, 82.5 } }
+				},
+				RipPaintGrowA = ErodeDilate {
+					Inputs = {
+						XAmount = Input { Expression = "RipCtrl.RipEdge" },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "RipBoth"
+						},
+						Filter = Input { Value = 3 }
+					},
+					ViewInfo = OperatorInfo { Pos = { 55, 49.5 } }
+				},
+				RipPaint = Custom {
+					Inputs = {
+						Intermediate2 = Input { Value = "a3*n8" },
+						LUTIn3 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn32"
+						},
+						LUTIn4 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn42"
+						},
+						Image1 = Input {
+							Source = "Output",
+							SourceOp = "RipBoth"
+						},
+						GreenExpression = Input { Value = "n2*a1 + (1 - a1)*(n5*i1 + (1 - i1)*p1y*i2)" },
+						PointIn1 = Input { Expression = "Point(0, 0)" },
+						NumberIn1 = Input { Expression = "ColRip.TopLeftRed" },
+						NumberIn2 = Input { Expression = "ColRip.TopLeftGreen" },
+						NumberIn3 = Input { Expression = "ColRip.TopLeftBlue" },
+						NumberIn4 = Input { Expression = "ColRipEdge.TopLeftRed" },
+						NumberIn5 = Input { Expression = "ColRipEdge.TopLeftGreen" },
+						NumberIn6 = Input { Expression = "ColRipEdge.TopLeftBlue" },
+						Intermediate1 = Input { Value = "a2*n7" },
+						Image3 = Input {
+							Source = "Output",
+							SourceOp = "RipPaintGrowB"
+						},
+						Image2 = Input {
+							Source = "Output",
+							SourceOp = "RipPaintGrowA"
+						},
+						AlphaExpression = Input { Value = "a1 + (1 - a1)*(i1 + (1 - i1)*i2)" },
+						PointIn2 = Input { Expression = "Point(0, 0)" },
+						BlueExpression = Input { Value = "n3*a1 + (1 - a1)*(n6*i1 + (1 - i1)*p2x*i2)" },
+						NumberIn7 = Input { Expression = "iif((RipCtrl.RipEdge) > 0, 1, 0)" },
+						RedExpression = Input { Value = "n1*a1 + (1 - a1)*(n4*i1 + (1 - i1)*p1x*i2)" },
+						NumberIn8 = Input { Expression = "iif((0) > 0, 1, 0)" },
+						LUTIn1 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn12"
+						},
+						LUTIn2 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn22"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 165, 16.5 } }
+				},
+				CustomTool1LUTIn12 = LUTBezier {
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Green = 0, Blue = 0, Red = 0 }
+				},
+				CustomTool1LUTIn22 = LUTBezier {
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Green = 0, Blue = 0, Red = 0 }
+				},
+				CustomTool1LUTIn32 = LUTBezier {
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Green = 0, Blue = 0, Red = 0 }
+				},
+				CustomTool1LUTIn42 = LUTBezier {
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Green = 0, Blue = 0, Red = 0 }
+				},
+				RipFinal = Merge {
+					Inputs = {
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "RipPaint"
+						},
+						PerformDepthMerge = Input { Value = 0 },
+						Blend = Input { Expression = "RipCtrl.RipOpacity" },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "RipCtrl"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 385, 16.5 } }
+				},
+				ColRip = Background {
+					Inputs = {
+						Width = Input { Value = 16 },
+						Height = Input { Value = 16 },
+						TopLeftBlue = Input { Value = 0.1 },
+						TopLeftGreen = Input { Value = 0.85 },
+						TopLeftRed = Input { Value = 1 },
+						GlobalIn = Input { Value = -480 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						GlobalOut = Input { Value = 3534 }
+					},
+					ViewInfo = OperatorInfo { Pos = { -275, -148.5 } }
+				},
+				ColRipEdge = Background {
+					Inputs = {
+						Width = Input { Value = 16 },
+						Height = Input { Value = 16 },
+						TopLeftBlue = Input { Value = 0.02 },
+						TopLeftGreen = Input { Value = 0.08 },
+						TopLeftRed = Input { Value = 0.1 },
+						GlobalIn = Input { Value = -480 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						GlobalOut = Input { Value = 3534 }
+					},
+					ViewInfo = OperatorInfo { Pos = { -165, -148.5 } }
+				}
+			
+			}
+		}
+	},
+	ActiveTool = "ClickRipple"
+}

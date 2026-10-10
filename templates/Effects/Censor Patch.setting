@@ -1,0 +1,328 @@
+{
+	Tools = ordered() {
+		CensorPatch = MacroOperator {
+			CtrlWZoom = false,
+			Inputs = ordered() {
+				MainInput1 = InstanceInput { SourceOp = "SrcA", Source = "Input" },
+				Input1 = InstanceInput { SourceOp = "CzCtrl", Source = "CzStyle", Name = "Style" },
+				Input2 = InstanceInput { SourceOp = "CzCtrl", Source = "CzShape", Name = "Shape" },
+				Input3 = InstanceInput { SourceOp = "CzCtrl", Source = "CzPos", Name = "Position" },
+				Input4 = InstanceInput { SourceOp = "CzCtrl", Source = "CzW", Name = "Width" },
+				Input5 = InstanceInput { SourceOp = "CzCtrl", Source = "CzH", Name = "Height" },
+				Input6 = InstanceInput { SourceOp = "CzCtrl", Source = "CzAngle", Name = "Angle" },
+				Input7 = InstanceInput { SourceOp = "CzCtrl", Source = "CzRound", Name = "Rectangle: Corner Roundness" },
+				Input8 = InstanceInput { SourceOp = "CzCtrl", Source = "CzCell", Name = "Mosaic: Cell Size" },
+				Input9 = InstanceInput { SourceOp = "CzCtrl", Source = "CzBlur", Name = "Blur: Strength" },
+				Input10 = InstanceInput { SourceOp = "CzCtrl", Source = "CzSoft", Name = "Edge Softness" },
+				Input11 = InstanceInput { SourceOp = "CzCtrl", Source = "CzInvert", Name = "Hide Everything Else Instead" },
+				Input12 = InstanceInput { SourceOp = "CzCtrl", Source = "CzIn", Name = "Fade In (seconds)" },
+				Input13 = InstanceInput { SourceOp = "CzCtrl", Source = "CzOut", Name = "Fade Out (seconds)" },
+				Input14 = InstanceInput { SourceOp = "CzCtrl", Source = "FpsOverride", Name = "Frame Rate Override" },
+				Input15 = InstanceInput { SourceOp = "ColCensor", Source = "TopLeftRed", Name = "Colour Block: Colour", ControlGroup = 3 },
+				Input16 = InstanceInput { SourceOp = "ColCensor", Source = "TopLeftGreen", ControlGroup = 3 },
+				Input17 = InstanceInput { SourceOp = "ColCensor", Source = "TopLeftBlue", ControlGroup = 3 },
+			},
+			Outputs = {
+				MainOutput1 = InstanceOutput { SourceOp = "CzFinal", Source = "Output" }
+			},
+			ViewInfo = GroupInfo { Pos = { 0, 0 } },
+			Tools = ordered() {
+				CzCtrl = Background {
+					UserControls = {
+						CzSoft = {
+							LINKS_Name = "Edge Softness",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 0.2,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						CzPos = {
+							LINKS_Name = "Position",
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "OffsetControl",
+							INPID_PreviewControl = "CrosshairControl"
+						},
+						CzInvert = {
+							LINKS_Name = "Hide Everything Else Instead",
+							INP_Default = 0,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "CheckboxControl",
+							INP_Integer = true
+						},
+						CzStyle = {
+							{
+								CCS_AddString = "Mosaic"
+							},
+							{
+								CCS_AddString = "Blur"
+							},
+							{
+								CCS_AddString = "Colour Block"
+							},
+							LINKS_Name = "Style",
+							INP_Default = 0,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "ComboControl",
+							INP_Integer = true
+						},
+						CzW = {
+							LINKS_Name = "Width",
+							INP_Default = 0.3,
+							INP_MinScale = 0.01,
+							INP_MaxScale = 2,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						CzIn = {
+							LINKS_Name = "Fade In (seconds)",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 3,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						CzH = {
+							LINKS_Name = "Height",
+							INP_Default = 0.25,
+							INP_MinScale = 0.01,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						CzOut = {
+							LINKS_Name = "Fade Out (seconds)",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 3,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						CzAngle = {
+							LINKS_Name = "Angle",
+							INP_Default = 0,
+							INP_MinScale = -180,
+							INP_MaxScale = 180,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						FpsOverride = {
+							LINKS_Name = "Frame Rate Override",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 120,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						CzRound = {
+							LINKS_Name = "Rectangle: Corner Roundness",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						Amt = {
+							LINKS_Name = "Amt",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						CzCell = {
+							LINKS_Name = "Mosaic: Cell Size",
+							INP_Default = 0.04,
+							INP_MinScale = 0.005,
+							INP_MaxScale = 0.2,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						},
+						CzShape = {
+							{
+								CCS_AddString = "Rectangle"
+							},
+							{
+								CCS_AddString = "Ellipse"
+							},
+							LINKS_Name = "Shape",
+							INP_Default = 0,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "ComboControl",
+							INP_Integer = true
+						},
+						CzBlur = {
+							LINKS_Name = "Blur: Strength",
+							INP_Default = 1,
+							INP_MinScale = 0.1,
+							INP_MaxScale = 4,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } },
+					Inputs = {
+						Height = Input { Value = 1080 },
+						Amt = Input { Expression = "min(iif(CzIn <= 0, 1, min(max((time - comp.RenderStart + 1)/(CzIn*iif(FpsOverride > 0, FpsOverride, comp:GetPrefs('Comp.FrameFormat.Rate') or 24)), 0), 1)), iif(CzOut <= 0, 1, min(max((comp.RenderEnd - time + 1)/(CzOut*iif(FpsOverride > 0, FpsOverride, comp:GetPrefs('Comp.FrameFormat.Rate') or 24)), 0), 1)))" },
+						TopLeftAlpha = Input { Value = 0 },
+						Width = Input { Value = 1920 },
+						GlobalIn = Input { Value = -480 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } }
+					},
+					CtrlWZoom = false
+				},
+				SrcA = BrightnessContrast {
+					ViewInfo = OperatorInfo { Pos = { -495, 16.5 } }
+				},
+				CzSoften = Blur {
+					ViewInfo = OperatorInfo { Pos = { -165, 82.5 } },
+					Inputs = {
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						XBlurSize = Input { Expression = "iif(CzCtrl.CzStyle == 0, CzCtrl.CzCell*400, iif(CzCtrl.CzStyle == 1, CzCtrl.CzBlur*25, 0))" },
+						Input = Input {
+							SourceOp = "SrcA",
+							Source = "Output"
+						}
+					}
+				},
+				ColCensor = Background {
+					ViewInfo = OperatorInfo { Pos = { -275, -148.5 } },
+					Inputs = {
+						Height = Input { Value = 16 },
+						GlobalIn = Input { Value = -480 },
+						Width = Input { Value = 16 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } }
+					}
+				},
+				CzFinal = Custom {
+					ViewInfo = OperatorInfo { Pos = { 165, 49.5 } },
+					Inputs = {
+						LUTIn2 = Input {
+							SourceOp = "CustomTool1LUTIn2",
+							Source = "Value"
+						},
+						LUTIn3 = Input {
+							SourceOp = "CustomTool1LUTIn3",
+							Source = "Value"
+						},
+						LUTIn4 = Input {
+							SourceOp = "CustomTool1LUTIn4",
+							Source = "Value"
+						},
+						Intermediate5 = Input { Value = "if(n5 < 0, (sqrt((i1/i3)^2 + (i2/n3)^2) - 1)*min(i3, n3), sqrt(max(abs(i1) - i3 + i4, 0)^2 + max(abs(i2) - n3 + i4, 0)^2) + min(max(abs(i1) - i3 + i4, abs(i2) - n3 + i4), 0) - i4)" },
+						Image1 = Input {
+							SourceOp = "SrcA",
+							Source = "Output"
+						},
+						Intermediate6 = Input { Value = "abs(n8)*if(n8 < 0, 1 - min(max(0.5 - i5/max(n7, 1/h), 0), 1), min(max(0.5 - i5/max(n7, 1/h), 0), 1))" },
+						Image3 = Input {
+							SourceOp = "ColCensor",
+							Source = "Output"
+						},
+						PointIn1 = Input { Expression = "CzCtrl.CzPos" },
+						NumberIn1 = Input { Expression = "CzCtrl.CzStyle" },
+						RedExpression = Input { Value = "r1*(1 - i6) + i6*if(n1 == 0, getr2d(i7, i8), if(n1 == 1, r2, getr3b(0.5, 0.5)))" },
+						NumberIn2 = Input { Expression = "CzCtrl.CzW/2" },
+						GreenExpression = Input { Value = "g1*(1 - i6) + i6*if(n1 == 0, getg2d(i7, i8), if(n1 == 1, g2, getg3b(0.5, 0.5)))" },
+						NumberIn3 = Input { Expression = "CzCtrl.CzH/2" },
+						BlueExpression = Input { Value = "b1*(1 - i6) + i6*if(n1 == 0, getb2d(i7, i8), if(n1 == 1, b2, getb3b(0.5, 0.5)))" },
+						NumberIn4 = Input { Expression = "CzCtrl.CzAngle" },
+						NumberIn5 = Input { Expression = "iif(CzCtrl.CzShape == 1, -1, CzCtrl.CzRound)" },
+						NumberIn6 = Input { Expression = "CzCtrl.CzCell" },
+						Image2 = Input {
+							SourceOp = "CzSoften",
+							Source = "Output"
+						},
+						NumberIn7 = Input { Expression = "CzCtrl.CzSoft" },
+						Intermediate8 = Input { Value = "(floor(y/n6) + 0.5)*n6" },
+						NumberIn8 = Input { Expression = "iif(CzCtrl.CzInvert == 1, -1, 1) * CzCtrl.Amt" },
+						Intermediate7 = Input { Value = "(floor(x*w/h/n6) + 0.5)*n6*h/w" },
+						Intermediate4 = Input { Value = "max(n5, 0)*min(i3, n3)" },
+						Intermediate1 = Input { Value = "(x - p1x)*w/h*cos(n4) + (y - p1y)*sin(n4)" },
+						Intermediate3 = Input { Value = "n2" },
+						Intermediate2 = Input { Value = "(y - p1y)*cos(n4) - (x - p1x)*w/h*sin(n4)" },
+						LUTIn1 = Input {
+							SourceOp = "CustomTool1LUTIn1",
+							Source = "Value"
+						}
+					}
+				},
+				CustomTool1LUTIn1 = LUTBezier {
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 }
+				},
+				CustomTool1LUTIn2 = LUTBezier {
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 }
+				},
+				CustomTool1LUTIn3 = LUTBezier {
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 }
+				},
+				CustomTool1LUTIn4 = LUTBezier {
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 }
+				}
+			
+			}
+		}
+	},
+	ActiveTool = "CensorPatch"
+}

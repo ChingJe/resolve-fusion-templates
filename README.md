@@ -12,7 +12,7 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 
 ## 範本
 
-依用途分成五類。點範本名稱看預覽圖、用法和完整的參數說明。
+依用途分成七類。點範本名稱看預覽圖、用法和完整的參數說明。
 
 ### 開場
 
@@ -62,6 +62,29 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 | [Reaction Mark](docs/templates/reaction-mark.md) | 標題 | 怒氣記號、汗滴、問號、驚嘆號、集中線 |
 | [Hidden Word](docs/templates/hidden-word.md) | 標題 | 字幕裡一個詞先被貼紙蓋住，到時間貼紙掉下來，答案彈出來 |
 | [Sub Window](docs/templates/sub-window.md) | 特效 | 把上層軌道的片段縮成角落有邊框的小窗，放反應畫面用 |
+
+### 標記與說明
+
+在畫面上圈東西、指東西、遮東西。教學和螢幕錄影常用。
+
+| 範本 | 類型 | 說明 |
+|---|---|---|
+| [Pen Mark](docs/templates/pen-mark.md) | 標題 | 手繪的圈、底線、螢光筆、方框、箭頭、打勾、打叉，一筆一筆畫出來 |
+| [Step Badge](docs/templates/step-badge.md) | 標題 | 彈出來的圓形編號，旁邊可以加一行字 |
+| [Dimension Line](docs/templates/dimension-line.md) | 標題 | 兩點之間的尺寸線，兩端有記號，旁邊有標示 |
+| [Click Ripple](docs/templates/click-ripple.md) | 標題 | 從一個點擴散出去的圓圈，標示滑鼠點擊。一條標題可以標完整段錄影 |
+| [Zoom Callout](docs/templates/zoom-callout.md) | 特效 | 圈住一個小地方，拉線到旁邊的視窗，視窗裡是放大後的樣子 |
+| [Censor Patch](docs/templates/censor-patch.md) | 特效 | 把一塊畫面打馬賽克、模糊或蓋上色塊 |
+
+### 畫面版面
+
+改變整個畫面的配置。
+
+| 範本 | 類型 | 說明 |
+|---|---|---|
+| [Letterbox](docs/templates/letterbox.md) | 標題 | 會滑進滑出的電影黑邊 |
+| [Split Screen](docs/templates/split-screen.md) | 特效 | 幾個片段各佔畫面的一格，分隔線可以是斜的 |
+| [Rec Frame](docs/templates/rec-frame.md) | 標題 | 攝影機觀景窗：四角框線、REC 紅點、時間碼、電池 |
 
 ### 文字與資訊
 

@@ -1,0 +1,346 @@
+{
+	Tools = ordered() {
+		ZoomCallout = MacroOperator {
+			CtrlWZoom = false,
+			Inputs = ordered() {
+				MainInput1 = InstanceInput { SourceOp = "SrcA", Source = "Input" },
+				Input1 = InstanceInput { SourceOp = "CoCtrl", Source = "CoSrc", Name = "Look At" },
+				Input2 = InstanceInput { SourceOp = "CoCtrl", Source = "CoPos", Name = "Window Position" },
+				Input3 = InstanceInput { SourceOp = "CoCtrl", Source = "CoSize", Name = "Window Size" },
+				Input4 = InstanceInput { SourceOp = "CoCtrl", Source = "CoAspect", Name = "Window Width / Height" },
+				Input5 = InstanceInput { SourceOp = "CoCtrl", Source = "CoZoom", Name = "Magnify" },
+				Input6 = InstanceInput { SourceOp = "CoCtrl", Source = "CoRound", Name = "Corner Roundness" },
+				Input7 = InstanceInput { SourceOp = "CoCtrl", Source = "CoBorder", Name = "Border Width" },
+				Input8 = InstanceInput { SourceOp = "CoCtrl", Source = "CoShadow", Name = "Shadow" },
+				Input9 = InstanceInput { SourceOp = "CoCtrl", Source = "CoLine", Name = "Lines" },
+				Input10 = InstanceInput { SourceOp = "CoCtrl", Source = "CoLineW", Name = "Line Width" },
+				Input11 = InstanceInput { SourceOp = "CoCtrl", Source = "CoRing", Name = "Ring Around The Spot" },
+				Input12 = InstanceInput { SourceOp = "CoCtrl", Source = "CoEnter", Name = "Appears By" },
+				Input13 = InstanceInput { SourceOp = "CoCtrl", Source = "CoIn", Name = "Appear (seconds)" },
+				Input14 = InstanceInput { SourceOp = "CoCtrl", Source = "CoOut", Name = "Fade Out (seconds)" },
+				Input15 = InstanceInput { SourceOp = "CoCtrl", Source = "FpsOverride", Name = "Frame Rate Override" },
+				Input16 = InstanceInput { SourceOp = "ColCallout", Source = "TopLeftRed", Name = "Border And Line Colour", ControlGroup = 3 },
+				Input17 = InstanceInput { SourceOp = "ColCallout", Source = "TopLeftGreen", ControlGroup = 3 },
+				Input18 = InstanceInput { SourceOp = "ColCallout", Source = "TopLeftBlue", ControlGroup = 3 },
+			},
+			Outputs = {
+				MainOutput1 = InstanceOutput { SourceOp = "CoFinal", Source = "Output" }
+			},
+			ViewInfo = GroupInfo { Pos = { 0, 0 } },
+			Tools = ordered() {
+				CoCtrl = Background {
+					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } },
+					Inputs = {
+						CoSrc = Input { Value = { 0.3, 0.45 } },
+						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
+						CoPos = Input { Value = { 0.7, 0.6 } },
+						G = Input { Expression = "iif(CoEnter == 0, iif(CoIn <= 0, 1, (function(t) return t*t*(3 - 2*t) end)(min(max((time - comp.RenderStart + 1)/(CoIn*iif(FpsOverride > 0, FpsOverride, comp:GetPrefs('Comp.FrameFormat.Rate') or 24)), 0), 1))), 1)" },
+						Mix = Input { Expression = "iif(CoEnter == 0, min(iif(CoIn <= 0, 1, (function(t) return t*t*(3 - 2*t) end)(min(max((time - comp.RenderStart + 1)/(CoIn*iif(FpsOverride > 0, FpsOverride, comp:GetPrefs('Comp.FrameFormat.Rate') or 24)), 0), 1)))*4, 1), iif(CoIn <= 0, 1, (function(t) return t*t*(3 - 2*t) end)(min(max((time - comp.RenderStart + 1)/(CoIn*iif(FpsOverride > 0, FpsOverride, comp:GetPrefs('Comp.FrameFormat.Rate') or 24)), 0), 1)))) * iif(CoOut <= 0, 1, min(max((comp.RenderEnd - time + 1)/(CoOut*iif(FpsOverride > 0, FpsOverride, comp:GetPrefs('Comp.FrameFormat.Rate') or 24)), 0), 1))" },
+						Dst = Input { Expression = "Point(CoSrc.X + (CoPos.X - CoSrc.X)*G, CoSrc.Y + (CoPos.Y - CoSrc.Y)*G)" },
+						GlobalIn = Input { Value = -480 },
+						TopLeftAlpha = Input { Value = 0 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						UseFrameFormatSettings = Input { Value = 1 }
+					},
+					CtrlWZoom = false,
+					UserControls = {
+						CoSrc = {
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "Look At",
+							INPID_PreviewControl = "CrosshairControl"
+						},
+						CoPos = {
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "Window Position",
+							INPID_PreviewControl = "CrosshairControl"
+						},
+						CoSize = {
+							INP_MaxScale = 1.5,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Window Size",
+							INP_Default = 0.5,
+							INP_MinScale = 0.05
+						},
+						CoAspect = {
+							INP_MaxScale = 4,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Window Width / Height",
+							INP_Default = 1,
+							INP_MinScale = 0.3
+						},
+						CoZoom = {
+							INP_MaxScale = 10,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Magnify",
+							INP_Default = 2.5,
+							INP_MinScale = 1.1
+						},
+						CoRound = {
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Corner Roundness",
+							INP_Default = 1,
+							INP_MinScale = 0
+						},
+						CoBorder = {
+							INP_MaxScale = 0.03,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Border Width",
+							INP_Default = 0.008,
+							INP_MinScale = 0
+						},
+						CoShadow = {
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Shadow",
+							INP_Default = 0.4,
+							INP_MinScale = 0
+						},
+						CoLine = {
+							{
+								CCS_AddString = "Two"
+							},
+							{
+								CCS_AddString = "One"
+							},
+							{
+								CCS_AddString = "None"
+							},
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "ComboControl",
+							LINKS_Name = "Lines",
+							INP_Default = 0,
+							INP_Integer = true
+						},
+						FpsOverride = {
+							INP_MaxScale = 120,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Frame Rate Override",
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						G = {
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "G",
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						Mix = {
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Mix",
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						Dst = {
+							LINKS_Name = "Dst",
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl"
+						},
+						CoRing = {
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "CheckboxControl",
+							LINKS_Name = "Ring Around The Spot",
+							INP_Default = 1,
+							INP_Integer = true
+						},
+						CoOut = {
+							INP_MaxScale = 3,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Fade Out (seconds)",
+							INP_Default = 0.25,
+							INP_MinScale = 0
+						},
+						CoIn = {
+							INP_MaxScale = 3,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Appear (seconds)",
+							INP_Default = 0.35,
+							INP_MinScale = 0
+						},
+						CoEnter = {
+							{
+								CCS_AddString = "Growing Out Of The Spot"
+							},
+							{
+								CCS_AddString = "Fading In"
+							},
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "ComboControl",
+							LINKS_Name = "Appears By",
+							INP_Default = 0,
+							INP_Integer = true
+						},
+						CoLineW = {
+							INP_MaxScale = 0.02,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Line Width",
+							INP_Default = 0.004,
+							INP_MinScale = 0.001
+						}
+					}
+				},
+				SrcA = BrightnessContrast {
+					ViewInfo = OperatorInfo { Pos = { -495, 16.5 } }
+				},
+				ColCallout = Background {
+					Inputs = {
+						TopLeftBlue = Input { Value = 1 },
+						TopLeftRed = Input { Value = 1 },
+						TopLeftGreen = Input { Value = 1 },
+						Width = Input { Value = 16 },
+						Height = Input { Value = 16 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						GlobalIn = Input { Value = -480 }
+					},
+					ViewInfo = OperatorInfo { Pos = { -275, -148.5 } }
+				},
+				CoFinal = Custom {
+					Inputs = {
+						PointIn3 = Input { Expression = "Point(CoCtrl.CoAspect, CoCtrl.CoShadow)" },
+						NumberIn1 = Input { Expression = "max(CoCtrl.CoSize/2*CoCtrl.G, 0.0005)" },
+						Intermediate3 = Input { Value = "max(((p2x - p1x)*w/h)^2 + (p2y - p1y)^2, 0.000001)" },
+						NumberIn2 = Input { Expression = "CoCtrl.CoZoom" },
+						Intermediate4 = Input { Value = "((x - p1x)*w/h*(p2x - p1x)*w/h + (y - p1y)*(p2y - p1y))/i3" },
+						NumberIn3 = Input { Expression = "CoCtrl.CoRound" },
+						Intermediate5 = Input { Value = "abs((x - p1x)*w/h*(p2y - p1y) - (y - p1y)*(p2x - p1x)*w/h)/sqrt(i3)" },
+						NumberIn4 = Input { Expression = "CoCtrl.CoBorder" },
+						Intermediate6 = Input { Value = "if(n6 == 2 || i4 < 0 || i4 > 1, 9, if(n6 == 1, i5, abs(i5 - n1*min(p3x, 1)*(1/n2 + (1 - 1/n2)*i4))))" },
+						NumberIn5 = Input { Expression = "CoCtrl.CoLineW" },
+						Intermediate7 = Input { Value = "n8*max(if(i2 > 0, min(max((n5/2 - i6)*h + 0.5, 0), 1), 0), n7*min(max((max(n5, 1.5/h)/2 - abs(i2))*h + 0.5, 0), 1))" },
+						NumberIn6 = Input { Expression = "CoCtrl.CoLine" },
+						Intermediate8 = Input { Value = "n8*min(max(0.5 - i1*h, 0), 1)" },
+						NumberIn7 = Input { Expression = "CoCtrl.CoRing" },
+						NumberIn8 = Input { Expression = "CoCtrl.Mix" },
+						Image2 = Input {
+							SourceOp = "ColCallout",
+							Source = "Output"
+						},
+						LUTIn1 = Input {
+							SourceOp = "CustomTool1LUTIn1",
+							Source = "Value"
+						},
+						BlueExpression = Input { Value = "((b1*(1 - (n8*p3y*if(i1 > 0, max(1 - i1/0.04, 0)^2, 0)))*(1 - i7) + getb2b(0.5, 0.5)*i7)*(1 - i8) + getb1b(p1x + (x - p2x)/n2, p1y + (y - p2y)/n2)*i8)*(1 - (n8*if(n4 > 0, min(max((n4/2 - abs(i1))*h + 0.5, 0), 1), 0))) + getb2b(0.5, 0.5)*(n8*if(n4 > 0, min(max((n4/2 - abs(i1))*h + 0.5, 0), 1), 0))" },
+						LUTIn2 = Input {
+							SourceOp = "CustomTool1LUTIn2",
+							Source = "Value"
+						},
+						LUTIn3 = Input {
+							SourceOp = "CustomTool1LUTIn3",
+							Source = "Value"
+						},
+						LUTIn4 = Input {
+							SourceOp = "CustomTool1LUTIn4",
+							Source = "Value"
+						},
+						Image1 = Input {
+							SourceOp = "SrcA",
+							Source = "Output"
+						},
+						GreenExpression = Input { Value = "((g1*(1 - (n8*p3y*if(i1 > 0, max(1 - i1/0.04, 0)^2, 0)))*(1 - i7) + getg2b(0.5, 0.5)*i7)*(1 - i8) + getg1b(p1x + (x - p2x)/n2, p1y + (y - p2y)/n2)*i8)*(1 - (n8*if(n4 > 0, min(max((n4/2 - abs(i1))*h + 0.5, 0), 1), 0))) + getg2b(0.5, 0.5)*(n8*if(n4 > 0, min(max((n4/2 - abs(i1))*h + 0.5, 0), 1), 0))" },
+						Intermediate1 = Input { Value = "(sqrt(max((abs((x - p2x)*w/h) - (n1)*p3x + n3*(n1)*min(p3x, 1)), 0)^2 + max((abs(y - p2y) - (n1) + n3*(n1)*min(p3x, 1)), 0)^2) + min(max((abs((x - p2x)*w/h) - (n1)*p3x + n3*(n1)*min(p3x, 1)), (abs(y - p2y) - (n1) + n3*(n1)*min(p3x, 1))), 0) - n3*(n1)*min(p3x, 1))" },
+						PointIn1 = Input { Expression = "CoCtrl.CoSrc" },
+						RedExpression = Input { Value = "((r1*(1 - (n8*p3y*if(i1 > 0, max(1 - i1/0.04, 0)^2, 0)))*(1 - i7) + getr2b(0.5, 0.5)*i7)*(1 - i8) + getr1b(p1x + (x - p2x)/n2, p1y + (y - p2y)/n2)*i8)*(1 - (n8*if(n4 > 0, min(max((n4/2 - abs(i1))*h + 0.5, 0), 1), 0))) + getr2b(0.5, 0.5)*(n8*if(n4 > 0, min(max((n4/2 - abs(i1))*h + 0.5, 0), 1), 0))" },
+						PointIn2 = Input { Expression = "CoCtrl.Dst" },
+						Intermediate2 = Input { Value = "(sqrt(max((abs((x - p1x)*w/h) - ((n1/n2))*p3x + n3*((n1/n2))*min(p3x, 1)), 0)^2 + max((abs(y - p1y) - ((n1/n2)) + n3*((n1/n2))*min(p3x, 1)), 0)^2) + min(max((abs((x - p1x)*w/h) - ((n1/n2))*p3x + n3*((n1/n2))*min(p3x, 1)), (abs(y - p1y) - ((n1/n2)) + n3*((n1/n2))*min(p3x, 1))), 0) - n3*((n1/n2))*min(p3x, 1))" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 165, 49.5 } }
+				},
+				CustomTool1LUTIn1 = LUTBezier {
+					CtrlWZoom = false,
+					SplineColor = { Blue = 0, Red = 0, Green = 0 },
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					}
+				},
+				CustomTool1LUTIn2 = LUTBezier {
+					CtrlWZoom = false,
+					SplineColor = { Blue = 0, Red = 0, Green = 0 },
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					}
+				},
+				CustomTool1LUTIn3 = LUTBezier {
+					CtrlWZoom = false,
+					SplineColor = { Blue = 0, Red = 0, Green = 0 },
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					}
+				},
+				CustomTool1LUTIn4 = LUTBezier {
+					CtrlWZoom = false,
+					SplineColor = { Blue = 0, Red = 0, Green = 0 },
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					}
+				}
+			
+			}
+		}
+	},
+	ActiveTool = "ZoomCallout"
+}

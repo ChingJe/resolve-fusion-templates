@@ -1,0 +1,14 @@
+Layout=2
+This Clip Is Part=1
+Slant=12
+Gap=0.02
+
+Layout=2
+This Clip Is Part=2
+Slant=12
+Gap=0.02
+
+Layout=2
+This Clip Is Part=3
+Slant=12
+Gap=0.02

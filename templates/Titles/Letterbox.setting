@@ -1,0 +1,249 @@
+{
+	Tools = ordered() {
+		Letterbox = MacroOperator {
+			CtrlWZoom = false,
+			Inputs = ordered() {
+				Input1 = InstanceInput { SourceOp = "LbxCtrl", Source = "LbxRatio", Name = "Shape" },
+				Input2 = InstanceInput { SourceOp = "LbxCtrl", Source = "LbxCustom", Name = "Custom Shape (width / height)" },
+				Input3 = InstanceInput { SourceOp = "LbxCtrl", Source = "LbxOffset", Name = "Move The Opening" },
+				Input4 = InstanceInput { SourceOp = "LbxCtrl", Source = "LbxOpacity", Name = "Opacity" },
+				Input5 = InstanceInput { SourceOp = "LbxCtrl", Source = "LbxIn", Name = "Slide In (seconds)" },
+				Input6 = InstanceInput { SourceOp = "LbxCtrl", Source = "LbxOut", Name = "Slide Out (seconds)" },
+				Input7 = InstanceInput { SourceOp = "LbxCtrl", Source = "FpsOverride", Name = "Frame Rate Override" },
+				Input8 = InstanceInput { SourceOp = "ColLetterbox", Source = "TopLeftRed", Name = "Colour", ControlGroup = 3 },
+				Input9 = InstanceInput { SourceOp = "ColLetterbox", Source = "TopLeftGreen", ControlGroup = 3 },
+				Input10 = InstanceInput { SourceOp = "ColLetterbox", Source = "TopLeftBlue", ControlGroup = 3 },
+			},
+			Outputs = {
+				MainOutput1 = InstanceOutput { SourceOp = "LbxFinal", Source = "Output" }
+			},
+			ViewInfo = GroupInfo { Pos = { 0, 0 } },
+			Tools = ordered() {
+				LbxCtrl = Background {
+					CtrlWZoom = false,
+					Inputs = {
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
+						TopLeftAlpha = Input { Value = 0 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						R = Input { Expression = "iif(LbxRatio == 7, LbxCustom, ({2.39, 2.35, 2, 1.85, 1.3333333333333, 1, 0.5625, 0})[LbxRatio + 1])" },
+						Amt = Input { Expression = "(function(t) return t*t*(3 - 2*t) end)(min(iif(LbxIn <= 0, 1, min(max((time - comp.RenderStart)/(LbxIn*iif(FpsOverride > 0, FpsOverride, comp:GetPrefs('Comp.FrameFormat.Rate') or 24)), 0), 1)), iif(LbxOut <= 0, 1, min(max((comp.RenderEnd - time)/(LbxOut*iif(FpsOverride > 0, FpsOverride, comp:GetPrefs('Comp.FrameFormat.Rate') or 24)), 0), 1))))" }
+					},
+					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } },
+					UserControls = {
+						LbxOpacity = {
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Opacity",
+							INP_Default = 1,
+							INP_MinScale = 0,
+							INP_MaxScale = 1
+						},
+						LbxIn = {
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Slide In (seconds)",
+							INP_Default = 0.6,
+							INP_MinScale = 0,
+							INP_MaxScale = 5
+						},
+						LbxOut = {
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Slide Out (seconds)",
+							INP_Default = 0.6,
+							INP_MinScale = 0,
+							INP_MaxScale = 5
+						},
+						FpsOverride = {
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Frame Rate Override",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 120
+						},
+						LbxRatio = {
+							{
+								CCS_AddString = "2.39:1"
+							},
+							{
+								CCS_AddString = "2.35:1"
+							},
+							{
+								CCS_AddString = "2:1"
+							},
+							{
+								CCS_AddString = "1.85:1"
+							},
+							{
+								CCS_AddString = "4:3"
+							},
+							{
+								CCS_AddString = "1:1"
+							},
+							{
+								CCS_AddString = "9:16"
+							},
+							{
+								CCS_AddString = "Custom"
+							},
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "ComboControl",
+							LINKS_Name = "Shape",
+							INP_Default = 0,
+							INP_Integer = true
+						},
+						LbxCustom = {
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Custom Shape (width / height)",
+							INP_Default = 2.39,
+							INP_MinScale = 0.3,
+							INP_MaxScale = 4
+						},
+						LbxOffset = {
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Move The Opening",
+							INP_Default = 0,
+							INP_MinScale = -0.3,
+							INP_MaxScale = 0.3
+						},
+						R = {
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "R",
+							INP_Default = 2.39,
+							INP_MinScale = 0,
+							INP_MaxScale = 9
+						},
+						Amt = {
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Amt",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1
+						}
+					}
+				},
+				ColLetterbox = Background {
+					Inputs = {
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Width = Input { Value = 16 },
+						Height = Input { Value = 16 },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 }
+					},
+					ViewInfo = OperatorInfo { Pos = { -275, -148.5 } }
+				},
+				LbxFinal = Custom {
+					Inputs = {
+						GreenExpression = Input { Value = "getg2b(0.5, 0.5)*i2" },
+						NumberIn1 = Input { Expression = "max(LbxCtrl.R, 0.05)" },
+						LUTIn3 = Input {
+							SourceOp = "CustomTool1LUTIn3",
+							Source = "Value"
+						},
+						LUTIn4 = Input {
+							SourceOp = "CustomTool1LUTIn4",
+							Source = "Value"
+						},
+						AlphaExpression = Input { Value = "i2" },
+						NumberIn3 = Input { Expression = "LbxCtrl.LbxOffset" },
+						Image2 = Input {
+							SourceOp = "ColLetterbox",
+							Source = "Output"
+						},
+						NumberIn4 = Input { Expression = "LbxCtrl.LbxOpacity" },
+						Image1 = Input {
+							SourceOp = "LbxCtrl",
+							Source = "Output"
+						},
+						BlueExpression = Input { Value = "getb2b(0.5, 0.5)*i2" },
+						Intermediate1 = Input { Value = "if(n1 >= w/h, (abs(y - 0.5 - n3) - (0.5 + (w/h/n1/2 - 0.5)*n2))*h, (abs(x - 0.5 - n3) - (0.5 + (n1/(w/h)/2 - 0.5)*n2))*w)" },
+						LUTIn2 = Input {
+							SourceOp = "CustomTool1LUTIn2",
+							Source = "Value"
+						},
+						Intermediate2 = Input { Value = "n4*min(max(i1 + 0.5, 0), 1)" },
+						NumberIn2 = Input { Expression = "LbxCtrl.Amt" },
+						RedExpression = Input { Value = "getr2b(0.5, 0.5)*i2" },
+						LUTIn1 = Input {
+							SourceOp = "CustomTool1LUTIn1",
+							Source = "Value"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 55, 16.5 } }
+				},
+				CustomTool1LUTIn1 = LUTBezier {
+					SplineColor = { Green = 0, Red = 0, Blue = 0 },
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					}
+				},
+				CustomTool1LUTIn2 = LUTBezier {
+					SplineColor = { Green = 0, Red = 0, Blue = 0 },
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					}
+				},
+				CustomTool1LUTIn3 = LUTBezier {
+					SplineColor = { Green = 0, Red = 0, Blue = 0 },
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					}
+				},
+				CustomTool1LUTIn4 = LUTBezier {
+					SplineColor = { Green = 0, Red = 0, Blue = 0 },
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					}
+				}
+			
+			}
+		}
+	},
+	ActiveTool = "Letterbox"
+}

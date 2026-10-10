@@ -1,0 +1,500 @@
+{
+	Tools = ordered() {
+		DimensionLine = MacroOperator {
+			CtrlWZoom = false,
+			Inputs = ordered() {
+				Input1 = InstanceInput { SourceOp = "DimCtrl", Source = "DimText", Name = "Label" },
+				Input2 = InstanceInput { SourceOp = "DimLabel", Source = "Font", Name = "Font", ControlGroup = 2 },
+				Input3 = InstanceInput { SourceOp = "DimLabel", Source = "Style", ControlGroup = 2 },
+				Input4 = InstanceInput { SourceOp = "DimCtrl", Source = "DimA", Name = "From" },
+				Input5 = InstanceInput { SourceOp = "DimCtrl", Source = "DimB", Name = "To" },
+				Input6 = InstanceInput { SourceOp = "DimCtrl", Source = "DimSize", Name = "Label Size" },
+				Input7 = InstanceInput { SourceOp = "DimCtrl", Source = "DimOffset", Name = "Label Distance From The Line" },
+				Input8 = InstanceInput { SourceOp = "DimCtrl", Source = "DimTurn", Name = "Label Turns With The Line" },
+				Input9 = InstanceInput { SourceOp = "DimCtrl", Source = "DimEnds", Name = "Ends" },
+				Input10 = InstanceInput { SourceOp = "DimCtrl", Source = "DimEndSize", Name = "End Size" },
+				Input11 = InstanceInput { SourceOp = "DimCtrl", Source = "DimThick", Name = "Line Thickness" },
+				Input12 = InstanceInput { SourceOp = "DimCtrl", Source = "DimEdge", Name = "Outline" },
+				Input13 = InstanceInput { SourceOp = "DimCtrl", Source = "DimIn", Name = "Grow (seconds)" },
+				Input14 = InstanceInput { SourceOp = "DimCtrl", Source = "DimOut", Name = "Fade Out (seconds)" },
+				Input15 = InstanceInput { SourceOp = "DimCtrl", Source = "FpsOverride", Name = "Frame Rate Override" },
+				Input16 = InstanceInput { SourceOp = "ColDim", Source = "TopLeftRed", Name = "Colour", ControlGroup = 3 },
+				Input17 = InstanceInput { SourceOp = "ColDim", Source = "TopLeftGreen", ControlGroup = 3 },
+				Input18 = InstanceInput { SourceOp = "ColDim", Source = "TopLeftBlue", ControlGroup = 3 },
+				Input19 = InstanceInput { SourceOp = "ColDimEdge", Source = "TopLeftRed", Name = "Outline Colour", ControlGroup = 4 },
+				Input20 = InstanceInput { SourceOp = "ColDimEdge", Source = "TopLeftGreen", ControlGroup = 4 },
+				Input21 = InstanceInput { SourceOp = "ColDimEdge", Source = "TopLeftBlue", ControlGroup = 4 },
+			},
+			Outputs = {
+				MainOutput1 = InstanceOutput { SourceOp = "DimFinal", Source = "Output" }
+			},
+			ViewInfo = GroupInfo { Pos = { 0, 0 } },
+			Tools = ordered() {
+				DimCtrl = Background {
+					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } },
+					Inputs = {
+						Height = Input { Value = 1080 },
+						Ang = Input { Expression = "math.deg(math.atan2(DimB.Y - DimA.Y, (DimB.X - DimA.X)*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height'))))" },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftAlpha = Input { Value = 0 },
+						DimA = Input { Value = { 0.25, 0.4 } },
+						G = Input { Expression = "iif(DimIn <= 0, 1, 1 - (1 - min(max((time - comp.RenderStart + 1)/(DimIn*iif(FpsOverride > 0, FpsOverride, comp:GetPrefs('Comp.FrameFormat.Rate') or 24)), 0), 1))^3)" },
+						DimB = Input { Value = { 0.75, 0.4 } },
+						Fade = Input { Expression = "iif(DimOut <= 0, 1, min(max((comp.RenderEnd - time + 1)/(DimOut*iif(FpsOverride > 0, FpsOverride, comp:GetPrefs('Comp.FrameFormat.Rate') or 24)), 0), 1))" },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Width = Input { Value = 1920 }
+					},
+					UserControls = {
+						Fade = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Fade",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							INP_Integer = false,
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl"
+						},
+						Ang = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Ang",
+							INP_Default = 0,
+							INP_MinScale = -360,
+							INP_MaxScale = 360,
+							INP_Integer = false,
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl"
+						},
+						DimEndSize = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "End Size",
+							INP_Default = 0.04,
+							INP_MinScale = 0.005,
+							INP_MaxScale = 0.2,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						},
+						DimOffset = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Label Distance From The Line",
+							INP_Default = 0.06,
+							INP_MinScale = -0.4,
+							INP_MaxScale = 0.4,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						},
+						DimSize = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Label Size",
+							INP_Default = 0.05,
+							INP_MinScale = 0.01,
+							INP_MaxScale = 0.3,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						},
+						DimThick = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Line Thickness",
+							INP_Default = 0.005,
+							INP_MinScale = 0.001,
+							INP_MaxScale = 0.03,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						},
+						DimEdge = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Outline",
+							INP_Default = 0.003,
+							INP_MinScale = 0,
+							INP_MaxScale = 0.02,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						},
+						DimB = {
+							LINKS_Name = "To",
+							INPID_PreviewControl = "CrosshairControl",
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "OffsetControl"
+						},
+						DimTurn = {
+							LINKS_Name = "Label Turns With The Line",
+							INP_Default = 1,
+							INP_Integer = true,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "CheckboxControl"
+						},
+						DimText = {
+							LINKS_Name = "Label",
+							INPS_DefaultText = "120 cm",
+							TEC_Lines = 1,
+							LINKID_DataType = "Text",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "TextEditControl"
+						},
+						DimOut = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Fade Out (seconds)",
+							INP_Default = 0.25,
+							INP_MinScale = 0,
+							INP_MaxScale = 3,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						},
+						DimEnds = {
+							{
+								CCS_AddString = "Ticks"
+							},
+							{
+								CCS_AddString = "Arrows"
+							},
+							{
+								CCS_AddString = "Dots"
+							},
+							{
+								CCS_AddString = "Plain"
+							},
+							LINKS_Name = "Ends",
+							INP_Default = 0,
+							LINKID_DataType = "Number",
+							INP_Integer = true,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "ComboControl"
+						},
+						FpsOverride = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Frame Rate Override",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 120,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						},
+						DimIn = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "Grow (seconds)",
+							INP_Default = 0.4,
+							INP_MinScale = 0,
+							INP_MaxScale = 3,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						},
+						G = {
+							LINKID_DataType = "Number",
+							LINKS_Name = "G",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							INP_Integer = false,
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl"
+						},
+						DimA = {
+							LINKS_Name = "From",
+							INPID_PreviewControl = "CrosshairControl",
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "OffsetControl"
+						}
+					},
+					CtrlWZoom = false
+				},
+				DimDraw = Custom {
+					Inputs = {
+						Intermediate7 = Input { Value = "max(i5, i6)" },
+						Image1 = Input {
+							Source = "Output",
+							SourceOp = "DimCtrl"
+						},
+						PointIn1 = Input { Expression = "DimCtrl.DimA" },
+						PointIn2 = Input { Expression = "DimCtrl.DimB" },
+						NumberIn1 = Input { Expression = "DimCtrl.DimThick/2" },
+						NumberIn2 = Input { Expression = "DimCtrl.DimEnds" },
+						NumberIn3 = Input { Expression = "DimCtrl.DimEndSize" },
+						LUTIn2 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn2"
+						},
+						LUTIn3 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn3"
+						},
+						LUTIn4 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn4"
+						},
+						Intermediate1 = Input { Value = "max(sqrt(((p2x - p1x)*w/h)^2 + (p2y - p1y)^2)/2, 0.0001)*n4" },
+						Intermediate2 = Input { Value = "(x - (p1x + p2x)/2)*w/h*cos(n5) + (y - (p1y + p2y)/2)*sin(n5)" },
+						AlphaExpression = Input { Value = "i7" },
+						Intermediate3 = Input { Value = "(y - (p1y + p2y)/2)*cos(n5) - (x - (p1x + p2x)/2)*w/h*sin(n5)" },
+						BlueExpression = Input { Value = "i7" },
+						Intermediate4 = Input { Value = "i1 - abs(i2)" },
+						GreenExpression = Input { Value = "i7" },
+						Intermediate5 = Input { Value = "min(max((n1 - abs(i3))*h + 0.5, 0), 1)*min(max((i4 - if(n2 == 1, n3*0.6, 0))*h + 0.5, 0), 1)" },
+						RedExpression = Input { Value = "i7" },
+						Intermediate6 = Input { Value = "if(n2 == 0, min(max((n1 - abs(i4))*h + 0.5, 0), 1)*min(max((n3/2 - abs(i3))*h + 0.5, 0), 1), if(n2 == 1, min(max(i4*h + 0.5, 0), 1)*min(max((i4*0.45 - abs(i3))*h + 0.5, 0), 1)*min(max((n3 - i4)*h + 0.5, 0), 1), if(n2 == 2, min(max((n3/2 - sqrt(i4^2 + i3^2))*h + 0.5, 0), 1), 0)))" },
+						NumberIn5 = Input { Expression = "DimCtrl.Ang" },
+						NumberIn4 = Input { Expression = "DimCtrl.G" },
+						LUTIn1 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn1"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { -275, 16.5 } }
+				},
+				CustomTool1LUTIn1 = LUTBezier {
+					CtrlWZoom = false,
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 }
+				},
+				CustomTool1LUTIn2 = LUTBezier {
+					CtrlWZoom = false,
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 }
+				},
+				CustomTool1LUTIn3 = LUTBezier {
+					CtrlWZoom = false,
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 }
+				},
+				CustomTool1LUTIn4 = LUTBezier {
+					CtrlWZoom = false,
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 }
+				},
+				DimLabel = TextPlus {
+					Inputs = {
+						Height = Input { Value = 1080 },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Font = Input { Value = "Microsoft JhengHei" },
+						Style = Input { Value = "Bold" },
+						StyledText = Input { Expression = "Text(DimCtrl.DimText.Value)" },
+						Size = Input { Expression = "DimCtrl.DimSize" },
+						Wrap = Input { Value = 1 },
+						LayoutRotation = Input { Value = 1 },
+						TransformRotation = Input { Value = 1 },
+						Center = Input { Expression = "Point((DimCtrl.DimA.X + DimCtrl.DimB.X)/2 - iif(math.cos(math.rad(DimCtrl.Ang)) < 0, -1, 1)*math.sin(math.rad(DimCtrl.Ang))*DimCtrl.DimOffset/(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')), (DimCtrl.DimA.Y + DimCtrl.DimB.Y)/2 + iif(math.cos(math.rad(DimCtrl.Ang)) < 0, -1, 1)*math.cos(math.rad(DimCtrl.Ang))*DimCtrl.DimOffset)" },
+						VerticalJustificationNew = Input { Value = 3 },
+						HorizontalJustificationNew = Input { Value = 3 },
+						Softness1 = Input { Value = 1 },
+						AngleZ = Input { Expression = "iif(DimCtrl.DimTurn == 1, DimCtrl.Ang + iif(math.cos(math.rad(DimCtrl.Ang)) < 0, 180, 0), 0)" },
+						Width = Input { Value = 1920 }
+					},
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -275, 115.5 } }
+				},
+				DimMatte = Merge {
+					Inputs = {
+						Blend = Input { Expression = "min(max(DimCtrl.G*2 - 1, 0), 1)" },
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "DimDraw"
+						},
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "DimLabel"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { -55, 16.5 } }
+				},
+				DimPaintGrowB = ErodeDilate {
+					Inputs = {
+						Input = Input {
+							Source = "Output",
+							SourceOp = "DimMatte"
+						},
+						Filter = Input { Value = 3 },
+						XAmount = Input { Expression = "(DimCtrl.DimEdge) + (0)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 55, 82.5 } }
+				},
+				DimPaintGrowA = ErodeDilate {
+					Inputs = {
+						Input = Input {
+							Source = "Output",
+							SourceOp = "DimMatte"
+						},
+						Filter = Input { Value = 3 },
+						XAmount = Input { Expression = "DimCtrl.DimEdge" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 55, 49.5 } }
+				},
+				DimPaint = Custom {
+					Inputs = {
+						Image2 = Input {
+							Source = "Output",
+							SourceOp = "DimPaintGrowA"
+						},
+						Image1 = Input {
+							Source = "Output",
+							SourceOp = "DimMatte"
+						},
+						PointIn1 = Input { Expression = "Point(0, 0)" },
+						NumberIn6 = Input { Expression = "ColDimEdge.TopLeftBlue" },
+						PointIn2 = Input { Expression = "Point(0, 0)" },
+						NumberIn7 = Input { Expression = "iif((DimCtrl.DimEdge) > 0, 1, 0)" },
+						NumberIn1 = Input { Expression = "ColDim.TopLeftRed" },
+						NumberIn2 = Input { Expression = "ColDim.TopLeftGreen" },
+						NumberIn3 = Input { Expression = "ColDim.TopLeftBlue" },
+						LUTIn2 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn21"
+						},
+						LUTIn3 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn31"
+						},
+						LUTIn4 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn41"
+						},
+						Intermediate1 = Input { Value = "a2*n7" },
+						Intermediate2 = Input { Value = "a3*n8" },
+						BlueExpression = Input { Value = "n3*a1 + (1 - a1)*(n6*i1 + (1 - i1)*p2x*i2)" },
+						AlphaExpression = Input { Value = "a1 + (1 - a1)*(i1 + (1 - i1)*i2)" },
+						Image3 = Input {
+							Source = "Output",
+							SourceOp = "DimPaintGrowB"
+						},
+						GreenExpression = Input { Value = "n2*a1 + (1 - a1)*(n5*i1 + (1 - i1)*p1y*i2)" },
+						RedExpression = Input { Value = "n1*a1 + (1 - a1)*(n4*i1 + (1 - i1)*p1x*i2)" },
+						NumberIn5 = Input { Expression = "ColDimEdge.TopLeftGreen" },
+						NumberIn4 = Input { Expression = "ColDimEdge.TopLeftRed" },
+						LUTIn1 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn11"
+						},
+						NumberIn8 = Input { Expression = "iif((0) > 0, 1, 0)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 165, 16.5 } }
+				},
+				CustomTool1LUTIn11 = LUTBezier {
+					CtrlWZoom = false,
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 }
+				},
+				CustomTool1LUTIn21 = LUTBezier {
+					CtrlWZoom = false,
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 }
+				},
+				CustomTool1LUTIn31 = LUTBezier {
+					CtrlWZoom = false,
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 }
+				},
+				CustomTool1LUTIn41 = LUTBezier {
+					CtrlWZoom = false,
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 }
+				},
+				DimFinal = Merge {
+					Inputs = {
+						Blend = Input { Expression = "DimCtrl.Fade" },
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "DimCtrl"
+						},
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "DimPaint"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 385, 16.5 } }
+				},
+				ColDim = Background {
+					Inputs = {
+						Height = Input { Value = 16 },
+						TopLeftBlue = Input { Value = 1 },
+						GlobalIn = Input { Value = -480 },
+						TopLeftGreen = Input { Value = 1 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftRed = Input { Value = 1 },
+						Width = Input { Value = 16 }
+					},
+					ViewInfo = OperatorInfo { Pos = { -275, -148.5 } }
+				},
+				ColDimEdge = Background {
+					Inputs = {
+						Height = Input { Value = 16 },
+						TopLeftBlue = Input { Value = 0.08 },
+						GlobalIn = Input { Value = -480 },
+						TopLeftGreen = Input { Value = 0.05 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftRed = Input { Value = 0.05 },
+						Width = Input { Value = 16 }
+					},
+					ViewInfo = OperatorInfo { Pos = { -165, -148.5 } }
+				}
+			
+			}
+		}
+	},
+	ActiveTool = "DimensionLine"
+}

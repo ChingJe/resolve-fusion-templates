@@ -1,0 +1,357 @@
+{
+	Tools = ordered() {
+		SplitScreen = MacroOperator {
+			CtrlWZoom = false,
+			Inputs = ordered() {
+				MainInput1 = InstanceInput { SourceOp = "SrcA", Source = "Input" },
+				Input1 = InstanceInput { SourceOp = "SplCtrl", Source = "SplLayout", Name = "Layout" },
+				Input2 = InstanceInput { SourceOp = "SplCtrl", Source = "SplPart", Name = "This Clip Is Part" },
+				Input3 = InstanceInput { SourceOp = "SplCtrl", Source = "SplSlant", Name = "Slant" },
+				Input4 = InstanceInput { SourceOp = "SplCtrl", Source = "SplGap", Name = "Gap" },
+				Input5 = InstanceInput { SourceOp = "SplCtrl", Source = "SplGapShow", Name = "Gap Colour Opacity" },
+				Input6 = InstanceInput { SourceOp = "SplCtrl", Source = "SplPan", Name = "Picture: What Goes In The Middle" },
+				Input7 = InstanceInput { SourceOp = "SplCtrl", Source = "SplZoom", Name = "Picture: Zoom" },
+				Input8 = InstanceInput { SourceOp = "SplCtrl", Source = "SplEnter", Name = "Appears By" },
+				Input9 = InstanceInput { SourceOp = "SplCtrl", Source = "SplFrom", Name = "Slides In From" },
+				Input10 = InstanceInput { SourceOp = "SplCtrl", Source = "SplIn", Name = "Appear (seconds, 0 = already there)" },
+				Input11 = InstanceInput { SourceOp = "SplCtrl", Source = "SplDelay", Name = "Each Part Starts Later By (seconds)" },
+				Input12 = InstanceInput { SourceOp = "SplCtrl", Source = "SplOut", Name = "Leave (seconds, 0 = stays)" },
+				Input13 = InstanceInput { SourceOp = "SplCtrl", Source = "FpsOverride", Name = "Frame Rate Override" },
+				Input14 = InstanceInput { SourceOp = "ColSplitGap", Source = "TopLeftRed", Name = "Gap Colour", ControlGroup = 3 },
+				Input15 = InstanceInput { SourceOp = "ColSplitGap", Source = "TopLeftGreen", ControlGroup = 3 },
+				Input16 = InstanceInput { SourceOp = "ColSplitGap", Source = "TopLeftBlue", ControlGroup = 3 },
+			},
+			Outputs = {
+				MainOutput1 = InstanceOutput { SourceOp = "SplFinal", Source = "Output" }
+			},
+			ViewInfo = GroupInfo { Pos = { 0, 0 } },
+			Tools = ordered() {
+				SplCtrl = Background {
+					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } },
+					Inputs = {
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Mid = Input { Expression = "Point((max(Xr.X, 0) + min(Xr.Y, 1))/2, (max(Yr.X, 0) + min(Yr.Y, 1))/2)" },
+						Off = Input { Expression = "(function(enter, from, layout, part, e)\n  if enter ~= 0 then return Point(0, 0) end\n  local dx, dy = 0, 0\n  if from == 1 then dx = -1 elseif from == 2 then dx = 1 elseif from == 3 then dy = 1 elseif from == 4 then dy = -1\n  elseif layout == 0 or layout == 2 then dy = (part % 2 == 1) and 1 or -1\n  elseif layout == 1 or layout == 3 then dx = (part % 2 == 1) and -1 or 1\n  else dx = ((part - 1) % 2 == 0) and -1 or 1; dy = (part <= 2) and 1 or -1 end\n  return Point(dx*1.3*(1 - e), dy*1.3*(1 - e))\nend)(SplEnter, SplFrom, SplLayout, SplPart, E)" },
+						TopLeftAlpha = Input { Value = 0 },
+						E = Input { Expression = "min(iif(SplIn <= 0, 1, 1 - (1 - min(max(((time - comp.RenderStart + 1)/iif(FpsOverride > 0, FpsOverride, comp:GetPrefs('Comp.FrameFormat.Rate') or 24) - (SplPart - 1)*SplDelay)/SplIn, 0), 1))^3), iif(SplOut <= 0, 1, (function(t) return t*t*(3 - 2*t) end)(min(max((comp.RenderEnd - time)/(SplOut*iif(FpsOverride > 0, FpsOverride, comp:GetPrefs('Comp.FrameFormat.Rate') or 24)), 0), 1))))" },
+						Yr = Input { Expression = "(function(layout, part, axis)\n  local n, k = 1, 0\n  if layout == 0 or layout == 2 then if axis == 1 then n = (layout == 0) and 2 or 3; k = part - 1 end\n  elseif layout == 1 or layout == 3 then if axis == 2 then n = (layout == 1) and 2 or 3; k = n - part end\n  elseif axis == 1 then n = 2; k = (part - 1) % 2\n  else n = 2; k = 1 - math.floor((part - 1)/2) end\n  k = math.max(0, math.min(n - 1, k))\n  return Point(k == 0 and -9 or k/n, k == n - 1 and 9 or (k + 1)/n)\nend)(SplLayout, SplPart, 2)" },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
+						GlobalIn = Input { Value = -480 },
+						Xr = Input { Expression = "(function(layout, part, axis)\n  local n, k = 1, 0\n  if layout == 0 or layout == 2 then if axis == 1 then n = (layout == 0) and 2 or 3; k = part - 1 end\n  elseif layout == 1 or layout == 3 then if axis == 2 then n = (layout == 1) and 2 or 3; k = n - part end\n  elseif axis == 1 then n = 2; k = (part - 1) % 2\n  else n = 2; k = 1 - math.floor((part - 1)/2) end\n  k = math.max(0, math.min(n - 1, k))\n  return Point(k == 0 and -9 or k/n, k == n - 1 and 9 or (k + 1)/n)\nend)(SplLayout, SplPart, 1)" },
+						GlobalOut = Input { Value = 3534 }
+					},
+					CtrlWZoom = false,
+					UserControls = {
+						SplIn = {
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Appear (seconds, 0 = already there)",
+							INP_Default = 0.5,
+							INP_MinScale = 0,
+							INP_MaxScale = 3
+						},
+						SplLayout = {
+							{
+								CCS_AddString = "2 Side By Side"
+							},
+							{
+								CCS_AddString = "2 Stacked"
+							},
+							{
+								CCS_AddString = "3 Side By Side"
+							},
+							{
+								CCS_AddString = "3 Stacked"
+							},
+							{
+								CCS_AddString = "4 In A Grid"
+							},
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "ComboControl",
+							LINKS_Name = "Layout",
+							INP_Default = 0,
+							INP_Integer = true
+						},
+						SplOut = {
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Leave (seconds, 0 = stays)",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 3
+						},
+						FpsOverride = {
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Frame Rate Override",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 120
+						},
+						Xr = {
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "Xr"
+						},
+						SplPart = {
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = true,
+							LINKS_Name = "This Clip Is Part",
+							INP_Default = 1,
+							INP_MinScale = 1,
+							INP_MaxScale = 4
+						},
+						Yr = {
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "Yr"
+						},
+						SplSlant = {
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Slant",
+							INP_Default = 0,
+							INP_MinScale = -40,
+							INP_MaxScale = 40
+						},
+						Off = {
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "Off"
+						},
+						SplGap = {
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Gap",
+							INP_Default = 0.012,
+							INP_MinScale = 0,
+							INP_MaxScale = 0.1
+						},
+						SplGapShow = {
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Gap Colour Opacity",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1
+						},
+						SplPan = {
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "OffsetControl",
+							INPID_PreviewControl = "CrosshairControl",
+							LINKS_Name = "Picture: What Goes In The Middle"
+						},
+						SplZoom = {
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Picture: Zoom",
+							INP_Default = 1,
+							INP_MinScale = 0.3,
+							INP_MaxScale = 4
+						},
+						SplEnter = {
+							{
+								CCS_AddString = "Sliding In"
+							},
+							{
+								CCS_AddString = "Fading In"
+							},
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "ComboControl",
+							LINKS_Name = "Appears By",
+							INP_Default = 0,
+							INP_Integer = true
+						},
+						E = {
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "E",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1
+						},
+						Mid = {
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "Mid"
+						},
+						SplDelay = {
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Each Part Starts Later By (seconds)",
+							INP_Default = 0.12,
+							INP_MinScale = 0,
+							INP_MaxScale = 2
+						},
+						SplFrom = {
+							{
+								CCS_AddString = "Automatic"
+							},
+							{
+								CCS_AddString = "Left"
+							},
+							{
+								CCS_AddString = "Right"
+							},
+							{
+								CCS_AddString = "Top"
+							},
+							{
+								CCS_AddString = "Bottom"
+							},
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "ComboControl",
+							LINKS_Name = "Slides In From",
+							INP_Default = 0,
+							INP_Integer = true
+						}
+					}
+				},
+				SrcA = BrightnessContrast {
+					ViewInfo = OperatorInfo { Pos = { -495, 16.5 } }
+				},
+				ColSplitGap = Background {
+					Inputs = {
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftBlue = Input { Value = 1 },
+						TopLeftGreen = Input { Value = 1 },
+						Width = Input { Value = 16 },
+						Height = Input { Value = 16 },
+						GlobalIn = Input { Value = -480 },
+						TopLeftRed = Input { Value = 1 },
+						GlobalOut = Input { Value = 3534 }
+					},
+					ViewInfo = OperatorInfo { Pos = { -275, -148.5 } }
+				},
+				SplFinal = Custom {
+					Inputs = {
+						Intermediate1 = Input { Value = "x - p3x" },
+						Intermediate2 = Input { Value = "y - p3y" },
+						Intermediate3 = Input { Value = "min(min(i1 + (i2 - 0.5)*tan(n1)*h/w - p1x, p1y - i1 - (i2 - 0.5)*tan(n1)*h/w)*w/h*cos(n1), min(i2 + (i1 - 0.5)*tan(n2)*w/h - p2x, p2y - i2 - (i1 - 0.5)*tan(n2)*w/h)*cos(n2))" },
+						LUTIn1 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn1"
+						},
+						RedExpression = Input { Value = "getr1b(i6, i7)*i4 + getr2b(0.5, 0.5)*i5" },
+						LUTIn2 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn2"
+						},
+						LUTIn3 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn3"
+						},
+						LUTIn4 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn4"
+						},
+						GreenExpression = Input { Value = "getg1b(i6, i7)*i4 + getg2b(0.5, 0.5)*i5" },
+						PointIn3 = Input { Expression = "SplCtrl.Off" },
+						AlphaExpression = Input { Value = "geta1b(i6, i7)*i4 + i5" },
+						PointIn4 = Input { Expression = "SplCtrl.SplPan" },
+						BlueExpression = Input { Value = "getb1b(i6, i7)*i4 + getb2b(0.5, 0.5)*i5" },
+						NumberIn1 = Input { Expression = "iif(SplCtrl.SplLayout == 1 or SplCtrl.SplLayout == 3, 0, SplCtrl.SplSlant)" },
+						Image1 = Input {
+							Source = "Output",
+							SourceOp = "SrcA"
+						},
+						NumberIn2 = Input { Expression = "iif(SplCtrl.SplLayout == 1 or SplCtrl.SplLayout == 3, SplCtrl.SplSlant, 0)" },
+						Image2 = Input {
+							Source = "Output",
+							SourceOp = "ColSplitGap"
+						},
+						NumberIn3 = Input { Expression = "SplCtrl.SplGap/2" },
+						Intermediate7 = Input { Value = "p4y + (i2 - n8)/n4" },
+						NumberIn4 = Input { Expression = "SplCtrl.SplZoom" },
+						Intermediate6 = Input { Value = "p4x + (i1 - n7)/n4" },
+						NumberIn5 = Input { Expression = "SplCtrl.SplGapShow" },
+						Intermediate5 = Input { Value = "n6*n5*min(max(i3*h + 0.5, 0), 1)*(1 - min(max((i3 - n3)*h + 0.5, 0), 1))" },
+						NumberIn6 = Input { Expression = "iif(SplCtrl.SplEnter == 1, SplCtrl.E, 1)" },
+						Intermediate4 = Input { Value = "n6*min(max((i3 - n3)*h + 0.5, 0), 1)" },
+						NumberIn7 = Input { Expression = "SplCtrl.Mid.X" },
+						PointIn1 = Input { Expression = "SplCtrl.Xr" },
+						NumberIn8 = Input { Expression = "SplCtrl.Mid.Y" },
+						PointIn2 = Input { Expression = "SplCtrl.Yr" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 165, 49.5 } }
+				},
+				CustomTool1LUTIn1 = LUTBezier {
+					CtrlWZoom = false,
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Green = 0, Red = 0, Blue = 0 }
+				},
+				CustomTool1LUTIn2 = LUTBezier {
+					CtrlWZoom = false,
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Green = 0, Red = 0, Blue = 0 }
+				},
+				CustomTool1LUTIn3 = LUTBezier {
+					CtrlWZoom = false,
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Green = 0, Red = 0, Blue = 0 }
+				},
+				CustomTool1LUTIn4 = LUTBezier {
+					CtrlWZoom = false,
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Green = 0, Red = 0, Blue = 0 }
+				}
+			
+			}
+		}
+	},
+	ActiveTool = "SplitScreen"
+}

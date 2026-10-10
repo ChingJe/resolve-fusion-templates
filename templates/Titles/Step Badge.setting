@@ -1,0 +1,725 @@
+{
+	Tools = ordered() {
+		StepBadge = MacroOperator {
+			CtrlWZoom = false,
+			Inputs = ordered() {
+				Input1 = InstanceInput { SourceOp = "BdgCtrl", Source = "BdgText", Name = "Number" },
+				Input2 = InstanceInput { SourceOp = "BdgNumber", Source = "Font", Name = "Number Font", ControlGroup = 2 },
+				Input3 = InstanceInput { SourceOp = "BdgNumber", Source = "Style", ControlGroup = 2 },
+				Input4 = InstanceInput { SourceOp = "BdgCtrl", Source = "BdgLabel", Name = "Text Beside It (may be empty)" },
+				Input5 = InstanceInput { SourceOp = "BdgLabelText", Source = "Font", Name = "Text Font", ControlGroup = 3 },
+				Input6 = InstanceInput { SourceOp = "BdgLabelText", Source = "Style", ControlGroup = 3 },
+				Input7 = InstanceInput { SourceOp = "BdgCtrl", Source = "BdgPos", Name = "Position" },
+				Input8 = InstanceInput { SourceOp = "BdgCtrl", Source = "BdgSize", Name = "Size" },
+				Input9 = InstanceInput { SourceOp = "BdgCtrl", Source = "BdgShape", Name = "Shape" },
+				Input10 = InstanceInput { SourceOp = "BdgCtrl", Source = "BdgBorder", Name = "Border Width" },
+				Input11 = InstanceInput { SourceOp = "BdgCtrl", Source = "BdgSide", Name = "Text Is On The" },
+				Input12 = InstanceInput { SourceOp = "BdgCtrl", Source = "BdgLabelSize", Name = "Text Size" },
+				Input13 = InstanceInput { SourceOp = "BdgCtrl", Source = "BdgGap", Name = "Text Distance" },
+				Input14 = InstanceInput { SourceOp = "BdgCtrl", Source = "BdgEdge", Name = "Text Outline" },
+				Input15 = InstanceInput { SourceOp = "BdgCtrl", Source = "BdgEnter", Name = "Appears By" },
+				Input16 = InstanceInput { SourceOp = "BdgCtrl", Source = "BdgIn", Name = "Appear (seconds)" },
+				Input17 = InstanceInput { SourceOp = "BdgCtrl", Source = "BdgOut", Name = "Fade Out (seconds)" },
+				Input18 = InstanceInput { SourceOp = "BdgCtrl", Source = "FpsOverride", Name = "Frame Rate Override" },
+				Input19 = InstanceInput { SourceOp = "ColBdg", Source = "TopLeftRed", Name = "Colour", ControlGroup = 4 },
+				Input20 = InstanceInput { SourceOp = "ColBdg", Source = "TopLeftGreen", ControlGroup = 4 },
+				Input21 = InstanceInput { SourceOp = "ColBdg", Source = "TopLeftBlue", ControlGroup = 4 },
+				Input22 = InstanceInput { SourceOp = "ColBdgBorder", Source = "TopLeftRed", Name = "Border Colour", ControlGroup = 5 },
+				Input23 = InstanceInput { SourceOp = "ColBdgBorder", Source = "TopLeftGreen", ControlGroup = 5 },
+				Input24 = InstanceInput { SourceOp = "ColBdgBorder", Source = "TopLeftBlue", ControlGroup = 5 },
+				Input25 = InstanceInput { SourceOp = "ColBdgNumber", Source = "TopLeftRed", Name = "Number Colour", ControlGroup = 6 },
+				Input26 = InstanceInput { SourceOp = "ColBdgNumber", Source = "TopLeftGreen", ControlGroup = 6 },
+				Input27 = InstanceInput { SourceOp = "ColBdgNumber", Source = "TopLeftBlue", ControlGroup = 6 },
+				Input28 = InstanceInput { SourceOp = "ColBdgLabel", Source = "TopLeftRed", Name = "Text Colour", ControlGroup = 7 },
+				Input29 = InstanceInput { SourceOp = "ColBdgLabel", Source = "TopLeftGreen", ControlGroup = 7 },
+				Input30 = InstanceInput { SourceOp = "ColBdgLabel", Source = "TopLeftBlue", ControlGroup = 7 },
+				Input31 = InstanceInput { SourceOp = "ColBdgLabelEdge", Source = "TopLeftRed", Name = "Text Outline Colour", ControlGroup = 8 },
+				Input32 = InstanceInput { SourceOp = "ColBdgLabelEdge", Source = "TopLeftGreen", ControlGroup = 8 },
+				Input33 = InstanceInput { SourceOp = "ColBdgLabelEdge", Source = "TopLeftBlue", ControlGroup = 8 },
+			},
+			Outputs = {
+				MainOutput1 = InstanceOutput { SourceOp = "BdgFinal", Source = "Output" }
+			},
+			ViewInfo = GroupInfo { Pos = { 0, 0 } },
+			Tools = ordered() {
+				BdgCtrl = Background {
+					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } },
+					Inputs = {
+						T = Input { Expression = "iif(BdgIn <= 0, 1, min(max((time - comp.RenderStart + 1)/(BdgIn*iif(FpsOverride > 0, FpsOverride, comp:GetPrefs('Comp.FrameFormat.Rate') or 24)), 0), 1))" },
+						Fade = Input { Expression = "iif(BdgEnter == 0, min(T*4, 1), T) * iif(BdgOut <= 0, 1, min(max((comp.RenderEnd - time + 1)/(BdgOut*iif(FpsOverride > 0, FpsOverride, comp:GetPrefs('Comp.FrameFormat.Rate') or 24)), 0), 1))" },
+						Late = Input { Expression = "min(max(T*2.5 - 1.5, 0), 1)" },
+						Scale = Input { Expression = "iif(BdgEnter == 0, (function(t) t = t - 1 return 1 + 2.70158*t*t*t + 1.70158*t*t end)(T), 1)" },
+						Height = Input { Value = 1080 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						GlobalOut = Input { Value = 3534 },
+						TopLeftAlpha = Input { Value = 0 },
+						GlobalIn = Input { Value = -480 }
+					},
+					UserControls = {
+						BdgLabelSize = {
+							INP_MaxScale = 0.2,
+							INP_Integer = false,
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Controls",
+							LINKS_Name = "Text Size",
+							INP_Default = 0.045,
+							INP_MinScale = 0.01
+						},
+						BdgGap = {
+							INP_MaxScale = 0.2,
+							INP_Integer = false,
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Controls",
+							LINKS_Name = "Text Distance",
+							INP_Default = 0.02,
+							INP_MinScale = 0
+						},
+						BdgEdge = {
+							INP_MaxScale = 0.02,
+							INP_Integer = false,
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Controls",
+							LINKS_Name = "Text Outline",
+							INP_Default = 0.004,
+							INP_MinScale = 0
+						},
+						BdgEnter = {
+							{
+								CCS_AddString = "Popping Up"
+							},
+							{
+								CCS_AddString = "Fading In"
+							},
+							INP_Integer = true,
+							LINKID_DataType = "Number",
+							INPID_InputControl = "ComboControl",
+							LINKS_Name = "Appears By",
+							INP_Default = 0,
+							ICS_ControlPage = "Controls"
+						},
+						BdgText = {
+							INPS_DefaultText = "1",
+							TEC_Lines = 1,
+							LINKID_DataType = "Text",
+							INPID_InputControl = "TextEditControl",
+							LINKS_Name = "Number",
+							ICS_ControlPage = "Controls"
+						},
+						BdgIn = {
+							INP_MaxScale = 3,
+							INP_Integer = false,
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Controls",
+							LINKS_Name = "Appear (seconds)",
+							INP_Default = 0.3,
+							INP_MinScale = 0
+						},
+						BdgOut = {
+							INP_MaxScale = 3,
+							INP_Integer = false,
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Controls",
+							LINKS_Name = "Fade Out (seconds)",
+							INP_Default = 0.2,
+							INP_MinScale = 0
+						},
+						BdgLabel = {
+							INPS_DefaultText = "",
+							TEC_Lines = 1,
+							LINKID_DataType = "Text",
+							INPID_InputControl = "TextEditControl",
+							LINKS_Name = "Text Beside It (may be empty)",
+							ICS_ControlPage = "Controls"
+						},
+						FpsOverride = {
+							INP_MaxScale = 120,
+							INP_Integer = false,
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Controls",
+							LINKS_Name = "Frame Rate Override",
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						BdgPos = {
+							INPID_PreviewControl = "CrosshairControl",
+							LINKID_DataType = "Point",
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "Position",
+							ICS_ControlPage = "Controls"
+						},
+						T = {
+							INP_MaxScale = 1,
+							INP_Integer = false,
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Driver",
+							LINKS_Name = "T",
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						Fade = {
+							INP_MaxScale = 1,
+							INP_Integer = false,
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Driver",
+							LINKS_Name = "Fade",
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						Late = {
+							INP_MaxScale = 1,
+							INP_Integer = false,
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Driver",
+							LINKS_Name = "Late",
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						BdgShape = {
+							{
+								CCS_AddString = "Circle"
+							},
+							{
+								CCS_AddString = "Rounded Square"
+							},
+							{
+								CCS_AddString = "Square"
+							},
+							INP_Integer = true,
+							LINKID_DataType = "Number",
+							INPID_InputControl = "ComboControl",
+							LINKS_Name = "Shape",
+							INP_Default = 0,
+							ICS_ControlPage = "Controls"
+						},
+						BdgSize = {
+							INP_MaxScale = 0.6,
+							INP_Integer = false,
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Controls",
+							LINKS_Name = "Size",
+							INP_Default = 0.12,
+							INP_MinScale = 0.02
+						},
+						BdgBorder = {
+							INP_MaxScale = 0.03,
+							INP_Integer = false,
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Controls",
+							LINKS_Name = "Border Width",
+							INP_Default = 0.006,
+							INP_MinScale = 0
+						},
+						Scale = {
+							INP_MaxScale = 3,
+							INP_Integer = false,
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							ICS_ControlPage = "Driver",
+							LINKS_Name = "Scale",
+							INP_Default = 1,
+							INP_MinScale = 0
+						},
+						BdgSide = {
+							{
+								CCS_AddString = "Right"
+							},
+							{
+								CCS_AddString = "Left"
+							},
+							INP_Integer = true,
+							LINKID_DataType = "Number",
+							INPID_InputControl = "ComboControl",
+							LINKS_Name = "Text Is On The",
+							INP_Default = 0,
+							ICS_ControlPage = "Controls"
+						}
+					},
+					CtrlWZoom = false
+				},
+				BdgPlate = Custom {
+					Inputs = {
+						NumberIn2 = Input { Expression = "({1, 0.3, 0})[BdgCtrl.BdgShape + 1]" },
+						Image1 = Input {
+							SourceOp = "BdgCtrl",
+							Source = "Output"
+						},
+						AlphaExpression = Input { Value = "i3" },
+						Intermediate1 = Input { Value = "abs((x - p1x)*w/h) - n1*(1 - n2)" },
+						BlueExpression = Input { Value = "i3" },
+						LUTIn2 = Input {
+							SourceOp = "CustomTool1LUTIn2",
+							Source = "Value"
+						},
+						LUTIn3 = Input {
+							SourceOp = "CustomTool1LUTIn3",
+							Source = "Value"
+						},
+						LUTIn4 = Input {
+							SourceOp = "CustomTool1LUTIn4",
+							Source = "Value"
+						},
+						GreenExpression = Input { Value = "i3" },
+						Intermediate3 = Input { Value = "min(max(0.5 - (sqrt(max(i1, 0)^2 + max(i2, 0)^2) + min(max(i1, i2), 0) - n1*n2)*h, 0), 1)" },
+						RedExpression = Input { Value = "i3" },
+						Intermediate2 = Input { Value = "abs(y - p1y) - n1*(1 - n2)" },
+						PointIn1 = Input { Expression = "BdgCtrl.BdgPos" },
+						LUTIn1 = Input {
+							SourceOp = "CustomTool1LUTIn1",
+							Source = "Value"
+						},
+						NumberIn1 = Input { Expression = "max(BdgCtrl.BdgSize/2*BdgCtrl.Scale, 0.0005)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { -275, 16.5 } }
+				},
+				CustomTool1LUTIn1 = LUTBezier {
+					CtrlWZoom = false,
+					SplineColor = { Blue = 0, Green = 0, Red = 0 },
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					}
+				},
+				CustomTool1LUTIn2 = LUTBezier {
+					CtrlWZoom = false,
+					SplineColor = { Blue = 0, Green = 0, Red = 0 },
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					}
+				},
+				CustomTool1LUTIn3 = LUTBezier {
+					CtrlWZoom = false,
+					SplineColor = { Blue = 0, Green = 0, Red = 0 },
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					}
+				},
+				CustomTool1LUTIn4 = LUTBezier {
+					CtrlWZoom = false,
+					SplineColor = { Blue = 0, Green = 0, Red = 0 },
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					}
+				},
+				BdgPaintGrowB = ErodeDilate {
+					Inputs = {
+						Filter = Input { Value = 3 },
+						XAmount = Input { Expression = "(BdgCtrl.BdgBorder) + (0)" },
+						Input = Input {
+							SourceOp = "BdgPlate",
+							Source = "Output"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { -165, 82.5 } }
+				},
+				BdgPaintGrowA = ErodeDilate {
+					Inputs = {
+						Filter = Input { Value = 3 },
+						XAmount = Input { Expression = "BdgCtrl.BdgBorder" },
+						Input = Input {
+							SourceOp = "BdgPlate",
+							Source = "Output"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { -165, 49.5 } }
+				},
+				BdgPaint = Custom {
+					Inputs = {
+						NumberIn2 = Input { Expression = "ColBdg.TopLeftGreen" },
+						Intermediate1 = Input { Value = "a2*n7" },
+						Intermediate2 = Input { Value = "a3*n8" },
+						AlphaExpression = Input { Value = "a1 + (1 - a1)*(i1 + (1 - i1)*i2)" },
+						Image1 = Input {
+							SourceOp = "BdgPlate",
+							Source = "Output"
+						},
+						Image2 = Input {
+							SourceOp = "BdgPaintGrowA",
+							Source = "Output"
+						},
+						Image3 = Input {
+							SourceOp = "BdgPaintGrowB",
+							Source = "Output"
+						},
+						BlueExpression = Input { Value = "n3*a1 + (1 - a1)*(n6*i1 + (1 - i1)*p2x*i2)" },
+						GreenExpression = Input { Value = "n2*a1 + (1 - a1)*(n5*i1 + (1 - i1)*p1y*i2)" },
+						RedExpression = Input { Value = "n1*a1 + (1 - a1)*(n4*i1 + (1 - i1)*p1x*i2)" },
+						PointIn2 = Input { Expression = "Point(0, 0)" },
+						LUTIn1 = Input {
+							SourceOp = "CustomTool1LUTIn11",
+							Source = "Value"
+						},
+						NumberIn3 = Input { Expression = "ColBdg.TopLeftBlue" },
+						LUTIn2 = Input {
+							SourceOp = "CustomTool1LUTIn21",
+							Source = "Value"
+						},
+						NumberIn4 = Input { Expression = "ColBdgBorder.TopLeftRed" },
+						NumberIn8 = Input { Expression = "iif((0) > 0, 1, 0)" },
+						NumberIn5 = Input { Expression = "ColBdgBorder.TopLeftGreen" },
+						LUTIn4 = Input {
+							SourceOp = "CustomTool1LUTIn41",
+							Source = "Value"
+						},
+						NumberIn6 = Input { Expression = "ColBdgBorder.TopLeftBlue" },
+						NumberIn7 = Input { Expression = "iif((BdgCtrl.BdgBorder) > 0, 1, 0)" },
+						PointIn1 = Input { Expression = "Point(0, 0)" },
+						LUTIn3 = Input {
+							SourceOp = "CustomTool1LUTIn31",
+							Source = "Value"
+						},
+						NumberIn1 = Input { Expression = "ColBdg.TopLeftRed" }
+					},
+					ViewInfo = OperatorInfo { Pos = { -55, 16.5 } }
+				},
+				CustomTool1LUTIn11 = LUTBezier {
+					CtrlWZoom = false,
+					SplineColor = { Blue = 0, Green = 0, Red = 0 },
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					}
+				},
+				CustomTool1LUTIn21 = LUTBezier {
+					CtrlWZoom = false,
+					SplineColor = { Blue = 0, Green = 0, Red = 0 },
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					}
+				},
+				CustomTool1LUTIn31 = LUTBezier {
+					CtrlWZoom = false,
+					SplineColor = { Blue = 0, Green = 0, Red = 0 },
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					}
+				},
+				CustomTool1LUTIn41 = LUTBezier {
+					CtrlWZoom = false,
+					SplineColor = { Blue = 0, Green = 0, Red = 0 },
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					}
+				},
+				ColBdg = Background {
+					Inputs = {
+						TopLeftGreen = Input { Value = 0.22 },
+						TopLeftBlue = Input { Value = 0.18 },
+						Height = Input { Value = 16 },
+						GlobalIn = Input { Value = -480 },
+						Width = Input { Value = 16 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftRed = Input { Value = 0.93 }
+					},
+					ViewInfo = OperatorInfo { Pos = { -385, -148.5 } }
+				},
+				ColBdgBorder = Background {
+					Inputs = {
+						TopLeftGreen = Input { Value = 1 },
+						TopLeftBlue = Input { Value = 1 },
+						Height = Input { Value = 16 },
+						GlobalIn = Input { Value = -480 },
+						Width = Input { Value = 16 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftRed = Input { Value = 1 }
+					},
+					ViewInfo = OperatorInfo { Pos = { -275, -148.5 } }
+				},
+				ColBdgNumber = Background {
+					Inputs = {
+						TopLeftGreen = Input { Value = 1 },
+						TopLeftBlue = Input { Value = 1 },
+						Height = Input { Value = 16 },
+						GlobalIn = Input { Value = -480 },
+						Width = Input { Value = 16 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftRed = Input { Value = 1 }
+					},
+					ViewInfo = OperatorInfo { Pos = { -165, -148.5 } }
+				},
+				ColBdgLabel = Background {
+					Inputs = {
+						TopLeftGreen = Input { Value = 1 },
+						TopLeftBlue = Input { Value = 1 },
+						Height = Input { Value = 16 },
+						GlobalIn = Input { Value = -480 },
+						Width = Input { Value = 16 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftRed = Input { Value = 1 }
+					},
+					ViewInfo = OperatorInfo { Pos = { -55, -148.5 } }
+				},
+				ColBdgLabelEdge = Background {
+					Inputs = {
+						TopLeftGreen = Input { Value = 0.05 },
+						TopLeftBlue = Input { Value = 0.08 },
+						Height = Input { Value = 16 },
+						GlobalIn = Input { Value = -480 },
+						Width = Input { Value = 16 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftRed = Input { Value = 0.05 }
+					},
+					ViewInfo = OperatorInfo { Pos = { 55, -148.5 } }
+				},
+				BdgNumber = TextPlus {
+					Version = 1,
+					Inputs = {
+						LayoutRotation = Input { Value = 1 },
+						TransformRotation = Input { Value = 1 },
+						Softness1 = Input { Value = 1 },
+						VerticalJustificationNew = Input { Value = 3 },
+						HorizontalJustificationNew = Input { Value = 3 },
+						GlobalIn = Input { Value = -480 },
+						Width = Input { Value = 1920 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Font = Input { Value = "Arial" },
+						Style = Input { Value = "Bold" },
+						Red1 = Input { Expression = "ColBdgNumber.TopLeftRed" },
+						StyledText = Input { Expression = "Text(BdgCtrl.BdgText.Value)" },
+						Green1 = Input { Expression = "ColBdgNumber.TopLeftGreen" },
+						Center = Input { Expression = "BdgCtrl.BdgPos" },
+						Blue1 = Input { Expression = "ColBdgNumber.TopLeftBlue" },
+						Size = Input { Expression = "0.95*BdgCtrl.BdgSize*BdgCtrl.Scale*(comp:GetPrefs('Comp.FrameFormat.Height')/comp:GetPrefs('Comp.FrameFormat.Width'))/math.max(1, 0.62*#BdgCtrl.BdgText.Value)" },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Height = Input { Value = 1080 },
+						Wrap = Input { Value = 1 }
+					},
+					ViewInfo = OperatorInfo { Pos = { -275, 115.5 } }
+				},
+				BdgWithNumber = Merge {
+					Inputs = {
+						Foreground = Input {
+							SourceOp = "BdgNumber",
+							Source = "Output"
+						},
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							SourceOp = "BdgPaint",
+							Source = "Output"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 165, 16.5 } }
+				},
+				BdgLabelText = TextPlus {
+					Version = 1,
+					Inputs = {
+						LayoutRotation = Input { Value = 1 },
+						TransformRotation = Input { Value = 1 },
+						Softness1 = Input { Value = 1 },
+						VerticalJustificationNew = Input { Value = 3 },
+						HorizontalJustificationNew = Input { Value = 3 },
+						GlobalIn = Input { Value = -480 },
+						Width = Input { Value = 1920 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Font = Input { Value = "Microsoft JhengHei" },
+						Size = Input { Expression = "BdgCtrl.BdgLabelSize" },
+						StyledText = Input { Expression = "Text(BdgCtrl.BdgLabel.Value)" },
+						Center = Input { Expression = "Point(BdgCtrl.BdgPos.X + iif(BdgCtrl.BdgSide == 0, 1, -1)*(BdgCtrl.BdgSize/2 + BdgCtrl.BdgBorder + BdgCtrl.BdgGap)*(comp:GetPrefs('Comp.FrameFormat.Height')/comp:GetPrefs('Comp.FrameFormat.Width')), BdgCtrl.BdgPos.Y)" },
+						HorizontalLeftCenterRight = Input { Expression = "iif(BdgCtrl.BdgSide == 0, -1, 1)" },
+						Style = Input { Value = "Bold" },
+						Height = Input { Value = 1080 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Wrap = Input { Value = 1 }
+					},
+					ViewInfo = OperatorInfo { Pos = { -275, 181.5 } }
+				},
+				BdgLabelPaintGrowB = ErodeDilate {
+					Inputs = {
+						Filter = Input { Value = 3 },
+						XAmount = Input { Expression = "(BdgCtrl.BdgEdge) + (0)" },
+						Input = Input {
+							SourceOp = "BdgLabelText",
+							Source = "Output"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { -165, 247.5 } }
+				},
+				BdgLabelPaintGrowA = ErodeDilate {
+					Inputs = {
+						Filter = Input { Value = 3 },
+						XAmount = Input { Expression = "BdgCtrl.BdgEdge" },
+						Input = Input {
+							SourceOp = "BdgLabelText",
+							Source = "Output"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { -165, 214.5 } }
+				},
+				BdgLabelPaint = Custom {
+					Inputs = {
+						NumberIn2 = Input { Expression = "ColBdgLabel.TopLeftGreen" },
+						Intermediate1 = Input { Value = "a2*n7" },
+						Intermediate2 = Input { Value = "a3*n8" },
+						AlphaExpression = Input { Value = "a1 + (1 - a1)*(i1 + (1 - i1)*i2)" },
+						Image1 = Input {
+							SourceOp = "BdgLabelText",
+							Source = "Output"
+						},
+						Image2 = Input {
+							SourceOp = "BdgLabelPaintGrowA",
+							Source = "Output"
+						},
+						Image3 = Input {
+							SourceOp = "BdgLabelPaintGrowB",
+							Source = "Output"
+						},
+						BlueExpression = Input { Value = "n3*a1 + (1 - a1)*(n6*i1 + (1 - i1)*p2x*i2)" },
+						GreenExpression = Input { Value = "n2*a1 + (1 - a1)*(n5*i1 + (1 - i1)*p1y*i2)" },
+						RedExpression = Input { Value = "n1*a1 + (1 - a1)*(n4*i1 + (1 - i1)*p1x*i2)" },
+						PointIn2 = Input { Expression = "Point(0, 0)" },
+						LUTIn1 = Input {
+							SourceOp = "CustomTool1LUTIn12",
+							Source = "Value"
+						},
+						NumberIn3 = Input { Expression = "ColBdgLabel.TopLeftBlue" },
+						LUTIn2 = Input {
+							SourceOp = "CustomTool1LUTIn22",
+							Source = "Value"
+						},
+						NumberIn4 = Input { Expression = "ColBdgLabelEdge.TopLeftRed" },
+						NumberIn8 = Input { Expression = "iif((0) > 0, 1, 0)" },
+						NumberIn5 = Input { Expression = "ColBdgLabelEdge.TopLeftGreen" },
+						LUTIn4 = Input {
+							SourceOp = "CustomTool1LUTIn42",
+							Source = "Value"
+						},
+						NumberIn6 = Input { Expression = "ColBdgLabelEdge.TopLeftBlue" },
+						NumberIn7 = Input { Expression = "iif((BdgCtrl.BdgEdge) > 0, 1, 0)" },
+						PointIn1 = Input { Expression = "Point(0, 0)" },
+						LUTIn3 = Input {
+							SourceOp = "CustomTool1LUTIn32",
+							Source = "Value"
+						},
+						NumberIn1 = Input { Expression = "ColBdgLabel.TopLeftRed" }
+					},
+					ViewInfo = OperatorInfo { Pos = { -55, 181.5 } }
+				},
+				CustomTool1LUTIn12 = LUTBezier {
+					CtrlWZoom = false,
+					SplineColor = { Blue = 0, Green = 0, Red = 0 },
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					}
+				},
+				CustomTool1LUTIn22 = LUTBezier {
+					CtrlWZoom = false,
+					SplineColor = { Blue = 0, Green = 0, Red = 0 },
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					}
+				},
+				CustomTool1LUTIn32 = LUTBezier {
+					CtrlWZoom = false,
+					SplineColor = { Blue = 0, Green = 0, Red = 0 },
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					}
+				},
+				CustomTool1LUTIn42 = LUTBezier {
+					CtrlWZoom = false,
+					SplineColor = { Blue = 0, Green = 0, Red = 0 },
+					NameSet = true,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					}
+				},
+				BdgWithLabel = Merge {
+					Inputs = {
+						Foreground = Input {
+							SourceOp = "BdgLabelPaint",
+							Source = "Output"
+						},
+						Background = Input {
+							SourceOp = "BdgWithNumber",
+							Source = "Output"
+						},
+						PerformDepthMerge = Input { Value = 0 },
+						Blend = Input { Expression = "BdgCtrl.Late" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 275, 16.5 } }
+				},
+				BdgFinal = Merge {
+					Inputs = {
+						Foreground = Input {
+							SourceOp = "BdgWithLabel",
+							Source = "Output"
+						},
+						Background = Input {
+							SourceOp = "BdgCtrl",
+							Source = "Output"
+						},
+						PerformDepthMerge = Input { Value = 0 },
+						Blend = Input { Expression = "BdgCtrl.Fade" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 495, 16.5 } }
+				}
+			
+			}
+		}
+	},
+	ActiveTool = "StepBadge"
+}

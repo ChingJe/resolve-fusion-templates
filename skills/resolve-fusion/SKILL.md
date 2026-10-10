@@ -83,13 +83,23 @@ t.Size:SetExpression("ComicCtrl.TextSize * ComicCtrl.Zoom")
 | `countdown.lua` | Countdown，倒數計時 | 標題 |
 | `karaoke.lua` | Karaoke Caption，逐字填色的字幕 | 標題 |
 | `hiddenword.lua` | Hidden Word，貼紙蓋住的詞到時間揭曉 | 標題 |
+| `penmark.lua` | Pen Mark，手繪的圈、線、框、箭頭、勾叉 | 標題 |
+| `censor.lua` | Censor Patch，馬賽克、模糊、色塊遮蔽 | 特效 |
+| `zoomcallout.lua` | Zoom Callout，小圈拉線到放大視窗 | 特效 |
+| `clickripple.lua` | Click Ripple，點擊波紋 | 標題 |
+| `stepbadge.lua` | Step Badge，步驟編號 | 標題 |
+| `dimension.lua` | Dimension Line，尺寸線 | 標題 |
+| `letterbox.lua` | Letterbox，電影黑邊 | 標題 |
+| `splitscreen.lua` | Split Screen，分割畫面的其中一格 | 特效 |
+| `recframe.lua` | Rec Frame，攝影機觀景窗 | 標題 |
 
-從 `whippan.lua` 開始的腳本用 `lib.lua` 的 `L.panel`（控制項寫成有順序的清單，自動產生匯出規格）、`L.feeds`（影像入口和轉場進度）、`L.ship`（匯出或測試算圖）。新範本照這個寫法，一支腳本可以短很多。另有 `L.glitch`（故障畫面的 `Custom`）、`L.hits`（時間點清單轉成強度）、`L.mirror`（畫面外鏡像補滿）。
+從 `whippan.lua` 開始的腳本用 `lib.lua` 的 `L.panel`（控制項寫成有順序的清單，自動產生匯出規格）、`L.feeds`（影像入口和轉場進度）、`L.ship`（匯出或測試算圖）。新範本照這個寫法，一支腳本可以短很多。**`Custom` 的運算式一律用 `L.cx` 設定**（太長會讓 Resolve 當機，它會擋下來），新腳本先用 `FX_DRY=1` 跑一次量長度。另有 `L.glitch`（故障畫面的 `Custom`）、`L.hits`（時間點清單轉成強度）、`L.mirror`（畫面外鏡像補滿）。
 
 一個範本從頭到尾的指令（在 `scripts/` 底下執行，`FU` 是 fuscript 的路徑）：
 
 ```bash
 "$FU" -l lua lab.lua                       # 開實驗時間軸
+FX_DRY=1 "$FU" -l lua build/timeslice.lua  # 不連 Resolve，只檢查 Custom 運算式有沒有過長
 "$FU" -l lua build/timeslice.lua           # 建置並算測試畫格到 out/
 FX_SRC=media "$FU" -l lua build/timeslice.lua  # 改用真實片段再看一次（畫格不可進 git）
 FX_EXPORT=1 "$FU" -l lua build/timeslice.lua   # 匯出節點與規格

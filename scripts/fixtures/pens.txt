@@ -1,0 +1,37 @@
+Shape=0
+Position=0.25,0.68
+Width=0.42
+Height=0.3
+Thickness=0.018
+Times Drawn Over=2
+
+Shape=6
+Arrow: From=0.45,0.9
+Arrow: To=0.62,0.62
+Arrow: Head Size=0.1
+Thickness=0.018
+
+Shape=4
+Position=0.78,0.68
+Width=0.36
+Height=0.3
+Thickness=0.018
+
+Shape=3
+Position=0.5,0.2
+Width=0.75
+Height=0.2
+Opacity=0.45
+Draw (seconds)=0.8
+
+Shape=7
+Position=0.14,0.25
+Width=0.2
+Height=0.2
+Thickness=0.022
+
+Shape=8
+Position=0.88,0.25
+Width=0.2
+Height=0.2
+Thickness=0.022

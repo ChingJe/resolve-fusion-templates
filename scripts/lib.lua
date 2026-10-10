@@ -25,10 +25,30 @@ do
   L.TIMELINE = os.getenv("FX_TIMELINE") or cfg.timeline or "FX Lab"
   L.MEDIA = os.getenv("FX_MEDIA") or cfg.media
 end
-L.resolve = bmd.scriptapp("Resolve")
+-- FX_DRY=1: nothing is sent to Resolve. Every tool is a stand-in that accepts anything, and L.cx only measures.
+-- Run a build script this way first (fuscript runs without Resolve) to see that no Custom expression is too long.
+L.DRY = os.getenv("FX_DRY") == "1"
+local mock = {}
+setmetatable(mock, {__index = function() return mock end, __newindex = function() end, __call = function() return mock end,
+                    __concat = function() return "mock" end})
+L.resolve = not L.DRY and bmd.scriptapp("Resolve") or nil
+-- Sets one expression of a Custom tool, and refuses when it is too long. Resolve 21 crashed (at once, or a
+-- little later in some unrelated place) with expressions of 600 characters and more; 430 is known to work.
+L.CXMAX = 430
+L.cxlong = 0
+function L.cx(tool, field, text)
+  if #text > L.cxlong then L.cxlong = #text end
+  if #text > L.CXMAX then
+    print("TOO_LONG", L.DRY and "" or tool.Name, field, #text)
+    if not L.DRY then error("Custom expression too long") end
+    return
+  end
+  if not L.DRY then tool:SetInput(field, text) end
+end
 
 -- Returns the Fusion comp of the lab clip, or nil when Resolve is not where we expect it to be.
 function L.comp()
+  if L.DRY then return mock end
   local proj = L.resolve:GetProjectManager():GetCurrentProject()
   local pn = proj and proj:GetName()
   local tl = proj and proj:GetCurrentTimeline()
@@ -45,6 +65,7 @@ end
 
 local keep = {MediaIn = true, MediaOut = true, AudioDisplay = true}
 function L.clear(comp)
+  if L.DRY then return mock, mock end
   local mi, mo
   for _, t in pairs(comp:GetToolList(false)) do
     if t.ID == "MediaIn" then mi = t elseif t.ID == "MediaOut" then mo = t end
@@ -158,12 +179,12 @@ function L.inked(comp, name, x, y, matte, w1, w2, c)
   -- an outline of zero width is left out, otherwise it would cover the one inside it
   L.expr(p, "NumberIn7", "iif((" .. w1 .. ") > 0, 1, 0)")
   L.expr(p, "NumberIn8", "iif((" .. w2 .. ") > 0, 1, 0)")
-  p:SetInput("Intermediate1", "a2*n7")
-  p:SetInput("Intermediate2", "a3*n8")
-  p:SetInput("RedExpression",   "n1*a1 + (1 - a1)*(n4*i1 + (1 - i1)*p1x*i2)")
-  p:SetInput("GreenExpression", "n2*a1 + (1 - a1)*(n5*i1 + (1 - i1)*p1y*i2)")
-  p:SetInput("BlueExpression",  "n3*a1 + (1 - a1)*(n6*i1 + (1 - i1)*p2x*i2)")
-  p:SetInput("AlphaExpression", "a1 + (1 - a1)*(i1 + (1 - i1)*i2)")
+  L.cx(p, "Intermediate1", "a2*n7")
+  L.cx(p, "Intermediate2", "a3*n8")
+  L.cx(p, "RedExpression",   "n1*a1 + (1 - a1)*(n4*i1 + (1 - i1)*p1x*i2)")
+  L.cx(p, "GreenExpression", "n2*a1 + (1 - a1)*(n5*i1 + (1 - i1)*p1y*i2)")
+  L.cx(p, "BlueExpression",  "n3*a1 + (1 - a1)*(n6*i1 + (1 - i1)*p2x*i2)")
+  L.cx(p, "AlphaExpression", "a1 + (1 - a1)*(i1 + (1 - i1)*i2)")
   return p
 end
 -- test helper: FX_<env>="10=1,60=2" keyframes a number control on those frames
@@ -333,6 +354,7 @@ end
 -- L.ship: FX_EXPORT=1 writes the macro source, otherwise FX_SET="Id=1,Id=2" is applied and a test is rendered.
 -- A template without inputs (a title) is shown over the stand-in; o.show can return some other output to render.
 function L.ship(comp, o)
+  if L.DRY then print("DRY", o.slug, "longest Custom expression", L.cxlong) return end
   local srcs, ins = o.srcs or {}, o.ins or {}
   if os.getenv("FX_EXPORT") == "1" then
     local spec = {{"NAME", o.name}}
@@ -344,6 +366,8 @@ function L.ship(comp, o)
     return
   end
   for name, value in string.gmatch(os.getenv("FX_SET") or "", "(%w+)=([%d%.%-]+)") do o.ctrl:SetInput(name, tonumber(value)) end
+  -- FX_PT="Id=0.3:0.4,Id=0.6:0.5" sets point controls
+  for name, a, b in string.gmatch(os.getenv("FX_PT") or "", "(%w+)=([%d%.]+):([%d%.]+)") do o.ctrl:SetInput(name, {tonumber(a), tonumber(b)}) end
   if o.before then o.before() end
   local shown = o.out.Output
   if o.show then shown = o.show()
@@ -375,25 +399,25 @@ function L.glitch(comp, name, x, y, a, b, e)
   L.expr(g, "PointIn1", "Point(" .. (e.seed or "0") .. ", 0)")
   local function hash(v) return "abs(frac(sin((" .. v .. ")*12.9898 + n6*78.233 + p1x*3.7)*43758.5453))" end
   -- i1 a random number per wide band of lines, i2 per narrow band
-  g:SetInput("Intermediate1", hash("floor(y*n3 + 10*" .. hash("1") .. ")"))
-  g:SetInput("Intermediate2", hash("floor(y*n3*5.3) + 31.7"))
+  L.cx(g, "Intermediate1", hash("floor(y*n3 + 10*" .. hash("1") .. ")"))
+  L.cx(g, "Intermediate2", hash("floor(y*n3*5.3) + 31.7"))
   -- i3 how far this line has jumped: only some bands move, more of them as amount grows
-  g:SetInput("Intermediate3", "n1*n4*(if(frac(i1*7.31) < 0.25 + 0.5*n1, (i1 - 0.5)*2, 0) + if(frac(i2*5.17) < 0.3*n1, (i2 - 0.5)*0.6, 0))")
+  L.cx(g, "Intermediate3", "n1*n4*(if(frac(i1*7.31) < 0.25 + 0.5*n1, (i1 - 0.5)*2, 0) + if(frac(i2*5.17) < 0.3*n1, (i2 - 0.5)*0.6, 0))")
   -- i4 a random number per block, i5 = 1 where the block shows a wrong part of the picture
-  g:SetInput("Intermediate4", hash("floor(x*12)*1.37 + floor(y*n3*1.5)*5.11 + 3.3"))
-  g:SetInput("Intermediate5", "if(i4 < n7*n1, 1, 0)")
+  L.cx(g, "Intermediate4", hash("floor(x*12)*1.37 + floor(y*n3*1.5)*5.11 + 3.3"))
+  L.cx(g, "Intermediate5", "if(i4 < n7*n1, 1, 0)")
   -- i6, i7 where this pixel reads the picture
-  g:SetInput("Intermediate6", "frac(x + i3 + i5*(frac(i4*91.3) - 0.5)*0.5 + 4)")
-  g:SetInput("Intermediate7", "if(i5 > 0, frac(y + (frac(i4*37.7) - 0.5)*0.3 + 4), y)")
+  L.cx(g, "Intermediate6", "frac(x + i3 + i5*(frac(i4*91.3) - 0.5)*0.5 + 4)")
+  L.cx(g, "Intermediate7", "if(i5 > 0, frac(y + (frac(i4*37.7) - 0.5)*0.3 + 4), y)")
   -- i8 = 1 where the second image shows
-  g:SetInput("Intermediate8", "if(frac(i1*3.71 + i2*0.2) < n2, 1, 0)")
+  L.cx(g, "Intermediate8", "if(frac(i1*3.71 + i2*0.2) < n2, 1, 0)")
   local function chan(c, k)
     local sx = string.format("frac(i6 + %s*n5*n1*(0.5 + i1) + 4)", k)
     return string.format("if(n1 <= 0, if(n2 >= 0.5, %s2, %s1), if(i8 > 0, get%s2b(%s, i7), get%s1b(%s, i7))*(1 - n8*n1*if(frac(y*h/4) < 0.5, 1, 0))*(1 + i5*0.3))",
       c, c, c, sx, c, sx)
   end
-  g:SetInput("RedExpression", chan("r", "1")); g:SetInput("GreenExpression", chan("g", "0"))
-  g:SetInput("BlueExpression", chan("b", "(-1)")); g:SetInput("AlphaExpression", "if(n2 >= 0.5, a2, a1)")
+  L.cx(g, "RedExpression", chan("r", "1")); L.cx(g, "GreenExpression", chan("g", "0"))
+  L.cx(g, "BlueExpression", chan("b", "(-1)")); L.cx(g, "AlphaExpression", "if(n2 >= 0.5, a2, a1)")
   return g
 end
 

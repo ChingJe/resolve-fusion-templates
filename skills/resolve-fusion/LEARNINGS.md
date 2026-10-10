@@ -208,3 +208,25 @@
 - 在 `fuscript` 裡，`debug.getinfo(1, "S").source` 是 `@` 加上執行時給的路徑，原樣不變：給相對路徑就是相對的。要絕對路徑得自己接上目前資料夾（Windows 用 `io.popen("cd")` 讀）。`Saver` 的輸出路徑必須是絕對的。
 - Lua 字串裡比對路徑分隔符號的樣式要寫 `[/\\]`（兩個反斜線）。透過殼層的 heredoc 餵給 Python 再寫進 Lua 檔時，反斜線會被吃掉一半，變成一個，Lua 報 `invalid escape sequence`。需要反斜線時在 Python 裡用 `chr(92)` 組出來，改完一定要實際跑一支。
 - 跟機器有關的設定（專案名稱、素材檔名）放在不進 git 的 `scripts/local.lua`，repo 裡只留範例檔。素材檔名也算私人資訊，不要寫進腳本的預設值。
+
+### Custom 運算式太長會讓 Resolve 當機
+
+- 症狀：Resolve 直接跳出問題報告，有時是設定運算式的當下，有時是幾分鐘後在完全無關的地方（下一支腳本、貼上範本時），所以很容易怪錯對象。這次連當三次才找到。原因（推測，但符合全部三次）：`Custom` 節點的 `Intermediate`、`RedExpression` 等欄位塞了太長的字串。先前 27 個範本最長 427 字元都沒事，這次出事的是 473、1075、3549 字元。
+- 做法：`Custom` 的運算式一律用 `L.cx(tool, "Intermediate1", "...")` 設定，超過 430 字元會拒絕。新腳本寫完先跑 `FX_DRY=1 fuscript -l lua build/xxx.lua`：這個模式不連 Resolve（`fuscript` 沒開 Resolve 也能跑純 Lua），只量每條運算式的長度，印出最長的那條。
+- 太長時的拆法：先把重複用到的子式放進中間變數；一個節點放不下就拆成兩個 `Custom`（第二個讀第一個的輸出）；跟像素無關的計算搬到控制節點的 Lua 運算式，算好再用 `PointIn` 傳進來。
+- Resolve 當機後 `tasklist` 可能還看得到 `Resolve.exe`，那是問題報告視窗。用 PowerShell `Get-Process Resolve | select MainWindowTitle` 可以分辨。這時不要 `taskkill fuscript.exe`，也不要繼續送腳本。
+
+### Custom 很慢，運算量 = 運算式長度 × 像素數
+
+- `Custom` 是逐像素直譯，`if()` 沒用到的分支也照算。把九種形狀寫在同一個節點裡用 `if(n1 == k, ...)` 挑，每格要 9 秒。
+- 三個解法，Pen Mark 都用上了：（1）距離場這種平滑的東西在半解析度的 `Background` 上算，最後一個全解析度的 `Custom` 用 `getr2b(x, y)` 取樣，線條一樣銳利。（2）每一類形狀一個 `Custom`，用 `Dissolve`（`Mix` 設 0 或 1）挑，沒被選到的那邊 Fusion 不會去算。（3）彎曲、波浪、手抖都做在「座標」上：先一個 `Custom` 把每個像素的座標扭一下存進 R、G（float32），後面的節點只要算直線。
+- 不同大小的圖可以接同一個 `Dissolve`，`Mix` 是 0 或 1 時原樣通過。用 16×16、填常數的 `Background` 當「這一層關掉」的替身。
+
+### 標記和說明類的九個範本
+
+- 要「某個值在過去某一格是多少」：在另一個節點的運算式裡寫 `控制節點:GetValue("輸入ID", 影格)`。座標型的輸入回傳的表用 `v.X or v[1]`、`v.Y or v[2]` 讀。對關鍵幀有效（Click Ripple 用它讓波紋留在點下去那一刻的位置）；如果那個輸入本身是用含 `time` 的運算式驅動的，拿到的會是現在的值，測試時要用真的關鍵幀：`tool:AddModifier("輸入ID", "PolyPath")` 之後 `tool.輸入ID[影格] = {x, y, 0}`。
+- `Text+` 的文字顏色可以連到別的節點：對 `Red1`、`Green1`、`Blue1` 設運算式。`HorizontalLeftCenterRight` 也能設運算式，用來做「文字在左邊或右邊」的選項。`AngleZ` 正值是逆時針，和 `Custom` 裡自己算的角度方向一致。
+- `compose.lua` 加了 `FX_INPUTS=1`：每一份特效各接一個測試畫面，疊在黑底上，用來做 Split Screen 這種「好幾個片段各套一次」的預覽。
+- `L.ship` 加了 `FX_PT="Id=0.3:0.4"` 設座標型控制項。
+- 大小類的參數統一以畫面高度為 1（寬和高都是），這樣寬高填一樣就是正圓、正方形。以畫面寬度為 1 的話，使用者要自己乘 16:9。
+- 動畫時間用秒的寫法：`(time - comp.RenderStart + 1)/(秒數*FPS)`，`FPS` 是 `iif(FpsOverride > 0, FpsOverride, comp:GetPrefs('Comp.FrameFormat.Rate') or 24)`。標記類用秒比用整段比例合理：標題拉長時，畫出來的速度不該變慢。

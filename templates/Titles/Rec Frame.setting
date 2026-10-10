@@ -1,0 +1,570 @@
+{
+	Tools = ordered() {
+		RecFrame = MacroOperator {
+			CtrlWZoom = false,
+			Inputs = ordered() {
+				Input1 = InstanceInput { SourceOp = "RecCtrl", Source = "RecMargin", Name = "Distance From The Edge" },
+				Input2 = InstanceInput { SourceOp = "RecCtrl", Source = "RecThick", Name = "Line Thickness" },
+				Input3 = InstanceInput { SourceOp = "RecCtrl", Source = "RecCorners", Name = "Corner Marks: Length (0 = none)" },
+				Input4 = InstanceInput { SourceOp = "RecCtrl", Source = "RecDot", Name = "REC Dot" },
+				Input5 = InstanceInput { SourceOp = "RecCtrl", Source = "RecBlink", Name = "REC Dot: Seconds Per Blink (0 = steady)" },
+				Input6 = InstanceInput { SourceOp = "RecCtrl", Source = "RecWord", Name = "REC Text" },
+				Input7 = InstanceInput { SourceOp = "RecCtrl", Source = "RecTime", Name = "Timecode" },
+				Input8 = InstanceInput { SourceOp = "RecCtrl", Source = "RecStart", Name = "Timecode: Starts At (seconds)" },
+				Input9 = InstanceInput { SourceOp = "RecCtrl", Source = "RecInfo", Name = "Text At The Bottom Left (may be empty)" },
+				Input10 = InstanceInput { SourceOp = "RecCtrl", Source = "RecBattery", Name = "Battery" },
+				Input11 = InstanceInput { SourceOp = "RecCtrl", Source = "RecLevel", Name = "Battery: Charge" },
+				Input12 = InstanceInput { SourceOp = "RecCtrl", Source = "RecCross", Name = "Centre Cross" },
+				Input13 = InstanceInput { SourceOp = "RecCtrl", Source = "RecGrid", Name = "Grid Opacity" },
+				Input14 = InstanceInput { SourceOp = "RecCtrl", Source = "RecSize", Name = "Text Size" },
+				Input15 = InstanceInput { SourceOp = "RecCtrl", Source = "RecOpacity", Name = "Opacity" },
+				Input16 = InstanceInput { SourceOp = "RecCtrl", Source = "FpsOverride", Name = "Frame Rate Override" },
+				Input17 = InstanceInput { SourceOp = "RecWordText", Source = "Font", Name = "Font", ControlGroup = 2 },
+				Input18 = InstanceInput { SourceOp = "RecWordText", Source = "Style", ControlGroup = 2 },
+				Input19 = InstanceInput { SourceOp = "ColRec", Source = "TopLeftRed", Name = "Colour", ControlGroup = 3 },
+				Input20 = InstanceInput { SourceOp = "ColRec", Source = "TopLeftGreen", ControlGroup = 3 },
+				Input21 = InstanceInput { SourceOp = "ColRec", Source = "TopLeftBlue", ControlGroup = 3 },
+				Input22 = InstanceInput { SourceOp = "ColRecDot", Source = "TopLeftRed", Name = "REC Dot Colour", ControlGroup = 4 },
+				Input23 = InstanceInput { SourceOp = "ColRecDot", Source = "TopLeftGreen", ControlGroup = 4 },
+				Input24 = InstanceInput { SourceOp = "ColRecDot", Source = "TopLeftBlue", ControlGroup = 4 },
+			},
+			Outputs = {
+				MainOutput1 = InstanceOutput { SourceOp = "RecFinal", Source = "Output" }
+			},
+			ViewInfo = GroupInfo { Pos = { 0, 0 } },
+			Tools = ordered() {
+				RecCtrl = Background {
+					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } },
+					Inputs = {
+						Sec = Input { Expression = "(time - comp.RenderStart)/iif(FpsOverride > 0, FpsOverride, comp:GetPrefs('Comp.FrameFormat.Rate') or 24)" },
+						Height = Input { Value = 1080 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						GlobalIn = Input { Value = -480 },
+						TopLeftAlpha = Input { Value = 0 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } }
+					},
+					UserControls = {
+						FpsOverride = {
+							INP_MinScale = 0,
+							INP_MaxScale = 120,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Frame Rate Override",
+							INP_Default = 0
+						},
+						Sec = {
+							INP_MinScale = 0,
+							INP_MaxScale = 1000000,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Sec",
+							INP_Default = 0
+						},
+						RecMargin = {
+							INP_MinScale = 0,
+							INP_MaxScale = 0.3,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Distance From The Edge",
+							INP_Default = 0.06
+						},
+						RecThick = {
+							INP_MinScale = 0.001,
+							INP_MaxScale = 0.02,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Line Thickness",
+							INP_Default = 0.004
+						},
+						RecCorners = {
+							INP_MinScale = 0,
+							INP_MaxScale = 0.5,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Corner Marks: Length (0 = none)",
+							INP_Default = 0.09
+						},
+						RecDot = {
+							INP_Integer = true,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "CheckboxControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "REC Dot",
+							INP_Default = 1
+						},
+						RecBlink = {
+							INP_MinScale = 0,
+							INP_MaxScale = 5,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "REC Dot: Seconds Per Blink (0 = steady)",
+							INP_Default = 1
+						},
+						RecWord = {
+							INPS_DefaultText = "REC",
+							TEC_Lines = 1,
+							LINKID_DataType = "Text",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "TextEditControl",
+							LINKS_Name = "REC Text"
+						},
+						RecTime = {
+							INP_Integer = true,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "CheckboxControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Timecode",
+							INP_Default = 1
+						},
+						RecStart = {
+							INP_MinScale = 0,
+							INP_MaxScale = 36000,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Timecode: Starts At (seconds)",
+							INP_Default = 0
+						},
+						RecInfo = {
+							INPS_DefaultText = "4K 60FPS",
+							TEC_Lines = 1,
+							LINKID_DataType = "Text",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "TextEditControl",
+							LINKS_Name = "Text At The Bottom Left (may be empty)"
+						},
+						RecBattery = {
+							INP_Integer = true,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "CheckboxControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Battery",
+							INP_Default = 1
+						},
+						RecGrid = {
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Grid Opacity",
+							INP_Default = 0
+						},
+						RecLevel = {
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Battery: Charge",
+							INP_Default = 0.7
+						},
+						RecSize = {
+							INP_MinScale = 0.01,
+							INP_MaxScale = 0.12,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Text Size",
+							INP_Default = 0.035
+						},
+						RecCross = {
+							INP_Integer = true,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "CheckboxControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Centre Cross",
+							INP_Default = 1
+						},
+						RecOpacity = {
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Opacity",
+							INP_Default = 0.9
+						}
+					},
+					CtrlWZoom = false
+				},
+				RecMarks = Custom {
+					ViewInfo = OperatorInfo { Pos = { -165, 16.5 } },
+					Inputs = {
+						Intermediate1 = Input { Value = "(x - 0.5)*w/h" },
+						LUTIn4 = Input {
+							SourceOp = "CustomTool1LUTIn4",
+							Source = "Value"
+						},
+						Intermediate2 = Input { Value = "y - 0.5" },
+						Intermediate3 = Input { Value = "0.5*w/h - n1" },
+						Intermediate4 = Input { Value = "0.5 - n1" },
+						RedExpression = Input { Value = "max(max(i5, i6), i7)" },
+						Image1 = Input {
+							SourceOp = "RecCtrl",
+							Source = "Output"
+						},
+						GreenExpression = Input { Value = "max(max(i5, i6), i7)" },
+						NumberIn3 = Input { Expression = "RecCtrl.RecCorners" },
+						BlueExpression = Input { Value = "max(max(i5, i6), i7)" },
+						NumberIn4 = Input { Expression = "RecCtrl.RecCross" },
+						NumberIn5 = Input { Expression = "RecCtrl.RecGrid" },
+						Intermediate5 = Input { Value = "if(n3 > 0 && i3 - abs(i1) < n3 && i4 - abs(i2) < n3, min(max((n2 - abs(max(abs(i1) - i3, abs(i2) - i4)))*h + 0.5, 0), 1), 0)" },
+						Intermediate6 = Input { Value = "if(n4 > 0, max(min(max((n2 - abs(i1))*h + 0.5, 0), 1)*min(max((0.03 - abs(i2))*h + 0.5, 0), 1), min(max((n2 - abs(i2))*h + 0.5, 0), 1)*min(max((0.03 - abs(i1))*h + 0.5, 0), 1)), 0)" },
+						Intermediate7 = Input { Value = "n5*if(abs(i1) < i3 && abs(i2) < i4, min(max((n2*0.6 - min(abs(abs(i1) - i3/3), abs(abs(i2) - i4/3)))*h + 0.5, 0), 1), 0)" },
+						AlphaExpression = Input { Value = "max(max(i5, i6), i7)" },
+						NumberIn1 = Input { Expression = "RecCtrl.RecMargin" },
+						LUTIn3 = Input {
+							SourceOp = "CustomTool1LUTIn3",
+							Source = "Value"
+						},
+						NumberIn2 = Input { Expression = "RecCtrl.RecThick/2" },
+						LUTIn1 = Input {
+							SourceOp = "CustomTool1LUTIn1",
+							Source = "Value"
+						},
+						LUTIn2 = Input {
+							SourceOp = "CustomTool1LUTIn2",
+							Source = "Value"
+						}
+					}
+				},
+				CustomTool1LUTIn1 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn2 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn3 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn4 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				ColRec = Background {
+					ViewInfo = OperatorInfo { Pos = { -275, -148.5 } },
+					Inputs = {
+						TopLeftBlue = Input { Value = 1 },
+						TopLeftGreen = Input { Value = 1 },
+						Height = Input { Value = 16 },
+						Width = Input { Value = 16 },
+						GlobalIn = Input { Value = -480 },
+						TopLeftRed = Input { Value = 1 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } }
+					}
+				},
+				ColRecDot = Background {
+					ViewInfo = OperatorInfo { Pos = { -165, -148.5 } },
+					Inputs = {
+						TopLeftBlue = Input { Value = 0.1 },
+						TopLeftGreen = Input { Value = 0.12 },
+						Height = Input { Value = 16 },
+						Width = Input { Value = 16 },
+						GlobalIn = Input { Value = -480 },
+						TopLeftRed = Input { Value = 1 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } }
+					}
+				},
+				RecDraw = Custom {
+					ViewInfo = OperatorInfo { Pos = { -55, 16.5 } },
+					Inputs = {
+						LUTIn3 = Input {
+							SourceOp = "CustomTool1LUTIn31",
+							Source = "Value"
+						},
+						LUTIn4 = Input {
+							SourceOp = "CustomTool1LUTIn41",
+							Source = "Value"
+						},
+						Intermediate2 = Input { Value = "y - 0.5" },
+						NumberIn6 = Input { Expression = "iif(RecCtrl.RecBattery == 1, RecCtrl.RecLevel, -1)" },
+						Intermediate3 = Input { Value = "0.5*w/h - n1" },
+						NumberIn7 = Input { Expression = "iif(RecCtrl.RecDot == 1 and (RecCtrl.RecBlink <= 0 or (RecCtrl.Sec/RecCtrl.RecBlink) % 1 < 0.6), 1, 0)" },
+						Intermediate4 = Input { Value = "0.5 - n1" },
+						RedExpression = Input { Value = "getr2b(0.5, 0.5)*max(max(a1, i5), max(i6, i7))*(1 - i8) + getr3b(0.5, 0.5)*i8" },
+						Image1 = Input {
+							SourceOp = "RecMarks",
+							Source = "Output"
+						},
+						GreenExpression = Input { Value = "getg2b(0.5, 0.5)*max(max(a1, i5), max(i6, i7))*(1 - i8) + getg3b(0.5, 0.5)*i8" },
+						BlueExpression = Input { Value = "getb2b(0.5, 0.5)*max(max(a1, i5), max(i6, i7))*(1 - i8) + getb3b(0.5, 0.5)*i8" },
+						Intermediate5 = Input { Value = "if(n6 < 0, 0, min(max((n2 - abs(max(abs((i1 - (i3 - 0.035 - n8*1.1))) - n8*1.1, abs((i2 - (i4 - 0.05))) - n8*0.55)))*h + 0.5, 0), 1))" },
+						Intermediate6 = Input { Value = "if(n6 >= 0 && (i1 - (i3 - 0.035 - n8*1.1)) + n8*0.85 < n8*1.7*n6, min(max((n8*0.85 - abs((i1 - (i3 - 0.035 - n8*1.1))))*h + 0.5, 0), 1)*min(max((n8*0.3 - abs((i2 - (i4 - 0.05))))*h + 0.5, 0), 1), 0)" },
+						Image3 = Input {
+							SourceOp = "ColRecDot",
+							Source = "Output"
+						},
+						Intermediate7 = Input { Value = "if(n6 < 0, 0, min(max((n8*0.12 - abs((i1 - (i3 - 0.035 - n8*1.1)) - n8*1.25))*h + 0.5, 0), 1)*min(max((n8*0.25 - abs((i2 - (i4 - 0.05))))*h + 0.5, 0), 1))" },
+						Image2 = Input {
+							SourceOp = "ColRec",
+							Source = "Output"
+						},
+						NumberIn8 = Input { Expression = "RecCtrl.RecSize" },
+						AlphaExpression = Input { Value = "max(max(a1, i5), max(i6, i7))*(1 - i8) + i8" },
+						Intermediate8 = Input { Value = "n7*min(max((n8*0.42 - sqrt((i1 + i3 - 0.035 - n8*0.42)^2 + (i2 - (i4 - 0.05))^2))*h + 0.5, 0), 1)" },
+						NumberIn1 = Input { Expression = "RecCtrl.RecMargin" },
+						Intermediate1 = Input { Value = "(x - 0.5)*w/h" },
+						NumberIn2 = Input { Expression = "RecCtrl.RecThick/2" },
+						LUTIn1 = Input {
+							SourceOp = "CustomTool1LUTIn11",
+							Source = "Value"
+						},
+						LUTIn2 = Input {
+							SourceOp = "CustomTool1LUTIn21",
+							Source = "Value"
+						}
+					}
+				},
+				CustomTool1LUTIn11 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn21 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn31 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn41 = LUTBezier {
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
+					NameSet = true
+				},
+				RecWordText = TextPlus {
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -275, 82.5 } },
+					Inputs = {
+						Wrap = Input { Value = 1 },
+						LayoutRotation = Input { Value = 1 },
+						TransformRotation = Input { Value = 1 },
+						Softness1 = Input { Value = 1 },
+						VerticalJustificationNew = Input { Value = 3 },
+						HorizontalJustificationNew = Input { Value = 3 },
+						Red1 = Input { Expression = "ColRec.TopLeftRed" },
+						Font = Input { Value = "Consolas" },
+						Green1 = Input { Expression = "ColRec.TopLeftGreen" },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						GlobalIn = Input { Value = -480 },
+						Size = Input { Expression = "RecCtrl.RecSize" },
+						GlobalOut = Input { Value = 3534 },
+						Center = Input { Expression = "Point(0.5 + (-(0.5*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')) - RecCtrl.RecMargin - 0.035) + iif(RecCtrl.RecDot == 1, RecCtrl.RecSize*1.15, 0))/(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')), 0.5 + (1)*(0.5 - RecCtrl.RecMargin - 0.05))" },
+						HorizontalLeftCenterRight = Input { Value = -1 },
+						Style = Input { Value = "Bold" },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Height = Input { Value = 1080 },
+						Blue1 = Input { Expression = "ColRec.TopLeftBlue" },
+						StyledText = Input { Expression = "Text(RecCtrl.RecWord.Value)" }
+					}
+				},
+				RecOver1 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 165, 16.5 } },
+					Inputs = {
+						PerformDepthMerge = Input { Value = 0 },
+						Foreground = Input {
+							SourceOp = "RecWordText",
+							Source = "Output"
+						},
+						Background = Input {
+							SourceOp = "RecDraw",
+							Source = "Output"
+						}
+					}
+				},
+				RecInfoText = TextPlus {
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -275, 115.5 } },
+					Inputs = {
+						Wrap = Input { Value = 1 },
+						LayoutRotation = Input { Value = 1 },
+						TransformRotation = Input { Value = 1 },
+						Softness1 = Input { Value = 1 },
+						VerticalJustificationNew = Input { Value = 3 },
+						HorizontalJustificationNew = Input { Value = 3 },
+						Red1 = Input { Expression = "ColRec.TopLeftRed" },
+						Font = Input {
+							Value = "Consolas",
+							Expression = "RecWordText.Font"
+						},
+						Green1 = Input { Expression = "ColRec.TopLeftGreen" },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						GlobalIn = Input { Value = -480 },
+						Size = Input { Expression = "RecCtrl.RecSize" },
+						GlobalOut = Input { Value = 3534 },
+						Center = Input { Expression = "Point(0.5 + (-(0.5*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')) - RecCtrl.RecMargin - 0.035))/(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')), 0.5 + (-1)*(0.5 - RecCtrl.RecMargin - 0.05))" },
+						HorizontalLeftCenterRight = Input { Value = -1 },
+						Style = Input {
+							Value = "Bold",
+							Expression = "RecWordText.Style"
+						},
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Height = Input { Value = 1080 },
+						Blue1 = Input { Expression = "ColRec.TopLeftBlue" },
+						StyledText = Input { Expression = "Text(RecCtrl.RecInfo.Value)" }
+					}
+				},
+				RecOver2 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 275, 16.5 } },
+					Inputs = {
+						PerformDepthMerge = Input { Value = 0 },
+						Foreground = Input {
+							SourceOp = "RecInfoText",
+							Source = "Output"
+						},
+						Background = Input {
+							SourceOp = "RecOver1",
+							Source = "Output"
+						}
+					}
+				},
+				RecTimeText = TextPlus {
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -275, 148.5 } },
+					Inputs = {
+						Wrap = Input { Value = 1 },
+						LayoutRotation = Input { Value = 1 },
+						TransformRotation = Input { Value = 1 },
+						Softness1 = Input { Value = 1 },
+						VerticalJustificationNew = Input { Value = 3 },
+						HorizontalJustificationNew = Input { Value = 3 },
+						Red1 = Input { Expression = "ColRec.TopLeftRed" },
+						Font = Input {
+							Value = "Consolas",
+							Expression = "RecWordText.Font"
+						},
+						Green1 = Input { Expression = "ColRec.TopLeftGreen" },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						GlobalIn = Input { Value = -480 },
+						Size = Input { Expression = "RecCtrl.RecSize" },
+						GlobalOut = Input { Value = 3534 },
+						Center = Input { Expression = "Point(0.5 + (-(-(0.5*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')) - RecCtrl.RecMargin - 0.035)))/(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')), 0.5 + (-1)*(0.5 - RecCtrl.RecMargin - 0.05))" },
+						HorizontalLeftCenterRight = Input { Value = 1 },
+						Style = Input {
+							Value = "Bold",
+							Expression = "RecWordText.Style"
+						},
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Height = Input { Value = 1080 },
+						Blue1 = Input { Expression = "ColRec.TopLeftBlue" },
+						StyledText = Input { Expression = "Text((function(on, s, fps)\n  if on ~= 1 then return \"\" end\n  local f = math.floor((s % 1)*fps + 0.001)\n  s = math.floor(s)\n  return string.format(\"%02d:%02d:%02d:%02d\", math.floor(s/3600), math.floor(s/60) % 60, s % 60, f)\nend)(RecCtrl.RecTime, RecCtrl.Sec + RecCtrl.RecStart, iif(RecCtrl.FpsOverride > 0, RecCtrl.FpsOverride, comp:GetPrefs('Comp.FrameFormat.Rate') or 24)))" }
+					}
+				},
+				RecOver3 = Merge {
+					ViewInfo = OperatorInfo { Pos = { 385, 16.5 } },
+					Inputs = {
+						PerformDepthMerge = Input { Value = 0 },
+						Foreground = Input {
+							SourceOp = "RecTimeText",
+							Source = "Output"
+						},
+						Background = Input {
+							SourceOp = "RecOver2",
+							Source = "Output"
+						}
+					}
+				},
+				RecFinal = Merge {
+					ViewInfo = OperatorInfo { Pos = { 605, 16.5 } },
+					Inputs = {
+						Blend = Input { Expression = "RecCtrl.RecOpacity" },
+						PerformDepthMerge = Input { Value = 0 },
+						Foreground = Input {
+							SourceOp = "RecOver3",
+							Source = "Output"
+						},
+						Background = Input {
+							SourceOp = "RecCtrl",
+							Source = "Output"
+						}
+					}
+				}
+			
+			}
+		}
+	},
+	ActiveTool = "RecFrame"
+}
