@@ -128,7 +128,10 @@ cmd.exe //c "..\\install.bat install nopause"          # 同步到 Resolve 的�
 - 跳格算圖有時回傳 `false`，但畫格其實都寫出來了，以檔案為準。
 - 取樣的畫格可能剛好都落在動態模糊的瞬間，看起來全糊。換一組畫格，或挑邊緣最銳利的再判斷。
 - 測試用的中文字串不要走環境變數，會被殼層弄亂。寫進 UTF-8 檔案，在腳本裡用 `io.open` 讀。
-- `Saver` 的檔名前綴不要以數字結尾。`cj1.png` 加上畫格編號後不會是預期的 `cj10072.png`。
+- `Saver` 的檔名前綴只用字母和底線。以數字結尾（`cj1`）或帶「數字加 x」（`st0x`）時，算圖回報正常，但檔案不會出現在預期的名字上。
+- **不要強制結束 `fuscript.exe`**。Resolve 沒當的時候也一樣：工作管理員裡常駐的那個 `fuscript` 是腳本連線用的，砍掉之後 `bmd.scriptapp("Resolve")` 一律回傳 nil，手動再開 `fuscript -S` 也接不回來，只能請使用者重啟 Resolve。腳本卡住時先用小腳本確認 Resolve 還有回應，卡住的那個程序放著不管，用 `timeout` 包住每一步重跑。
+- 一串用 `&&` 和管線接起來的 `fuscript` 指令卡住時看不到卡在哪一步（輸出都被 `tail` 扣住）。會動到 Resolve 的步驟一步一個指令，各自加 `timeout`。
+- **透過殼層 heredoc 寫檔時，打兩個反斜線只會寫進一個**。Python 字串裡的換行跳脫碼因此變成真的換行，寫進 Lua 檔就是語法錯誤。內容含反斜線的檔案用 Write 工具寫，或用 Python 的原始字串（`r'''`），寫完用 `grep` 看一眼。
 
 ## Fusion 節點的坑
 
@@ -155,6 +158,8 @@ cmd.exe //c "..\\install.bat install nopause"          # 同步到 Resolve 的�
 - `Custom` 能收的數值總共十六個（8 個 `NumberIn` 加 4 個 `PointIn`）。不夠就再串一個 `Custom` 接著處理。
 - 運算式裡可以呼叫 `comp:GetPrefs("Comp.FrameFormat.Rate")` 取得合成的影格率。
 - **`Text+` 不會自動換字型**。字型沒有的字會變成方塊，`Open Sans` 就沒有中文。要顯示中文，預設字型用 `Microsoft JhengHei`。
+- **`Text+` 會丟掉完全空白的行**，多行文字靠空行佔位排不出固定版面。每個要佔位的行放一個不換行空格，而且要用 `string.char(194, 160)` 組出來：運算式字串裡寫反斜線加數字（十進位 194、160）這種跳脫碼會被當成別的字，畫面上出現方塊和數字。
+- **圖片貼著自己邊緣的地方，外框和陰影會被切掉，而且一閃一閃**。症狀：去背圖的身體一路畫到圖的下緣，Sticker Pop 搖到剛好 0 度的那幾格下緣沒有白邊，歪的時候又有。原因：`Transform` 輸出的有效範圍（DoD）只有圖片本身那麼大，`ErodeDilate`、`Blur`、`Custom` 都不會畫到範圍外；圖轉了角度時範圍的外接矩形變大，才剛好有空間。做法：在 `Transform` 後面接一個 `SetDomain`（`Mode` 設 `Set`，範圍變回整個畫框）再往下接。凡是「把形狀往外長」的效果都要這樣做。程序畫的測試圖沒有貼邊，測不出這個問題；建置腳本可以用 `FX_PNG=圖檔路徑` 換成真的 PNG 來測（畫格不可進 git）。
 - `comp:Paste()` 在有節點被選取時會自動多插一個 `Merge`。貼之前先呼叫 `comp:SetActiveTool(nil)` 和 `comp.CurrentFrame.FlowView:Select()`，貼完檢查有沒有多出來的節點。
 
 ## `Custom` 節點的長度和效能
