@@ -1,10 +1,10 @@
-# Colour Bars
+# Stripe Wipe
 
-轉場 · 檔案 `templates/Transitions/Colour Bars.setting` · [回到總覽](../../README.md)
+轉場 · 檔案 `templates/Transitions/Stripe Wipe.setting` · [回到總覽](../../README.md)
 
 幾條純色的色帶依序掃過畫面，掃過之後就是下一段。綜藝節目換話題時常見的手法。可以把畫面分成幾列，每列晚一點出發。
 
-![Colour Bars](../../previews/colour-bars.gif)
+![Stripe Wipe](../../previews/stripe-wipe.gif)
 
 **用法**：拖到兩個片段的交界，拉成想要的長度。
 

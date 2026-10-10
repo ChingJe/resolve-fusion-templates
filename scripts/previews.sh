@@ -32,7 +32,7 @@ shot text-label-combined compose.lua "FX_TEMPLATE=$T/Titles/Text Label.setting" 
 shot reaction-mark   compose.lua    "FX_TEMPLATE=$T/Titles/Reaction Mark.setting" FX_SPEC=$X/marks.txt
 shot whip-pan        whippan.lua
 shot zoom-through    zoomthrough.lua
-shot colour-bars     barwipe.lua    FX_SET="BwRows=1"
+shot stripe-wipe     barwipe.lua    FX_SET="BwRows=1"
 shot glitch-cut      glitchcut.lua
 shot glitch-hits     glitchhits.lua
 shot sub-window      subwindow.lua

@@ -1,11 +1,11 @@
--- Colour Bars transition: bands of flat colour sweep across the picture one after another and leave the next
+-- Stripe Wipe transition: bands of flat colour sweep across the picture one after another and leave the next
 -- clip behind them, the way variety shows change topic. The frame can be split into rows that start one after another.
 -- FX_EXPORT=1 dumps the macro source.
 local L = dofile("D:/davinci/scripts/lib.lua")
 local comp = L.comp()
 if not comp then return end
 comp:Lock()
-comp:StartUndo("Build Colour Bars")
+comp:StartUndo("Build Stripe Wipe")
 local mediaIn, mediaOut = L.clear(comp)
 local add, expr = L.adder(comp), L.expr
 
@@ -112,4 +112,4 @@ for k = 1, 5 do
   spec[#spec + 1] = {"CTL", "ColBar" .. k, "TopLeftGreen", "", g}
   spec[#spec + 1] = {"CTL", "ColBar" .. k, "TopLeftBlue", "", g}
 end
-L.ship(comp, {slug = "barwipe", name = "ColourBars", out = cut, ctrl = ctrl, srcs = srcs, ins = ins, spec = spec, prefix = "bw"})
+L.ship(comp, {slug = "barwipe", name = "StripeWipe", out = cut, ctrl = ctrl, srcs = srcs, ins = ins, spec = spec, prefix = "bw"})

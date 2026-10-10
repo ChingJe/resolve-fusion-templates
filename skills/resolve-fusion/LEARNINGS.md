@@ -196,3 +196,9 @@
 - **`L.inked` 可以做兩色填色的字**：同一個文字遮罩上兩次色（兩組顏色），第二份用 `RectangleMask` 從文字左緣往右長。文字的左緣和寬度用 `Output.DataWindow` 量。
 - **多行貼上的 bash 指令裡如果有很長的 heredoc 內含單引號，有時整個指令會解析失敗**（`unexpected EOF while looking for matching`）。Lua 腳本改用寫檔工具直接寫，不要塞在 heredoc 裡。
 - 停格、倒數這類「照真實秒數」的東西，秒數一律用 `(time − RenderStart) / 影格率` 算，影格率用 `comp:GetPrefs("Comp.FrameFormat.Rate")`，並留一個 `FpsOverride` 控制項給使用者修正。
+
+### 改範本名稱、和內建範本比較
+
+- 改名時 `install.bat` 不會刪掉範本資料夾裡舊檔名的那一份，要自己刪，不然特效庫裡新舊兩個都在。要改的地方：`templates/` 的檔名、建置腳本裡 `L.ship` 的 `name`、`docs/templates/` 的檔名和內文、`previews/` 的 GIF、`previews.sh`、README、SKILL.md 的表格。
+- 內建範本包在 `C:\Program Files\Blackmagic Design\DaVinci Resolve\Fusion\Templates\Templates.drfx`，它是 zip 檔，`unzip -l` 可以列出全部名稱（Resolve 21.1.1 有 417 個）。取名前先比對，避免和內建的同名或只差一個字母。
+- 內建範本解壓到暫存資料夾後，可以直接用 `check.lua` 貼進實驗合成算圖，和我們的做並排比較。內建的 `Glitch` 轉場不是包成單一群組，`check.lua` 讀不了；其他試過的都可以。

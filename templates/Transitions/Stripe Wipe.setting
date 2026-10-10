@@ -1,6 +1,6 @@
 {
 	Tools = ordered() {
-		ColourBars = MacroOperator {
+		StripeWipe = MacroOperator {
 			CtrlWZoom = false,
 			Inputs = ordered() {
 				MainInput1 = InstanceInput { SourceOp = "SrcA", Source = "Input" },
@@ -37,6 +37,64 @@
 			Tools = ordered() {
 				BarCtrl = Background {
 					UserControls = {
+						BwRows = {
+							INP_MinScale = 1,
+							LINKS_Name = "Rows",
+							INP_Default = 1,
+							LINKID_DataType = "Number",
+							INP_MaxScale = 12,
+							INP_Integer = true,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						},
+						BwStagger = {
+							INP_MinScale = 0,
+							LINKS_Name = "Row Delay",
+							INP_Default = 0.3,
+							LINKID_DataType = "Number",
+							INP_MaxScale = 1,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						},
+						BwDir = {
+							{
+								CCS_AddString = "Right"
+							},
+							{
+								CCS_AddString = "Left"
+							},
+							{
+								CCS_AddString = "Up"
+							},
+							{
+								CCS_AddString = "Down"
+							},
+							LINKS_Name = "Bars Move",
+							INP_Default = 0,
+							LINKID_DataType = "Number",
+							INP_Integer = true,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "ComboControl"
+						},
+						BwAlt = {
+							LINKS_Name = "Rows Alternate Direction",
+							INP_Default = 0,
+							LINKID_DataType = "Number",
+							INP_Integer = true,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "CheckboxControl"
+						},
+						BwEase = {
+							INP_MinScale = 1,
+							LINKS_Name = "Ease",
+							INP_Default = 1.6,
+							LINKID_DataType = "Number",
+							INP_MaxScale = 4,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						},
 						BwPalette = {
 							{
 								CCS_AddString = "Custom"
@@ -56,159 +114,101 @@
 							{
 								CCS_AddString = "Mono"
 							},
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "ComboControl",
 							LINKS_Name = "Colours",
 							INP_Default = 1,
+							LINKID_DataType = "Number",
 							INP_Integer = true,
-							LINKID_DataType = "Number"
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "ComboControl"
 						},
 						BwSlant = {
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
+							INP_MinScale = -60,
 							LINKS_Name = "Slant",
 							INP_Default = 20,
-							INP_MinScale = -60,
-							INP_MaxScale = 60,
-							INP_Integer = false
-						},
-						P = {
-							ICS_ControlPage = "Driver",
-							INPID_InputControl = "SliderControl",
 							LINKID_DataType = "Number",
-							LINKS_Name = "P",
-							INP_Default = 0,
-							INP_MinScale = 0,
-							INP_MaxScale = 1,
-							INP_Integer = false
+							INP_MaxScale = 60,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
 						},
 						BwCount = {
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
+							INP_MinScale = 1,
 							LINKS_Name = "Bars",
 							INP_Default = 4,
-							INP_MinScale = 1,
-							INP_MaxScale = 5,
-							INP_Integer = true
-						},
-						S = {
-							ICS_ControlPage = "Driver",
-							INPID_InputControl = "SliderControl",
 							LINKID_DataType = "Number",
-							LINKS_Name = "S",
-							INP_Default = 0,
+							INP_MaxScale = 5,
+							INP_Integer = true,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl"
+						},
+						P = {
 							INP_MinScale = 0,
+							LINKS_Name = "P",
+							INP_Default = 0,
+							LINKID_DataType = "Number",
 							INP_MaxScale = 1,
-							INP_Integer = false
+							INP_Integer = false,
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl"
 						},
 						BwWidth = {
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
+							INP_MinScale = 0.02,
 							LINKS_Name = "Bar Width",
 							INP_Default = 0.18,
-							INP_MinScale = 0.02,
+							LINKID_DataType = "Number",
 							INP_MaxScale = 0.6,
-							INP_Integer = false
-						},
-						BwRows = {
+							INP_Integer = false,
 							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "Rows",
-							INP_Default = 1,
-							INP_MinScale = 1,
-							INP_MaxScale = 12,
-							INP_Integer = true
+							INPID_InputControl = "SliderControl"
 						},
-						BwStagger = {
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "Row Delay",
-							INP_Default = 0.3,
+						S = {
 							INP_MinScale = 0,
+							LINKS_Name = "S",
+							INP_Default = 0,
+							LINKID_DataType = "Number",
 							INP_MaxScale = 1,
-							INP_Integer = false
-						},
-						BwDir = {
-							{
-								CCS_AddString = "Right"
-							},
-							{
-								CCS_AddString = "Left"
-							},
-							{
-								CCS_AddString = "Up"
-							},
-							{
-								CCS_AddString = "Down"
-							},
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "ComboControl",
-							LINKS_Name = "Bars Move",
-							INP_Default = 0,
-							INP_Integer = true,
-							LINKID_DataType = "Number"
-						},
-						BwAlt = {
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "CheckboxControl",
-							LINKS_Name = "Rows Alternate Direction",
-							INP_Default = 0,
-							LINKID_DataType = "Number",
-							INP_Integer = true
-						},
-						BwEase = {
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							LINKID_DataType = "Number",
-							LINKS_Name = "Ease",
-							INP_Default = 1.6,
-							INP_MinScale = 1,
-							INP_MaxScale = 4,
-							INP_Integer = false
+							INP_Integer = false,
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl"
 						}
 					},
-					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } },
-					CtrlWZoom = false,
 					Inputs = {
+						S = Input { Expression = "iif(P < 0.5, 0.5*(2*P)^BwEase, 1 - 0.5*(2 - 2*P)^BwEase)" },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
 						P = Input {
 							SourceOp = "BarCtrlProgress",
 							Source = "Value"
 						},
-						S = Input { Expression = "iif(P < 0.5, 0.5*(2*P)^BwEase, 1 - 0.5*(2 - 2*P)^BwEase)" },
-						GlobalIn = Input { Value = -480 },
-						GlobalOut = Input { Value = 3534 },
-						Width = Input { Value = 1920 },
-						Height = Input { Value = 1080 },
-						UseFrameFormatSettings = Input { Value = 1 },
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
 						TopLeftAlpha = Input { Value = 0 }
-					}
+					},
+					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } },
+					CtrlWZoom = false
 				},
 				BarCtrlProgress = LUTLookup {
+					NameSet = true,
 					Inputs = {
 						Lookup = Input {
 							SourceOp = "AnimCurves1查找表",
 							Source = "Value"
 						}
 					},
-					CtrlWZoom = false,
-					NameSet = true
+					CtrlWZoom = false
 				},
 				["AnimCurves1查找表"] = LUTBezier {
-					SplineColor = { Red = 0, Green = 0, Blue = 0 },
 					NameSet = true,
 					KeyColorSplines = {
 						[0] = {
 							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
-							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
 						}
 					},
-					CtrlWZoom = false
+					CtrlWZoom = false,
+					SplineColor = { Blue = 0, Green = 0, Red = 0 }
 				},
 				SrcA = BrightnessContrast {
 					ViewInfo = OperatorInfo { Pos = { -495, 16.5 } }
@@ -217,89 +217,99 @@
 					ViewInfo = OperatorInfo { Pos = { -495, 82.5 } }
 				},
 				ColBar1 = Background {
-					ViewInfo = OperatorInfo { Pos = { -165, -148.5 } },
 					Inputs = {
-						GlobalIn = Input { Value = -480 },
-						TopLeftRed = Input { Value = 1 },
 						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftBlue = Input { Value = 0.1 },
+						TopLeftRed = Input { Value = 1 },
 						Width = Input { Value = 16 },
 						Height = Input { Value = 16 },
-						TopLeftBlue = Input { Value = 0.1 },
-						TopLeftGreen = Input { Value = 0.85 },
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } }
-					}
+						GlobalIn = Input { Value = -480 },
+						TopLeftGreen = Input { Value = 0.85 }
+					},
+					ViewInfo = OperatorInfo { Pos = { -165, -148.5 } }
 				},
 				ColBar2 = Background {
-					ViewInfo = OperatorInfo { Pos = { -55, -148.5 } },
 					Inputs = {
-						GlobalIn = Input { Value = -480 },
-						TopLeftRed = Input { Value = 1 },
 						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftBlue = Input { Value = 0.55 },
+						TopLeftRed = Input { Value = 1 },
 						Width = Input { Value = 16 },
 						Height = Input { Value = 16 },
-						TopLeftBlue = Input { Value = 0.55 },
-						TopLeftGreen = Input { Value = 0.35 },
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } }
-					}
+						GlobalIn = Input { Value = -480 },
+						TopLeftGreen = Input { Value = 0.35 }
+					},
+					ViewInfo = OperatorInfo { Pos = { -55, -148.5 } }
 				},
 				ColBar3 = Background {
-					ViewInfo = OperatorInfo { Pos = { 55, -148.5 } },
 					Inputs = {
-						GlobalIn = Input { Value = -480 },
-						TopLeftRed = Input { Value = 0.15 },
 						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftBlue = Input { Value = 0.95 },
+						TopLeftRed = Input { Value = 0.15 },
 						Width = Input { Value = 16 },
 						Height = Input { Value = 16 },
-						TopLeftBlue = Input { Value = 0.95 },
-						TopLeftGreen = Input { Value = 0.75 },
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } }
-					}
+						GlobalIn = Input { Value = -480 },
+						TopLeftGreen = Input { Value = 0.75 }
+					},
+					ViewInfo = OperatorInfo { Pos = { 55, -148.5 } }
 				},
 				ColBar4 = Background {
-					ViewInfo = OperatorInfo { Pos = { 165, -148.5 } },
 					Inputs = {
-						GlobalIn = Input { Value = -480 },
-						TopLeftRed = Input { Value = 0.45 },
 						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftBlue = Input { Value = 0.25 },
+						TopLeftRed = Input { Value = 0.45 },
 						Width = Input { Value = 16 },
 						Height = Input { Value = 16 },
-						TopLeftBlue = Input { Value = 0.25 },
-						TopLeftGreen = Input { Value = 0.85 },
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } }
-					}
+						GlobalIn = Input { Value = -480 },
+						TopLeftGreen = Input { Value = 0.85 }
+					},
+					ViewInfo = OperatorInfo { Pos = { 165, -148.5 } }
 				},
 				ColBar5 = Background {
-					ViewInfo = OperatorInfo { Pos = { 275, -148.5 } },
 					Inputs = {
-						GlobalIn = Input { Value = -480 },
-						TopLeftRed = Input { Value = 1 },
 						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftBlue = Input { Value = 0.1 },
+						TopLeftRed = Input { Value = 1 },
 						Width = Input { Value = 16 },
 						Height = Input { Value = 16 },
-						TopLeftBlue = Input { Value = 0.1 },
-						TopLeftGreen = Input { Value = 0.55 },
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } }
-					}
+						GlobalIn = Input { Value = -480 },
+						TopLeftGreen = Input { Value = 0.55 }
+					},
+					ViewInfo = OperatorInfo { Pos = { 275, -148.5 } }
 				},
 				BarStripBase = Background {
-					ViewInfo = OperatorInfo { Pos = { -275, 115.5 } },
 					Inputs = {
-						GlobalIn = Input { Value = -480 },
-						Depth = Input { Value = 4 },
 						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Depth = Input { Value = 4 },
 						Width = Input { Value = 50 },
 						Height = Input { Value = 4 },
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } }
-					}
+						GlobalIn = Input { Value = -480 }
+					},
+					ViewInfo = OperatorInfo { Pos = { -275, 115.5 } }
 				},
 				BarStrip = Custom {
-					ViewInfo = OperatorInfo { Pos = { -165, 115.5 } },
 					Inputs = {
+						NumberIn4 = Input { Expression = "iif(BarCtrl.BwPalette == 0, ColBar2.TopLeftRed, ({{1,0.85,0.1,1,0.35,0.55,0.15,0.75,0.95,0.45,0.85,0.25,1,0.55,0.1},{1,0.72,0.8,0.72,0.88,1,1,0.95,0.7,0.78,0.95,0.8,0.86,0.78,1},{0.8,0.05,0.1,1,1,1,0.05,0.15,0.45,1,1,1,0.8,0.05,0.1},{1,0.1,0.6,0.1,1,0.9,0.95,1,0.1,0.45,0.2,1,0.1,0.1,0.12},{0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08}})[max(BarCtrl.BwPalette, 1)][4])" },
+						NumberIn5 = Input { Expression = "iif(BarCtrl.BwPalette == 0, ColBar2.TopLeftGreen, ({{1,0.85,0.1,1,0.35,0.55,0.15,0.75,0.95,0.45,0.85,0.25,1,0.55,0.1},{1,0.72,0.8,0.72,0.88,1,1,0.95,0.7,0.78,0.95,0.8,0.86,0.78,1},{0.8,0.05,0.1,1,1,1,0.05,0.15,0.45,1,1,1,0.8,0.05,0.1},{1,0.1,0.6,0.1,1,0.9,0.95,1,0.1,0.45,0.2,1,0.1,0.1,0.12},{0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08}})[max(BarCtrl.BwPalette, 1)][5])" },
+						NumberIn6 = Input { Expression = "iif(BarCtrl.BwPalette == 0, ColBar2.TopLeftBlue, ({{1,0.85,0.1,1,0.35,0.55,0.15,0.75,0.95,0.45,0.85,0.25,1,0.55,0.1},{1,0.72,0.8,0.72,0.88,1,1,0.95,0.7,0.78,0.95,0.8,0.86,0.78,1},{0.8,0.05,0.1,1,1,1,0.05,0.15,0.45,1,1,1,0.8,0.05,0.1},{1,0.1,0.6,0.1,1,0.9,0.95,1,0.1,0.45,0.2,1,0.1,0.1,0.12},{0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08}})[max(BarCtrl.BwPalette, 1)][6])" },
+						NumberIn7 = Input { Expression = "iif(BarCtrl.BwPalette == 0, ColBar3.TopLeftRed, ({{1,0.85,0.1,1,0.35,0.55,0.15,0.75,0.95,0.45,0.85,0.25,1,0.55,0.1},{1,0.72,0.8,0.72,0.88,1,1,0.95,0.7,0.78,0.95,0.8,0.86,0.78,1},{0.8,0.05,0.1,1,1,1,0.05,0.15,0.45,1,1,1,0.8,0.05,0.1},{1,0.1,0.6,0.1,1,0.9,0.95,1,0.1,0.45,0.2,1,0.1,0.1,0.12},{0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08}})[max(BarCtrl.BwPalette, 1)][7])" },
 						NumberIn8 = Input { Expression = "iif(BarCtrl.BwPalette == 0, ColBar3.TopLeftGreen, ({{1,0.85,0.1,1,0.35,0.55,0.15,0.75,0.95,0.45,0.85,0.25,1,0.55,0.1},{1,0.72,0.8,0.72,0.88,1,1,0.95,0.7,0.78,0.95,0.8,0.86,0.78,1},{0.8,0.05,0.1,1,1,1,0.05,0.15,0.45,1,1,1,0.8,0.05,0.1},{1,0.1,0.6,0.1,1,0.9,0.95,1,0.1,0.45,0.2,1,0.1,0.1,0.12},{0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08}})[max(BarCtrl.BwPalette, 1)][8])" },
 						PointIn2 = Input { Expression = "Point(iif(BarCtrl.BwPalette == 0, ColBar4.TopLeftGreen, ({{1,0.85,0.1,1,0.35,0.55,0.15,0.75,0.95,0.45,0.85,0.25,1,0.55,0.1},{1,0.72,0.8,0.72,0.88,1,1,0.95,0.7,0.78,0.95,0.8,0.86,0.78,1},{0.8,0.05,0.1,1,1,1,0.05,0.15,0.45,1,1,1,0.8,0.05,0.1},{1,0.1,0.6,0.1,1,0.9,0.95,1,0.1,0.45,0.2,1,0.1,0.1,0.12},{0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08}})[max(BarCtrl.BwPalette, 1)][11]), iif(BarCtrl.BwPalette == 0, ColBar4.TopLeftBlue, ({{1,0.85,0.1,1,0.35,0.55,0.15,0.75,0.95,0.45,0.85,0.25,1,0.55,0.1},{1,0.72,0.8,0.72,0.88,1,1,0.95,0.7,0.78,0.95,0.8,0.86,0.78,1},{0.8,0.05,0.1,1,1,1,0.05,0.15,0.45,1,1,1,0.8,0.05,0.1},{1,0.1,0.6,0.1,1,0.9,0.95,1,0.1,0.45,0.2,1,0.1,0.1,0.12},{0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08}})[max(BarCtrl.BwPalette, 1)][12]))" },
 						PointIn3 = Input { Expression = "Point(iif(BarCtrl.BwPalette == 0, ColBar5.TopLeftRed, ({{1,0.85,0.1,1,0.35,0.55,0.15,0.75,0.95,0.45,0.85,0.25,1,0.55,0.1},{1,0.72,0.8,0.72,0.88,1,1,0.95,0.7,0.78,0.95,0.8,0.86,0.78,1},{0.8,0.05,0.1,1,1,1,0.05,0.15,0.45,1,1,1,0.8,0.05,0.1},{1,0.1,0.6,0.1,1,0.9,0.95,1,0.1,0.45,0.2,1,0.1,0.1,0.12},{0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08}})[max(BarCtrl.BwPalette, 1)][13]), iif(BarCtrl.BwPalette == 0, ColBar5.TopLeftGreen, ({{1,0.85,0.1,1,0.35,0.55,0.15,0.75,0.95,0.45,0.85,0.25,1,0.55,0.1},{1,0.72,0.8,0.72,0.88,1,1,0.95,0.7,0.78,0.95,0.8,0.86,0.78,1},{0.8,0.05,0.1,1,1,1,0.05,0.15,0.45,1,1,1,0.8,0.05,0.1},{1,0.1,0.6,0.1,1,0.9,0.95,1,0.1,0.45,0.2,1,0.1,0.1,0.12},{0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08}})[max(BarCtrl.BwPalette, 1)][14]))" },
 						PointIn4 = Input { Expression = "Point(iif(BarCtrl.BwPalette == 0, ColBar5.TopLeftBlue, ({{1,0.85,0.1,1,0.35,0.55,0.15,0.75,0.95,0.45,0.85,0.25,1,0.55,0.1},{1,0.72,0.8,0.72,0.88,1,1,0.95,0.7,0.78,0.95,0.8,0.86,0.78,1},{0.8,0.05,0.1,1,1,1,0.05,0.15,0.45,1,1,1,0.8,0.05,0.1},{1,0.1,0.6,0.1,1,0.9,0.95,1,0.1,0.45,0.2,1,0.1,0.1,0.12},{0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08}})[max(BarCtrl.BwPalette, 1)][15]), 0)" },
 						RedExpression = Input { Value = "if(x < 0.2, n1, if(x < 0.4, n4, if(x < 0.6, n7, if(x < 0.8, p1y, p3x))))" },
+						GreenExpression = Input { Value = "if(x < 0.2, n2, if(x < 0.4, n5, if(x < 0.6, n8, if(x < 0.8, p2x, p3y))))" },
+						BlueExpression = Input { Value = "if(x < 0.2, n3, if(x < 0.4, n6, if(x < 0.6, p1x, if(x < 0.8, p2y, p4x))))" },
+						AlphaExpression = Input { Value = "1" },
+						Image1 = Input {
+							SourceOp = "BarStripBase",
+							Source = "Output"
+						},
 						LUTIn1 = Input {
 							SourceOp = "CustomTool1LUTIn1",
 							Source = "Value"
@@ -318,74 +328,86 @@
 						},
 						NumberIn1 = Input { Expression = "iif(BarCtrl.BwPalette == 0, ColBar1.TopLeftRed, ({{1,0.85,0.1,1,0.35,0.55,0.15,0.75,0.95,0.45,0.85,0.25,1,0.55,0.1},{1,0.72,0.8,0.72,0.88,1,1,0.95,0.7,0.78,0.95,0.8,0.86,0.78,1},{0.8,0.05,0.1,1,1,1,0.05,0.15,0.45,1,1,1,0.8,0.05,0.1},{1,0.1,0.6,0.1,1,0.9,0.95,1,0.1,0.45,0.2,1,0.1,0.1,0.12},{0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08}})[max(BarCtrl.BwPalette, 1)][1])" },
 						NumberIn2 = Input { Expression = "iif(BarCtrl.BwPalette == 0, ColBar1.TopLeftGreen, ({{1,0.85,0.1,1,0.35,0.55,0.15,0.75,0.95,0.45,0.85,0.25,1,0.55,0.1},{1,0.72,0.8,0.72,0.88,1,1,0.95,0.7,0.78,0.95,0.8,0.86,0.78,1},{0.8,0.05,0.1,1,1,1,0.05,0.15,0.45,1,1,1,0.8,0.05,0.1},{1,0.1,0.6,0.1,1,0.9,0.95,1,0.1,0.45,0.2,1,0.1,0.1,0.12},{0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08}})[max(BarCtrl.BwPalette, 1)][2])" },
-						NumberIn3 = Input { Expression = "iif(BarCtrl.BwPalette == 0, ColBar1.TopLeftBlue, ({{1,0.85,0.1,1,0.35,0.55,0.15,0.75,0.95,0.45,0.85,0.25,1,0.55,0.1},{1,0.72,0.8,0.72,0.88,1,1,0.95,0.7,0.78,0.95,0.8,0.86,0.78,1},{0.8,0.05,0.1,1,1,1,0.05,0.15,0.45,1,1,1,0.8,0.05,0.1},{1,0.1,0.6,0.1,1,0.9,0.95,1,0.1,0.45,0.2,1,0.1,0.1,0.12},{0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08}})[max(BarCtrl.BwPalette, 1)][3])" },
-						Image1 = Input {
-							SourceOp = "BarStripBase",
-							Source = "Output"
-						},
-						NumberIn4 = Input { Expression = "iif(BarCtrl.BwPalette == 0, ColBar2.TopLeftRed, ({{1,0.85,0.1,1,0.35,0.55,0.15,0.75,0.95,0.45,0.85,0.25,1,0.55,0.1},{1,0.72,0.8,0.72,0.88,1,1,0.95,0.7,0.78,0.95,0.8,0.86,0.78,1},{0.8,0.05,0.1,1,1,1,0.05,0.15,0.45,1,1,1,0.8,0.05,0.1},{1,0.1,0.6,0.1,1,0.9,0.95,1,0.1,0.45,0.2,1,0.1,0.1,0.12},{0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08}})[max(BarCtrl.BwPalette, 1)][4])" },
-						AlphaExpression = Input { Value = "1" },
-						NumberIn5 = Input { Expression = "iif(BarCtrl.BwPalette == 0, ColBar2.TopLeftGreen, ({{1,0.85,0.1,1,0.35,0.55,0.15,0.75,0.95,0.45,0.85,0.25,1,0.55,0.1},{1,0.72,0.8,0.72,0.88,1,1,0.95,0.7,0.78,0.95,0.8,0.86,0.78,1},{0.8,0.05,0.1,1,1,1,0.05,0.15,0.45,1,1,1,0.8,0.05,0.1},{1,0.1,0.6,0.1,1,0.9,0.95,1,0.1,0.45,0.2,1,0.1,0.1,0.12},{0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08}})[max(BarCtrl.BwPalette, 1)][5])" },
-						BlueExpression = Input { Value = "if(x < 0.2, n3, if(x < 0.4, n6, if(x < 0.6, p1x, if(x < 0.8, p2y, p4x))))" },
-						NumberIn6 = Input { Expression = "iif(BarCtrl.BwPalette == 0, ColBar2.TopLeftBlue, ({{1,0.85,0.1,1,0.35,0.55,0.15,0.75,0.95,0.45,0.85,0.25,1,0.55,0.1},{1,0.72,0.8,0.72,0.88,1,1,0.95,0.7,0.78,0.95,0.8,0.86,0.78,1},{0.8,0.05,0.1,1,1,1,0.05,0.15,0.45,1,1,1,0.8,0.05,0.1},{1,0.1,0.6,0.1,1,0.9,0.95,1,0.1,0.45,0.2,1,0.1,0.1,0.12},{0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08}})[max(BarCtrl.BwPalette, 1)][6])" },
-						GreenExpression = Input { Value = "if(x < 0.2, n2, if(x < 0.4, n5, if(x < 0.6, n8, if(x < 0.8, p2x, p3y))))" },
-						NumberIn7 = Input { Expression = "iif(BarCtrl.BwPalette == 0, ColBar3.TopLeftRed, ({{1,0.85,0.1,1,0.35,0.55,0.15,0.75,0.95,0.45,0.85,0.25,1,0.55,0.1},{1,0.72,0.8,0.72,0.88,1,1,0.95,0.7,0.78,0.95,0.8,0.86,0.78,1},{0.8,0.05,0.1,1,1,1,0.05,0.15,0.45,1,1,1,0.8,0.05,0.1},{1,0.1,0.6,0.1,1,0.9,0.95,1,0.1,0.45,0.2,1,0.1,0.1,0.12},{0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08}})[max(BarCtrl.BwPalette, 1)][7])" },
-						PointIn1 = Input { Expression = "Point(iif(BarCtrl.BwPalette == 0, ColBar3.TopLeftBlue, ({{1,0.85,0.1,1,0.35,0.55,0.15,0.75,0.95,0.45,0.85,0.25,1,0.55,0.1},{1,0.72,0.8,0.72,0.88,1,1,0.95,0.7,0.78,0.95,0.8,0.86,0.78,1},{0.8,0.05,0.1,1,1,1,0.05,0.15,0.45,1,1,1,0.8,0.05,0.1},{1,0.1,0.6,0.1,1,0.9,0.95,1,0.1,0.45,0.2,1,0.1,0.1,0.12},{0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08}})[max(BarCtrl.BwPalette, 1)][9]), iif(BarCtrl.BwPalette == 0, ColBar4.TopLeftRed, ({{1,0.85,0.1,1,0.35,0.55,0.15,0.75,0.95,0.45,0.85,0.25,1,0.55,0.1},{1,0.72,0.8,0.72,0.88,1,1,0.95,0.7,0.78,0.95,0.8,0.86,0.78,1},{0.8,0.05,0.1,1,1,1,0.05,0.15,0.45,1,1,1,0.8,0.05,0.1},{1,0.1,0.6,0.1,1,0.9,0.95,1,0.1,0.45,0.2,1,0.1,0.1,0.12},{0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08}})[max(BarCtrl.BwPalette, 1)][10]))" }
-					}
+						PointIn1 = Input { Expression = "Point(iif(BarCtrl.BwPalette == 0, ColBar3.TopLeftBlue, ({{1,0.85,0.1,1,0.35,0.55,0.15,0.75,0.95,0.45,0.85,0.25,1,0.55,0.1},{1,0.72,0.8,0.72,0.88,1,1,0.95,0.7,0.78,0.95,0.8,0.86,0.78,1},{0.8,0.05,0.1,1,1,1,0.05,0.15,0.45,1,1,1,0.8,0.05,0.1},{1,0.1,0.6,0.1,1,0.9,0.95,1,0.1,0.45,0.2,1,0.1,0.1,0.12},{0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08}})[max(BarCtrl.BwPalette, 1)][9]), iif(BarCtrl.BwPalette == 0, ColBar4.TopLeftRed, ({{1,0.85,0.1,1,0.35,0.55,0.15,0.75,0.95,0.45,0.85,0.25,1,0.55,0.1},{1,0.72,0.8,0.72,0.88,1,1,0.95,0.7,0.78,0.95,0.8,0.86,0.78,1},{0.8,0.05,0.1,1,1,1,0.05,0.15,0.45,1,1,1,0.8,0.05,0.1},{1,0.1,0.6,0.1,1,0.9,0.95,1,0.1,0.45,0.2,1,0.1,0.1,0.12},{0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08}})[max(BarCtrl.BwPalette, 1)][10]))" },
+						NumberIn3 = Input { Expression = "iif(BarCtrl.BwPalette == 0, ColBar1.TopLeftBlue, ({{1,0.85,0.1,1,0.35,0.55,0.15,0.75,0.95,0.45,0.85,0.25,1,0.55,0.1},{1,0.72,0.8,0.72,0.88,1,1,0.95,0.7,0.78,0.95,0.8,0.86,0.78,1},{0.8,0.05,0.1,1,1,1,0.05,0.15,0.45,1,1,1,0.8,0.05,0.1},{1,0.1,0.6,0.1,1,0.9,0.95,1,0.1,0.45,0.2,1,0.1,0.1,0.12},{0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08,0.95,0.95,0.95,0.08,0.08,0.08}})[max(BarCtrl.BwPalette, 1)][3])" }
+					},
+					ViewInfo = OperatorInfo { Pos = { -165, 115.5 } }
 				},
 				CustomTool1LUTIn1 = LUTBezier {
-					SplineColor = { Red = 0, Green = 0, Blue = 0 },
 					NameSet = true,
 					KeyColorSplines = {
 						[0] = {
 							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
-							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
 						}
 					},
-					CtrlWZoom = false
+					CtrlWZoom = false,
+					SplineColor = { Blue = 0, Green = 0, Red = 0 }
 				},
 				CustomTool1LUTIn2 = LUTBezier {
-					SplineColor = { Red = 0, Green = 0, Blue = 0 },
 					NameSet = true,
 					KeyColorSplines = {
 						[0] = {
 							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
-							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
 						}
 					},
-					CtrlWZoom = false
+					CtrlWZoom = false,
+					SplineColor = { Blue = 0, Green = 0, Red = 0 }
 				},
 				CustomTool1LUTIn3 = LUTBezier {
-					SplineColor = { Red = 0, Green = 0, Blue = 0 },
 					NameSet = true,
 					KeyColorSplines = {
 						[0] = {
 							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
-							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
 						}
 					},
-					CtrlWZoom = false
+					CtrlWZoom = false,
+					SplineColor = { Blue = 0, Green = 0, Red = 0 }
 				},
 				CustomTool1LUTIn4 = LUTBezier {
-					SplineColor = { Red = 0, Green = 0, Blue = 0 },
 					NameSet = true,
 					KeyColorSplines = {
 						[0] = {
 							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
-							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
 						}
 					},
-					CtrlWZoom = false
+					CtrlWZoom = false,
+					SplineColor = { Blue = 0, Green = 0, Red = 0 }
 				},
 				BarFinal = Custom {
-					ViewInfo = OperatorInfo { Pos = { 165, 49.5 } },
 					Inputs = {
+						NumberIn4 = Input { Expression = "tan(BarCtrl.BwSlant*pi/180)" },
+						NumberIn5 = Input { Expression = "BarCtrl.BwCount" },
+						NumberIn6 = Input { Expression = "BarCtrl.BwWidth" },
+						PointIn1 = Input { Expression = "Point(BarCtrl.BwAlt, 0)" },
+						Image3 = Input {
+							SourceOp = "BarStrip",
+							Source = "Output"
+						},
 						NumberIn8 = Input { Expression = "iif(BarCtrl.BwRows > 1, BarCtrl.BwStagger, 0)" },
+						Image2 = Input {
+							SourceOp = "SrcB",
+							Source = "Output"
+						},
+						Intermediate8 = Input { Value = "(i7 - i6)/n6" },
+						Intermediate1 = Input { Value = "if(n3 == 0, x, if(n3 == 1, 1 - x, if(n3 == 2, y, 1 - y)))" },
+						Image1 = Input {
+							SourceOp = "SrcA",
+							Source = "Output"
+						},
 						Intermediate2 = Input { Value = "if(n3 < 2, y, x)" },
+						BlueExpression = Input { Value = "if(n1 <= 0, b1, if(n1 >= 1, b2, if(i8 < 0, b1, if(i8 >= n5, b2, getb3b((floor(i8) + 0.5)/5, 0.5)))))" },
 						Intermediate3 = Input { Value = "min(floor(i2*n7), n7 - 1)" },
-						Intermediate4 = Input { Value = "if(n7 > 1, i3/(n7 - 1), 0)" },
-						Intermediate5 = Input { Value = "abs(n4)*if(n3 < 2, h/w, w/h)" },
 						RedExpression = Input { Value = "if(n1 <= 0, r1, if(n1 >= 1, r2, if(i8 < 0, r1, if(i8 >= n5, r2, getr3b((floor(i8) + 0.5)/5, 0.5)))))" },
+						Intermediate4 = Input { Value = "if(n7 > 1, i3/(n7 - 1), 0)" },
+						GreenExpression = Input { Value = "if(n1 <= 0, g1, if(n1 >= 1, g2, if(i8 < 0, g1, if(i8 >= n5, g2, getg3b((floor(i8) + 0.5)/5, 0.5)))))" },
+						Intermediate5 = Input { Value = "abs(n4)*if(n3 < 2, h/w, w/h)" },
+						AlphaExpression = Input { Value = "1" },
+						Intermediate6 = Input { Value = "if(p1x > 0 && frac(i3/2) > 0.25, 1 - i1, i1) + n4*(i2 - 0.5)*if(n3 < 2, h/w, w/h)" },
+						Intermediate7 = Input { Value = "min(max(n2*(1 + n8) - n8*i4, 0), 1)*(1 + i5 + n5*n6) - i5*0.5" },
 						LUTIn1 = Input {
 							SourceOp = "CustomTool1LUTIn11",
 							Source = "Value"
@@ -402,82 +424,60 @@
 							SourceOp = "CustomTool1LUTIn41",
 							Source = "Value"
 						},
-						Intermediate8 = Input { Value = "(i7 - i6)/n6" },
-						Image1 = Input {
-							SourceOp = "SrcA",
-							Source = "Output"
-						},
-						Image2 = Input {
-							SourceOp = "SrcB",
-							Source = "Output"
-						},
-						Image3 = Input {
-							SourceOp = "BarStrip",
-							Source = "Output"
-						},
-						NumberIn1 = Input { Expression = "BarCtrl.P" },
-						AlphaExpression = Input { Value = "1" },
-						NumberIn2 = Input { Expression = "BarCtrl.S" },
-						BlueExpression = Input { Value = "if(n1 <= 0, b1, if(n1 >= 1, b2, if(i8 < 0, b1, if(i8 >= n5, b2, getb3b((floor(i8) + 0.5)/5, 0.5)))))" },
-						NumberIn3 = Input { Expression = "BarCtrl.BwDir" },
-						GreenExpression = Input { Value = "if(n1 <= 0, g1, if(n1 >= 1, g2, if(i8 < 0, g1, if(i8 >= n5, g2, getg3b((floor(i8) + 0.5)/5, 0.5)))))" },
-						NumberIn4 = Input { Expression = "tan(BarCtrl.BwSlant*pi/180)" },
-						Intermediate7 = Input { Value = "min(max(n2*(1 + n8) - n8*i4, 0), 1)*(1 + i5 + n5*n6) - i5*0.5" },
-						NumberIn5 = Input { Expression = "BarCtrl.BwCount" },
-						Intermediate6 = Input { Value = "if(p1x > 0 && frac(i3/2) > 0.25, 1 - i1, i1) + n4*(i2 - 0.5)*if(n3 < 2, h/w, w/h)" },
-						NumberIn6 = Input { Expression = "BarCtrl.BwWidth" },
-						PointIn1 = Input { Expression = "Point(BarCtrl.BwAlt, 0)" },
 						NumberIn7 = Input { Expression = "BarCtrl.BwRows" },
-						Intermediate1 = Input { Value = "if(n3 == 0, x, if(n3 == 1, 1 - x, if(n3 == 2, y, 1 - y)))" }
-					}
+						NumberIn2 = Input { Expression = "BarCtrl.S" },
+						NumberIn1 = Input { Expression = "BarCtrl.P" },
+						NumberIn3 = Input { Expression = "BarCtrl.BwDir" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 165, 49.5 } }
 				},
 				CustomTool1LUTIn11 = LUTBezier {
-					SplineColor = { Red = 0, Green = 0, Blue = 0 },
 					NameSet = true,
 					KeyColorSplines = {
 						[0] = {
 							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
-							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
 						}
 					},
-					CtrlWZoom = false
+					CtrlWZoom = false,
+					SplineColor = { Blue = 0, Green = 0, Red = 0 }
 				},
 				CustomTool1LUTIn21 = LUTBezier {
-					SplineColor = { Red = 0, Green = 0, Blue = 0 },
 					NameSet = true,
 					KeyColorSplines = {
 						[0] = {
 							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
-							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
 						}
 					},
-					CtrlWZoom = false
+					CtrlWZoom = false,
+					SplineColor = { Blue = 0, Green = 0, Red = 0 }
 				},
 				CustomTool1LUTIn31 = LUTBezier {
-					SplineColor = { Red = 0, Green = 0, Blue = 0 },
 					NameSet = true,
 					KeyColorSplines = {
 						[0] = {
 							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
-							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
 						}
 					},
-					CtrlWZoom = false
+					CtrlWZoom = false,
+					SplineColor = { Blue = 0, Green = 0, Red = 0 }
 				},
 				CustomTool1LUTIn41 = LUTBezier {
-					SplineColor = { Red = 0, Green = 0, Blue = 0 },
 					NameSet = true,
 					KeyColorSplines = {
 						[0] = {
 							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
-							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
 						}
 					},
-					CtrlWZoom = false
+					CtrlWZoom = false,
+					SplineColor = { Blue = 0, Green = 0, Red = 0 }
 				}
 			
 			}
 		}
 	},
-	ActiveTool = "ColourBars"
+	ActiveTool = "StripeWipe"
 }

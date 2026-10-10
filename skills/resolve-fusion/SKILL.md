@@ -72,7 +72,7 @@ t.Size:SetExpression("ComicCtrl.TextSize * ComicCtrl.Zoom")
 | `reaction.lua` | Reaction Mark，怒氣、汗滴、問號、驚嘆號、集中線 | 標題 |
 | `whippan.lua` | Whip Pan，甩鏡 | 轉場 |
 | `zoomthrough.lua` | Zoom Through，衝進前一段、衝出來是後一段 | 轉場 |
-| `barwipe.lua` | Colour Bars，彩色色帶依序掃過 | 轉場 |
+| `barwipe.lua` | Stripe Wipe，彩色色帶依序掃過 | 轉場 |
 | `glitchcut.lua` | Glitch Cut，訊號不良式的轉場 | 轉場 |
 | `glitchhits.lua` | Glitch Hits，在指定時間點故障一下 | 特效 |
 | `subwindow.lua` | Sub Window，角落的子畫面 | 特效 |
