@@ -1,0 +1,26 @@
+# Packs templates/ into one .drfx and publishes it as the release "latest" whenever the templates change, so that
+# https://github.com/ChingJe/resolve-fusion-templates/releases/latest/download/Resolve-Fusion-Templates.drfx
+# always gives the current set.
+name: Publish the template bundle
+on:
+  push:
+    branches: [main]
+    paths: ['templates/**', 'scripts/drfx.py', '.github/workflows/release.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  bundle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pack
+        run: python3 scripts/drfx.py dist/Resolve-Fusion-Templates.drfx | tee pack.txt
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete latest --yes --cleanup-tag || true
+          gh release create latest dist/Resolve-Fusion-Templates.drfx --target "$GITHUB_SHA" \
+            --title "Template bundle" \
+            --notes "$(tail -n 1 pack.txt). Built from ${GITHUB_SHA::7}. Double-click the .drfx file, or drag it into DaVinci Resolve, and choose Install."

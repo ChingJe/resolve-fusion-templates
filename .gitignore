@@ -13,3 +13,6 @@ scripts/*.png
 scripts/local.lua
 
 tmp/
+
+# packed template bundle, made by scripts/drfx.py
+dist/

@@ -121,20 +121,20 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 
 | 文件 | 內容 |
 |---|---|
-| [安裝與移除](docs/install.md) | 安裝程式做了什麼、手動安裝、三種類型各自怎麼拖 |
+| [安裝與移除](docs/install.md) | 範本包、安裝程式、手動安裝、移除，三種類型各自怎麼拖 |
 | [時間清單的寫法](docs/time-list.md) | Chapter Bar、Kinetic Lines、Punch Zoom、Variety Caption、Side Note、Glitch Hits、Freeze Frame、Karaoke Caption、Number Counter、Typing、Chat Bubbles 共用的時間點寫法 |
 | [docs/templates/](docs/templates) | 每個範本一份：預覽圖、用法、參數、注意事項 |
 | [做法與踩過的坑](skills/resolve-fusion/SKILL.md) | 這些範本是怎麼用腳本做出來的，想自己改範本時看這份 |
 
 ## 快速安裝
 
-1. 下載這個儲存庫並解壓縮。
-2. 對 `install.bat` 點兩下，選「安裝或更新全部範本」。
-3. 重新啟動 Resolve。
+1. 下載 [Resolve-Fusion-Templates.drfx](https://github.com/ChingJe/resolve-fusion-templates/releases/latest/download/Resolve-Fusion-Templates.drfx)，所有範本都包在這一個檔裡。
+2. 開著 Resolve，對它點兩下，按 **Install**。
+3. 到 Edit 頁面的 Effects 特效庫找範本。
 
-安裝程式會自己找到 Resolve 的範本資料夾，把每個範本放到對的位置，並告訴你裝了什麼、去哪裡找。之後要更新或移除也是執行同一支。
+Windows 和 Mac 都是這樣裝。Windows 上試過，裝完不用重啟就能用；Mac 因為手邊沒有機器，沒有實際試過。
 
-`install.bat` 只能在 Windows 執行。Mac 要手動複製，步驟見[安裝與移除](docs/install.md#在-mac-上安裝)；因為手邊沒有 Mac，那個流程沒有實際試過。
+下載了整個儲存庫的人也可以執行 `install.bat`（只有 Windows），它會把 `templates/` 裡的原始檔一個個裝進去。兩種方式擇一，不要混用。
 
 細節和手動安裝的方式見[安裝與移除](docs/install.md)。
 

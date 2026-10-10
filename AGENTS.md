@@ -8,6 +8,7 @@ DaVinci Resolve 的 Fusion 範本（特效、轉場、標題），以及用腳�
 |---|---|
 | `templates/` | 範本原始檔（`.setting`），依類型放在 `Titles`、`Effects`、`Transitions` |
 | `install.bat` | 給使用者的安裝程式，把 `templates/` 同步到 Resolve 的範本資料夾 |
+| `scripts/drfx.py` | 把 `templates/` 包成一個 `.drfx`（使用者點兩下就能裝）。推到 `main` 時 GitHub Actions 會自動打包並更新 Release，不用手動上傳 |
 | `scripts/` | 建置、匯出、打包、驗證用的腳本 |
 | `docs/` | 給使用者看的說明：每個範本一份、安裝方式、時間清單的寫法。README 只放總覽和分類 |
 | `previews/` | 預覽圖 |

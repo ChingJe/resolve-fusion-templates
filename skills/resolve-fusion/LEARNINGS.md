@@ -260,3 +260,11 @@
 - 這四個範本都只在實驗合成裡用腳本測過，沒有從 Edit 頁面拖過。
 - **線條圖示和實心圖示用同一組遮罩**：遮罩拼出的形狀接 `ErodeDilate`（`XAmount` 負值是往內縮），再用 `Custom` 算「原形狀減掉縮小的自己」就是外框線，切換成原形狀就是實心。Subscribe Reminder 的拇指和鈴鐺按下前後就是這樣切的。倒讚是同一組遮罩把 y 和角度都乘 -1。
 - Subscribe Reminder 第一版是自己想的通用樣式（紅膠囊、鈴鐺另一顆圓鈕），使用者要的是觀眾一眼認得的影片網站排法，而且台灣的口號是「按讚、訂閱、開啟小鈴鐺」三個動作。做這種「大家都看過」的介面，先開瀏覽器看實物再畫（版面照著排、圖示自己拼、不放商標），不要憑印象做通用版。
+
+### 用 .drfx 發佈（2026-10-11）
+
+- `.drfx` 是改了副檔名的 zip，裡面照 `Edit/Titles/x.setting`、`Edit/Effects/…`、`Edit/Transitions/…` 放範本。使用者對它點兩下、按 Install，Resolve 就把這個檔原封不動複製到範本資料夾的最上層（`…\Fusion\Templates\名稱.drfx`），直接讀裡面的範本。使用者實測（Windows、21.1.1 Studio）：先刪掉舊的並重啟確認範本不見，再點兩下安裝，**不用重啟就能用**。我們自己把檔案複製到那個位置也有同樣效果，但那樣要重啟。
+- 驗證範本有沒有裝起來不用看畫面：在暫時的時間軸上 `timeline:InsertFusionTitleIntoTimeline("範本名稱")`，裝了會回傳片段，沒裝回傳 nil。只對標題有效，特效和轉場沒有對應的 API。測完用 `mediaPool:DeleteTimelines({tl})` 刪掉自己建的時間軸。
+- 開發時用 `install.bat` 裝的是散開的 `.setting`，使用者用的是 `.drfx`。兩種同時存在時同名範本會不會重複顯示還沒試過；測 `.drfx` 之前先 `install.bat remove`。
+- `scripts/drfx.py` 打包，`.github/workflows/release.yml` 在 `templates/` 有變動推上 `main` 時自動重建名為 `latest` 的 Release，下載連結固定。Release 的檔名不要有空白（GitHub 會把空白換成點）。
+- 往 `.gitignore` 用 `echo >>` 加一行之前先確認檔尾有換行，不然會和最後一行黏在一起（`tmp/dist/`），原本那條規則就失效了。

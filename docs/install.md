@@ -1,8 +1,31 @@
 # 安裝與移除
 
-## 用安裝程式（Windows）
+## 用範本包安裝（建議）
 
-`install.bat` 是 Windows 的批次檔，Mac 不能執行，Mac 請看下面的「[在 Mac 上安裝](#在-mac-上安裝)」。
+所有範本包成一個檔案：[Resolve-Fusion-Templates.drfx](https://github.com/ChingJe/resolve-fusion-templates/releases/latest/download/Resolve-Fusion-Templates.drfx)。每次範本有更新，這個連結下載到的就是最新的。
+
+1. 下載 `Resolve-Fusion-Templates.drfx`。
+2. 開著 Resolve，對這個檔點兩下（或把它拖進 Resolve 的視窗），在跳出來的視窗按 **Install**。
+3. 到 Edit 頁面左上角的 Effects 特效庫找範本，位置見下面「[手動安裝](#手動安裝windows)」的表。
+
+在 Windows 的 Resolve 21.1.1 Studio 上試過：按下 Install 之後不用重新啟動就能用。如果特效庫裡沒看到，重啟 Resolve 一次。
+
+它做的事很單純：把這個 `.drfx` 檔複製到 Resolve 的範本資料夾，Resolve 直接讀裡面的範本。
+
+- **Windows**：`%APPDATA%\Blackmagic Design\DaVinci Resolve\Support\Fusion\Templates\`
+- **Mac**：`~/Library/Application Support/Blackmagic Design/DaVinci Resolve/Fusion/Templates/`
+
+**移除**：到上面的資料夾把 `Resolve-Fusion-Templates.drfx` 刪掉，重啟 Resolve。
+
+**更新**：下載新的檔案再裝一次。這一步還沒有實際試過（會不會直接蓋掉舊的）；保險的做法是先照上面移除舊的再裝。
+
+**不要和 `install.bat` 混用**。兩種方式都裝的話，同一個範本會有兩份，在特效庫裡會怎麼顯示沒有試過。換方式之前先把原本的移除。
+
+**Mac**：`.drfx` 是 Resolve 自己的格式，Mac 上一樣是點兩下安裝。但這些範本都是在 Windows 上做的，手邊沒有 Mac，**Mac 上沒有實際試過**，有問題歡迎回報。另外，有中文的範本預設用微軟正黑體，Mac 沒有這個字型，中文可能變成方塊；在範本的 `Font` 參數改成 Mac 有的中文字型，例如 `PingFang TC`。
+
+## 用安裝程式（Windows，從原始檔安裝）
+
+`install.bat` 是 Windows 的批次檔，Mac 不能執行。它適合下載了整個 repo、想照原始檔安裝的人（例如自己改了範本）。
 
 在檔案總管裡對 `install.bat` 點兩下。它會先檢查，再顯示選單：
 
@@ -49,37 +72,19 @@ install.bat status
 
 移除時把檔案刪掉再重啟。
 
-## 在 Mac 上安裝
+## 在 Mac 上手動安裝
 
-**這一段沒有實際試過**：這些範本都是在 Windows 上做的，手邊沒有 Mac 可以測。下面的路徑是 Resolve 在 macOS 上放範本的位置，範本本身是純文字的 Fusion 設定檔，理論上兩邊通用。裝了之後有問題歡迎回報。
+建議用上面的範本包。要手動放的話（**沒有實際試過**）：把 `templates/` 底下 `Titles`、`Effects`、`Transitions` 三個資料夾裡的 `.setting` 檔，複製到下面位置的同名資料夾，再重啟 Resolve。資料夾不存在就自己建。
 
-Mac 沒有安裝程式，要手動複製：
-
-1. 下載這個 repo 並解壓縮。
-2. 在 Finder 按 `Cmd + Shift + G`，貼上下面的路徑前往。資料夾不存在就自己建。
-
-   ```
-   ~/Library/Application Support/Blackmagic Design/DaVinci Resolve/Fusion/Templates/Edit
-   ```
-
-   從 Mac App Store 安裝的 Resolve 位置不同：
-
-   ```
-   ~/Library/Containers/com.blackmagic-design.DaVinciResolve/Data/Library/Application Support/Fusion/Templates/Edit
-   ```
-
-3. 把 `templates/` 底下 `Titles`、`Effects`、`Transitions` 三個資料夾裡的 `.setting` 檔，複製到那裡的同名資料夾。
-4. 重新啟動 Resolve。
-
-也可以在終端機裡、repo 的資料夾底下執行這一行（官網下載版的 Resolve）：
-
-```bash
-mkdir -p ~/Library/Application\ Support/Blackmagic\ Design/DaVinci\ Resolve/Fusion/Templates/Edit && cp -R templates/ ~/Library/Application\ Support/Blackmagic\ Design/DaVinci\ Resolve/Fusion/Templates/Edit/
+```
+~/Library/Application Support/Blackmagic Design/DaVinci Resolve/Fusion/Templates/Edit
 ```
 
-**字型**：有中文的範本預設用微軟正黑體，Mac 沒有這個字型，中文可能變成方塊。在範本的 `Font` 參數改成 Mac 有的中文字型，例如 `PingFang TC`。
+從 Mac App Store 安裝的 Resolve 位置不同：
 
-移除時把複製進去的檔案刪掉再重啟。
+```
+~/Library/Containers/com.blackmagic-design.DaVinciResolve/Data/Library/Application Support/Fusion/Templates/Edit
+```
 
 ## 三種類型怎麼用
 
