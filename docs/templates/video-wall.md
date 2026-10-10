@@ -1,6 +1,6 @@
 # Video Wall
 
-轉場 · 檔案 `templates/Video Wall.setting` · 安裝到 `Transitions` · [回到總覽](../../README.md)
+轉場 · 檔案 `templates//.setting` · [回到總覽](../../README.md)
 
 從前一段拉遠，發現它只是一面影片牆裡的一格；鏡頭橫移，再推進另一格變成後一段。
 

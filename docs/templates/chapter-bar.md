@@ -1,6 +1,6 @@
 # Chapter Bar
 
-標題 · 檔案 `templates/Chapter Bar.setting` · 安裝到 `Titles` · [回到總覽](../../README.md)
+標題 · 檔案 `templates//.setting` · [回到總覽](../../README.md)
 
 畫面底部的進度條，分成有名稱的章節，目前章節的名稱顯示在該段上方。
 

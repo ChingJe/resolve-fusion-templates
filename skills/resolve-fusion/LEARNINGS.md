@@ -77,3 +77,12 @@
 - Punch Zoom 的時間是用合成的影格率換算的。在實驗片段（47.95 fps 的來源）上 `0:00.5` 落在第 24 格，是對的；變速或影格率和時間軸不同的片段還沒試。
 - Paper Tear、Kinetic Lines、Punch Zoom 和其他範本一樣，只在 Fusion 頁面的實驗合成裡驗證過（巨集貼得回來、控制項齊全、算圖正確），還沒從 Edit 頁面拖過。
 - Kinetic Lines 的 `Pop Frames`、`Fade Out Frames` 是以合成的影格計。標題放上時間軸後合成的影格率是否等於時間軸的，還沒確認。
+
+### 批次檔
+
+- `install.bat` 要存成 UTF-8（不帶 BOM）、CRLF 換行，開頭 `chcp 65001` 之後才能顯示中文。換行是 LF 時 `goto` 和 `call :標籤` 會隨機找不到標籤。`.gitattributes` 已設 `*.bat text eol=crlf`。
+- 在 Git Bash 用 `sed -i` 改批次檔會把 CRLF 變回 LF，也會把替換字串裡的反斜線吃掉（`\f` 變成換頁字元），路徑整個壞掉。改批次檔用編輯工具，改完檢查 CRLF 數量。
+- 批次檔裡呼叫 `find` 要寫完整路徑 `%SystemRoot%\System32\find.exe`。使用者的 PATH 裡有 Git 的 `find` 時，短名稱會叫到那一個。
+- 區塊（括號）裡的 `echo` 文字不能有半形括號，要顯示多行訊息就跳到標籤去印。
+- 測試：`cmd.exe //c "D:\\davinci\\install.bat status nopause"`。`install`、`remove`、`status` 和錯誤參數都這樣跑過；點兩下出現的選單（`choice`）沒辦法用腳本測，沒有實測。
+- 這次實測才發現 `Comic Intro.setting` 之前一直沒有被複製到 Resolve 的 `Titles` 資料夾。以後同步一律跑安裝程式，不要手動 `cp`。

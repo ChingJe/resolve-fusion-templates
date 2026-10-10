@@ -68,8 +68,9 @@ t.Size:SetExpression("ComicCtrl.TextSize * ComicCtrl.Zoom")
 "$FU" -l lua timeslice.lua                 # 建置並算測試畫格到 out/
 FX_SRC=media "$FU" -l lua timeslice.lua    # 改用真實片段再看一次（畫格不可進 git）
 FX_EXPORT=1 "$FU" -l lua timeslice.lua     # 匯出節點與規格
-python macro.py timeslice "../templates/Time Slice.setting"
-FX_TEMPLATE="D:/davinci/templates/Time Slice.setting" FX_INPUTS=1 "$FU" -l lua check.lua
+python macro.py timeslice "../templates/Effects/Time Slice.setting"
+FX_TEMPLATE="D:/davinci/templates/Effects/Time Slice.setting" FX_INPUTS=1 "$FU" -l lua check.lua
+cmd.exe //c "D:\\davinci\\install.bat install nopause"   # 同步到 Resolve 的範本資料夾
 ```
 
 `lib.lua` 會檢查目前專案是 `testsss`、時間軸是 `FX Lab`，不是就拒絕執行。換專案時用環境變數 `FX_PROJECT`、`FX_TIMELINE` 指定。

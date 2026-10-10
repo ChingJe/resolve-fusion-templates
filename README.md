@@ -52,20 +52,20 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 
 | 文件 | 內容 |
 |---|---|
-| [安裝與移除](docs/install.md) | 檔案放哪裡、三種類型各自怎麼拖 |
+| [安裝與移除](docs/install.md) | 安裝程式做了什麼、手動安裝、三種類型各自怎麼拖 |
 | [時間清單的寫法](docs/time-list.md) | Chapter Bar、Kinetic Lines、Punch Zoom 共用的時間點寫法 |
 | [docs/templates/](docs/templates) | 每個範本一份：預覽圖、用法、參數、注意事項 |
 | [做法與踩過的坑](skills/resolve-fusion/SKILL.md) | 這些範本是怎麼用腳本做出來的，想自己改範本時看這份 |
 
 ## 快速安裝
 
-把 `templates/` 裡的 `.setting` 檔依類型複製到下面資料夾的 `Titles`、`Effects`、`Transitions` 子資料夾，然後重啟 Resolve：
+1. 下載這個儲存庫並解壓縮。
+2. 對 `install.bat` 點兩下，選「安裝或更新全部範本」。
+3. 重新啟動 Resolve。
 
-```
-%APPDATA%\Blackmagic Design\DaVinci Resolve\Support\Fusion\Templates\Edit\
-```
+安裝程式會自己找到 Resolve 的範本資料夾，把每個範本放到對的位置，並告訴你裝了什麼、去哪裡找。之後要更新或移除也是執行同一支。
 
-哪個檔案放哪個子資料夾見[安裝與移除](docs/install.md)。
+細節和手動安裝的方式見[安裝與移除](docs/install.md)。
 
 ## 已知限制
 
@@ -84,7 +84,8 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 
 | 路徑 | 內容 |
 |---|---|
-| `templates/` | 範本檔（`.setting`） |
+| `install.bat` | 安裝、更新、移除範本 |
+| `templates/` | 範本檔（`.setting`），依類型分成 `Titles`、`Effects`、`Transitions` |
 | `docs/` | 每個範本的說明、安裝方式、時間清單的寫法 |
 | `previews/` | 預覽圖 |
 | `scripts/` | 建置、匯出、打包、驗證用的腳本 |
