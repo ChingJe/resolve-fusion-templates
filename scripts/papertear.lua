@@ -20,6 +20,7 @@ ctrl.UserControls = {
   TearShadow = L.num("Shadow", 0.6, 0, 1),
   TearShadowW = L.num("Shadow Width", 0.03, 0, 0.15),
   TearSeed   = L.num("Tear Shape", 0, 0, 20),
+  TearRip    = L.num("Rip Time", 0.36, 0.02, 0.95),
   TearSteps  = L.num("Stop Motion Steps", 0, 0, 24, nil, true),
   P  = L.num("P", 0, 0, 1, "Driver"),
   Q  = L.num("Q", 0, 0, 1, "Driver"),
@@ -35,10 +36,10 @@ curve:SetInput("Source", "Transition")
 curve:SetInput("Curve", "Linear")
 -- optionally held on a few steps so the tear jerks along like stop motion
 expr(ctrl, "Q", "iif(TearSteps >= 1, floor(P*TearSteps + 0.5)/max(TearSteps, 1), P)")
--- F: how far the rip has travelled along its line (0 one end of the frame, 1 the other), done before Q = 0.5.
+-- F: how far the rip has travelled along its line (0 one end of the frame, 1 the other), done at Q = Rip Time.
 -- Slide: how far each half has then been pulled away sideways; it starts while the rip is still running.
-expr(ctrl, "F", "Q*2.8")
-expr(ctrl, "Slide", "(0.7 + abs(TearOffset) + TearRough) * (function(t) return t*t*(3 - 2*t) end)(min(max((Q - 0.25)/0.75, 0), 1))")
+expr(ctrl, "F", "Q/TearRip")
+expr(ctrl, "Slide", "(0.7 + abs(TearOffset) + TearRough) * (function(t) return t*t*(3 - 2*t) end)(min(max((Q - 0.7*TearRip)/(1 - 0.7*TearRip), 0), 1))")
 
 local srcA = add("BrightnessContrast", "SrcA", -5, 0)
 local srcB = add("BrightnessContrast", "SrcB", -5, 2)
@@ -127,6 +128,7 @@ if os.getenv("FX_EXPORT") == "1" then
     {"CTL", "TearCtrl", "TearEdge", "Paper Edge Width"},
     {"CTL", "TearCtrl", "TearShadow", "Shadow"},
     {"CTL", "TearCtrl", "TearShadowW", "Shadow Width"},
+    {"CTL", "TearCtrl", "TearRip", "Rip Time"},
     {"CTL", "TearCtrl", "TearSteps", "Stop Motion Steps"},
   })
   srcA.Input = a.Output; srcB.Input = b.Output

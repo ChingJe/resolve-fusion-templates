@@ -13,7 +13,8 @@
 				Input6 = InstanceInput { SourceOp = "TearCtrl", Source = "TearEdge", Name = "Paper Edge Width" },
 				Input7 = InstanceInput { SourceOp = "TearCtrl", Source = "TearShadow", Name = "Shadow" },
 				Input8 = InstanceInput { SourceOp = "TearCtrl", Source = "TearShadowW", Name = "Shadow Width" },
-				Input9 = InstanceInput { SourceOp = "TearCtrl", Source = "TearSteps", Name = "Stop Motion Steps" },
+				Input9 = InstanceInput { SourceOp = "TearCtrl", Source = "TearRip", Name = "Rip Time" },
+				Input10 = InstanceInput { SourceOp = "TearCtrl", Source = "TearSteps", Name = "Stop Motion Steps" },
 			},
 			Outputs = {
 				MainOutput1 = InstanceOutput { SourceOp = "TearCut", Source = "Output" }
@@ -22,168 +23,178 @@
 			Tools = ordered() {
 				TearCtrl = Background {
 					UserControls = {
-						TearOffset = {
-							INP_MinScale = -0.5,
-							INP_MaxScale = 0.5,
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							INP_Integer = false,
-							LINKS_Name = "Line Position",
-							INP_Default = 0
-						},
-						Q = {
-							INP_MinScale = 0,
-							INP_MaxScale = 1,
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Driver",
-							INPID_InputControl = "SliderControl",
-							INP_Integer = false,
-							LINKS_Name = "Q",
-							INP_Default = 0
-						},
-						F = {
-							INP_MinScale = -1,
-							INP_MaxScale = 20,
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Driver",
-							INPID_InputControl = "SliderControl",
-							INP_Integer = false,
-							LINKS_Name = "F",
-							INP_Default = 0
-						},
-						Slide = {
-							INP_MinScale = 0,
-							INP_MaxScale = 3,
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Driver",
-							INPID_InputControl = "SliderControl",
-							INP_Integer = false,
-							LINKS_Name = "Slide",
-							INP_Default = 0
-						},
-						TearGap = {
-							INP_MinScale = 0,
-							INP_MaxScale = 0.1,
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							INP_Integer = false,
-							LINKS_Name = "Rip Gap",
-							INP_Default = 0.02
-						},
-						TearEdge = {
-							INP_MinScale = 0,
-							INP_MaxScale = 0.05,
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							INP_Integer = false,
-							LINKS_Name = "Paper Edge Width",
-							INP_Default = 0.012
-						},
-						TearShadow = {
-							INP_MinScale = 0,
-							INP_MaxScale = 1,
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							INP_Integer = false,
-							LINKS_Name = "Shadow",
-							INP_Default = 0.6
-						},
-						TearAngle = {
-							INP_MinScale = -180,
-							INP_MaxScale = 180,
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							INP_Integer = false,
-							LINKS_Name = "Angle",
-							INP_Default = 12
-						},
-						TearShadowW = {
-							INP_MinScale = 0,
-							INP_MaxScale = 0.15,
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							INP_Integer = false,
-							LINKS_Name = "Shadow Width",
-							INP_Default = 0.03
-						},
-						TearSteps = {
-							INP_MinScale = 0,
-							INP_MaxScale = 24,
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							INP_Integer = true,
-							LINKS_Name = "Stop Motion Steps",
-							INP_Default = 0
-						},
-						TearSeed = {
-							INP_MinScale = 0,
-							INP_MaxScale = 20,
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							INP_Integer = false,
-							LINKS_Name = "Tear Shape",
-							INP_Default = 0
-						},
 						TearRough = {
-							INP_MinScale = 0,
 							INP_MaxScale = 0.2,
 							LINKID_DataType = "Number",
 							ICS_ControlPage = "Controls",
 							INPID_InputControl = "SliderControl",
 							INP_Integer = false,
 							LINKS_Name = "Roughness",
-							INP_Default = 0.05
+							INP_Default = 0.05,
+							INP_MinScale = 0
+						},
+						Q = {
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Q",
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						TearGap = {
+							INP_MaxScale = 0.1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Rip Gap",
+							INP_Default = 0.02,
+							INP_MinScale = 0
+						},
+						Slide = {
+							INP_MaxScale = 3,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Slide",
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						TearEdge = {
+							INP_MaxScale = 0.05,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Paper Edge Width",
+							INP_Default = 0.012,
+							INP_MinScale = 0
+						},
+						TearShadow = {
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Shadow",
+							INP_Default = 0.6,
+							INP_MinScale = 0
+						},
+						TearOffset = {
+							INP_MaxScale = 0.5,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Line Position",
+							INP_Default = 0,
+							INP_MinScale = -0.5
+						},
+						TearShadowW = {
+							INP_MaxScale = 0.15,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Shadow Width",
+							INP_Default = 0.03,
+							INP_MinScale = 0
 						},
 						P = {
-							INP_MinScale = 0,
 							INP_MaxScale = 1,
 							LINKID_DataType = "Number",
 							ICS_ControlPage = "Driver",
 							INPID_InputControl = "SliderControl",
 							INP_Integer = false,
 							LINKS_Name = "P",
-							INP_Default = 0
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						TearSeed = {
+							INP_MaxScale = 20,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Tear Shape",
+							INP_Default = 0,
+							INP_MinScale = 0
+						},
+						TearRip = {
+							INP_MaxScale = 0.95,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Rip Time",
+							INP_Default = 0.36,
+							INP_MinScale = 0.02
+						},
+						TearAngle = {
+							INP_MaxScale = 180,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Angle",
+							INP_Default = 12,
+							INP_MinScale = -180
+						},
+						F = {
+							INP_MaxScale = 20,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "F",
+							INP_Default = 0,
+							INP_MinScale = -1
+						},
+						TearSteps = {
+							INP_MaxScale = 24,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = true,
+							LINKS_Name = "Stop Motion Steps",
+							INP_Default = 0,
+							INP_MinScale = 0
 						}
 					},
 					CtrlWZoom = false,
-					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } },
 					Inputs = {
+						Q = Input { Expression = "iif(TearSteps >= 1, floor(P*TearSteps + 0.5)/max(TearSteps, 1), P)" },
+						F = Input { Expression = "Q/TearRip" },
+						Slide = Input { Expression = "(0.7 + abs(TearOffset) + TearRough) * (function(t) return t*t*(3 - 2*t) end)(min(max((Q - 0.7*TearRip)/(1 - 0.7*TearRip), 0), 1))" },
+						UseFrameFormatSettings = Input { Value = 1 },
 						GlobalOut = Input { Value = 3534 },
 						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						Q = Input { Expression = "iif(TearSteps >= 1, floor(P*TearSteps + 0.5)/max(TearSteps, 1), P)" },
-						F = Input { Expression = "Q*2.8" },
-						Slide = Input { Expression = "(0.7 + abs(TearOffset) + TearRough) * (function(t) return t*t*(3 - 2*t) end)(min(max((Q - 0.25)/0.75, 0), 1))" },
-						UseFrameFormatSettings = Input { Value = 1 },
-						Width = Input { Value = 1920 },
-						Height = Input { Value = 1080 },
-						GlobalIn = Input { Value = -480 },
 						P = Input {
 							SourceOp = "TearProgress",
 							Source = "Value"
-						}
-					}
+						},
+						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
+						GlobalIn = Input { Value = -480 }
+					},
+					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } }
 				},
 				TearProgress = LUTLookup {
 					CtrlWZoom = false,
+					NameSet = true,
 					Inputs = {
 						Lookup = Input {
 							SourceOp = "AnimCurves1查找表",
 							Source = "Value"
 						}
-					},
-					NameSet = true
+					}
 				},
 				["AnimCurves1查找表"] = LUTBezier {
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
 					NameSet = true,
-					SplineColor = { Blue = 0, Green = 0, Red = 0 },
 					KeyColorSplines = {
 						[0] = {
 							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
@@ -199,21 +210,51 @@
 				},
 				TearNoise = FastNoise {
 					Inputs = {
-						GlobalOut = Input { Value = 3534 },
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						Seethe = Input { Expression = "TearCtrl.TearSeed" },
-						Width = Input { Value = 1024 },
-						Height = Input { Value = 1024 },
-						Depth = Input { Value = 4 },
 						Detail = Input { Value = 8 },
 						Contrast = Input { Value = 2.2 },
+						XScale = Input { Value = 6 },
+						Seethe = Input { Expression = "TearCtrl.TearSeed" },
 						GlobalIn = Input { Value = -480 },
-						XScale = Input { Value = 6 }
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Width = Input { Value = 1024 },
+						Height = Input { Value = 1024 },
+						Depth = Input { Value = 4 }
 					},
 					ViewInfo = OperatorInfo { Pos = { -275, 148.5 } }
 				},
 				TearCut = Custom {
 					Inputs = {
+						NumberIn3 = Input { Expression = "TearCtrl.TearRough" },
+						NumberIn4 = Input { Expression = "TearCtrl.TearEdge" },
+						NumberIn5 = Input { Expression = "TearCtrl.TearShadow" },
+						AlphaExpression = Input { Value = "1" },
+						NumberIn6 = Input { Expression = "TearCtrl.TearShadowW" },
+						NumberIn7 = Input { Expression = "TearCtrl.F" },
+						NumberIn8 = Input { Expression = "TearCtrl.TearGap" },
+						Image3 = Input {
+							SourceOp = "TearNoise",
+							Source = "Output"
+						},
+						PointIn1 = Input { Expression = "Point(TearCtrl.TearOffset, TearCtrl.Slide)" },
+						Image2 = Input {
+							SourceOp = "SrcB",
+							Source = "Output"
+						},
+						Intermediate1 = Input { Value = "0.5 + ((y - 0.5)*(h/w)*cos(n2) - (x - 0.5)*sin(n2))/(abs(sin(n2)) + (h/w)*abs(cos(n2)))" },
+						Image1 = Input {
+							SourceOp = "SrcA",
+							Source = "Output"
+						},
+						Intermediate2 = Input { Value = "n8*min(max((n7 - i1)/0.12, 0), 1) + p1y" },
+						BlueExpression = Input { Value = "if(n1 <= 0, b1, if(n1 >= 1, b2, if(i4 > 0, if(min(min((x - i2*cos(n2)), 1 - (x - i2*cos(n2))), min((y - i2*sin(n2)*w/h), 1 - (y - i2*sin(n2)*w/h))) < 0, b2, if(i4 > i6, getb1b((x - i2*cos(n2)), (y - i2*sin(n2)*w/h)), i7)), if(i5 > 0, if(min(min((x + i2*cos(n2)), 1 - (x + i2*cos(n2))), min((y + i2*sin(n2)*w/h), 1 - (y + i2*sin(n2)*w/h))) < 0, b2, if(i5 > i6*0.5, getb1b((x + i2*cos(n2)), (y + i2*sin(n2)*w/h)), i7)), b2*i8))))" },
+						Intermediate3 = Input { Value = "(x - 0.5)*cos(n2) + (y - 0.5)*(h/w)*sin(n2) - p1x - n3*2*(getr3b(0.27, 0.5 + 0.75*((y - 0.5)*(h/w)*cos(n2) - (x - 0.5)*sin(n2))) - 0.5)" },
+						GreenExpression = Input { Value = "if(n1 <= 0, g1, if(n1 >= 1, g2, if(i4 > 0, if(min(min((x - i2*cos(n2)), 1 - (x - i2*cos(n2))), min((y - i2*sin(n2)*w/h), 1 - (y - i2*sin(n2)*w/h))) < 0, g2, if(i4 > i6, getg1b((x - i2*cos(n2)), (y - i2*sin(n2)*w/h)), i7)), if(i5 > 0, if(min(min((x + i2*cos(n2)), 1 - (x + i2*cos(n2))), min((y + i2*sin(n2)*w/h), 1 - (y + i2*sin(n2)*w/h))) < 0, g2, if(i5 > i6*0.5, getg1b((x + i2*cos(n2)), (y + i2*sin(n2)*w/h)), i7)), g2*i8))))" },
+						Intermediate4 = Input { Value = "i3 - i2" },
+						RedExpression = Input { Value = "if(n1 <= 0, r1, if(n1 >= 1, r2, if(i4 > 0, if(min(min((x - i2*cos(n2)), 1 - (x - i2*cos(n2))), min((y - i2*sin(n2)*w/h), 1 - (y - i2*sin(n2)*w/h))) < 0, r2, if(i4 > i6, getr1b((x - i2*cos(n2)), (y - i2*sin(n2)*w/h)), i7)), if(i5 > 0, if(min(min((x + i2*cos(n2)), 1 - (x + i2*cos(n2))), min((y + i2*sin(n2)*w/h), 1 - (y + i2*sin(n2)*w/h))) < 0, r2, if(i5 > i6*0.5, getr1b((x + i2*cos(n2)), (y + i2*sin(n2)*w/h)), i7)), r2*i8))))" },
+						Intermediate5 = Input { Value = "-i3 - i2" },
+						Intermediate8 = Input { Value = "1 - n5*max(0, 1 - max(min(-i4, -i5), 0)/max(n6, 0.0001))^2" },
+						Intermediate6 = Input { Value = "n4*(0.25 + 1.5*getr3b(0.71, frac(i1*3.7)))*min(i2/0.004, 1)" },
 						LUTIn1 = Input {
 							SourceOp = "CustomTool1LUTIn1",
 							Source = "Value"
@@ -231,38 +272,8 @@
 							Source = "Value"
 						},
 						Intermediate7 = Input { Value = "0.9 + 0.1*getr3b(frac(x*5), frac(y*5))" },
-						Intermediate8 = Input { Value = "1 - n5*max(0, 1 - max(min(-i4, -i5), 0)/max(n6, 0.0001))^2" },
 						NumberIn2 = Input { Expression = "TearCtrl.TearAngle" },
-						NumberIn3 = Input { Expression = "TearCtrl.TearRough" },
-						NumberIn4 = Input { Expression = "TearCtrl.TearEdge" },
-						GreenExpression = Input { Value = "if(n1 <= 0, g1, if(n1 >= 1, g2, if(i4 > 0, if(min(min((x - i2*cos(n2)), 1 - (x - i2*cos(n2))), min((y - i2*sin(n2)*w/h), 1 - (y - i2*sin(n2)*w/h))) < 0, g2, if(i4 > i6, getg1b((x - i2*cos(n2)), (y - i2*sin(n2)*w/h)), i7)), if(i5 > 0, if(min(min((x + i2*cos(n2)), 1 - (x + i2*cos(n2))), min((y + i2*sin(n2)*w/h), 1 - (y + i2*sin(n2)*w/h))) < 0, g2, if(i5 > i6*0.5, getg1b((x + i2*cos(n2)), (y + i2*sin(n2)*w/h)), i7)), g2*i8))))" },
-						NumberIn5 = Input { Expression = "TearCtrl.TearShadow" },
-						Image2 = Input {
-							SourceOp = "SrcB",
-							Source = "Output"
-						},
-						NumberIn6 = Input { Expression = "TearCtrl.TearShadowW" },
-						BlueExpression = Input { Value = "if(n1 <= 0, b1, if(n1 >= 1, b2, if(i4 > 0, if(min(min((x - i2*cos(n2)), 1 - (x - i2*cos(n2))), min((y - i2*sin(n2)*w/h), 1 - (y - i2*sin(n2)*w/h))) < 0, b2, if(i4 > i6, getb1b((x - i2*cos(n2)), (y - i2*sin(n2)*w/h)), i7)), if(i5 > 0, if(min(min((x + i2*cos(n2)), 1 - (x + i2*cos(n2))), min((y + i2*sin(n2)*w/h), 1 - (y + i2*sin(n2)*w/h))) < 0, b2, if(i5 > i6*0.5, getb1b((x + i2*cos(n2)), (y + i2*sin(n2)*w/h)), i7)), b2*i8))))" },
-						NumberIn7 = Input { Expression = "TearCtrl.F" },
-						Intermediate1 = Input { Value = "0.5 + ((y - 0.5)*(h/w)*cos(n2) - (x - 0.5)*sin(n2))/(abs(sin(n2)) + (h/w)*abs(cos(n2)))" },
-						NumberIn8 = Input { Expression = "TearCtrl.TearGap" },
-						Image1 = Input {
-							SourceOp = "SrcA",
-							Source = "Output"
-						},
-						PointIn1 = Input { Expression = "Point(TearCtrl.TearOffset, TearCtrl.Slide)" },
-						Image3 = Input {
-							SourceOp = "TearNoise",
-							Source = "Output"
-						},
-						NumberIn1 = Input { Expression = "TearCtrl.P" },
-						RedExpression = Input { Value = "if(n1 <= 0, r1, if(n1 >= 1, r2, if(i4 > 0, if(min(min((x - i2*cos(n2)), 1 - (x - i2*cos(n2))), min((y - i2*sin(n2)*w/h), 1 - (y - i2*sin(n2)*w/h))) < 0, r2, if(i4 > i6, getr1b((x - i2*cos(n2)), (y - i2*sin(n2)*w/h)), i7)), if(i5 > 0, if(min(min((x + i2*cos(n2)), 1 - (x + i2*cos(n2))), min((y + i2*sin(n2)*w/h), 1 - (y + i2*sin(n2)*w/h))) < 0, r2, if(i5 > i6*0.5, getr1b((x + i2*cos(n2)), (y + i2*sin(n2)*w/h)), i7)), r2*i8))))" },
-						Intermediate2 = Input { Value = "n8*min(max((n7 - i1)/0.12, 0), 1) + p1y" },
-						Intermediate6 = Input { Value = "n4*(0.25 + 1.5*getr3b(0.71, frac(i1*3.7)))*min(i2/0.004, 1)" },
-						Intermediate3 = Input { Value = "(x - 0.5)*cos(n2) + (y - 0.5)*(h/w)*sin(n2) - p1x - n3*2*(getr3b(0.27, 0.5 + 0.75*((y - 0.5)*(h/w)*cos(n2) - (x - 0.5)*sin(n2))) - 0.5)" },
-						Intermediate5 = Input { Value = "-i3 - i2" },
-						Intermediate4 = Input { Value = "i3 - i2" },
-						AlphaExpression = Input { Value = "1" }
+						NumberIn1 = Input { Expression = "TearCtrl.P" }
 					},
 					ViewInfo = OperatorInfo { Pos = { 275, 49.5 } }
 				},
@@ -275,7 +286,7 @@
 						}
 					},
 					CtrlWZoom = false,
-					SplineColor = { Blue = 0, Green = 0, Red = 0 }
+					SplineColor = { Red = 0, Green = 0, Blue = 0 }
 				},
 				CustomTool1LUTIn2 = LUTBezier {
 					NameSet = true,
@@ -286,7 +297,7 @@
 						}
 					},
 					CtrlWZoom = false,
-					SplineColor = { Blue = 0, Green = 0, Red = 0 }
+					SplineColor = { Red = 0, Green = 0, Blue = 0 }
 				},
 				CustomTool1LUTIn3 = LUTBezier {
 					NameSet = true,
@@ -297,7 +308,7 @@
 						}
 					},
 					CtrlWZoom = false,
-					SplineColor = { Blue = 0, Green = 0, Red = 0 }
+					SplineColor = { Red = 0, Green = 0, Blue = 0 }
 				},
 				CustomTool1LUTIn4 = LUTBezier {
 					NameSet = true,
@@ -308,7 +319,7 @@
 						}
 					},
 					CtrlWZoom = false,
-					SplineColor = { Blue = 0, Green = 0, Red = 0 }
+					SplineColor = { Red = 0, Green = 0, Blue = 0 }
 				}
 			
 			}

@@ -162,6 +162,7 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 | `Tear Shape` | 換一種撕邊的形狀 |
 | `Paper Edge Width` | 白色紙芯露出的寬度 |
 | `Shadow`、`Shadow Width` | 陰影的濃度與寬度 |
+| `Rip Time` | 裂開佔整個轉場的多少。調小是很快裂完、慢慢拉開；調大是慢慢裂、最後一下子拉開 |
 | `Stop Motion Steps` | 整個過程分成幾步跳著走，0 是平滑移動 |
 
 **注意**
