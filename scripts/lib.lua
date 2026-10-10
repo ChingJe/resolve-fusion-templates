@@ -59,6 +59,105 @@ function L.text(label, def, page, lines)
           INPS_DefaultText = def, TEC_Lines = lines or 1, ICS_ControlPage = page or "Controls"}
 end
 
+-- Which line of a list is on screen. Returns a function that gives the expression (as text) for one thing to pick:
+-- 1 the line number (0 when nothing shows), 2 frames since it appeared, 3 frames until the next one, 4 its text.
+-- The list is a text control with one line per row. With the checkbox <timed> on, every row starts with a time
+-- ("0:02 Text", see docs/time-list.md). With it off the rows are plain text and the number control <cue>
+-- says which row shows: keyframe it 1, 2, 3 and each row appears on its keyframe.
+function L.cur(ctrl, list, timed, cue)
+  local body = [[(function(txt, timed, cue, fps, t0, t1, now, pick)
+  local idx, since, untl, text = 0, 0, 9999, ""
+  if timed == 0 then
+    idx = math.floor(cue + 0.0001)
+    for d = 1, 90 do
+      if now - d < t0 or math.floor(CTRL:GetValue("CUE", now - d) + 0.0001) ~= idx then break end
+      since = d
+    end
+    for d = 1, 60 do
+      if now + d > t1 then break end
+      if math.floor(CTRL:GetValue("CUE", now + d) + 0.0001) ~= idx then untl = d break end
+    end
+    local n = 0
+    for line in (txt .. "\n"):gmatch("(.-)\r?\n") do
+      n = n + 1
+      if n == idx then text = line end
+    end
+  else
+    local rel, len, best, nxt, n = now - t0, math.max(t1 - t0, 1), -1, 1e9, 0
+    for line in (txt .. "\n"):gmatch("(.-)\r?\n") do
+      n = n + 1
+      local stamp, name = line:match("^%s*(%S+)%s*(.-)%s*$")
+      local f
+      if stamp then
+        local pct, fr = stamp:match("^([%d%.]+)%%$"), stamp:match("^(%d+)[fF]$")
+        if pct then f = tonumber(pct) / 100 * len
+        elseif fr then f = tonumber(fr)
+        elseif stamp:match("^[%d:%.]+$") then
+          local sec = 0
+          for part in stamp:gmatch("[^:]+") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end
+          if sec then f = math.floor(sec * fps + 0.5) end
+        end
+      end
+      if f then
+        if f <= rel + 0.001 then
+          if f >= best then best, idx, text = f, n, name end
+        elseif f < nxt then nxt = f end
+      end
+    end
+    if best < 0 then idx, text = 0, "" else since, untl = rel - best, nxt - rel end
+  end
+  if pick == 1 then return idx elseif pick == 2 then return since elseif pick == 3 then return untl end
+  return text
+end)(CTRL.LIST.Value, CTRL.TIMED, CTRL.CUE, iif(CTRL.FpsOverride > 0, CTRL.FpsOverride, comp:GetPrefs("Comp.FrameFormat.Rate") or 24), comp.RenderStart, comp.RenderEnd, time, PICK)]]
+  body = body:gsub("CTRL", ctrl):gsub("LIST", list):gsub("TIMED", timed):gsub("CUE", cue)
+  return function(pick) return (body:gsub("PICK", tostring(pick))) end
+end
+function L.combo(label, items, def, page)
+  local c = {LINKID_DataType = "Number", INPID_InputControl = "ComboControl", LINKS_Name = label,
+             INP_Default = def or 0, INP_Integer = true, ICS_ControlPage = page or "Controls"}
+  for i, s in ipairs(items) do c[i] = {CCS_AddString = s} end
+  return c
+end
+
+-- Colours a white-on-clear shape and puts two outlines around it. w1, w2 are expressions for the outline widths
+-- (fractions of the frame width), c is nine expressions: fill r g b, inner outline r g b, outer outline r g b.
+-- Makes <name> (a Custom) plus two ErodeDilate tools and returns the Custom.
+function L.inked(comp, name, x, y, matte, w1, w2, c)
+  local add = L.adder(comp)
+  local g1 = add("ErodeDilate", name .. "GrowA", x, y + 1)
+  g1.Input = matte; g1:SetInput("Filter", 3); L.expr(g1, "XAmount", w1)
+  local g2 = add("ErodeDilate", name .. "GrowB", x, y + 2)
+  g2.Input = matte; g2:SetInput("Filter", 3); L.expr(g2, "XAmount", "(" .. w1 .. ") + (" .. w2 .. ")")
+  local p = add("Custom", name, x + 1, y)
+  p.Image1 = matte; p.Image2 = g1.Output; p.Image3 = g2.Output
+  for i = 1, 6 do L.expr(p, "NumberIn" .. i, c[i]) end
+  L.expr(p, "PointIn1", "Point(" .. c[7] .. ", " .. c[8] .. ")")
+  L.expr(p, "PointIn2", "Point(" .. c[9] .. ", 0)")
+  -- an outline of zero width is left out, otherwise it would cover the one inside it
+  L.expr(p, "NumberIn7", "iif((" .. w1 .. ") > 0, 1, 0)")
+  L.expr(p, "NumberIn8", "iif((" .. w2 .. ") > 0, 1, 0)")
+  p:SetInput("Intermediate1", "a2*n7")
+  p:SetInput("Intermediate2", "a3*n8")
+  p:SetInput("RedExpression",   "n1*a1 + (1 - a1)*(n4*i1 + (1 - i1)*p1x*i2)")
+  p:SetInput("GreenExpression", "n2*a1 + (1 - a1)*(n5*i1 + (1 - i1)*p1y*i2)")
+  p:SetInput("BlueExpression",  "n3*a1 + (1 - a1)*(n6*i1 + (1 - i1)*p2x*i2)")
+  p:SetInput("AlphaExpression", "a1 + (1 - a1)*(i1 + (1 - i1)*i2)")
+  return p
+end
+-- test helper: FX_<env>="10=1,60=2" keyframes a number control on those frames
+function L.keys(tool, id, spec)
+  if not spec then return end
+  tool:AddModifier(id, "BezierSpline")
+  local sp = tool[id]:GetConnectedOutput():GetTool()
+  local mine = {}
+  for f, v in string.gmatch(spec, "(%d+)=([%d%.]+)") do tool[id][tonumber(f)] = tonumber(v); mine[tonumber(f)] = true end
+  for f in pairs(sp:GetKeyFrames()) do if not mine[f] then sp:DeleteKeyFrames(f) end end
+end
+function L.point(label, page, cross)
+  return {LINKID_DataType = "Point", INPID_InputControl = "OffsetControl", LINKS_Name = label,
+          INPID_PreviewControl = cross and "CrosshairControl" or nil, ICS_ControlPage = page or "Controls"}
+end
+
 -- progress 0..1 over the clip, for a user control named P on the controller
 L.P = "min(max((time - comp.RenderStart) / max(comp.RenderEnd - comp.RenderStart, 1), 0), 1)"
 

@@ -1,8 +1,9 @@
--- Kinetic Lines: lines of text that pop in one after another at the times written in front of them.
--- Lines come from one text box, "0:02 Text", the same notation Chapter Bar uses. A | inside a line is a line break.
+-- Kinetic Lines: lines of text that pop in one after another.
+-- Lines come from one text box. Either every line starts with a time ("0:02 Text", the notation Chapter Bar uses),
+-- or the lines are plain text and Line Number is keyframed 1, 2, 3. A | inside a line is a line break.
 -- A title, so it has no image input. FX_SRC=media previews it over the clip. FX_EXPORT=1 dumps the macro source.
 -- FX_TEXT="0% One|50% Two" overrides the list for a test render (| stands for a new line there),
--- FX_TEXTFILE reads it from a UTF-8 file.
+-- FX_TEXTFILE reads it from a UTF-8 file, FX_CUE="10=1,60=2" keyframes Line Number.
 local L = dofile("D:/davinci/scripts/lib.lua")
 local comp = L.comp()
 if not comp then return end
@@ -12,31 +13,13 @@ comp:StartUndo("Build Kinetic Lines")
 local mediaIn, mediaOut = L.clear(comp)
 local add, expr = L.adder(comp), L.expr
 
--- Same parser as Chapter Bar: a list of {start as 0..1 of the clip, text}, sorted by start.
-local PARSE = [[(function(txt, fps, len)
-  local out = {}
-  for line in (txt .. "\n"):gmatch("(.-)\r?\n") do
-    local stamp, name = line:match("^%s*(%S+)%s*(.-)%s*$")
-    if stamp then
-      local f
-      local pct, fr = stamp:match("^([%d%.]+)%%$"), stamp:match("^(%d+)[fF]$")
-      if pct then f = tonumber(pct) / 100 * len
-      elseif fr then f = tonumber(fr)
-      elseif stamp:match("^[%d:%.]+$") then
-        local sec = 0
-        for part in stamp:gmatch("[^:]+") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end
-        if sec then f = math.floor(sec * fps + 0.5) end
-      end
-      if f then out[#out + 1] = {f / len, name} end
-    end
-  end
-  table.sort(out, function(a, b) return a[1] < b[1] end)
-  return out
-end)(KinCtrl.LineList.Value, iif(KinCtrl.FpsOverride > 0, KinCtrl.FpsOverride, comp:GetPrefs("Comp.FrameFormat.Rate") or 24), max(comp.RenderEnd - comp.RenderStart, 1))]]
+local cur = L.cur("KinCtrl", "LineList", "KinTimed", "KinCue")
 
 local ctrl = add("Background", "KinCtrl", -5, -3)
 ctrl.UserControls = {
   LineList    = L.text("Lines (0:00 Text)", "0% FIRST LINE\n25% THEN THIS\n50% TWO LINES|IN ONE\n75% LAST ONE", nil, 8),
+  KinTimed    = L.check("Lines Start With A Time (0:02 Text)", 1),
+  KinCue      = L.num("Line Number (keyframe 1, 2, 3)", 1, 0, 20),
   FpsOverride = L.num("Frame Rate Override", 0, 0, 120),
   KinSize   = L.num("Size", 0.11, 0.02, 0.4),
   KinIn     = L.num("Pop Frames", 8, 1, 40),
@@ -50,41 +33,27 @@ ctrl.UserControls = {
   KinPadY   = L.num("Box Padding Y", 0.15, 0, 1),
   KinPos = {LINKID_DataType = "Point", INPID_InputControl = "OffsetControl", LINKS_Name = "Position",
             INPID_PreviewControl = "CrosshairControl", ICS_ControlPage = "Controls"},
-  P    = L.num("P", 0, 0, 1, "Driver"),
   T    = L.num("T", 0, 0, 1, "Driver"),
   Back = L.num("Back", 0, 0, 2, "Driver"),
   Fade = L.num("Fade", 0, 0, 1, "Driver"),
-  Span = {LINKID_DataType = "Point", INPID_InputControl = "OffsetControl", LINKS_Name = "Span", ICS_ControlPage = "Driver"},
-  Idx  = L.num("Idx", 0, 0, 100, "Driver"),
+  Idx   = L.num("Idx", 0, 0, 100, "Driver"),
+  Since = L.num("Since", 0, 0, 100, "Driver"),
+  Until = L.num("Until", 0, 0, 100, "Driver"),
 }
 ctrl = ctrl:Refresh()
 ctrl:SetInput("UseFrameFormatSettings", 1)
 ctrl:SetInput("KinPos", {0.5, 0.5})
 L.color(ctrl, 0, 0, 0, 0)
-expr(ctrl, "P", L.P)
--- Span: where the line on screen starts and where the next one takes over (-1 before the first line)
-expr(ctrl, "Span", string.format([[(function(c, p)
-  local a, b = -1, 2
-  for i = 1, #c do
-    if c[i][1] <= p + 0.000001 then a = c[i][1] elseif c[i][1] < b then b = c[i][1] end
-  end
-  return Point(a, b)
-end)(%s, P)]], PARSE))
-expr(ctrl, "Idx", string.format([[(function(c, p)
-  local n = 0
-  for i = 1, #c do if c[i][1] <= p + 0.000001 then n = i end end
-  return n
-end)(%s, P)]], PARSE))
+-- Idx: which line is on screen (0 for none). Since, Until: frames since it appeared and until the next one.
+expr(ctrl, "Idx", cur(1))
+expr(ctrl, "Since", cur(2))
+expr(ctrl, "Until", cur(3))
 -- T: 0..1 through the pop of the current line. Back: the same with an overshoot. Fade: opacity.
-expr(ctrl, "T", "iif(Span.X < 0, 0, min(max((P - Span.X)*max(comp.RenderEnd - comp.RenderStart, 1)/max(KinIn, 1), 0), 1))")
+expr(ctrl, "T", "iif(Idx < 1, 0, min(max((Since + 1)/max(KinIn, 1), 0), 1))")
 expr(ctrl, "Back", "(function(t, s) t = t - 1 return 1 + (s + 1)*t*t*t + s*t*t end)(T, 1.70158*KinBounce)")
-expr(ctrl, "Fade", "iif(Span.X < 0, 0, min(T*3, 1) * iif(KinOut <= 0, 1, min(max((Span.Y - P)*max(comp.RenderEnd - comp.RenderStart, 1)/KinOut, 0), 1)))")
+expr(ctrl, "Fade", "iif(Idx < 1, 0, min(T*3, 1) * iif(KinOut <= 0, 1, min(max(Until/KinOut, 0), 1)))")
 
-local LINE = string.format([[Text((function(c, p)
-  local s = ""
-  for i = 1, #c do if c[i][1] <= p + 0.000001 then s = c[i][2] end end
-  return (s:gsub("%%s*|%%s*", "\n"))
-end)(%s, KinCtrl.P))]], PARSE)
+local LINE = "Text((function(s) return (s:gsub('%s*|%s*', '\\n')) end)(" .. cur(4) .. "))"
 
 local text = add("TextPlus", "Line", -3, 0)
 text:SetInput("Font", "Microsoft JhengHei") -- Open Sans has no Chinese glyphs and Text+ does not fall back
@@ -129,6 +98,8 @@ if os.getenv("FX_EXPORT") == "1" then
     {"NAME", "KineticLines"},
     {"OUT", "KinOut", "Output"},
     {"CTL", "KinCtrl", "LineList", "Lines (0:00 Text)"},
+    {"CTL", "KinCtrl", "KinTimed", "Lines Start With A Time (0:02 Text)"},
+    {"CTL", "KinCtrl", "KinCue", "Line Number (keyframe 1, 2, 3)"},
     {"CTL", "KinCtrl", "FpsOverride", "Frame Rate Override"},
     {"CTL", "Line", "Font", "Font", "2"}, {"CTL", "Line", "Style", "", "2"},
     {"CTL", "KinCtrl", "KinSize", "Size"},
@@ -151,6 +122,14 @@ else
   if t then ctrl:SetInput("LineList", (string.gsub(t, "|", "\n"))) end
   local file = os.getenv("FX_TEXTFILE") and io.open(os.getenv("FX_TEXTFILE"), "r")
   if file then ctrl:SetInput("LineList", file:read("*a")); file:close() end
+  local cue = os.getenv("FX_CUE")
+  if cue then
+    ctrl:AddModifier("KinCue", "BezierSpline")
+    local sp = ctrl.KinCue:GetConnectedOutput():GetTool()
+    local mine = {}
+    for f, v in string.gmatch(cue, "(%d+)=([%d%.]+)") do ctrl.KinCue[tonumber(f)] = tonumber(v); mine[tonumber(f)] = true end
+    for f in pairs(sp:GetKeyFrames()) do if not mine[f] then sp:DeleteKeyFrames(f) end end
+  end
   comp:Lock()
   local s = os.getenv("FX_SRC") == "media" and mediaIn or L.testsource(comp)
   local dim = add("BrightnessContrast", "PrevDim", -1, 4)

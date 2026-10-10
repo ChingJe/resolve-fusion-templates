@@ -1,0 +1,477 @@
+{
+	Tools = ordered() {
+		CornerTag = MacroOperator {
+			CtrlWZoom = false,
+			Inputs = ordered() {
+				Input1 = InstanceInput { SourceOp = "TagCtrl", Source = "TagLabel", Name = "Label" },
+				Input2 = InstanceInput { SourceOp = "TagCtrl", Source = "TagText", Name = "Text" },
+				Input3 = InstanceInput { SourceOp = "TagCtrl", Source = "TagCorner", Name = "Corner" },
+				Input4 = InstanceInput { SourceOp = "TagCtrl", Source = "TagMarginX", Name = "Margin X" },
+				Input5 = InstanceInput { SourceOp = "TagCtrl", Source = "TagMarginY", Name = "Margin Y" },
+				Input6 = InstanceInput { SourceOp = "TagMain", Source = "Font", Name = "Font", ControlGroup = 2 },
+				Input7 = InstanceInput { SourceOp = "TagMain", Source = "Style", ControlGroup = 2 },
+				Input8 = InstanceInput { SourceOp = "TagCtrl", Source = "TagSize", Name = "Size" },
+				Input9 = InstanceInput { SourceOp = "TagCtrl", Source = "TagLabelSize", Name = "Label Size" },
+				Input10 = InstanceInput { SourceOp = "TagMain", Source = "Red1", Name = "Text Color", ControlGroup = 3 },
+				Input11 = InstanceInput { SourceOp = "TagMain", Source = "Green1", ControlGroup = 3 },
+				Input12 = InstanceInput { SourceOp = "TagMain", Source = "Blue1", ControlGroup = 3 },
+				Input13 = InstanceInput { SourceOp = "TagMainBox", Source = "Red1", Name = "Box Color", ControlGroup = 4 },
+				Input14 = InstanceInput { SourceOp = "TagMainBox", Source = "Green1", ControlGroup = 4 },
+				Input15 = InstanceInput { SourceOp = "TagMainBox", Source = "Blue1", ControlGroup = 4 },
+				Input16 = InstanceInput { SourceOp = "TagSmall", Source = "Red1", Name = "Label Text Color", ControlGroup = 5 },
+				Input17 = InstanceInput { SourceOp = "TagSmall", Source = "Green1", ControlGroup = 5 },
+				Input18 = InstanceInput { SourceOp = "TagSmall", Source = "Blue1", ControlGroup = 5 },
+				Input19 = InstanceInput { SourceOp = "TagSmallBox", Source = "Red1", Name = "Label Box Color", ControlGroup = 6 },
+				Input20 = InstanceInput { SourceOp = "TagSmallBox", Source = "Green1", ControlGroup = 6 },
+				Input21 = InstanceInput { SourceOp = "TagSmallBox", Source = "Blue1", ControlGroup = 6 },
+				Input22 = InstanceInput { SourceOp = "TagCtrl", Source = "TagPadX", Name = "Box Padding X" },
+				Input23 = InstanceInput { SourceOp = "TagCtrl", Source = "TagPadY", Name = "Box Padding Y" },
+				Input24 = InstanceInput { SourceOp = "TagCtrl", Source = "TagRound", Name = "Box Roundness" },
+				Input25 = InstanceInput { SourceOp = "TagCtrl", Source = "TagShadow", Name = "Shadow" },
+				Input26 = InstanceInput { SourceOp = "TagCtrl", Source = "TagIn", Name = "Slide In Frames" },
+				Input27 = InstanceInput { SourceOp = "TagCtrl", Source = "TagLeave", Name = "Slide Out At The End" },
+				Input28 = InstanceInput { SourceOp = "TagCtrl", Source = "TagOut", Name = "Slide Out Frames" },
+			},
+			Outputs = {
+				MainOutput1 = InstanceOutput { SourceOp = "TagOut", Source = "Output" }
+			},
+			ViewInfo = GroupInfo { Pos = { 0, 0 } },
+			Tools = ordered() {
+				TagCtrl = Background {
+					UserControls = {
+						TagCorner = {
+							{
+								CCS_AddString = "Top Left"
+							},
+							{
+								CCS_AddString = "Top Right"
+							},
+							{
+								CCS_AddString = "Bottom Left"
+							},
+							{
+								CCS_AddString = "Bottom Right"
+							},
+							INPID_InputControl = "ComboControl",
+							LINKS_Name = "Corner",
+							INP_Default = 1,
+							INP_Integer = true,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls"
+						},
+						Slide = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Slide",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							INP_Integer = false,
+							ICS_ControlPage = "Driver"
+						},
+						Main = {
+							INPID_InputControl = "OffsetControl",
+							LINKID_DataType = "Point",
+							LINKS_Name = "Main",
+							ICS_ControlPage = "Driver"
+						},
+						Small = {
+							INPID_InputControl = "OffsetControl",
+							LINKID_DataType = "Point",
+							LINKS_Name = "Small",
+							ICS_ControlPage = "Driver"
+						},
+						TagMarginX = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Margin X",
+							INP_Default = 0.04,
+							INP_MinScale = 0,
+							INP_MaxScale = 0.3,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls"
+						},
+						TagMarginY = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Margin Y",
+							INP_Default = 0.07,
+							INP_MinScale = 0,
+							INP_MaxScale = 0.3,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls"
+						},
+						TagSize = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Size",
+							INP_Default = 0.045,
+							INP_MinScale = 0.01,
+							INP_MaxScale = 0.2,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls"
+						},
+						TagLabelSize = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Label Size",
+							INP_Default = 0.6,
+							INP_MinScale = 0.2,
+							INP_MaxScale = 1.5,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls"
+						},
+						TagPadX = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Box Padding X",
+							INP_Default = 0.35,
+							INP_MinScale = 0,
+							INP_MaxScale = 1.5,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls"
+						},
+						TagPadY = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Box Padding Y",
+							INP_Default = 0.25,
+							INP_MinScale = 0,
+							INP_MaxScale = 1.5,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls"
+						},
+						TagRound = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Box Roundness",
+							INP_Default = 0.3,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls"
+						},
+						TagShadow = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Shadow",
+							INP_Default = 0.5,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls"
+						},
+						TagIn = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Slide In Frames",
+							INP_Default = 12,
+							INP_MinScale = 1,
+							INP_MaxScale = 60,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls"
+						},
+						TagLabel = {
+							INPID_InputControl = "TextEditControl",
+							LINKS_Name = "Label",
+							INPS_DefaultText = "本集主題",
+							TEC_Lines = 1,
+							LINKID_DataType = "Text",
+							ICS_ControlPage = "Controls"
+						},
+						Up = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Up",
+							INP_Default = 1,
+							INP_MinScale = -1,
+							INP_MaxScale = 1,
+							INP_Integer = false,
+							ICS_ControlPage = "Driver"
+						},
+						TagLeave = {
+							INPID_InputControl = "CheckboxControl",
+							LINKS_Name = "Slide Out At The End",
+							INP_Default = 1,
+							LINKID_DataType = "Number",
+							INP_Integer = true,
+							ICS_ControlPage = "Controls"
+						},
+						TagOut = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Slide Out Frames",
+							INP_Default = 10,
+							INP_MinScale = 1,
+							INP_MaxScale = 60,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls"
+						},
+						TagText = {
+							INPID_InputControl = "TextEditControl",
+							LINKS_Name = "Text",
+							INPS_DefaultText = "挑戰超辣火鍋",
+							TEC_Lines = 2,
+							LINKID_DataType = "Text",
+							ICS_ControlPage = "Controls"
+						},
+						Side = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Side",
+							INP_Default = 1,
+							INP_MinScale = -1,
+							INP_MaxScale = 1,
+							INP_Integer = false,
+							ICS_ControlPage = "Driver"
+						}
+					},
+					Inputs = {
+						GlobalIn = Input { Value = -480 },
+						Height = Input { Value = 1080 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Small = Input { Expression = "Point(Main.X, Main.Y + TagSize*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height'))*(0.62 + 0.5*TagLabelSize + 1.1*TagPadY*0.5))" },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Slide = Input { Expression = "(function(tin, tout)\n  local a = 1 - tin\n  return a*a*a + tout*tout*tout\nend)(min(max((time - comp.RenderStart + 1)/max(TagIn, 1), 0), 1),\n     iif(TagLeave > 0, min(max((time - (comp.RenderEnd - TagOut))/max(TagOut, 1), 0), 1), 0))" },
+						Up = Input { Expression = "iif(TagCorner < 2, 1, -1)" },
+						Main = Input { Expression = "Point(iif(Side > 0, 1 - TagMarginX, TagMarginX), iif(Up > 0, 1 - TagMarginY - TagSize*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height'))*(0.62 + 0.5*TagLabelSize + 1.1*TagPadY*0.5), TagMarginY))" },
+						Width = Input { Value = 1920 },
+						TopLeftAlpha = Input { Value = 0 },
+						Side = Input { Expression = "iif(TagCorner % 2 == 1, 1, -1)" }
+					},
+					CtrlWZoom = false,
+					ViewInfo = OperatorInfo { Pos = { -605, -82.5 } }
+				},
+				TagMain = TextPlus {
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -385, 16.5 } },
+					Inputs = {
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						HorizontalLeftCenterRight = Input { Expression = "TagCtrl.Side" },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Wrap = Input { Value = 1 },
+						LayoutRotation = Input { Value = 1 },
+						TransformRotation = Input { Value = 1 },
+						Size = Input { Expression = "TagCtrl.TagSize" },
+						VerticalJustificationNew = Input { Value = 3 },
+						HorizontalJustificationNew = Input { Value = 3 },
+						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
+						Center = Input { Expression = "TagCtrl.Main" },
+						StyledText = Input { Expression = "Text(TagCtrl.TagText.Value)" },
+						Softness1 = Input { Value = 1 },
+						Font = Input { Value = "Microsoft JhengHei" },
+						Style = Input { Value = "Bold" }
+					}
+				},
+				TagMainBox = TextPlus {
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -385, 49.5 } },
+					Inputs = {
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						HorizontalLeftCenterRight = Input { Expression = "TagMain.HorizontalLeftCenterRight" },
+						Red1 = Input { Value = 0.86 },
+						Green1 = Input { Value = 0.1 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Wrap = Input { Value = 1 },
+						LayoutRotation = Input { Value = 1 },
+						TransformRotation = Input { Value = 1 },
+						Softness1 = Input { Value = 1 },
+						ElementShape1 = Input { Value = 2 },
+						Level1 = Input { Value = 0 },
+						ExtendHorizontal1 = Input { Expression = "TagCtrl.TagPadX" },
+						Height = Input { Value = 1080 },
+						ExtendVertical1 = Input { Expression = "TagCtrl.TagPadY" },
+						Round1 = Input { Expression = "TagCtrl.TagRound" },
+						HorizontalJustificationNew = Input { Value = 3 },
+						VerticalJustificationNew = Input { Value = 3 },
+						Size = Input { Expression = "TagMain.Size" },
+						Style = Input {
+							Value = "Bold",
+							Expression = "TagMain.Style"
+						},
+						Width = Input { Value = 1920 },
+						StyledText = Input { Expression = "TagMain.StyledText" },
+						Blue1 = Input { Value = 0.16 },
+						Font = Input {
+							Value = "Open Sans",
+							Expression = "TagMain.Font"
+						},
+						Center = Input { Expression = "TagMain.Center" }
+					}
+				},
+				TagLayerA = Merge {
+					ViewInfo = OperatorInfo { Pos = { -55, 49.5 } },
+					Inputs = {
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "TagMainBox"
+						},
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "TagCtrl"
+						}
+					}
+				},
+				TagLayerB = Merge {
+					ViewInfo = OperatorInfo { Pos = { 55, 49.5 } },
+					Inputs = {
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "TagMain"
+						},
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "TagLayerA"
+						}
+					}
+				},
+				TagSmall = TextPlus {
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -385, 82.5 } },
+					Inputs = {
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						HorizontalLeftCenterRight = Input { Expression = "TagCtrl.Side" },
+						Red1 = Input { Value = 0.1 },
+						Green1 = Input { Value = 0.08 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Wrap = Input { Value = 1 },
+						LayoutRotation = Input { Value = 1 },
+						TransformRotation = Input { Value = 1 },
+						Softness1 = Input { Value = 1 },
+						VerticalJustificationNew = Input { Value = 3 },
+						HorizontalJustificationNew = Input { Value = 3 },
+						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
+						Size = Input { Expression = "TagCtrl.TagSize * TagCtrl.TagLabelSize" },
+						Style = Input {
+							Value = "Bold",
+							Expression = "TagMain.Style"
+						},
+						Center = Input { Expression = "TagCtrl.Small" },
+						Blue1 = Input { Value = 0.02 },
+						Font = Input {
+							Value = "Microsoft JhengHei",
+							Expression = "TagMain.Font"
+						},
+						StyledText = Input { Expression = "Text(TagCtrl.TagLabel.Value)" }
+					}
+				},
+				TagSmallBox = TextPlus {
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -385, 115.5 } },
+					Inputs = {
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						HorizontalLeftCenterRight = Input { Expression = "TagSmall.HorizontalLeftCenterRight" },
+						Green1 = Input { Value = 0.86 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Wrap = Input { Value = 1 },
+						LayoutRotation = Input { Value = 1 },
+						TransformRotation = Input { Value = 1 },
+						Softness1 = Input { Value = 1 },
+						ElementShape1 = Input { Value = 2 },
+						Level1 = Input { Value = 0 },
+						ExtendHorizontal1 = Input { Expression = "TagCtrl.TagPadX" },
+						Height = Input { Value = 1080 },
+						ExtendVertical1 = Input { Expression = "TagCtrl.TagPadY" },
+						Round1 = Input { Expression = "TagCtrl.TagRound" },
+						HorizontalJustificationNew = Input { Value = 3 },
+						VerticalJustificationNew = Input { Value = 3 },
+						Size = Input { Expression = "TagSmall.Size" },
+						Style = Input {
+							Value = "Bold",
+							Expression = "TagSmall.Style"
+						},
+						Width = Input { Value = 1920 },
+						StyledText = Input { Expression = "TagSmall.StyledText" },
+						Blue1 = Input { Value = 0.12 },
+						Font = Input {
+							Value = "Open Sans",
+							Expression = "TagSmall.Font"
+						},
+						Center = Input { Expression = "TagSmall.Center" }
+					}
+				},
+				TagLayerC = Merge {
+					ViewInfo = OperatorInfo { Pos = { 165, 49.5 } },
+					Inputs = {
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "TagSmallBox"
+						},
+						Blend = Input { Expression = "iif(TagCtrl.TagLabel.Value == '', 0, 1)" },
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "TagLayerB"
+						}
+					}
+				},
+				TagLayerD = Merge {
+					ViewInfo = OperatorInfo { Pos = { 275, 49.5 } },
+					Inputs = {
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "TagSmall"
+						},
+						Blend = Input { Expression = "iif(TagCtrl.TagLabel.Value == '', 0, 1)" },
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "TagLayerC"
+						}
+					}
+				},
+				TagDrop = Shadow {
+					ViewInfo = OperatorInfo { Pos = { 385, 49.5 } },
+					Inputs = {
+						Alpha = Input { Expression = "TagCtrl.TagShadow" },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "TagLayerD"
+						},
+						ShadowOffset = Input { Value = { 0.504, 0.493 } },
+						Softness = Input { Value = 2 }
+					}
+				},
+				TagMove = Transform {
+					ViewInfo = OperatorInfo { Pos = { 495, 49.5 } },
+					Inputs = {
+						Input = Input {
+							Source = "Output",
+							SourceOp = "TagDrop"
+						},
+						Center = Input { Expression = "Point(0.5 + TagCtrl.Side*TagCtrl.Slide*0.7, 0.5)" }
+					}
+				},
+				TagOut = Merge {
+					ViewInfo = OperatorInfo { Pos = { 605, 49.5 } },
+					Inputs = {
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "TagMove"
+						},
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "TagCtrl"
+						}
+					}
+				}
+			
+			}
+		}
+	},
+	ActiveTool = "CornerTag"
+}

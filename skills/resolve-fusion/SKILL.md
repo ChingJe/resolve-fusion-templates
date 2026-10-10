@@ -42,7 +42,7 @@ t.Size:SetExpression("ComicCtrl.TextSize * ComicCtrl.Zoom")
 
 | 檔案 | 用途 |
 |---|---|
-| `lib.lua` | 建置腳本共用的函式：確認專案與時間軸、清空節點、自訂控制項、程序產生的測試畫面、算圖、匯出 |
+| `lib.lua` | 建置腳本共用的函式：確認專案與時間軸、清空節點、自訂控制項、程序產生的測試畫面、算圖、匯出。另有 `L.cur`（清單目前輪到哪一行，時間清單或關鍵幀兩種模式）和 `L.inked`（把白色形狀上色並加兩層描邊） |
 | `lab.lua` | 開啟（或建立）實驗用時間軸 `FX Lab`，裡面一個片段帶空的 Fusion 合成 |
 | `macro.py` | 把 `lib.lua` 匯出的節點和規格包成巨集範本 |
 | `check.lua` | 把範本貼進清空的實驗合成、接上測試畫面、算圖 |
@@ -61,6 +61,10 @@ t.Size:SetExpression("ComicCtrl.TextSize * ComicCtrl.Zoom")
 | `kinetic.lua` | Kinetic Lines，文字照時間清單一行行彈出 | 標題 |
 | `barchart.lua` | Bar Chart，長條依序長出來的橫向長條圖 | 標題 |
 | `punchzoom.lua` | Punch Zoom，在指定時間點推近，可加 RGB 分離等 | 特效 |
+| `variety.lua` | Variety Caption，厚描邊的綜藝字卡，關鍵幀換句 | 標題 |
+| `sidenote.lua` | Side Note，吐槽小字加手繪箭頭 | 標題 |
+| `cornertag.lua` | Corner Tag，角落的主題框 | 標題 |
+| `reaction.lua` | Reaction Mark，怒氣、汗滴、問號、驚嘆號、集中線 | 標題 |
 
 一個範本從頭到尾的指令（在 `scripts/` 底下執行，`FU` 是 fuscript 的路徑）：
 

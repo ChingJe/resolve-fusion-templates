@@ -6,7 +6,7 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 
 ## 範本
 
-依用途分成四類。點範本名稱看預覽圖、用法和完整的參數說明。
+依用途分成五類。點範本名稱看預覽圖、用法和完整的參數說明。
 
 ### 開場
 
@@ -36,13 +36,24 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 | [Paper Tear](docs/templates/paper-tear.md) | 轉場 | 前一段像紙一樣被撕成兩半拉開，露出後一段 |
 | [Video Wall](docs/templates/video-wall.md) | 轉場 | 拉遠成一面影片牆，橫移，再推進下一段 |
 
+### 綜藝字幕
+
+綜藝節目常見的字卡和效果符號。疊在影片上方的軌道，背景透明。
+
+| 範本 | 類型 | 說明 |
+|---|---|---|
+| [Variety Caption](docs/templates/variety-caption.md) | 標題 | 厚描邊的綜藝字卡，標起來的詞放大換色。一個片段放很多句，用關鍵幀換句 |
+| [Side Note](docs/templates/side-note.md) | 標題 | 歪歪的吐槽小字，加一支手繪箭頭指向畫面上的東西 |
+| [Corner Tag](docs/templates/corner-tag.md) | 標題 | 釘在角落的主題框，小標籤加一行主題 |
+| [Reaction Mark](docs/templates/reaction-mark.md) | 標題 | 怒氣記號、汗滴、問號、驚嘆號、集中線 |
+
 ### 文字與資訊
 
 疊在影片上方的軌道，背景透明。
 
 | 範本 | 類型 | 說明 |
 |---|---|---|
-| [Kinetic Lines](docs/templates/kinetic-lines.md) | 標題 | 一行行文字照寫好的時間彈出來 |
+| [Kinetic Lines](docs/templates/kinetic-lines.md) | 標題 | 一行行文字彈出來，照寫好的時間或照關鍵幀換句 |
 | [Number Counter](docs/templates/number-counter.md) | 標題 | 數字從一個值跳到另一個值 |
 | [Bar Chart](docs/templates/bar-chart.md) | 標題 | 橫向長條圖，長條依序長出來，數字跟著跳 |
 | [Chapter Bar](docs/templates/chapter-bar.md) | 標題 | 有章節名稱的進度條 |
@@ -54,7 +65,7 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 | 文件 | 內容 |
 |---|---|
 | [安裝與移除](docs/install.md) | 安裝程式做了什麼、手動安裝、三種類型各自怎麼拖 |
-| [時間清單的寫法](docs/time-list.md) | Chapter Bar、Kinetic Lines、Punch Zoom 共用的時間點寫法 |
+| [時間清單的寫法](docs/time-list.md) | Chapter Bar、Kinetic Lines、Punch Zoom、Variety Caption、Side Note 共用的時間點寫法 |
 | [docs/templates/](docs/templates) | 每個範本一份：預覽圖、用法、參數、注意事項 |
 | [做法與踩過的坑](skills/resolve-fusion/SKILL.md) | 這些範本是怎麼用腳本做出來的，想自己改範本時看這份 |
 

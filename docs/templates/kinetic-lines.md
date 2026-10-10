@@ -11,6 +11,8 @@
 | 參數 | 作用 |
 |---|---|
 | `Lines` | 文字清單，一行一句，寫法見下方 |
+| `Lines Start With A Time` | 預設勾選，每行開頭要寫時間。取消勾選就改用 `Line Number` 的關鍵幀來換句，每行只寫文字 |
+| `Line Number` | 取消勾選上一項之後才有作用：現在顯示第幾行，打關鍵幀來換句，0 是不顯示 |
 | `Frame Rate Override` | 出現的時間點不對時，填上時間軸的影格率。0 是自動 |
 | `Font`、`Size`、`Color`、`Position` | 字型、大小、顏色、位置 |
 | `Pop Frames` | 彈出來花幾格 |
@@ -30,6 +32,8 @@
 0:05 這一句|分成兩行
 0:08
 ```
+
+不想寫時間的話，取消勾選 `Lines Start With A Time`，清單裡每行只寫文字，然後在要換句的地方把 `Line Number` 依序打成 1、2、3 的關鍵幀。做法和注意事項見 [Variety Caption](variety-caption.md)。
 
 **注意**
 
