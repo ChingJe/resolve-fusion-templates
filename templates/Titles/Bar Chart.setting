@@ -14,28 +14,30 @@
 				Input9 = InstanceInput { SourceOp = "TopColor", Source = "TopLeftBlue", ControlGroup = 3 },
 				Input10 = InstanceInput { SourceOp = "BarsCtrl", Source = "BcGrow", Name = "Grow Time" },
 				Input11 = InstanceInput { SourceOp = "BarsCtrl", Source = "BcDone", Name = "All Done At" },
-				Input12 = InstanceInput { SourceOp = "BarsCtrl", Source = "BcBounce", Name = "Bounce" },
-				Input13 = InstanceInput { SourceOp = "BarsCtrl", Source = "BcDecimals", Name = "Decimals" },
-				Input14 = InstanceInput { SourceOp = "BarsCtrl", Source = "BcPrefix", Name = "Prefix" },
-				Input15 = InstanceInput { SourceOp = "BarsCtrl", Source = "BcSuffix", Name = "Suffix" },
-				Input16 = InstanceInput { SourceOp = "BarsCtrl", Source = "BcPos", Name = "Position" },
-				Input17 = InstanceInput { SourceOp = "BarsCtrl", Source = "BcW", Name = "Chart Width" },
-				Input18 = InstanceInput { SourceOp = "BarsCtrl", Source = "BcH", Name = "Chart Height" },
-				Input19 = InstanceInput { SourceOp = "BarsCtrl", Source = "BcLabelW", Name = "Name Column Width" },
-				Input20 = InstanceInput { SourceOp = "BarsCtrl", Source = "BcValueW", Name = "Number Column Width" },
-				Input21 = InstanceInput { SourceOp = "BarsCtrl", Source = "BcThick", Name = "Bar Thickness" },
-				Input22 = InstanceInput { SourceOp = "BarsCtrl", Source = "BcGap", Name = "Text Gap" },
-				Input23 = InstanceInput { SourceOp = "BarsCtrl", Source = "BcTextSize", Name = "Text Size" },
-				Input24 = InstanceInput { SourceOp = "RowName1", Source = "Font", Name = "Name Font", ControlGroup = 4 },
-				Input25 = InstanceInput { SourceOp = "RowName1", Source = "Style", ControlGroup = 4 },
-				Input26 = InstanceInput { SourceOp = "RowName1", Source = "Red1", Name = "Name Color", ControlGroup = 5 },
-				Input27 = InstanceInput { SourceOp = "RowName1", Source = "Green1", ControlGroup = 5 },
-				Input28 = InstanceInput { SourceOp = "RowName1", Source = "Blue1", ControlGroup = 5 },
-				Input29 = InstanceInput { SourceOp = "RowValue1", Source = "Font", Name = "Number Font", ControlGroup = 6 },
-				Input30 = InstanceInput { SourceOp = "RowValue1", Source = "Style", ControlGroup = 6 },
-				Input31 = InstanceInput { SourceOp = "RowValue1", Source = "Red1", Name = "Number Color", ControlGroup = 7 },
-				Input32 = InstanceInput { SourceOp = "RowValue1", Source = "Green1", ControlGroup = 7 },
-				Input33 = InstanceInput { SourceOp = "RowValue1", Source = "Blue1", ControlGroup = 7 },
+				Input12 = InstanceInput { SourceOp = "BarsCtrl", Source = "BcHand", Name = "Set The Timing By Hand" },
+				Input13 = InstanceInput { SourceOp = "BarsCtrl", Source = "BcShown", Name = "Bars Shown (keyframe this)" },
+				Input14 = InstanceInput { SourceOp = "BarsCtrl", Source = "BcBounce", Name = "Bounce" },
+				Input15 = InstanceInput { SourceOp = "BarsCtrl", Source = "BcDecimals", Name = "Decimals" },
+				Input16 = InstanceInput { SourceOp = "BarsCtrl", Source = "BcPrefix", Name = "Prefix" },
+				Input17 = InstanceInput { SourceOp = "BarsCtrl", Source = "BcSuffix", Name = "Suffix" },
+				Input18 = InstanceInput { SourceOp = "BarsCtrl", Source = "BcPos", Name = "Position" },
+				Input19 = InstanceInput { SourceOp = "BarsCtrl", Source = "BcW", Name = "Chart Width" },
+				Input20 = InstanceInput { SourceOp = "BarsCtrl", Source = "BcH", Name = "Chart Height" },
+				Input21 = InstanceInput { SourceOp = "BarsCtrl", Source = "BcLabelW", Name = "Name Column Width" },
+				Input22 = InstanceInput { SourceOp = "BarsCtrl", Source = "BcValueW", Name = "Number Column Width" },
+				Input23 = InstanceInput { SourceOp = "BarsCtrl", Source = "BcThick", Name = "Bar Thickness" },
+				Input24 = InstanceInput { SourceOp = "BarsCtrl", Source = "BcGap", Name = "Text Gap" },
+				Input25 = InstanceInput { SourceOp = "BarsCtrl", Source = "BcTextSize", Name = "Text Size" },
+				Input26 = InstanceInput { SourceOp = "RowName1", Source = "Font", Name = "Name Font", ControlGroup = 4 },
+				Input27 = InstanceInput { SourceOp = "RowName1", Source = "Style", ControlGroup = 4 },
+				Input28 = InstanceInput { SourceOp = "RowName1", Source = "Red1", Name = "Name Color", ControlGroup = 5 },
+				Input29 = InstanceInput { SourceOp = "RowName1", Source = "Green1", ControlGroup = 5 },
+				Input30 = InstanceInput { SourceOp = "RowName1", Source = "Blue1", ControlGroup = 5 },
+				Input31 = InstanceInput { SourceOp = "RowValue1", Source = "Font", Name = "Number Font", ControlGroup = 6 },
+				Input32 = InstanceInput { SourceOp = "RowValue1", Source = "Style", ControlGroup = 6 },
+				Input33 = InstanceInput { SourceOp = "RowValue1", Source = "Red1", Name = "Number Color", ControlGroup = 7 },
+				Input34 = InstanceInput { SourceOp = "RowValue1", Source = "Green1", ControlGroup = 7 },
+				Input35 = InstanceInput { SourceOp = "RowValue1", Source = "Blue1", ControlGroup = 7 },
 			},
 			Outputs = {
 				MainOutput1 = InstanceOutput { SourceOp = "PutNumber8", Source = "Output" }
@@ -43,334 +45,375 @@
 			ViewInfo = GroupInfo { Pos = { 0, 0 } },
 			Tools = ordered() {
 				BarsCtrl = Background {
-					CtrlWZoom = false,
-					UserControls = {
-						BcH = {
-							INP_MaxScale = 1,
-							LINKS_Name = "Chart Height",
-							LINKID_DataType = "Number",
-							INP_Default = 0.5,
-							INP_MinScale = 0.1,
-							ICS_ControlPage = "Controls",
-							INP_Integer = false,
-							INPID_InputControl = "SliderControl"
-						},
-						BcLabelW = {
-							INP_MaxScale = 0.5,
-							LINKS_Name = "Name Column Width",
-							LINKID_DataType = "Number",
-							INP_Default = 0.16,
-							INP_MinScale = 0,
-							ICS_ControlPage = "Controls",
-							INP_Integer = false,
-							INPID_InputControl = "SliderControl"
-						},
-						P = {
-							INP_MaxScale = 1,
-							LINKS_Name = "P",
-							LINKID_DataType = "Number",
-							INP_Default = 0,
-							INP_MinScale = 0,
-							ICS_ControlPage = "Driver",
-							INP_Integer = false,
-							INPID_InputControl = "SliderControl"
-						},
-						BcValueW = {
-							INP_MaxScale = 0.4,
-							LINKS_Name = "Number Column Width",
-							LINKID_DataType = "Number",
-							INP_Default = 0.1,
-							INP_MinScale = 0,
-							ICS_ControlPage = "Controls",
-							INP_Integer = false,
-							INPID_InputControl = "SliderControl"
-						},
-						RowH = {
-							INP_MaxScale = 1,
-							LINKS_Name = "RowH",
-							LINKID_DataType = "Number",
-							INP_Default = 0,
-							INP_MinScale = 0,
-							ICS_ControlPage = "Driver",
-							INP_Integer = false,
-							INPID_InputControl = "SliderControl"
-						},
-						BcThick = {
-							INP_MaxScale = 1,
-							LINKS_Name = "Bar Thickness",
-							LINKID_DataType = "Number",
-							INP_Default = 0.6,
-							INP_MinScale = 0.1,
-							ICS_ControlPage = "Controls",
-							INP_Integer = false,
-							INPID_InputControl = "SliderControl"
-						},
-						N = {
-							INP_MaxScale = 8,
-							LINKS_Name = "N",
-							LINKID_DataType = "Number",
-							INP_Default = 0,
-							INP_MinScale = 0,
-							ICS_ControlPage = "Driver",
-							INP_Integer = false,
-							INPID_InputControl = "SliderControl"
-						},
-						BcGap = {
-							INP_MaxScale = 0.05,
-							LINKS_Name = "Text Gap",
-							LINKID_DataType = "Number",
-							INP_Default = 0.012,
-							INP_MinScale = 0,
-							ICS_ControlPage = "Controls",
-							INP_Integer = false,
-							INPID_InputControl = "SliderControl"
-						},
-						BcList = {
-							LINKS_Name = "Rows (Name 42)",
-							INPS_DefaultText = "Apples 42\nBananas 28\nOranges 35\nGrapes 15",
-							TEC_Lines = 8,
-							LINKID_DataType = "Text",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "TextEditControl"
-						},
-						BcTextSize = {
-							INP_MaxScale = 0.15,
-							LINKS_Name = "Text Size",
-							LINKID_DataType = "Number",
-							INP_Default = 0.045,
-							INP_MinScale = 0.01,
-							ICS_ControlPage = "Controls",
-							INP_Integer = false,
-							INPID_InputControl = "SliderControl"
-						},
-						BcSuffix = {
-							LINKS_Name = "Suffix",
-							INPS_DefaultText = "",
-							TEC_Lines = 1,
-							LINKID_DataType = "Text",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "TextEditControl"
-						},
-						BcPos = {
-							LINKS_Name = "Position",
-							INPID_PreviewControl = "CrosshairControl",
-							ICS_ControlPage = "Controls",
-							LINKID_DataType = "Point",
-							INPID_InputControl = "OffsetControl"
-						},
-						BcSort = {
-							LINKS_Name = "Sort Largest First",
-							INP_Default = 0,
-							ICS_ControlPage = "Controls",
-							LINKID_DataType = "Number",
-							INP_Integer = true,
-							INPID_InputControl = "CheckboxControl"
-						},
-						Len = {
-							INP_MaxScale = 1,
-							LINKS_Name = "Len",
-							LINKID_DataType = "Number",
-							INP_Default = 0,
-							INP_MinScale = 0,
-							ICS_ControlPage = "Driver",
-							INP_Integer = false,
-							INPID_InputControl = "SliderControl"
-						},
-						BcPrefix = {
-							LINKS_Name = "Prefix",
-							INPS_DefaultText = "",
-							TEC_Lines = 1,
-							LINKID_DataType = "Text",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "TextEditControl"
-						},
-						BcHigh = {
-							LINKS_Name = "Highlight Largest",
-							INP_Default = 1,
-							ICS_ControlPage = "Controls",
-							LINKID_DataType = "Number",
-							INP_Integer = true,
-							INPID_InputControl = "CheckboxControl"
-						},
-						Top = {
-							INP_MaxScale = 8,
-							LINKS_Name = "Top",
-							LINKID_DataType = "Number",
-							INP_Default = -1,
-							INP_MinScale = -1,
-							ICS_ControlPage = "Driver",
-							INP_Integer = false,
-							INPID_InputControl = "SliderControl"
-						},
-						BcGrow = {
-							INP_MaxScale = 1,
-							LINKS_Name = "Grow Time",
-							LINKID_DataType = "Number",
-							INP_Default = 0.3,
-							INP_MinScale = 0.02,
-							ICS_ControlPage = "Controls",
-							INP_Integer = false,
-							INPID_InputControl = "SliderControl"
-						},
-						BcDecimals = {
-							INP_MaxScale = 3,
-							LINKS_Name = "Decimals",
-							LINKID_DataType = "Number",
-							INP_Default = 0,
-							INP_MinScale = 0,
-							ICS_ControlPage = "Controls",
-							INP_Integer = true,
-							INPID_InputControl = "SliderControl"
-						},
-						BcDone = {
-							INP_MaxScale = 1,
-							LINKS_Name = "All Done At",
-							LINKID_DataType = "Number",
-							INP_Default = 0.7,
-							INP_MinScale = 0.05,
-							ICS_ControlPage = "Controls",
-							INP_Integer = false,
-							INPID_InputControl = "SliderControl"
-						},
-						B1 = {
-							ICS_ControlPage = "Driver",
-							LINKID_DataType = "Point",
-							LINKS_Name = "B1",
-							INPID_InputControl = "OffsetControl"
-						},
-						B2 = {
-							ICS_ControlPage = "Driver",
-							LINKID_DataType = "Point",
-							LINKS_Name = "B2",
-							INPID_InputControl = "OffsetControl"
-						},
-						B3 = {
-							ICS_ControlPage = "Driver",
-							LINKID_DataType = "Point",
-							LINKS_Name = "B3",
-							INPID_InputControl = "OffsetControl"
-						},
-						B4 = {
-							ICS_ControlPage = "Driver",
-							LINKID_DataType = "Point",
-							LINKS_Name = "B4",
-							INPID_InputControl = "OffsetControl"
-						},
-						B5 = {
-							ICS_ControlPage = "Driver",
-							LINKID_DataType = "Point",
-							LINKS_Name = "B5",
-							INPID_InputControl = "OffsetControl"
-						},
-						X0 = {
-							INP_MaxScale = 1,
-							LINKS_Name = "X0",
-							LINKID_DataType = "Number",
-							INP_Default = 0,
-							INP_MinScale = 0,
-							ICS_ControlPage = "Driver",
-							INP_Integer = false,
-							INPID_InputControl = "SliderControl"
-						},
-						B7 = {
-							ICS_ControlPage = "Driver",
-							LINKID_DataType = "Point",
-							LINKS_Name = "B7",
-							INPID_InputControl = "OffsetControl"
-						},
-						B8 = {
-							ICS_ControlPage = "Driver",
-							LINKID_DataType = "Point",
-							LINKS_Name = "B8",
-							INPID_InputControl = "OffsetControl"
-						},
-						BcBounce = {
-							INP_MaxScale = 2,
-							LINKS_Name = "Bounce",
-							LINKID_DataType = "Number",
-							INP_Default = 0.6,
-							INP_MinScale = 0,
-							ICS_ControlPage = "Controls",
-							INP_Integer = false,
-							INPID_InputControl = "SliderControl"
-						},
-						BcW = {
-							INP_MaxScale = 1,
-							LINKS_Name = "Chart Width",
-							LINKID_DataType = "Number",
-							INP_Default = 0.7,
-							INP_MinScale = 0.2,
-							ICS_ControlPage = "Controls",
-							INP_Integer = false,
-							INPID_InputControl = "SliderControl"
-						},
-						B6 = {
-							ICS_ControlPage = "Driver",
-							LINKID_DataType = "Point",
-							LINKS_Name = "B6",
-							INPID_InputControl = "OffsetControl"
-						}
-					},
 					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } },
 					Inputs = {
+						P = Input { Expression = "min(max((time - comp.RenderStart) / max(comp.RenderEnd - comp.RenderStart, 1), 0), 1)" },
+						B2 = Input { Expression = "(function(c, p, grow, done, bounce, hand, shown)\n  if not c[2] then return Point(0, 0) end\n  local big = 0\n  for i = 1, #c do big = math.max(big, c[i][2]) end\n  local gap = math.max(done - grow, 0) / math.max(#c - 1, 1)\n  local t = math.min(math.max((p - 1*gap) / grow, 0), 1) - 1\n  if hand == 1 then t = math.min(math.max(shown - 1, 0), 1) - 1 end\n  local s = 1.70158 * bounce\n  local g = 1 + (s + 1)*t*t*t + s*t*t\n  return Point(big > 0 and c[2][2]/big*g or 0, g)\nend)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort), P, BcGrow, BcDone, BcBounce, BcHand, BcShown)" },
+						B3 = Input { Expression = "(function(c, p, grow, done, bounce, hand, shown)\n  if not c[3] then return Point(0, 0) end\n  local big = 0\n  for i = 1, #c do big = math.max(big, c[i][2]) end\n  local gap = math.max(done - grow, 0) / math.max(#c - 1, 1)\n  local t = math.min(math.max((p - 2*gap) / grow, 0), 1) - 1\n  if hand == 1 then t = math.min(math.max(shown - 2, 0), 1) - 1 end\n  local s = 1.70158 * bounce\n  local g = 1 + (s + 1)*t*t*t + s*t*t\n  return Point(big > 0 and c[3][2]/big*g or 0, g)\nend)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort), P, BcGrow, BcDone, BcBounce, BcHand, BcShown)" },
+						B4 = Input { Expression = "(function(c, p, grow, done, bounce, hand, shown)\n  if not c[4] then return Point(0, 0) end\n  local big = 0\n  for i = 1, #c do big = math.max(big, c[i][2]) end\n  local gap = math.max(done - grow, 0) / math.max(#c - 1, 1)\n  local t = math.min(math.max((p - 3*gap) / grow, 0), 1) - 1\n  if hand == 1 then t = math.min(math.max(shown - 3, 0), 1) - 1 end\n  local s = 1.70158 * bounce\n  local g = 1 + (s + 1)*t*t*t + s*t*t\n  return Point(big > 0 and c[4][2]/big*g or 0, g)\nend)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort), P, BcGrow, BcDone, BcBounce, BcHand, BcShown)" },
+						B5 = Input { Expression = "(function(c, p, grow, done, bounce, hand, shown)\n  if not c[5] then return Point(0, 0) end\n  local big = 0\n  for i = 1, #c do big = math.max(big, c[i][2]) end\n  local gap = math.max(done - grow, 0) / math.max(#c - 1, 1)\n  local t = math.min(math.max((p - 4*gap) / grow, 0), 1) - 1\n  if hand == 1 then t = math.min(math.max(shown - 4, 0), 1) - 1 end\n  local s = 1.70158 * bounce\n  local g = 1 + (s + 1)*t*t*t + s*t*t\n  return Point(big > 0 and c[5][2]/big*g or 0, g)\nend)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort), P, BcGrow, BcDone, BcBounce, BcHand, BcShown)" },
+						B6 = Input { Expression = "(function(c, p, grow, done, bounce, hand, shown)\n  if not c[6] then return Point(0, 0) end\n  local big = 0\n  for i = 1, #c do big = math.max(big, c[i][2]) end\n  local gap = math.max(done - grow, 0) / math.max(#c - 1, 1)\n  local t = math.min(math.max((p - 5*gap) / grow, 0), 1) - 1\n  if hand == 1 then t = math.min(math.max(shown - 5, 0), 1) - 1 end\n  local s = 1.70158 * bounce\n  local g = 1 + (s + 1)*t*t*t + s*t*t\n  return Point(big > 0 and c[6][2]/big*g or 0, g)\nend)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort), P, BcGrow, BcDone, BcBounce, BcHand, BcShown)" },
+						B7 = Input { Expression = "(function(c, p, grow, done, bounce, hand, shown)\n  if not c[7] then return Point(0, 0) end\n  local big = 0\n  for i = 1, #c do big = math.max(big, c[i][2]) end\n  local gap = math.max(done - grow, 0) / math.max(#c - 1, 1)\n  local t = math.min(math.max((p - 6*gap) / grow, 0), 1) - 1\n  if hand == 1 then t = math.min(math.max(shown - 6, 0), 1) - 1 end\n  local s = 1.70158 * bounce\n  local g = 1 + (s + 1)*t*t*t + s*t*t\n  return Point(big > 0 and c[7][2]/big*g or 0, g)\nend)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort), P, BcGrow, BcDone, BcBounce, BcHand, BcShown)" },
+						B8 = Input { Expression = "(function(c, p, grow, done, bounce, hand, shown)\n  if not c[8] then return Point(0, 0) end\n  local big = 0\n  for i = 1, #c do big = math.max(big, c[i][2]) end\n  local gap = math.max(done - grow, 0) / math.max(#c - 1, 1)\n  local t = math.min(math.max((p - 7*gap) / grow, 0), 1) - 1\n  if hand == 1 then t = math.min(math.max(shown - 7, 0), 1) - 1 end\n  local s = 1.70158 * bounce\n  local g = 1 + (s + 1)*t*t*t + s*t*t\n  return Point(big > 0 and c[8][2]/big*g or 0, g)\nend)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort), P, BcGrow, BcDone, BcBounce, BcHand, BcShown)" },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						N = Input { Expression = "#((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort))" },
+						Top = Input { Expression = "(function(c)\n  local best, at = -1, -1\n  for i = 1, #c do if c[i][2] > best then best, at = c[i][2], i end end\n  return at\nend)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort))" },
+						X0 = Input { Expression = "BcPos.X - BcW/2 + BcLabelW" },
+						Len = Input { Expression = "max(BcW - BcLabelW - BcValueW, 0.01)" },
+						RowH = Input { Expression = "BcH / max(N, 1)" },
+						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
 						UseFrameFormatSettings = Input { Value = 1 },
 						TopLeftAlpha = Input { Value = 0 },
-						P = Input { Expression = "min(max((time - comp.RenderStart) / max(comp.RenderEnd - comp.RenderStart, 1), 0), 1)" },
-						N = Input { Expression = "#((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort))" },
-						Len = Input { Expression = "max(BcW - BcLabelW - BcValueW, 0.01)" },
-						Top = Input { Expression = "(function(c)\n  local best, at = -1, -1\n  for i = 1, #c do if c[i][2] > best then best, at = c[i][2], i end end\n  return at\nend)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort))" },
-						B8 = Input { Expression = "(function(c, p, grow, done, bounce)\n  if not c[8] then return Point(0, 0) end\n  local big = 0\n  for i = 1, #c do big = math.max(big, c[i][2]) end\n  local gap = math.max(done - grow, 0) / math.max(#c - 1, 1)\n  local t = math.min(math.max((p - 7*gap) / grow, 0), 1) - 1\n  local s = 1.70158 * bounce\n  local g = 1 + (s + 1)*t*t*t + s*t*t\n  return Point(big > 0 and c[8][2]/big*g or 0, g)\nend)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort), P, BcGrow, BcDone, BcBounce)" },
-						B7 = Input { Expression = "(function(c, p, grow, done, bounce)\n  if not c[7] then return Point(0, 0) end\n  local big = 0\n  for i = 1, #c do big = math.max(big, c[i][2]) end\n  local gap = math.max(done - grow, 0) / math.max(#c - 1, 1)\n  local t = math.min(math.max((p - 6*gap) / grow, 0), 1) - 1\n  local s = 1.70158 * bounce\n  local g = 1 + (s + 1)*t*t*t + s*t*t\n  return Point(big > 0 and c[7][2]/big*g or 0, g)\nend)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort), P, BcGrow, BcDone, BcBounce)" },
-						B6 = Input { Expression = "(function(c, p, grow, done, bounce)\n  if not c[6] then return Point(0, 0) end\n  local big = 0\n  for i = 1, #c do big = math.max(big, c[i][2]) end\n  local gap = math.max(done - grow, 0) / math.max(#c - 1, 1)\n  local t = math.min(math.max((p - 5*gap) / grow, 0), 1) - 1\n  local s = 1.70158 * bounce\n  local g = 1 + (s + 1)*t*t*t + s*t*t\n  return Point(big > 0 and c[6][2]/big*g or 0, g)\nend)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort), P, BcGrow, BcDone, BcBounce)" },
-						B4 = Input { Expression = "(function(c, p, grow, done, bounce)\n  if not c[4] then return Point(0, 0) end\n  local big = 0\n  for i = 1, #c do big = math.max(big, c[i][2]) end\n  local gap = math.max(done - grow, 0) / math.max(#c - 1, 1)\n  local t = math.min(math.max((p - 3*gap) / grow, 0), 1) - 1\n  local s = 1.70158 * bounce\n  local g = 1 + (s + 1)*t*t*t + s*t*t\n  return Point(big > 0 and c[4][2]/big*g or 0, g)\nend)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort), P, BcGrow, BcDone, BcBounce)" },
-						B1 = Input { Expression = "(function(c, p, grow, done, bounce)\n  if not c[1] then return Point(0, 0) end\n  local big = 0\n  for i = 1, #c do big = math.max(big, c[i][2]) end\n  local gap = math.max(done - grow, 0) / math.max(#c - 1, 1)\n  local t = math.min(math.max((p - 0*gap) / grow, 0), 1) - 1\n  local s = 1.70158 * bounce\n  local g = 1 + (s + 1)*t*t*t + s*t*t\n  return Point(big > 0 and c[1][2]/big*g or 0, g)\nend)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort), P, BcGrow, BcDone, BcBounce)" },
-						B2 = Input { Expression = "(function(c, p, grow, done, bounce)\n  if not c[2] then return Point(0, 0) end\n  local big = 0\n  for i = 1, #c do big = math.max(big, c[i][2]) end\n  local gap = math.max(done - grow, 0) / math.max(#c - 1, 1)\n  local t = math.min(math.max((p - 1*gap) / grow, 0), 1) - 1\n  local s = 1.70158 * bounce\n  local g = 1 + (s + 1)*t*t*t + s*t*t\n  return Point(big > 0 and c[2][2]/big*g or 0, g)\nend)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort), P, BcGrow, BcDone, BcBounce)" },
-						B3 = Input { Expression = "(function(c, p, grow, done, bounce)\n  if not c[3] then return Point(0, 0) end\n  local big = 0\n  for i = 1, #c do big = math.max(big, c[i][2]) end\n  local gap = math.max(done - grow, 0) / math.max(#c - 1, 1)\n  local t = math.min(math.max((p - 2*gap) / grow, 0), 1) - 1\n  local s = 1.70158 * bounce\n  local g = 1 + (s + 1)*t*t*t + s*t*t\n  return Point(big > 0 and c[3][2]/big*g or 0, g)\nend)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort), P, BcGrow, BcDone, BcBounce)" },
-						GlobalIn = Input { Value = -480 },
-						B5 = Input { Expression = "(function(c, p, grow, done, bounce)\n  if not c[5] then return Point(0, 0) end\n  local big = 0\n  for i = 1, #c do big = math.max(big, c[i][2]) end\n  local gap = math.max(done - grow, 0) / math.max(#c - 1, 1)\n  local t = math.min(math.max((p - 4*gap) / grow, 0), 1) - 1\n  local s = 1.70158 * bounce\n  local g = 1 + (s + 1)*t*t*t + s*t*t\n  return Point(big > 0 and c[5][2]/big*g or 0, g)\nend)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort), P, BcGrow, BcDone, BcBounce)" },
-						X0 = Input { Expression = "BcPos.X - BcW/2 + BcLabelW" },
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						RowH = Input { Expression = "BcH / max(N, 1)" },
-						GlobalOut = Input { Value = 3534 },
-						Height = Input { Value = 1080 },
-						Width = Input { Value = 1920 }
-					}
+						B1 = Input { Expression = "(function(c, p, grow, done, bounce, hand, shown)\n  if not c[1] then return Point(0, 0) end\n  local big = 0\n  for i = 1, #c do big = math.max(big, c[i][2]) end\n  local gap = math.max(done - grow, 0) / math.max(#c - 1, 1)\n  local t = math.min(math.max((p - 0*gap) / grow, 0), 1) - 1\n  if hand == 1 then t = math.min(math.max(shown - 0, 0), 1) - 1 end\n  local s = 1.70158 * bounce\n  local g = 1 + (s + 1)*t*t*t + s*t*t\n  return Point(big > 0 and c[1][2]/big*g or 0, g)\nend)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort), P, BcGrow, BcDone, BcBounce, BcHand, BcShown)" }
+					},
+					UserControls = {
+						P = {
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							LINKS_Name = "P",
+							INP_Integer = false,
+							INP_MaxScale = 1,
+							ICS_ControlPage = "Driver"
+						},
+						BcThick = {
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							INP_Default = 0.6,
+							INP_MinScale = 0.1,
+							LINKS_Name = "Bar Thickness",
+							INP_Integer = false,
+							INP_MaxScale = 1,
+							ICS_ControlPage = "Controls"
+						},
+						BcGap = {
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							INP_Default = 0.012,
+							INP_MinScale = 0,
+							LINKS_Name = "Text Gap",
+							INP_Integer = false,
+							INP_MaxScale = 0.05,
+							ICS_ControlPage = "Controls"
+						},
+						BcTextSize = {
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							INP_Default = 0.045,
+							INP_MinScale = 0.01,
+							LINKS_Name = "Text Size",
+							INP_Integer = false,
+							INP_MaxScale = 0.15,
+							ICS_ControlPage = "Controls"
+						},
+						BcPos = {
+							LINKID_DataType = "Point",
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "Position",
+							INPID_PreviewControl = "CrosshairControl",
+							ICS_ControlPage = "Controls"
+						},
+						N = {
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							LINKS_Name = "N",
+							INP_Integer = false,
+							INP_MaxScale = 8,
+							ICS_ControlPage = "Driver"
+						},
+						Top = {
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							INP_Default = -1,
+							INP_MinScale = -1,
+							LINKS_Name = "Top",
+							INP_Integer = false,
+							INP_MaxScale = 8,
+							ICS_ControlPage = "Driver"
+						},
+						X0 = {
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							LINKS_Name = "X0",
+							INP_Integer = false,
+							INP_MaxScale = 1,
+							ICS_ControlPage = "Driver"
+						},
+						Len = {
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							LINKS_Name = "Len",
+							INP_Integer = false,
+							INP_MaxScale = 1,
+							ICS_ControlPage = "Driver"
+						},
+						RowH = {
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							LINKS_Name = "RowH",
+							INP_Integer = false,
+							INP_MaxScale = 1,
+							ICS_ControlPage = "Driver"
+						},
+						B1 = {
+							LINKID_DataType = "Point",
+							LINKS_Name = "B1",
+							INPID_InputControl = "OffsetControl",
+							ICS_ControlPage = "Driver"
+						},
+						B2 = {
+							LINKID_DataType = "Point",
+							LINKS_Name = "B2",
+							INPID_InputControl = "OffsetControl",
+							ICS_ControlPage = "Driver"
+						},
+						B3 = {
+							LINKID_DataType = "Point",
+							LINKS_Name = "B3",
+							INPID_InputControl = "OffsetControl",
+							ICS_ControlPage = "Driver"
+						},
+						B4 = {
+							LINKID_DataType = "Point",
+							LINKS_Name = "B4",
+							INPID_InputControl = "OffsetControl",
+							ICS_ControlPage = "Driver"
+						},
+						BcSort = {
+							LINKID_DataType = "Number",
+							INP_Default = 0,
+							LINKS_Name = "Sort Largest First",
+							INP_Integer = true,
+							INPID_InputControl = "CheckboxControl",
+							ICS_ControlPage = "Controls"
+						},
+						B6 = {
+							LINKID_DataType = "Point",
+							LINKS_Name = "B6",
+							INPID_InputControl = "OffsetControl",
+							ICS_ControlPage = "Driver"
+						},
+						B7 = {
+							LINKID_DataType = "Point",
+							LINKS_Name = "B7",
+							INPID_InputControl = "OffsetControl",
+							ICS_ControlPage = "Driver"
+						},
+						BcHigh = {
+							LINKID_DataType = "Number",
+							INP_Default = 1,
+							LINKS_Name = "Highlight Largest",
+							INP_Integer = true,
+							INPID_InputControl = "CheckboxControl",
+							ICS_ControlPage = "Controls"
+						},
+						BcGrow = {
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							INP_Default = 0.3,
+							INP_MinScale = 0.02,
+							LINKS_Name = "Grow Time",
+							INP_Integer = false,
+							INP_MaxScale = 1,
+							ICS_ControlPage = "Controls"
+						},
+						BcDone = {
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							INP_Default = 0.7,
+							INP_MinScale = 0.05,
+							LINKS_Name = "All Done At",
+							INP_Integer = false,
+							INP_MaxScale = 1,
+							ICS_ControlPage = "Controls"
+						},
+						BcHand = {
+							LINKID_DataType = "Number",
+							INP_Default = 0,
+							LINKS_Name = "Set The Timing By Hand",
+							INP_Integer = true,
+							INPID_InputControl = "CheckboxControl",
+							ICS_ControlPage = "Controls"
+						},
+						BcShown = {
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							LINKS_Name = "Bars Shown (keyframe this)",
+							INP_Integer = false,
+							INP_MaxScale = 8,
+							ICS_ControlPage = "Controls"
+						},
+						BcBounce = {
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							INP_Default = 0.6,
+							INP_MinScale = 0,
+							LINKS_Name = "Bounce",
+							INP_Integer = false,
+							INP_MaxScale = 2,
+							ICS_ControlPage = "Controls"
+						},
+						BcDecimals = {
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							LINKS_Name = "Decimals",
+							INP_Integer = true,
+							INP_MaxScale = 3,
+							ICS_ControlPage = "Controls"
+						},
+						BcPrefix = {
+							LINKID_DataType = "Text",
+							INPS_DefaultText = "",
+							INPID_InputControl = "TextEditControl",
+							LINKS_Name = "Prefix",
+							TEC_Lines = 1,
+							ICS_ControlPage = "Controls"
+						},
+						BcSuffix = {
+							LINKID_DataType = "Text",
+							INPS_DefaultText = "",
+							INPID_InputControl = "TextEditControl",
+							LINKS_Name = "Suffix",
+							TEC_Lines = 1,
+							ICS_ControlPage = "Controls"
+						},
+						BcW = {
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							INP_Default = 0.7,
+							INP_MinScale = 0.2,
+							LINKS_Name = "Chart Width",
+							INP_Integer = false,
+							INP_MaxScale = 1,
+							ICS_ControlPage = "Controls"
+						},
+						BcList = {
+							LINKID_DataType = "Text",
+							INPS_DefaultText = "Apples 42\nBananas 28\nOranges 35\nGrapes 15",
+							INPID_InputControl = "TextEditControl",
+							LINKS_Name = "Rows (Name 42)",
+							TEC_Lines = 8,
+							ICS_ControlPage = "Controls"
+						},
+						BcH = {
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							INP_Default = 0.5,
+							INP_MinScale = 0.1,
+							LINKS_Name = "Chart Height",
+							INP_Integer = false,
+							INP_MaxScale = 1,
+							ICS_ControlPage = "Controls"
+						},
+						B8 = {
+							LINKID_DataType = "Point",
+							LINKS_Name = "B8",
+							INPID_InputControl = "OffsetControl",
+							ICS_ControlPage = "Driver"
+						},
+						BcLabelW = {
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							INP_Default = 0.16,
+							INP_MinScale = 0,
+							LINKS_Name = "Name Column Width",
+							INP_Integer = false,
+							INP_MaxScale = 0.5,
+							ICS_ControlPage = "Controls"
+						},
+						B5 = {
+							LINKID_DataType = "Point",
+							LINKS_Name = "B5",
+							INPID_InputControl = "OffsetControl",
+							ICS_ControlPage = "Driver"
+						},
+						BcValueW = {
+							LINKID_DataType = "Number",
+							INPID_InputControl = "SliderControl",
+							INP_Default = 0.1,
+							INP_MinScale = 0,
+							LINKS_Name = "Number Column Width",
+							INP_Integer = false,
+							INP_MaxScale = 0.4,
+							ICS_ControlPage = "Controls"
+						}
+					},
+					CtrlWZoom = false
 				},
 				BarColor = Background {
-					ViewInfo = OperatorInfo { Pos = { -385, -16.5 } },
 					Inputs = {
+						GlobalOut = Input { Value = 3534 },
 						TopLeftRed = Input { Value = 0.95 },
 						TopLeftGreen = Input { Value = 0.95 },
 						TopLeftBlue = Input { Value = 0.95 },
 						Width = Input { Value = 1920 },
 						Height = Input { Value = 1080 },
+						UseFrameFormatSettings = Input { Value = 1 },
 						GlobalIn = Input { Value = -480 },
-						GlobalOut = Input { Value = 3534 },
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						UseFrameFormatSettings = Input { Value = 1 }
-					}
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } }
+					},
+					ViewInfo = OperatorInfo { Pos = { -385, -16.5 } }
 				},
 				TopColor = Background {
-					ViewInfo = OperatorInfo { Pos = { -385, 49.5 } },
 					Inputs = {
+						GlobalOut = Input { Value = 3534 },
 						TopLeftRed = Input { Value = 0.93 },
 						TopLeftGreen = Input { Value = 0.16 },
 						TopLeftBlue = Input { Value = 0.16 },
 						Width = Input { Value = 1920 },
 						Height = Input { Value = 1080 },
+						UseFrameFormatSettings = Input { Value = 1 },
 						GlobalIn = Input { Value = -480 },
-						GlobalOut = Input { Value = 3534 },
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						UseFrameFormatSettings = Input { Value = 1 }
-					}
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } }
+					},
+					ViewInfo = OperatorInfo { Pos = { -385, 49.5 } }
 				},
 				BarsDraw = Custom {
-					ViewInfo = OperatorInfo { Pos = { -165, 16.5 } },
 					Inputs = {
+						Intermediate2 = Input { Value = "if(i1 < 0.5, n1, if(i1 < 1.5, n2, if(i1 < 2.5, n3, if(i1 < 3.5, n4, if(i1 < 4.5, n5, if(i1 < 5.5, n6, if(i1 < 6.5, n7, if(i1 < 7.5, n8, 0))))))))" },
+						Intermediate3 = Input { Value = "if(i1 < 0, 0, if(i1 > p3y - 0.5, 0, if(abs(p2x - (i1 + 0.5)*p2y - y) > p2y*p3x/2, 0, if(x < p1x, 0, if(x > p1x + i2*p1y, 0, 1)))))" },
+						NumberIn7 = Input { Expression = "BarsCtrl.B7.X" },
+						Intermediate4 = Input { Value = "if(abs(i1 + 1 - p4x) < 0.5, 1, 0)" },
+						NumberIn8 = Input { Expression = "BarsCtrl.B8.X" },
+						RedExpression = Input { Value = "i3 * if(i4 > 0, r2, r1)" },
+						GreenExpression = Input { Value = "i3 * if(i4 > 0, g2, g1)" },
+						Image2 = Input {
+							Source = "Output",
+							SourceOp = "TopColor"
+						},
+						BlueExpression = Input { Value = "i3 * if(i4 > 0, b2, b1)" },
+						Image1 = Input {
+							Source = "Output",
+							SourceOp = "BarColor"
+						},
+						NumberIn1 = Input { Expression = "BarsCtrl.B1.X" },
+						AlphaExpression = Input { Value = "i3" },
+						NumberIn2 = Input { Expression = "BarsCtrl.B2.X" },
+						NumberIn3 = Input { Expression = "BarsCtrl.B3.X" },
+						PointIn4 = Input { Expression = "Point(iif(BarsCtrl.BcHigh == 1, BarsCtrl.Top, -1), 0)" },
+						NumberIn4 = Input { Expression = "BarsCtrl.B4.X" },
+						PointIn1 = Input { Expression = "Point(BarsCtrl.X0, BarsCtrl.Len)" },
 						LUTIn1 = Input {
 							Source = "Value",
 							SourceOp = "CustomTool1LUTIn1"
 						},
+						NumberIn5 = Input { Expression = "BarsCtrl.B5.X" },
 						LUTIn2 = Input {
 							Source = "Value",
 							SourceOp = "CustomTool1LUTIn2"
@@ -383,38 +426,15 @@
 							Source = "Value",
 							SourceOp = "CustomTool1LUTIn4"
 						},
-						AlphaExpression = Input { Value = "i3" },
-						Image1 = Input {
-							Source = "Output",
-							SourceOp = "BarColor"
-						},
-						Image2 = Input {
-							Source = "Output",
-							SourceOp = "TopColor"
-						},
-						BlueExpression = Input { Value = "i3 * if(i4 > 0, b2, b1)" },
-						GreenExpression = Input { Value = "i3 * if(i4 > 0, g2, g1)" },
-						PointIn1 = Input { Expression = "Point(BarsCtrl.X0, BarsCtrl.Len)" },
-						Intermediate4 = Input { Value = "if(abs(i1 + 1 - p4x) < 0.5, 1, 0)" },
-						PointIn2 = Input { Expression = "Point(BarsCtrl.BcPos.Y + BarsCtrl.BcH/2, BarsCtrl.RowH)" },
-						RedExpression = Input { Value = "i3 * if(i4 > 0, r2, r1)" },
-						PointIn3 = Input { Expression = "Point(BarsCtrl.BcThick, BarsCtrl.N)" },
-						Intermediate3 = Input { Value = "if(i1 < 0, 0, if(i1 > p3y - 0.5, 0, if(abs(p2x - (i1 + 0.5)*p2y - y) > p2y*p3x/2, 0, if(x < p1x, 0, if(x > p1x + i2*p1y, 0, 1)))))" },
-						NumberIn3 = Input { Expression = "BarsCtrl.B3.X" },
-						NumberIn2 = Input { Expression = "BarsCtrl.B2.X" },
-						NumberIn4 = Input { Expression = "BarsCtrl.B4.X" },
-						Intermediate1 = Input { Value = "floor((p2x - y)/p2y)" },
-						NumberIn5 = Input { Expression = "BarsCtrl.B5.X" },
-						PointIn4 = Input { Expression = "Point(iif(BarsCtrl.BcHigh == 1, BarsCtrl.Top, -1), 0)" },
 						NumberIn6 = Input { Expression = "BarsCtrl.B6.X" },
-						Intermediate2 = Input { Value = "if(i1 < 0.5, n1, if(i1 < 1.5, n2, if(i1 < 2.5, n3, if(i1 < 3.5, n4, if(i1 < 4.5, n5, if(i1 < 5.5, n6, if(i1 < 6.5, n7, if(i1 < 7.5, n8, 0))))))))" },
-						NumberIn7 = Input { Expression = "BarsCtrl.B7.X" },
-						NumberIn1 = Input { Expression = "BarsCtrl.B1.X" },
-						NumberIn8 = Input { Expression = "BarsCtrl.B8.X" }
-					}
+						Intermediate1 = Input { Value = "floor((p2x - y)/p2y)" },
+						PointIn3 = Input { Expression = "Point(BarsCtrl.BcThick, BarsCtrl.N)" },
+						PointIn2 = Input { Expression = "Point(BarsCtrl.BcPos.Y + BarsCtrl.BcH/2, BarsCtrl.RowH)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { -165, 16.5 } }
 				},
 				CustomTool1LUTIn1 = LUTBezier {
-					SplineColor = { Blue = 0, Red = 0, Green = 0 },
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
 					NameSet = true,
 					CtrlWZoom = false,
 					KeyColorSplines = {
@@ -425,7 +445,7 @@
 					}
 				},
 				CustomTool1LUTIn2 = LUTBezier {
-					SplineColor = { Blue = 0, Red = 0, Green = 0 },
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
 					NameSet = true,
 					CtrlWZoom = false,
 					KeyColorSplines = {
@@ -436,7 +456,7 @@
 					}
 				},
 				CustomTool1LUTIn3 = LUTBezier {
-					SplineColor = { Blue = 0, Red = 0, Green = 0 },
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
 					NameSet = true,
 					CtrlWZoom = false,
 					KeyColorSplines = {
@@ -447,7 +467,7 @@
 					}
 				},
 				CustomTool1LUTIn4 = LUTBezier {
-					SplineColor = { Blue = 0, Red = 0, Green = 0 },
+					SplineColor = { Red = 0, Green = 0, Blue = 0 },
 					NameSet = true,
 					CtrlWZoom = false,
 					KeyColorSplines = {
@@ -458,754 +478,754 @@
 					}
 				},
 				RowName1 = TextPlus {
-					Version = 1,
-					ViewInfo = OperatorInfo { Pos = { 165, -49.5 } },
 					Inputs = {
-						UseFrameFormatSettings = Input { Value = 1 },
+						HorizontalLeftCenterRight = Input { Value = 1 },
+						StyledText = Input { Expression = "Text((function(c) return c[1] and c[1][1] or \"\" end)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort)))" },
+						Center = Input { Expression = "Point(BarsCtrl.X0 - BarsCtrl.BcGap, BarsCtrl.BcPos.Y + BarsCtrl.BcH/2 - 0.5*BarsCtrl.RowH)" },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
 						Wrap = Input { Value = 1 },
 						LayoutRotation = Input { Value = 1 },
 						TransformRotation = Input { Value = 1 },
 						Softness1 = Input { Value = 1 },
 						VerticalJustificationNew = Input { Value = 3 },
-						HorizontalJustificationNew = Input { Value = 3 },
-						Size = Input { Expression = "BarsCtrl.BcTextSize" },
-						Width = Input { Value = 1920 },
 						Height = Input { Value = 1080 },
-						HorizontalLeftCenterRight = Input { Value = 1 },
+						Size = Input { Expression = "BarsCtrl.BcTextSize" },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Font = Input { Value = "Microsoft JhengHei" },
+						HorizontalJustificationNew = Input { Value = 3 },
 						Style = Input { Value = "Bold" },
-						Center = Input { Expression = "Point(BarsCtrl.X0 - BarsCtrl.BcGap, BarsCtrl.BcPos.Y + BarsCtrl.BcH/2 - 0.5*BarsCtrl.RowH)" },
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						GlobalOut = Input { Value = 3534 },
-						StyledText = Input { Expression = "Text((function(c) return c[1] and c[1][1] or \"\" end)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort)))" },
-						GlobalIn = Input { Value = -480 },
-						Font = Input { Value = "Microsoft JhengHei" }
-					}
+						Width = Input { Value = 1920 }
+					},
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { 165, -49.5 } }
 				},
 				PutName1 = Merge {
-					ViewInfo = OperatorInfo { Pos = { 165, -16.5 } },
 					Inputs = {
 						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "BarsDraw"
+						},
 						Foreground = Input {
 							Source = "Output",
 							SourceOp = "RowName1"
 						},
-						Blend = Input { Expression = "iif(BarsCtrl.N >= 1, min(max(BarsCtrl.B1.Y*4, 0), 1), 0)" },
-						Background = Input {
-							Source = "Output",
-							SourceOp = "BarsDraw"
-						}
-					}
+						Blend = Input { Expression = "iif(BarsCtrl.N >= 1, min(max(BarsCtrl.B1.Y*4, 0), 1), 0)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 165, -16.5 } }
 				},
 				RowValue1 = TextPlus {
-					Version = 1,
-					ViewInfo = OperatorInfo { Pos = { 165, 82.5 } },
 					Inputs = {
-						UseFrameFormatSettings = Input { Value = 1 },
+						HorizontalLeftCenterRight = Input { Value = -1 },
+						StyledText = Input { Expression = "Text((function(c) if not c[1] then return \"\" end return BarsCtrl.BcPrefix.Value .. (function(v, d)\n  local s = string.format(\"%.\" .. d .. \"f\", v)\n  local whole, rest = s:match(\"^(-?%d+)(.*)$\")\n  whole = whole:reverse():gsub(\"(%d%d%d)\", \"%1,\"):reverse():gsub(\"^(-?),\", \"%1\")\n  return whole .. rest\nend)(c[1][2]*min(BarsCtrl.B1.Y, 1), BarsCtrl.BcDecimals) .. BarsCtrl.BcSuffix.Value end)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort)))" },
+						Center = Input { Expression = "Point(BarsCtrl.X0 + BarsCtrl.B1.X*BarsCtrl.Len + BarsCtrl.BcGap, BarsCtrl.BcPos.Y + BarsCtrl.BcH/2 - 0.5*BarsCtrl.RowH)" },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
 						Wrap = Input { Value = 1 },
 						LayoutRotation = Input { Value = 1 },
 						TransformRotation = Input { Value = 1 },
 						Softness1 = Input { Value = 1 },
 						VerticalJustificationNew = Input { Value = 3 },
-						HorizontalJustificationNew = Input { Value = 3 },
-						Size = Input { Expression = "BarsCtrl.BcTextSize" },
-						Width = Input { Value = 1920 },
 						Height = Input { Value = 1080 },
-						HorizontalLeftCenterRight = Input { Value = -1 },
+						Size = Input { Expression = "BarsCtrl.BcTextSize" },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Font = Input { Value = "Microsoft JhengHei" },
+						HorizontalJustificationNew = Input { Value = 3 },
 						Style = Input { Value = "Bold" },
-						Center = Input { Expression = "Point(BarsCtrl.X0 + BarsCtrl.B1.X*BarsCtrl.Len + BarsCtrl.BcGap, BarsCtrl.BcPos.Y + BarsCtrl.BcH/2 - 0.5*BarsCtrl.RowH)" },
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						GlobalOut = Input { Value = 3534 },
-						StyledText = Input { Expression = "Text((function(c) if not c[1] then return \"\" end return BarsCtrl.BcPrefix.Value .. (function(v, d)\n  local s = string.format(\"%.\" .. d .. \"f\", v)\n  local whole, rest = s:match(\"^(-?%d+)(.*)$\")\n  whole = whole:reverse():gsub(\"(%d%d%d)\", \"%1,\"):reverse():gsub(\"^(-?),\", \"%1\")\n  return whole .. rest\nend)(c[1][2]*min(BarsCtrl.B1.Y, 1), BarsCtrl.BcDecimals) .. BarsCtrl.BcSuffix.Value end)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort)))" },
-						GlobalIn = Input { Value = -480 },
-						Font = Input { Value = "Microsoft JhengHei" }
-					}
+						Width = Input { Value = 1920 }
+					},
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { 165, 82.5 } }
 				},
 				PutNumber1 = Merge {
-					ViewInfo = OperatorInfo { Pos = { 165, 49.5 } },
 					Inputs = {
 						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "PutName1"
+						},
 						Foreground = Input {
 							Source = "Output",
 							SourceOp = "RowValue1"
 						},
-						Blend = Input { Expression = "iif(BarsCtrl.N >= 1, min(max(BarsCtrl.B1.Y*4, 0), 1), 0)" },
-						Background = Input {
-							Source = "Output",
-							SourceOp = "PutName1"
-						}
-					}
+						Blend = Input { Expression = "iif(BarsCtrl.N >= 1, min(max(BarsCtrl.B1.Y*4, 0), 1), 0)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 165, 49.5 } }
 				},
 				RowName2 = TextPlus {
-					Version = 1,
-					ViewInfo = OperatorInfo { Pos = { 275, -49.5 } },
 					Inputs = {
-						UseFrameFormatSettings = Input { Value = 1 },
-						HorizontalJustificationNew = Input { Value = 3 },
-						Size = Input { Expression = "BarsCtrl.BcTextSize" },
+						Red1 = Input { Expression = "RowName1.Red1" },
+						Green1 = Input { Expression = "RowName1.Green1" },
+						Blue1 = Input { Expression = "RowName1.Blue1" },
+						HorizontalLeftCenterRight = Input { Value = 1 },
+						StyledText = Input { Expression = "Text((function(c) return c[2] and c[2][1] or \"\" end)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort)))" },
+						Center = Input { Expression = "Point(BarsCtrl.X0 - BarsCtrl.BcGap, BarsCtrl.BcPos.Y + BarsCtrl.BcH/2 - 1.5*BarsCtrl.RowH)" },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
 						Wrap = Input { Value = 1 },
 						LayoutRotation = Input { Value = 1 },
 						TransformRotation = Input { Value = 1 },
 						Softness1 = Input { Value = 1 },
-						VerticalJustificationNew = Input { Value = 3 },
-						Red1 = Input { Expression = "RowName1.Red1" },
-						Green1 = Input { Expression = "RowName1.Green1" },
 						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
+						Size = Input { Expression = "BarsCtrl.BcTextSize" },
+						UseFrameFormatSettings = Input { Value = 1 },
 						Font = Input {
-							Value = "Open Sans",
-							Expression = "RowName1.Font"
+							Expression = "RowName1.Font",
+							Value = "Open Sans"
 						},
-						HorizontalLeftCenterRight = Input { Value = 1 },
-						StyledText = Input { Expression = "Text((function(c) return c[2] and c[2][1] or \"\" end)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort)))" },
+						HorizontalJustificationNew = Input { Value = 3 },
 						Style = Input {
-							Value = "Bold",
-							Expression = "RowName1.Style"
+							Expression = "RowName1.Style",
+							Value = "Bold"
 						},
-						Center = Input { Expression = "Point(BarsCtrl.X0 - BarsCtrl.BcGap, BarsCtrl.BcPos.Y + BarsCtrl.BcH/2 - 1.5*BarsCtrl.RowH)" },
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						GlobalOut = Input { Value = 3534 },
-						Blue1 = Input { Expression = "RowName1.Blue1" },
-						GlobalIn = Input { Value = -480 },
-						Height = Input { Value = 1080 }
-					}
+						VerticalJustificationNew = Input { Value = 3 }
+					},
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { 275, -49.5 } }
 				},
 				PutName2 = Merge {
-					ViewInfo = OperatorInfo { Pos = { 275, -16.5 } },
 					Inputs = {
 						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "PutNumber1"
+						},
 						Foreground = Input {
 							Source = "Output",
 							SourceOp = "RowName2"
 						},
-						Blend = Input { Expression = "iif(BarsCtrl.N >= 2, min(max(BarsCtrl.B2.Y*4, 0), 1), 0)" },
-						Background = Input {
-							Source = "Output",
-							SourceOp = "PutNumber1"
-						}
-					}
+						Blend = Input { Expression = "iif(BarsCtrl.N >= 2, min(max(BarsCtrl.B2.Y*4, 0), 1), 0)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 275, -16.5 } }
 				},
 				RowValue2 = TextPlus {
-					Version = 1,
-					ViewInfo = OperatorInfo { Pos = { 275, 82.5 } },
 					Inputs = {
-						UseFrameFormatSettings = Input { Value = 1 },
-						HorizontalJustificationNew = Input { Value = 3 },
-						Size = Input { Expression = "BarsCtrl.BcTextSize" },
+						Red1 = Input { Expression = "RowValue1.Red1" },
+						Green1 = Input { Expression = "RowValue1.Green1" },
+						Blue1 = Input { Expression = "RowValue1.Blue1" },
+						HorizontalLeftCenterRight = Input { Value = -1 },
+						StyledText = Input { Expression = "Text((function(c) if not c[2] then return \"\" end return BarsCtrl.BcPrefix.Value .. (function(v, d)\n  local s = string.format(\"%.\" .. d .. \"f\", v)\n  local whole, rest = s:match(\"^(-?%d+)(.*)$\")\n  whole = whole:reverse():gsub(\"(%d%d%d)\", \"%1,\"):reverse():gsub(\"^(-?),\", \"%1\")\n  return whole .. rest\nend)(c[2][2]*min(BarsCtrl.B2.Y, 1), BarsCtrl.BcDecimals) .. BarsCtrl.BcSuffix.Value end)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort)))" },
+						Center = Input { Expression = "Point(BarsCtrl.X0 + BarsCtrl.B2.X*BarsCtrl.Len + BarsCtrl.BcGap, BarsCtrl.BcPos.Y + BarsCtrl.BcH/2 - 1.5*BarsCtrl.RowH)" },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
 						Wrap = Input { Value = 1 },
 						LayoutRotation = Input { Value = 1 },
 						TransformRotation = Input { Value = 1 },
 						Softness1 = Input { Value = 1 },
-						VerticalJustificationNew = Input { Value = 3 },
-						Red1 = Input { Expression = "RowValue1.Red1" },
-						Green1 = Input { Expression = "RowValue1.Green1" },
 						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
+						Size = Input { Expression = "BarsCtrl.BcTextSize" },
+						UseFrameFormatSettings = Input { Value = 1 },
 						Font = Input {
-							Value = "Open Sans",
-							Expression = "RowValue1.Font"
+							Expression = "RowValue1.Font",
+							Value = "Open Sans"
 						},
-						HorizontalLeftCenterRight = Input { Value = -1 },
-						StyledText = Input { Expression = "Text((function(c) if not c[2] then return \"\" end return BarsCtrl.BcPrefix.Value .. (function(v, d)\n  local s = string.format(\"%.\" .. d .. \"f\", v)\n  local whole, rest = s:match(\"^(-?%d+)(.*)$\")\n  whole = whole:reverse():gsub(\"(%d%d%d)\", \"%1,\"):reverse():gsub(\"^(-?),\", \"%1\")\n  return whole .. rest\nend)(c[2][2]*min(BarsCtrl.B2.Y, 1), BarsCtrl.BcDecimals) .. BarsCtrl.BcSuffix.Value end)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort)))" },
+						HorizontalJustificationNew = Input { Value = 3 },
 						Style = Input {
-							Value = "Bold",
-							Expression = "RowValue1.Style"
+							Expression = "RowValue1.Style",
+							Value = "Bold"
 						},
-						Center = Input { Expression = "Point(BarsCtrl.X0 + BarsCtrl.B2.X*BarsCtrl.Len + BarsCtrl.BcGap, BarsCtrl.BcPos.Y + BarsCtrl.BcH/2 - 1.5*BarsCtrl.RowH)" },
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						GlobalOut = Input { Value = 3534 },
-						Blue1 = Input { Expression = "RowValue1.Blue1" },
-						GlobalIn = Input { Value = -480 },
-						Height = Input { Value = 1080 }
-					}
+						VerticalJustificationNew = Input { Value = 3 }
+					},
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { 275, 82.5 } }
 				},
 				PutNumber2 = Merge {
-					ViewInfo = OperatorInfo { Pos = { 275, 49.5 } },
 					Inputs = {
 						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "PutName2"
+						},
 						Foreground = Input {
 							Source = "Output",
 							SourceOp = "RowValue2"
 						},
-						Blend = Input { Expression = "iif(BarsCtrl.N >= 2, min(max(BarsCtrl.B2.Y*4, 0), 1), 0)" },
-						Background = Input {
-							Source = "Output",
-							SourceOp = "PutName2"
-						}
-					}
+						Blend = Input { Expression = "iif(BarsCtrl.N >= 2, min(max(BarsCtrl.B2.Y*4, 0), 1), 0)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 275, 49.5 } }
 				},
 				RowName3 = TextPlus {
-					Version = 1,
-					ViewInfo = OperatorInfo { Pos = { 385, -49.5 } },
 					Inputs = {
-						UseFrameFormatSettings = Input { Value = 1 },
-						HorizontalJustificationNew = Input { Value = 3 },
-						Size = Input { Expression = "BarsCtrl.BcTextSize" },
+						Red1 = Input { Expression = "RowName1.Red1" },
+						Green1 = Input { Expression = "RowName1.Green1" },
+						Blue1 = Input { Expression = "RowName1.Blue1" },
+						HorizontalLeftCenterRight = Input { Value = 1 },
+						StyledText = Input { Expression = "Text((function(c) return c[3] and c[3][1] or \"\" end)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort)))" },
+						Center = Input { Expression = "Point(BarsCtrl.X0 - BarsCtrl.BcGap, BarsCtrl.BcPos.Y + BarsCtrl.BcH/2 - 2.5*BarsCtrl.RowH)" },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
 						Wrap = Input { Value = 1 },
 						LayoutRotation = Input { Value = 1 },
 						TransformRotation = Input { Value = 1 },
 						Softness1 = Input { Value = 1 },
-						VerticalJustificationNew = Input { Value = 3 },
-						Red1 = Input { Expression = "RowName1.Red1" },
-						Green1 = Input { Expression = "RowName1.Green1" },
 						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
+						Size = Input { Expression = "BarsCtrl.BcTextSize" },
+						UseFrameFormatSettings = Input { Value = 1 },
 						Font = Input {
-							Value = "Open Sans",
-							Expression = "RowName1.Font"
+							Expression = "RowName1.Font",
+							Value = "Open Sans"
 						},
-						HorizontalLeftCenterRight = Input { Value = 1 },
-						StyledText = Input { Expression = "Text((function(c) return c[3] and c[3][1] or \"\" end)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort)))" },
+						HorizontalJustificationNew = Input { Value = 3 },
 						Style = Input {
-							Value = "Bold",
-							Expression = "RowName1.Style"
+							Expression = "RowName1.Style",
+							Value = "Bold"
 						},
-						Center = Input { Expression = "Point(BarsCtrl.X0 - BarsCtrl.BcGap, BarsCtrl.BcPos.Y + BarsCtrl.BcH/2 - 2.5*BarsCtrl.RowH)" },
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						GlobalOut = Input { Value = 3534 },
-						Blue1 = Input { Expression = "RowName1.Blue1" },
-						GlobalIn = Input { Value = -480 },
-						Height = Input { Value = 1080 }
-					}
+						VerticalJustificationNew = Input { Value = 3 }
+					},
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { 385, -49.5 } }
 				},
 				PutName3 = Merge {
-					ViewInfo = OperatorInfo { Pos = { 385, -16.5 } },
 					Inputs = {
 						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "PutNumber2"
+						},
 						Foreground = Input {
 							Source = "Output",
 							SourceOp = "RowName3"
 						},
-						Blend = Input { Expression = "iif(BarsCtrl.N >= 3, min(max(BarsCtrl.B3.Y*4, 0), 1), 0)" },
-						Background = Input {
-							Source = "Output",
-							SourceOp = "PutNumber2"
-						}
-					}
+						Blend = Input { Expression = "iif(BarsCtrl.N >= 3, min(max(BarsCtrl.B3.Y*4, 0), 1), 0)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 385, -16.5 } }
 				},
 				RowValue3 = TextPlus {
-					Version = 1,
-					ViewInfo = OperatorInfo { Pos = { 385, 82.5 } },
 					Inputs = {
-						UseFrameFormatSettings = Input { Value = 1 },
-						HorizontalJustificationNew = Input { Value = 3 },
-						Size = Input { Expression = "BarsCtrl.BcTextSize" },
+						Red1 = Input { Expression = "RowValue1.Red1" },
+						Green1 = Input { Expression = "RowValue1.Green1" },
+						Blue1 = Input { Expression = "RowValue1.Blue1" },
+						HorizontalLeftCenterRight = Input { Value = -1 },
+						StyledText = Input { Expression = "Text((function(c) if not c[3] then return \"\" end return BarsCtrl.BcPrefix.Value .. (function(v, d)\n  local s = string.format(\"%.\" .. d .. \"f\", v)\n  local whole, rest = s:match(\"^(-?%d+)(.*)$\")\n  whole = whole:reverse():gsub(\"(%d%d%d)\", \"%1,\"):reverse():gsub(\"^(-?),\", \"%1\")\n  return whole .. rest\nend)(c[3][2]*min(BarsCtrl.B3.Y, 1), BarsCtrl.BcDecimals) .. BarsCtrl.BcSuffix.Value end)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort)))" },
+						Center = Input { Expression = "Point(BarsCtrl.X0 + BarsCtrl.B3.X*BarsCtrl.Len + BarsCtrl.BcGap, BarsCtrl.BcPos.Y + BarsCtrl.BcH/2 - 2.5*BarsCtrl.RowH)" },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
 						Wrap = Input { Value = 1 },
 						LayoutRotation = Input { Value = 1 },
 						TransformRotation = Input { Value = 1 },
 						Softness1 = Input { Value = 1 },
-						VerticalJustificationNew = Input { Value = 3 },
-						Red1 = Input { Expression = "RowValue1.Red1" },
-						Green1 = Input { Expression = "RowValue1.Green1" },
 						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
+						Size = Input { Expression = "BarsCtrl.BcTextSize" },
+						UseFrameFormatSettings = Input { Value = 1 },
 						Font = Input {
-							Value = "Open Sans",
-							Expression = "RowValue1.Font"
+							Expression = "RowValue1.Font",
+							Value = "Open Sans"
 						},
-						HorizontalLeftCenterRight = Input { Value = -1 },
-						StyledText = Input { Expression = "Text((function(c) if not c[3] then return \"\" end return BarsCtrl.BcPrefix.Value .. (function(v, d)\n  local s = string.format(\"%.\" .. d .. \"f\", v)\n  local whole, rest = s:match(\"^(-?%d+)(.*)$\")\n  whole = whole:reverse():gsub(\"(%d%d%d)\", \"%1,\"):reverse():gsub(\"^(-?),\", \"%1\")\n  return whole .. rest\nend)(c[3][2]*min(BarsCtrl.B3.Y, 1), BarsCtrl.BcDecimals) .. BarsCtrl.BcSuffix.Value end)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort)))" },
+						HorizontalJustificationNew = Input { Value = 3 },
 						Style = Input {
-							Value = "Bold",
-							Expression = "RowValue1.Style"
+							Expression = "RowValue1.Style",
+							Value = "Bold"
 						},
-						Center = Input { Expression = "Point(BarsCtrl.X0 + BarsCtrl.B3.X*BarsCtrl.Len + BarsCtrl.BcGap, BarsCtrl.BcPos.Y + BarsCtrl.BcH/2 - 2.5*BarsCtrl.RowH)" },
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						GlobalOut = Input { Value = 3534 },
-						Blue1 = Input { Expression = "RowValue1.Blue1" },
-						GlobalIn = Input { Value = -480 },
-						Height = Input { Value = 1080 }
-					}
+						VerticalJustificationNew = Input { Value = 3 }
+					},
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { 385, 82.5 } }
 				},
 				PutNumber3 = Merge {
-					ViewInfo = OperatorInfo { Pos = { 385, 49.5 } },
 					Inputs = {
 						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "PutName3"
+						},
 						Foreground = Input {
 							Source = "Output",
 							SourceOp = "RowValue3"
 						},
-						Blend = Input { Expression = "iif(BarsCtrl.N >= 3, min(max(BarsCtrl.B3.Y*4, 0), 1), 0)" },
-						Background = Input {
-							Source = "Output",
-							SourceOp = "PutName3"
-						}
-					}
+						Blend = Input { Expression = "iif(BarsCtrl.N >= 3, min(max(BarsCtrl.B3.Y*4, 0), 1), 0)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 385, 49.5 } }
 				},
 				RowName4 = TextPlus {
-					Version = 1,
-					ViewInfo = OperatorInfo { Pos = { 495, -49.5 } },
 					Inputs = {
-						UseFrameFormatSettings = Input { Value = 1 },
-						HorizontalJustificationNew = Input { Value = 3 },
-						Size = Input { Expression = "BarsCtrl.BcTextSize" },
+						Red1 = Input { Expression = "RowName1.Red1" },
+						Green1 = Input { Expression = "RowName1.Green1" },
+						Blue1 = Input { Expression = "RowName1.Blue1" },
+						HorizontalLeftCenterRight = Input { Value = 1 },
+						StyledText = Input { Expression = "Text((function(c) return c[4] and c[4][1] or \"\" end)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort)))" },
+						Center = Input { Expression = "Point(BarsCtrl.X0 - BarsCtrl.BcGap, BarsCtrl.BcPos.Y + BarsCtrl.BcH/2 - 3.5*BarsCtrl.RowH)" },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
 						Wrap = Input { Value = 1 },
 						LayoutRotation = Input { Value = 1 },
 						TransformRotation = Input { Value = 1 },
 						Softness1 = Input { Value = 1 },
-						VerticalJustificationNew = Input { Value = 3 },
-						Red1 = Input { Expression = "RowName1.Red1" },
-						Green1 = Input { Expression = "RowName1.Green1" },
 						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
+						Size = Input { Expression = "BarsCtrl.BcTextSize" },
+						UseFrameFormatSettings = Input { Value = 1 },
 						Font = Input {
-							Value = "Open Sans",
-							Expression = "RowName1.Font"
+							Expression = "RowName1.Font",
+							Value = "Open Sans"
 						},
-						HorizontalLeftCenterRight = Input { Value = 1 },
-						StyledText = Input { Expression = "Text((function(c) return c[4] and c[4][1] or \"\" end)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort)))" },
+						HorizontalJustificationNew = Input { Value = 3 },
 						Style = Input {
-							Value = "Bold",
-							Expression = "RowName1.Style"
+							Expression = "RowName1.Style",
+							Value = "Bold"
 						},
-						Center = Input { Expression = "Point(BarsCtrl.X0 - BarsCtrl.BcGap, BarsCtrl.BcPos.Y + BarsCtrl.BcH/2 - 3.5*BarsCtrl.RowH)" },
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						GlobalOut = Input { Value = 3534 },
-						Blue1 = Input { Expression = "RowName1.Blue1" },
-						GlobalIn = Input { Value = -480 },
-						Height = Input { Value = 1080 }
-					}
+						VerticalJustificationNew = Input { Value = 3 }
+					},
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { 495, -49.5 } }
 				},
 				PutName4 = Merge {
-					ViewInfo = OperatorInfo { Pos = { 495, -16.5 } },
 					Inputs = {
 						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "PutNumber3"
+						},
 						Foreground = Input {
 							Source = "Output",
 							SourceOp = "RowName4"
 						},
-						Blend = Input { Expression = "iif(BarsCtrl.N >= 4, min(max(BarsCtrl.B4.Y*4, 0), 1), 0)" },
-						Background = Input {
-							Source = "Output",
-							SourceOp = "PutNumber3"
-						}
-					}
+						Blend = Input { Expression = "iif(BarsCtrl.N >= 4, min(max(BarsCtrl.B4.Y*4, 0), 1), 0)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 495, -16.5 } }
 				},
 				RowValue4 = TextPlus {
-					Version = 1,
-					ViewInfo = OperatorInfo { Pos = { 495, 82.5 } },
 					Inputs = {
-						UseFrameFormatSettings = Input { Value = 1 },
-						HorizontalJustificationNew = Input { Value = 3 },
-						Size = Input { Expression = "BarsCtrl.BcTextSize" },
+						Red1 = Input { Expression = "RowValue1.Red1" },
+						Green1 = Input { Expression = "RowValue1.Green1" },
+						Blue1 = Input { Expression = "RowValue1.Blue1" },
+						HorizontalLeftCenterRight = Input { Value = -1 },
+						StyledText = Input { Expression = "Text((function(c) if not c[4] then return \"\" end return BarsCtrl.BcPrefix.Value .. (function(v, d)\n  local s = string.format(\"%.\" .. d .. \"f\", v)\n  local whole, rest = s:match(\"^(-?%d+)(.*)$\")\n  whole = whole:reverse():gsub(\"(%d%d%d)\", \"%1,\"):reverse():gsub(\"^(-?),\", \"%1\")\n  return whole .. rest\nend)(c[4][2]*min(BarsCtrl.B4.Y, 1), BarsCtrl.BcDecimals) .. BarsCtrl.BcSuffix.Value end)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort)))" },
+						Center = Input { Expression = "Point(BarsCtrl.X0 + BarsCtrl.B4.X*BarsCtrl.Len + BarsCtrl.BcGap, BarsCtrl.BcPos.Y + BarsCtrl.BcH/2 - 3.5*BarsCtrl.RowH)" },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
 						Wrap = Input { Value = 1 },
 						LayoutRotation = Input { Value = 1 },
 						TransformRotation = Input { Value = 1 },
 						Softness1 = Input { Value = 1 },
-						VerticalJustificationNew = Input { Value = 3 },
-						Red1 = Input { Expression = "RowValue1.Red1" },
-						Green1 = Input { Expression = "RowValue1.Green1" },
 						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
+						Size = Input { Expression = "BarsCtrl.BcTextSize" },
+						UseFrameFormatSettings = Input { Value = 1 },
 						Font = Input {
-							Value = "Open Sans",
-							Expression = "RowValue1.Font"
+							Expression = "RowValue1.Font",
+							Value = "Open Sans"
 						},
-						HorizontalLeftCenterRight = Input { Value = -1 },
-						StyledText = Input { Expression = "Text((function(c) if not c[4] then return \"\" end return BarsCtrl.BcPrefix.Value .. (function(v, d)\n  local s = string.format(\"%.\" .. d .. \"f\", v)\n  local whole, rest = s:match(\"^(-?%d+)(.*)$\")\n  whole = whole:reverse():gsub(\"(%d%d%d)\", \"%1,\"):reverse():gsub(\"^(-?),\", \"%1\")\n  return whole .. rest\nend)(c[4][2]*min(BarsCtrl.B4.Y, 1), BarsCtrl.BcDecimals) .. BarsCtrl.BcSuffix.Value end)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort)))" },
+						HorizontalJustificationNew = Input { Value = 3 },
 						Style = Input {
-							Value = "Bold",
-							Expression = "RowValue1.Style"
+							Expression = "RowValue1.Style",
+							Value = "Bold"
 						},
-						Center = Input { Expression = "Point(BarsCtrl.X0 + BarsCtrl.B4.X*BarsCtrl.Len + BarsCtrl.BcGap, BarsCtrl.BcPos.Y + BarsCtrl.BcH/2 - 3.5*BarsCtrl.RowH)" },
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						GlobalOut = Input { Value = 3534 },
-						Blue1 = Input { Expression = "RowValue1.Blue1" },
-						GlobalIn = Input { Value = -480 },
-						Height = Input { Value = 1080 }
-					}
+						VerticalJustificationNew = Input { Value = 3 }
+					},
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { 495, 82.5 } }
 				},
 				PutNumber4 = Merge {
-					ViewInfo = OperatorInfo { Pos = { 495, 49.5 } },
 					Inputs = {
 						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "PutName4"
+						},
 						Foreground = Input {
 							Source = "Output",
 							SourceOp = "RowValue4"
 						},
-						Blend = Input { Expression = "iif(BarsCtrl.N >= 4, min(max(BarsCtrl.B4.Y*4, 0), 1), 0)" },
-						Background = Input {
-							Source = "Output",
-							SourceOp = "PutName4"
-						}
-					}
+						Blend = Input { Expression = "iif(BarsCtrl.N >= 4, min(max(BarsCtrl.B4.Y*4, 0), 1), 0)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 495, 49.5 } }
 				},
 				RowName5 = TextPlus {
-					Version = 1,
-					ViewInfo = OperatorInfo { Pos = { 605, -49.5 } },
 					Inputs = {
-						UseFrameFormatSettings = Input { Value = 1 },
-						HorizontalJustificationNew = Input { Value = 3 },
-						Size = Input { Expression = "BarsCtrl.BcTextSize" },
+						Red1 = Input { Expression = "RowName1.Red1" },
+						Green1 = Input { Expression = "RowName1.Green1" },
+						Blue1 = Input { Expression = "RowName1.Blue1" },
+						HorizontalLeftCenterRight = Input { Value = 1 },
+						StyledText = Input { Expression = "Text((function(c) return c[5] and c[5][1] or \"\" end)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort)))" },
+						Center = Input { Expression = "Point(BarsCtrl.X0 - BarsCtrl.BcGap, BarsCtrl.BcPos.Y + BarsCtrl.BcH/2 - 4.5*BarsCtrl.RowH)" },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
 						Wrap = Input { Value = 1 },
 						LayoutRotation = Input { Value = 1 },
 						TransformRotation = Input { Value = 1 },
 						Softness1 = Input { Value = 1 },
-						VerticalJustificationNew = Input { Value = 3 },
-						Red1 = Input { Expression = "RowName1.Red1" },
-						Green1 = Input { Expression = "RowName1.Green1" },
 						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
+						Size = Input { Expression = "BarsCtrl.BcTextSize" },
+						UseFrameFormatSettings = Input { Value = 1 },
 						Font = Input {
-							Value = "Open Sans",
-							Expression = "RowName1.Font"
+							Expression = "RowName1.Font",
+							Value = "Open Sans"
 						},
-						HorizontalLeftCenterRight = Input { Value = 1 },
-						StyledText = Input { Expression = "Text((function(c) return c[5] and c[5][1] or \"\" end)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort)))" },
+						HorizontalJustificationNew = Input { Value = 3 },
 						Style = Input {
-							Value = "Bold",
-							Expression = "RowName1.Style"
+							Expression = "RowName1.Style",
+							Value = "Bold"
 						},
-						Center = Input { Expression = "Point(BarsCtrl.X0 - BarsCtrl.BcGap, BarsCtrl.BcPos.Y + BarsCtrl.BcH/2 - 4.5*BarsCtrl.RowH)" },
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						GlobalOut = Input { Value = 3534 },
-						Blue1 = Input { Expression = "RowName1.Blue1" },
-						GlobalIn = Input { Value = -480 },
-						Height = Input { Value = 1080 }
-					}
+						VerticalJustificationNew = Input { Value = 3 }
+					},
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { 605, -49.5 } }
 				},
 				PutName5 = Merge {
-					ViewInfo = OperatorInfo { Pos = { 605, -16.5 } },
 					Inputs = {
 						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "PutNumber4"
+						},
 						Foreground = Input {
 							Source = "Output",
 							SourceOp = "RowName5"
 						},
-						Blend = Input { Expression = "iif(BarsCtrl.N >= 5, min(max(BarsCtrl.B5.Y*4, 0), 1), 0)" },
-						Background = Input {
-							Source = "Output",
-							SourceOp = "PutNumber4"
-						}
-					}
+						Blend = Input { Expression = "iif(BarsCtrl.N >= 5, min(max(BarsCtrl.B5.Y*4, 0), 1), 0)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 605, -16.5 } }
 				},
 				RowValue5 = TextPlus {
-					Version = 1,
-					ViewInfo = OperatorInfo { Pos = { 605, 82.5 } },
 					Inputs = {
-						UseFrameFormatSettings = Input { Value = 1 },
-						HorizontalJustificationNew = Input { Value = 3 },
-						Size = Input { Expression = "BarsCtrl.BcTextSize" },
+						Red1 = Input { Expression = "RowValue1.Red1" },
+						Green1 = Input { Expression = "RowValue1.Green1" },
+						Blue1 = Input { Expression = "RowValue1.Blue1" },
+						HorizontalLeftCenterRight = Input { Value = -1 },
+						StyledText = Input { Expression = "Text((function(c) if not c[5] then return \"\" end return BarsCtrl.BcPrefix.Value .. (function(v, d)\n  local s = string.format(\"%.\" .. d .. \"f\", v)\n  local whole, rest = s:match(\"^(-?%d+)(.*)$\")\n  whole = whole:reverse():gsub(\"(%d%d%d)\", \"%1,\"):reverse():gsub(\"^(-?),\", \"%1\")\n  return whole .. rest\nend)(c[5][2]*min(BarsCtrl.B5.Y, 1), BarsCtrl.BcDecimals) .. BarsCtrl.BcSuffix.Value end)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort)))" },
+						Center = Input { Expression = "Point(BarsCtrl.X0 + BarsCtrl.B5.X*BarsCtrl.Len + BarsCtrl.BcGap, BarsCtrl.BcPos.Y + BarsCtrl.BcH/2 - 4.5*BarsCtrl.RowH)" },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
 						Wrap = Input { Value = 1 },
 						LayoutRotation = Input { Value = 1 },
 						TransformRotation = Input { Value = 1 },
 						Softness1 = Input { Value = 1 },
-						VerticalJustificationNew = Input { Value = 3 },
-						Red1 = Input { Expression = "RowValue1.Red1" },
-						Green1 = Input { Expression = "RowValue1.Green1" },
 						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
+						Size = Input { Expression = "BarsCtrl.BcTextSize" },
+						UseFrameFormatSettings = Input { Value = 1 },
 						Font = Input {
-							Value = "Open Sans",
-							Expression = "RowValue1.Font"
+							Expression = "RowValue1.Font",
+							Value = "Open Sans"
 						},
-						HorizontalLeftCenterRight = Input { Value = -1 },
-						StyledText = Input { Expression = "Text((function(c) if not c[5] then return \"\" end return BarsCtrl.BcPrefix.Value .. (function(v, d)\n  local s = string.format(\"%.\" .. d .. \"f\", v)\n  local whole, rest = s:match(\"^(-?%d+)(.*)$\")\n  whole = whole:reverse():gsub(\"(%d%d%d)\", \"%1,\"):reverse():gsub(\"^(-?),\", \"%1\")\n  return whole .. rest\nend)(c[5][2]*min(BarsCtrl.B5.Y, 1), BarsCtrl.BcDecimals) .. BarsCtrl.BcSuffix.Value end)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort)))" },
+						HorizontalJustificationNew = Input { Value = 3 },
 						Style = Input {
-							Value = "Bold",
-							Expression = "RowValue1.Style"
+							Expression = "RowValue1.Style",
+							Value = "Bold"
 						},
-						Center = Input { Expression = "Point(BarsCtrl.X0 + BarsCtrl.B5.X*BarsCtrl.Len + BarsCtrl.BcGap, BarsCtrl.BcPos.Y + BarsCtrl.BcH/2 - 4.5*BarsCtrl.RowH)" },
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						GlobalOut = Input { Value = 3534 },
-						Blue1 = Input { Expression = "RowValue1.Blue1" },
-						GlobalIn = Input { Value = -480 },
-						Height = Input { Value = 1080 }
-					}
+						VerticalJustificationNew = Input { Value = 3 }
+					},
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { 605, 82.5 } }
 				},
 				PutNumber5 = Merge {
-					ViewInfo = OperatorInfo { Pos = { 605, 49.5 } },
 					Inputs = {
 						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "PutName5"
+						},
 						Foreground = Input {
 							Source = "Output",
 							SourceOp = "RowValue5"
 						},
-						Blend = Input { Expression = "iif(BarsCtrl.N >= 5, min(max(BarsCtrl.B5.Y*4, 0), 1), 0)" },
-						Background = Input {
-							Source = "Output",
-							SourceOp = "PutName5"
-						}
-					}
+						Blend = Input { Expression = "iif(BarsCtrl.N >= 5, min(max(BarsCtrl.B5.Y*4, 0), 1), 0)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 605, 49.5 } }
 				},
 				RowName6 = TextPlus {
-					Version = 1,
-					ViewInfo = OperatorInfo { Pos = { 715, -49.5 } },
 					Inputs = {
-						UseFrameFormatSettings = Input { Value = 1 },
-						HorizontalJustificationNew = Input { Value = 3 },
-						Size = Input { Expression = "BarsCtrl.BcTextSize" },
+						Red1 = Input { Expression = "RowName1.Red1" },
+						Green1 = Input { Expression = "RowName1.Green1" },
+						Blue1 = Input { Expression = "RowName1.Blue1" },
+						HorizontalLeftCenterRight = Input { Value = 1 },
+						StyledText = Input { Expression = "Text((function(c) return c[6] and c[6][1] or \"\" end)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort)))" },
+						Center = Input { Expression = "Point(BarsCtrl.X0 - BarsCtrl.BcGap, BarsCtrl.BcPos.Y + BarsCtrl.BcH/2 - 5.5*BarsCtrl.RowH)" },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
 						Wrap = Input { Value = 1 },
 						LayoutRotation = Input { Value = 1 },
 						TransformRotation = Input { Value = 1 },
 						Softness1 = Input { Value = 1 },
-						VerticalJustificationNew = Input { Value = 3 },
-						Red1 = Input { Expression = "RowName1.Red1" },
-						Green1 = Input { Expression = "RowName1.Green1" },
 						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
+						Size = Input { Expression = "BarsCtrl.BcTextSize" },
+						UseFrameFormatSettings = Input { Value = 1 },
 						Font = Input {
-							Value = "Open Sans",
-							Expression = "RowName1.Font"
+							Expression = "RowName1.Font",
+							Value = "Open Sans"
 						},
-						HorizontalLeftCenterRight = Input { Value = 1 },
-						StyledText = Input { Expression = "Text((function(c) return c[6] and c[6][1] or \"\" end)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort)))" },
+						HorizontalJustificationNew = Input { Value = 3 },
 						Style = Input {
-							Value = "Bold",
-							Expression = "RowName1.Style"
+							Expression = "RowName1.Style",
+							Value = "Bold"
 						},
-						Center = Input { Expression = "Point(BarsCtrl.X0 - BarsCtrl.BcGap, BarsCtrl.BcPos.Y + BarsCtrl.BcH/2 - 5.5*BarsCtrl.RowH)" },
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						GlobalOut = Input { Value = 3534 },
-						Blue1 = Input { Expression = "RowName1.Blue1" },
-						GlobalIn = Input { Value = -480 },
-						Height = Input { Value = 1080 }
-					}
+						VerticalJustificationNew = Input { Value = 3 }
+					},
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { 715, -49.5 } }
 				},
 				PutName6 = Merge {
-					ViewInfo = OperatorInfo { Pos = { 715, -16.5 } },
 					Inputs = {
 						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "PutNumber5"
+						},
 						Foreground = Input {
 							Source = "Output",
 							SourceOp = "RowName6"
 						},
-						Blend = Input { Expression = "iif(BarsCtrl.N >= 6, min(max(BarsCtrl.B6.Y*4, 0), 1), 0)" },
-						Background = Input {
-							Source = "Output",
-							SourceOp = "PutNumber5"
-						}
-					}
+						Blend = Input { Expression = "iif(BarsCtrl.N >= 6, min(max(BarsCtrl.B6.Y*4, 0), 1), 0)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 715, -16.5 } }
 				},
 				RowValue6 = TextPlus {
-					Version = 1,
-					ViewInfo = OperatorInfo { Pos = { 715, 82.5 } },
 					Inputs = {
-						UseFrameFormatSettings = Input { Value = 1 },
-						HorizontalJustificationNew = Input { Value = 3 },
-						Size = Input { Expression = "BarsCtrl.BcTextSize" },
+						Red1 = Input { Expression = "RowValue1.Red1" },
+						Green1 = Input { Expression = "RowValue1.Green1" },
+						Blue1 = Input { Expression = "RowValue1.Blue1" },
+						HorizontalLeftCenterRight = Input { Value = -1 },
+						StyledText = Input { Expression = "Text((function(c) if not c[6] then return \"\" end return BarsCtrl.BcPrefix.Value .. (function(v, d)\n  local s = string.format(\"%.\" .. d .. \"f\", v)\n  local whole, rest = s:match(\"^(-?%d+)(.*)$\")\n  whole = whole:reverse():gsub(\"(%d%d%d)\", \"%1,\"):reverse():gsub(\"^(-?),\", \"%1\")\n  return whole .. rest\nend)(c[6][2]*min(BarsCtrl.B6.Y, 1), BarsCtrl.BcDecimals) .. BarsCtrl.BcSuffix.Value end)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort)))" },
+						Center = Input { Expression = "Point(BarsCtrl.X0 + BarsCtrl.B6.X*BarsCtrl.Len + BarsCtrl.BcGap, BarsCtrl.BcPos.Y + BarsCtrl.BcH/2 - 5.5*BarsCtrl.RowH)" },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
 						Wrap = Input { Value = 1 },
 						LayoutRotation = Input { Value = 1 },
 						TransformRotation = Input { Value = 1 },
 						Softness1 = Input { Value = 1 },
-						VerticalJustificationNew = Input { Value = 3 },
-						Red1 = Input { Expression = "RowValue1.Red1" },
-						Green1 = Input { Expression = "RowValue1.Green1" },
 						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
+						Size = Input { Expression = "BarsCtrl.BcTextSize" },
+						UseFrameFormatSettings = Input { Value = 1 },
 						Font = Input {
-							Value = "Open Sans",
-							Expression = "RowValue1.Font"
+							Expression = "RowValue1.Font",
+							Value = "Open Sans"
 						},
-						HorizontalLeftCenterRight = Input { Value = -1 },
-						StyledText = Input { Expression = "Text((function(c) if not c[6] then return \"\" end return BarsCtrl.BcPrefix.Value .. (function(v, d)\n  local s = string.format(\"%.\" .. d .. \"f\", v)\n  local whole, rest = s:match(\"^(-?%d+)(.*)$\")\n  whole = whole:reverse():gsub(\"(%d%d%d)\", \"%1,\"):reverse():gsub(\"^(-?),\", \"%1\")\n  return whole .. rest\nend)(c[6][2]*min(BarsCtrl.B6.Y, 1), BarsCtrl.BcDecimals) .. BarsCtrl.BcSuffix.Value end)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort)))" },
+						HorizontalJustificationNew = Input { Value = 3 },
 						Style = Input {
-							Value = "Bold",
-							Expression = "RowValue1.Style"
+							Expression = "RowValue1.Style",
+							Value = "Bold"
 						},
-						Center = Input { Expression = "Point(BarsCtrl.X0 + BarsCtrl.B6.X*BarsCtrl.Len + BarsCtrl.BcGap, BarsCtrl.BcPos.Y + BarsCtrl.BcH/2 - 5.5*BarsCtrl.RowH)" },
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						GlobalOut = Input { Value = 3534 },
-						Blue1 = Input { Expression = "RowValue1.Blue1" },
-						GlobalIn = Input { Value = -480 },
-						Height = Input { Value = 1080 }
-					}
+						VerticalJustificationNew = Input { Value = 3 }
+					},
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { 715, 82.5 } }
 				},
 				PutNumber6 = Merge {
-					ViewInfo = OperatorInfo { Pos = { 715, 49.5 } },
 					Inputs = {
 						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "PutName6"
+						},
 						Foreground = Input {
 							Source = "Output",
 							SourceOp = "RowValue6"
 						},
-						Blend = Input { Expression = "iif(BarsCtrl.N >= 6, min(max(BarsCtrl.B6.Y*4, 0), 1), 0)" },
-						Background = Input {
-							Source = "Output",
-							SourceOp = "PutName6"
-						}
-					}
+						Blend = Input { Expression = "iif(BarsCtrl.N >= 6, min(max(BarsCtrl.B6.Y*4, 0), 1), 0)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 715, 49.5 } }
 				},
 				RowName7 = TextPlus {
-					Version = 1,
-					ViewInfo = OperatorInfo { Pos = { 825, -49.5 } },
 					Inputs = {
-						UseFrameFormatSettings = Input { Value = 1 },
-						HorizontalJustificationNew = Input { Value = 3 },
-						Size = Input { Expression = "BarsCtrl.BcTextSize" },
+						Red1 = Input { Expression = "RowName1.Red1" },
+						Green1 = Input { Expression = "RowName1.Green1" },
+						Blue1 = Input { Expression = "RowName1.Blue1" },
+						HorizontalLeftCenterRight = Input { Value = 1 },
+						StyledText = Input { Expression = "Text((function(c) return c[7] and c[7][1] or \"\" end)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort)))" },
+						Center = Input { Expression = "Point(BarsCtrl.X0 - BarsCtrl.BcGap, BarsCtrl.BcPos.Y + BarsCtrl.BcH/2 - 6.5*BarsCtrl.RowH)" },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
 						Wrap = Input { Value = 1 },
 						LayoutRotation = Input { Value = 1 },
 						TransformRotation = Input { Value = 1 },
 						Softness1 = Input { Value = 1 },
-						VerticalJustificationNew = Input { Value = 3 },
-						Red1 = Input { Expression = "RowName1.Red1" },
-						Green1 = Input { Expression = "RowName1.Green1" },
 						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
+						Size = Input { Expression = "BarsCtrl.BcTextSize" },
+						UseFrameFormatSettings = Input { Value = 1 },
 						Font = Input {
-							Value = "Open Sans",
-							Expression = "RowName1.Font"
+							Expression = "RowName1.Font",
+							Value = "Open Sans"
 						},
-						HorizontalLeftCenterRight = Input { Value = 1 },
-						StyledText = Input { Expression = "Text((function(c) return c[7] and c[7][1] or \"\" end)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort)))" },
+						HorizontalJustificationNew = Input { Value = 3 },
 						Style = Input {
-							Value = "Bold",
-							Expression = "RowName1.Style"
+							Expression = "RowName1.Style",
+							Value = "Bold"
 						},
-						Center = Input { Expression = "Point(BarsCtrl.X0 - BarsCtrl.BcGap, BarsCtrl.BcPos.Y + BarsCtrl.BcH/2 - 6.5*BarsCtrl.RowH)" },
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						GlobalOut = Input { Value = 3534 },
-						Blue1 = Input { Expression = "RowName1.Blue1" },
-						GlobalIn = Input { Value = -480 },
-						Height = Input { Value = 1080 }
-					}
+						VerticalJustificationNew = Input { Value = 3 }
+					},
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { 825, -49.5 } }
 				},
 				PutName7 = Merge {
-					ViewInfo = OperatorInfo { Pos = { 825, -16.5 } },
 					Inputs = {
 						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "PutNumber6"
+						},
 						Foreground = Input {
 							Source = "Output",
 							SourceOp = "RowName7"
 						},
-						Blend = Input { Expression = "iif(BarsCtrl.N >= 7, min(max(BarsCtrl.B7.Y*4, 0), 1), 0)" },
-						Background = Input {
-							Source = "Output",
-							SourceOp = "PutNumber6"
-						}
-					}
+						Blend = Input { Expression = "iif(BarsCtrl.N >= 7, min(max(BarsCtrl.B7.Y*4, 0), 1), 0)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 825, -16.5 } }
 				},
 				RowValue7 = TextPlus {
-					Version = 1,
-					ViewInfo = OperatorInfo { Pos = { 825, 82.5 } },
 					Inputs = {
-						UseFrameFormatSettings = Input { Value = 1 },
-						HorizontalJustificationNew = Input { Value = 3 },
-						Size = Input { Expression = "BarsCtrl.BcTextSize" },
+						Red1 = Input { Expression = "RowValue1.Red1" },
+						Green1 = Input { Expression = "RowValue1.Green1" },
+						Blue1 = Input { Expression = "RowValue1.Blue1" },
+						HorizontalLeftCenterRight = Input { Value = -1 },
+						StyledText = Input { Expression = "Text((function(c) if not c[7] then return \"\" end return BarsCtrl.BcPrefix.Value .. (function(v, d)\n  local s = string.format(\"%.\" .. d .. \"f\", v)\n  local whole, rest = s:match(\"^(-?%d+)(.*)$\")\n  whole = whole:reverse():gsub(\"(%d%d%d)\", \"%1,\"):reverse():gsub(\"^(-?),\", \"%1\")\n  return whole .. rest\nend)(c[7][2]*min(BarsCtrl.B7.Y, 1), BarsCtrl.BcDecimals) .. BarsCtrl.BcSuffix.Value end)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort)))" },
+						Center = Input { Expression = "Point(BarsCtrl.X0 + BarsCtrl.B7.X*BarsCtrl.Len + BarsCtrl.BcGap, BarsCtrl.BcPos.Y + BarsCtrl.BcH/2 - 6.5*BarsCtrl.RowH)" },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
 						Wrap = Input { Value = 1 },
 						LayoutRotation = Input { Value = 1 },
 						TransformRotation = Input { Value = 1 },
 						Softness1 = Input { Value = 1 },
-						VerticalJustificationNew = Input { Value = 3 },
-						Red1 = Input { Expression = "RowValue1.Red1" },
-						Green1 = Input { Expression = "RowValue1.Green1" },
 						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
+						Size = Input { Expression = "BarsCtrl.BcTextSize" },
+						UseFrameFormatSettings = Input { Value = 1 },
 						Font = Input {
-							Value = "Open Sans",
-							Expression = "RowValue1.Font"
+							Expression = "RowValue1.Font",
+							Value = "Open Sans"
 						},
-						HorizontalLeftCenterRight = Input { Value = -1 },
-						StyledText = Input { Expression = "Text((function(c) if not c[7] then return \"\" end return BarsCtrl.BcPrefix.Value .. (function(v, d)\n  local s = string.format(\"%.\" .. d .. \"f\", v)\n  local whole, rest = s:match(\"^(-?%d+)(.*)$\")\n  whole = whole:reverse():gsub(\"(%d%d%d)\", \"%1,\"):reverse():gsub(\"^(-?),\", \"%1\")\n  return whole .. rest\nend)(c[7][2]*min(BarsCtrl.B7.Y, 1), BarsCtrl.BcDecimals) .. BarsCtrl.BcSuffix.Value end)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort)))" },
+						HorizontalJustificationNew = Input { Value = 3 },
 						Style = Input {
-							Value = "Bold",
-							Expression = "RowValue1.Style"
+							Expression = "RowValue1.Style",
+							Value = "Bold"
 						},
-						Center = Input { Expression = "Point(BarsCtrl.X0 + BarsCtrl.B7.X*BarsCtrl.Len + BarsCtrl.BcGap, BarsCtrl.BcPos.Y + BarsCtrl.BcH/2 - 6.5*BarsCtrl.RowH)" },
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						GlobalOut = Input { Value = 3534 },
-						Blue1 = Input { Expression = "RowValue1.Blue1" },
-						GlobalIn = Input { Value = -480 },
-						Height = Input { Value = 1080 }
-					}
+						VerticalJustificationNew = Input { Value = 3 }
+					},
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { 825, 82.5 } }
 				},
 				PutNumber7 = Merge {
-					ViewInfo = OperatorInfo { Pos = { 825, 49.5 } },
 					Inputs = {
 						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "PutName7"
+						},
 						Foreground = Input {
 							Source = "Output",
 							SourceOp = "RowValue7"
 						},
-						Blend = Input { Expression = "iif(BarsCtrl.N >= 7, min(max(BarsCtrl.B7.Y*4, 0), 1), 0)" },
-						Background = Input {
-							Source = "Output",
-							SourceOp = "PutName7"
-						}
-					}
+						Blend = Input { Expression = "iif(BarsCtrl.N >= 7, min(max(BarsCtrl.B7.Y*4, 0), 1), 0)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 825, 49.5 } }
 				},
 				RowName8 = TextPlus {
-					Version = 1,
-					ViewInfo = OperatorInfo { Pos = { 935, -49.5 } },
 					Inputs = {
-						UseFrameFormatSettings = Input { Value = 1 },
-						HorizontalJustificationNew = Input { Value = 3 },
-						Size = Input { Expression = "BarsCtrl.BcTextSize" },
+						Red1 = Input { Expression = "RowName1.Red1" },
+						Green1 = Input { Expression = "RowName1.Green1" },
+						Blue1 = Input { Expression = "RowName1.Blue1" },
+						HorizontalLeftCenterRight = Input { Value = 1 },
+						StyledText = Input { Expression = "Text((function(c) return c[8] and c[8][1] or \"\" end)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort)))" },
+						Center = Input { Expression = "Point(BarsCtrl.X0 - BarsCtrl.BcGap, BarsCtrl.BcPos.Y + BarsCtrl.BcH/2 - 7.5*BarsCtrl.RowH)" },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
 						Wrap = Input { Value = 1 },
 						LayoutRotation = Input { Value = 1 },
 						TransformRotation = Input { Value = 1 },
 						Softness1 = Input { Value = 1 },
-						VerticalJustificationNew = Input { Value = 3 },
-						Red1 = Input { Expression = "RowName1.Red1" },
-						Green1 = Input { Expression = "RowName1.Green1" },
 						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
+						Size = Input { Expression = "BarsCtrl.BcTextSize" },
+						UseFrameFormatSettings = Input { Value = 1 },
 						Font = Input {
-							Value = "Open Sans",
-							Expression = "RowName1.Font"
+							Expression = "RowName1.Font",
+							Value = "Open Sans"
 						},
-						HorizontalLeftCenterRight = Input { Value = 1 },
-						StyledText = Input { Expression = "Text((function(c) return c[8] and c[8][1] or \"\" end)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort)))" },
+						HorizontalJustificationNew = Input { Value = 3 },
 						Style = Input {
-							Value = "Bold",
-							Expression = "RowName1.Style"
+							Expression = "RowName1.Style",
+							Value = "Bold"
 						},
-						Center = Input { Expression = "Point(BarsCtrl.X0 - BarsCtrl.BcGap, BarsCtrl.BcPos.Y + BarsCtrl.BcH/2 - 7.5*BarsCtrl.RowH)" },
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						GlobalOut = Input { Value = 3534 },
-						Blue1 = Input { Expression = "RowName1.Blue1" },
-						GlobalIn = Input { Value = -480 },
-						Height = Input { Value = 1080 }
-					}
+						VerticalJustificationNew = Input { Value = 3 }
+					},
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { 935, -49.5 } }
 				},
 				PutName8 = Merge {
-					ViewInfo = OperatorInfo { Pos = { 935, -16.5 } },
 					Inputs = {
 						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "PutNumber7"
+						},
 						Foreground = Input {
 							Source = "Output",
 							SourceOp = "RowName8"
 						},
-						Blend = Input { Expression = "iif(BarsCtrl.N >= 8, min(max(BarsCtrl.B8.Y*4, 0), 1), 0)" },
-						Background = Input {
-							Source = "Output",
-							SourceOp = "PutNumber7"
-						}
-					}
+						Blend = Input { Expression = "iif(BarsCtrl.N >= 8, min(max(BarsCtrl.B8.Y*4, 0), 1), 0)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 935, -16.5 } }
 				},
 				RowValue8 = TextPlus {
-					Version = 1,
-					ViewInfo = OperatorInfo { Pos = { 935, 82.5 } },
 					Inputs = {
-						UseFrameFormatSettings = Input { Value = 1 },
-						HorizontalJustificationNew = Input { Value = 3 },
-						Size = Input { Expression = "BarsCtrl.BcTextSize" },
+						Red1 = Input { Expression = "RowValue1.Red1" },
+						Green1 = Input { Expression = "RowValue1.Green1" },
+						Blue1 = Input { Expression = "RowValue1.Blue1" },
+						HorizontalLeftCenterRight = Input { Value = -1 },
+						StyledText = Input { Expression = "Text((function(c) if not c[8] then return \"\" end return BarsCtrl.BcPrefix.Value .. (function(v, d)\n  local s = string.format(\"%.\" .. d .. \"f\", v)\n  local whole, rest = s:match(\"^(-?%d+)(.*)$\")\n  whole = whole:reverse():gsub(\"(%d%d%d)\", \"%1,\"):reverse():gsub(\"^(-?),\", \"%1\")\n  return whole .. rest\nend)(c[8][2]*min(BarsCtrl.B8.Y, 1), BarsCtrl.BcDecimals) .. BarsCtrl.BcSuffix.Value end)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort)))" },
+						Center = Input { Expression = "Point(BarsCtrl.X0 + BarsCtrl.B8.X*BarsCtrl.Len + BarsCtrl.BcGap, BarsCtrl.BcPos.Y + BarsCtrl.BcH/2 - 7.5*BarsCtrl.RowH)" },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
 						Wrap = Input { Value = 1 },
 						LayoutRotation = Input { Value = 1 },
 						TransformRotation = Input { Value = 1 },
 						Softness1 = Input { Value = 1 },
-						VerticalJustificationNew = Input { Value = 3 },
-						Red1 = Input { Expression = "RowValue1.Red1" },
-						Green1 = Input { Expression = "RowValue1.Green1" },
 						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
+						Size = Input { Expression = "BarsCtrl.BcTextSize" },
+						UseFrameFormatSettings = Input { Value = 1 },
 						Font = Input {
-							Value = "Open Sans",
-							Expression = "RowValue1.Font"
+							Expression = "RowValue1.Font",
+							Value = "Open Sans"
 						},
-						HorizontalLeftCenterRight = Input { Value = -1 },
-						StyledText = Input { Expression = "Text((function(c) if not c[8] then return \"\" end return BarsCtrl.BcPrefix.Value .. (function(v, d)\n  local s = string.format(\"%.\" .. d .. \"f\", v)\n  local whole, rest = s:match(\"^(-?%d+)(.*)$\")\n  whole = whole:reverse():gsub(\"(%d%d%d)\", \"%1,\"):reverse():gsub(\"^(-?),\", \"%1\")\n  return whole .. rest\nend)(c[8][2]*min(BarsCtrl.B8.Y, 1), BarsCtrl.BcDecimals) .. BarsCtrl.BcSuffix.Value end)((function(txt, sort)\n  local out = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local name, v = line:match(\"^%s*(.-)%s*(-?[%d%.]+)%s*$\")\n    if v and tonumber(v) and #out < 8 then out[#out + 1] = {name, math.max(tonumber(v), 0)} end\n  end\n  if sort == 1 then table.sort(out, function(a, b) return a[2] > b[2] end) end\n  return out\nend)(BarsCtrl.BcList.Value, BarsCtrl.BcSort)))" },
+						HorizontalJustificationNew = Input { Value = 3 },
 						Style = Input {
-							Value = "Bold",
-							Expression = "RowValue1.Style"
+							Expression = "RowValue1.Style",
+							Value = "Bold"
 						},
-						Center = Input { Expression = "Point(BarsCtrl.X0 + BarsCtrl.B8.X*BarsCtrl.Len + BarsCtrl.BcGap, BarsCtrl.BcPos.Y + BarsCtrl.BcH/2 - 7.5*BarsCtrl.RowH)" },
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						GlobalOut = Input { Value = 3534 },
-						Blue1 = Input { Expression = "RowValue1.Blue1" },
-						GlobalIn = Input { Value = -480 },
-						Height = Input { Value = 1080 }
-					}
+						VerticalJustificationNew = Input { Value = 3 }
+					},
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { 935, 82.5 } }
 				},
 				PutNumber8 = Merge {
-					ViewInfo = OperatorInfo { Pos = { 935, 49.5 } },
 					Inputs = {
 						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "PutName8"
+						},
 						Foreground = Input {
 							Source = "Output",
 							SourceOp = "RowValue8"
 						},
-						Blend = Input { Expression = "iif(BarsCtrl.N >= 8, min(max(BarsCtrl.B8.Y*4, 0), 1), 0)" },
-						Background = Input {
-							Source = "Output",
-							SourceOp = "PutName8"
-						}
-					}
+						Blend = Input { Expression = "iif(BarsCtrl.N >= 8, min(max(BarsCtrl.B8.Y*4, 0), 1), 0)" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 935, 49.5 } }
 				}
 			
 			}

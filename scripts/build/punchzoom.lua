@@ -14,6 +14,7 @@ local add, expr = L.adder(comp), L.expr
 local ctrl = add("Background", "PunchCtrl", -5, -3)
 ctrl.UserControls = {
   PzList    = L.text("Hits (0:00 or 0:00 strength)", "0:00.5\n0:01.5\n0:02.5\n0:03.5 1.5", nil, 8),
+  PzKey     = L.num("Hits So Far (keyframe 1, 2, 3)", 0, 0, 20),
   PzBpm     = L.num("Tempo (BPM, 0 = off)", 0, 0, 200),
   PzEvery   = L.num("Every N Beats", 1, 1, 8, nil, true),
   PzBeatOff = L.num("First Beat At (seconds)", 0, 0, 5),
@@ -39,7 +40,7 @@ ctrl:SetInput("PzCenter", {0.5, 0.5})
 -- Hit.X: the kick, a short pulse at every hit (drives split, blur, shake, twist, flash).
 -- Hit.Y: the zoom, the same pulse, or with Stay Zoomed a level that flips at every hit.
 -- A line is "<when> [strength]". <when> is 1:25 / 0:07.5 / 42 (seconds from the start of the clip), 120f or 25%.
-expr(ctrl, "Hit", [[(function(txt, fps, len, ts, bpm, every, off, atk, rel, hold)
+expr(ctrl, "Hit", [[(function(txt, fps, len, ts, bpm, every, off, atk, rel, hold, cur, now, t0)
   local hits = {}
   for line in (txt .. "\n"):gmatch("(.-)\r?\n") do
     local stamp, s = line:match("^%s*(%S+)%s*([%d%.]*)")
@@ -62,6 +63,13 @@ expr(ctrl, "Hit", [[(function(txt, fps, len, ts, bpm, every, off, atk, rel, hold
     for k = math.max(beats - 3, 0), beats - 1 do hits[#hits + 1] = {off + k * iv, 1} end
     beats = math.max(beats - 3, 0)
   end
+  -- the keyframed number: a hit each time it reaches a new whole number. The ones that are too long ago to
+  -- matter are only counted (Stay Zoomed flips on every hit)
+  ]] .. L.keyed("PunchCtrl", "PzKey") .. [[
+
+  local at, top = keyed(cur, now, t0, math.ceil((atk + rel)*fps) + 1)
+  for _, f in ipairs(at) do hits[#hits + 1] = {f/fps, 1} end
+  beats = beats + top - #at
   local kick, passed, last, strength = 0, beats, -1, 1
   for i = 1, #hits do
     local dt, s = ts - hits[i][1], hits[i][2]
@@ -82,7 +90,7 @@ expr(ctrl, "Hit", [[(function(txt, fps, len, ts, bpm, every, off, atk, rel, hold
 end)(PzList.Value, iif(FpsOverride > 0, FpsOverride, comp:GetPrefs("Comp.FrameFormat.Rate") or 24),
   max(comp.RenderEnd - comp.RenderStart, 1),
   (time - comp.RenderStart) / iif(FpsOverride > 0, FpsOverride, comp:GetPrefs("Comp.FrameFormat.Rate") or 24),
-  PzBpm, PzEvery, PzBeatOff, PzAttack, PzRelease, PzHold)]])
+  PzBpm, PzEvery, PzBeatOff, PzAttack, PzRelease, PzHold, PzKey, time, comp.RenderStart)]])
 -- a different random nudge on every frame, as strong as the kick
 expr(ctrl, "Shift", [[(function(t, a)
   local function r(s) local v = math.sin(t*12.9898 + s)*43758.5453 return (v - math.floor(v))*2 - 1 end
@@ -133,6 +141,7 @@ if os.getenv("FX_EXPORT") == "1" then
     {"MAIN", "Src", "Input"},
     {"OUT", "PunchBlur", "Output"},
     {"CTL", "PunchCtrl", "PzList", "Hits (0:00 or 0:00 strength)"},
+    {"CTL", "PunchCtrl", "PzKey", "Hits So Far (keyframe 1, 2, 3)"},
     {"CTL", "PunchCtrl", "PzBpm", "Tempo (BPM, 0 = off)"},
     {"CTL", "PunchCtrl", "PzEvery", "Every N Beats"},
     {"CTL", "PunchCtrl", "PzBeatOff", "First Beat At (seconds)"},
@@ -153,6 +162,7 @@ else
   for name, value in string.gmatch(os.getenv("FX_SET") or "", "(%w+)=([%d%.%-]+)") do ctrl:SetInput(name, tonumber(value)) end
   local t = os.getenv("FX_TEXT")
   if t then ctrl:SetInput("PzList", (string.gsub(t, "|", "\n"))) end
+  L.keys(ctrl, "PzKey", os.getenv("FX_CUE"))
   local a = comp:GetAttrs()
   local v = {}
   for f = a.COMPN_RenderStart, a.COMPN_RenderEnd, 4 do

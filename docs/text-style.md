@@ -2,15 +2,16 @@
 
 [回到總覽](../README.md)
 
-以文字為主的五個標題，「字長什麼樣子」這一段的參數是同一組：名稱、順序、單位都一樣。在其中一個學會怎麼調，其他的都一樣調；填同樣的數字，得到同樣的外觀。
+以文字為主的六個標題，「字長什麼樣子」這一段的參數是同一組：名稱、順序、單位都一樣。在其中一個學會怎麼調，其他的都一樣調；填同樣的數字，得到同樣的外觀。
 
 | 範本 | 有這一組 | 有底框 |
 |---|---|---|
-| [Caption](templates/caption.md) | ✓ | ✓ |
+| [Word By Word](templates/word-by-word.md) | ✓ | ✓ |
 | [Kinetic Lines](templates/kinetic-lines.md) | ✓ | ✓ |
 | [Variety Caption](templates/variety-caption.md) | ✓ | |
 | [Side Note](templates/side-note.md) | ✓ | |
 | [Text Label](templates/text-label.md) | ✓ | 它有自己的外框 |
+| [Number Counter](templates/number-counter.md) | ✓ | |
 
 ## 參數
 
@@ -27,7 +28,7 @@
 | `Shadow` | 陰影的濃度，0 是沒有 |
 | `Shadow Distance` | 陰影往右下偏多遠，畫面寬度的幾分之幾 |
 | `Shadow Softness` | 陰影的模糊程度，0 是銳利的 |
-| `Box Opacity`、`Box Colour` | 底框的不透明度和顏色，0 是沒有底框（只有 Caption 和 Kinetic Lines 有） |
+| `Box Opacity`、`Box Colour` | 底框的不透明度和顏色，0 是沒有底框（只有 Word By Word 和 Kinetic Lines 有） |
 | `Box Padding` | 底框在字四周的留白，畫面寬度的幾分之幾 |
 | `Box Roundness` | 底框的圓角，0 是直角、1 是最圓 |
 

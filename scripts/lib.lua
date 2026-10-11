@@ -555,11 +555,34 @@ function L.glitch(comp, name, x, y, a, b, e)
   return g
 end
 
+-- Lua source of a function keyed(cur, now, t0, span): the frames (counted from the start of the clip) at which a
+-- keyframed number on controller `cn` reached a new whole number, looking back `span` frames from now, and how
+-- many whole numbers it has reached since the clip started. A hit is a frame whose value, rounded down, is higher than the frame
+-- before: between two keyframes 1 and 2 that is the frame of the second keyframe and no other.
+-- cur is the value on this frame, passed in; the tool is only asked about earlier frames.
+function L.keyed(cn, id)
+  return ([[local function keyed(cur, now, t0, span)
+    local out, a = {}, math.floor(cur + 0.0001)
+    local top = a
+    for k = 0, span do
+      local t = now - k
+      if t - 1 < t0 then break end
+      local b = math.floor(CN:GetValue("ID", t - 1) + 0.0001)
+      if a > b then out[#out + 1] = t - t0 end
+      a = b
+    end
+    -- counted from what the number was when the clip started, so it does not matter what number that is
+    local first = (now > t0) and math.floor(CN:GetValue("ID", t0) + 0.0001) or top
+    return out, math.max(top - first, 0)
+  end]]):gsub("CN", cn):gsub("ID", id)
+end
+
 -- Expression for a list of moments, one per line: "0:01.5" or "0:01.5 1.4" (seconds, m:ss, 120f or 25%, then an
 -- optional strength). Returns Point(level, number of the hit): level is the strength of the hit that is on right
 -- now, falling to 0 over `dur` seconds along `shape` (1 = straight line, higher = drops faster). ctrl needs FpsOverride.
-function L.hits(list, dur, shape)
-  return ([[(function(txt, fps, len, ts, dur, shape)
+-- key = {controller name, control id}: a keyframed number hits as well, each time it reaches a new whole number.
+function L.hits(list, dur, shape, key)
+  return ([[(function(txt, fps, len, ts, dur, shape, cur, now, t0)
   local level, n, k = 0, 0, 0
   for line in (txt .. "\n"):gmatch("(.-)\r?\n") do
     local stamp, s = line:match("^%s*(%S+)%s*([%d%.]*)")
@@ -582,11 +605,24 @@ function L.hits(list, dur, shape)
       end
     end
   end
+  KEYED
   return Point(level, n)
 end)(LIST.Value, iif(FpsOverride > 0, FpsOverride, comp:GetPrefs("Comp.FrameFormat.Rate") or 24),
   max(comp.RenderEnd - comp.RenderStart, 1),
-  (time - comp.RenderStart) / iif(FpsOverride > 0, FpsOverride, comp:GetPrefs("Comp.FrameFormat.Rate") or 24), DUR, SHAPE)]])
+  (time - comp.RenderStart) / iif(FpsOverride > 0, FpsOverride, comp:GetPrefs("Comp.FrameFormat.Rate") or 24), DUR, SHAPE,
+  KEYCUR, time, comp.RenderStart)]])
     :gsub("LIST", list):gsub("DUR", dur):gsub("SHAPE", shape or "1")
+    :gsub("KEYCUR", key and key[2] or "0")
+    :gsub("KEYED", function() return key and (L.keyed(key[1], key[2]) .. [[
+
+  local at, top = keyed(cur, now, t0, math.ceil(dur*fps))
+  for _, f in ipairs(at) do
+    local dt = (now - t0 - f)/fps
+    if dt >= 0 and dt < dur then
+      local v = (1 - dt/dur)^shape
+      if v > level then level, n = v, k + top end
+    end
+  end]]) or "" end)
 end
 
 -- Stand-in for a picture with a clear background: a tilted rounded block with a word on it. Names start with Prev.

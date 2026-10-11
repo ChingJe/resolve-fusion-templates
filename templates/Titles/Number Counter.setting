@@ -3,243 +3,444 @@
 		NumberCounter = MacroOperator {
 			CtrlWZoom = false,
 			Inputs = ordered() {
-				Input1 = InstanceInput { SourceOp = "CountCtrl", Source = "CntMode", Name = "Counts" },
-				Input2 = InstanceInput { SourceOp = "CountCtrl", Source = "CntStart", Name = "Start Value" },
-				Input3 = InstanceInput { SourceOp = "CountCtrl", Source = "CntEnd", Name = "End Value" },
-				Input4 = InstanceInput { SourceOp = "CountCtrl", Source = "CntDecimals", Name = "Decimals" },
-				Input5 = InstanceInput { SourceOp = "CountCtrl", Source = "CntSep", Name = "Thousands Separator" },
-				Input6 = InstanceInput { SourceOp = "CountCtrl", Source = "CntPrefix", Name = "Prefix" },
-				Input7 = InstanceInput { SourceOp = "CountCtrl", Source = "CntSuffix", Name = "Suffix" },
-				Input8 = InstanceInput { SourceOp = "CountCtrl", Source = "CntFinish", Name = "Count Finishes At" },
-				Input9 = InstanceInput { SourceOp = "CountCtrl", Source = "CntTimes", Name = "Step Times (0:02, one per line)" },
-				Input10 = InstanceInput { SourceOp = "CountCtrl", Source = "CntStep", Name = "Each Step Adds" },
-				Input11 = InstanceInput { SourceOp = "CountCtrl", Source = "CntPopTime", Name = "Step Pop (seconds)" },
-				Input12 = InstanceInput { SourceOp = "CountCtrl", Source = "CntPop", Name = "Pop" },
-				Input13 = InstanceInput { SourceOp = "CountCtrl", Source = "CntSize", Name = "Size" },
-				Input14 = InstanceInput { SourceOp = "Number", Source = "Font", Name = "Font", ControlGroup = 2 },
-				Input15 = InstanceInput { SourceOp = "Number", Source = "Style", ControlGroup = 2 },
-				Input16 = InstanceInput { SourceOp = "Number", Source = "Red1", Name = "Color", ControlGroup = 3 },
-				Input17 = InstanceInput { SourceOp = "Number", Source = "Green1", ControlGroup = 3 },
-				Input18 = InstanceInput { SourceOp = "Number", Source = "Blue1", ControlGroup = 3 },
-				Input19 = InstanceInput { SourceOp = "Number", Source = "Center", Name = "Position" },
-				Input20 = InstanceInput { SourceOp = "CountCtrl", Source = "FpsOverride", Name = "Frame Rate Override" },
+				Input1 = InstanceInput { SourceOp = "CountCtrl", Source = "CntNow", Name = "Number (keyframe this)" },
+				Input2 = InstanceInput { SourceOp = "CountCtrl", Source = "CntDecimals", Name = "Decimals" },
+				Input3 = InstanceInput { SourceOp = "CountCtrl", Source = "CntSep", Name = "Thousands Separator" },
+				Input4 = InstanceInput { SourceOp = "CountCtrl", Source = "CntPrefix", Name = "Prefix" },
+				Input5 = InstanceInput { SourceOp = "CountCtrl", Source = "CntSuffix", Name = "Suffix" },
+				Input6 = InstanceInput { SourceOp = "CountCtrl", Source = "CntPop", Name = "Pop" },
+				Input7 = InstanceInput { SourceOp = "CountCtrl", Source = "CntPopFr", Name = "Pop Frames" },
+				Input8 = InstanceInput { SourceOp = "CountCtrl", Source = "CntPos", Name = "Position" },
+				Input9 = InstanceInput { SourceOp = "LkFont", Source = "Font", Name = "Font", ControlGroup = 30 },
+				Input10 = InstanceInput { SourceOp = "LkFont", Source = "Style", ControlGroup = 30 },
+				Input11 = InstanceInput { SourceOp = "CountCtrl", Source = "LkSize", Name = "Size" },
+				Input12 = InstanceInput { SourceOp = "CountCtrl", Source = "LkTrack", Name = "Letter Spacing" },
+				Input13 = InstanceInput { SourceOp = "LkCol", Source = "TopLeftRed", Name = "Colour", ControlGroup = 31 },
+				Input14 = InstanceInput { SourceOp = "LkCol", Source = "TopLeftGreen", ControlGroup = 31 },
+				Input15 = InstanceInput { SourceOp = "LkCol", Source = "TopLeftBlue", ControlGroup = 31 },
+				Input16 = InstanceInput { SourceOp = "CountCtrl", Source = "LkEdge", Name = "Outline" },
+				Input17 = InstanceInput { SourceOp = "LkColEdge", Source = "TopLeftRed", Name = "Outline Colour", ControlGroup = 32 },
+				Input18 = InstanceInput { SourceOp = "LkColEdge", Source = "TopLeftGreen", ControlGroup = 32 },
+				Input19 = InstanceInput { SourceOp = "LkColEdge", Source = "TopLeftBlue", ControlGroup = 32 },
+				Input20 = InstanceInput { SourceOp = "CountCtrl", Source = "LkOuter", Name = "Outer Outline" },
+				Input21 = InstanceInput { SourceOp = "LkColOuter", Source = "TopLeftRed", Name = "Outer Outline Colour", ControlGroup = 33 },
+				Input22 = InstanceInput { SourceOp = "LkColOuter", Source = "TopLeftGreen", ControlGroup = 33 },
+				Input23 = InstanceInput { SourceOp = "LkColOuter", Source = "TopLeftBlue", ControlGroup = 33 },
+				Input24 = InstanceInput { SourceOp = "CountCtrl", Source = "LkShadow", Name = "Shadow" },
+				Input25 = InstanceInput { SourceOp = "CountCtrl", Source = "LkDist", Name = "Shadow Distance" },
+				Input26 = InstanceInput { SourceOp = "CountCtrl", Source = "LkSoft", Name = "Shadow Softness" },
 			},
 			Outputs = {
-				MainOutput1 = InstanceOutput { SourceOp = "Number", Source = "Output" }
+				MainOutput1 = InstanceOutput { SourceOp = "CntFinal", Source = "Output" }
 			},
 			ViewInfo = GroupInfo { Pos = { 0, 0 } },
 			Tools = ordered() {
 				CountCtrl = Background {
+					CtrlWZoom = false,
 					Inputs = {
+						GlobalOut = Input { Value = 3534 },
 						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						Bump = Input { Expression = "iif(CntMode == 1, CntPop * (1 - min(Tal.Y/max(CntPopTime, 0.01), 1))^2, CntPop * sin(3.14159265 * min(max((P - CntFinish)/0.06, 0), 1)))" },
-						Tal = Input { Expression = "(function(txt, fps, len, ts)\n  local n, last = 0, -1\n  for stamp in txt:gmatch(\"[^%s,]+\") do\n    local sec\n    local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n    if pct then sec = tonumber(pct) / 100 * len / fps\n    elseif fr then sec = tonumber(fr) / fps\n    elseif stamp:match(\"^[%d:%.]+$\") then\n      sec = 0\n      for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n    end\n    if sec and sec <= ts + 0.0001 then n = n + 1 if sec > last then last = sec end end\n  end\n  return Point(n, last < 0 and 999 or ts - last)\nend)(CntTimes.Value, iif(FpsOverride > 0, FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24),\n  max(comp.RenderEnd - comp.RenderStart, 1),\n  (time - comp.RenderStart) / iif(FpsOverride > 0, FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24))" },
+						UseFrameFormatSettings = Input { Value = 1 },
 						Width = Input { Value = 1920 },
 						Height = Input { Value = 1080 },
-						UseFrameFormatSettings = Input { Value = 1 },
-						P = Input { Expression = "min(max((time - comp.RenderStart) / max(comp.RenderEnd - comp.RenderStart, 1), 0), 1)" },
-						V = Input { Expression = "iif(CntMode == 1, CntStart + CntStep*Tal.X, CntStart + (CntEnd - CntStart) * (1 - (1 - min(P/CntFinish, 1))^3))" },
-						TopLeftAlpha = Input { Value = 0 },
+						Bump = Input { Expression = "(function(now, t0, d, pop, fr)\n  local function shown(t) return math.floor(CountCtrl:GetValue(\"CntNow\", t) * 10^d + 0.5) end\n  local cur, since = shown(now), fr\n  for k = 1, fr do\n    if now - k < t0 then break end\n    if shown(now - k) ~= cur then since = k - 1 break end\n  end\n  local t = since / fr\n  if t >= 1 then return 0 end\n  return pop * ((t < 0.2) and t/0.2 or ((1 - t)/0.8)^2)\nend)(time, comp.RenderStart, CntDecimals, CntPop, max(floor(CntPopFr), 2))" },
 						GlobalIn = Input { Value = -480 },
-						GlobalOut = Input { Value = 3534 }
+						TopLeftAlpha = Input { Value = 0 }
 					},
-					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } },
 					UserControls = {
-						CntMode = {
-							{
-								CCS_AddString = "Smoothly To The End Value"
-							},
-							{
-								CCS_AddString = "One Step At Each Listed Time"
-							},
-							INP_Integer = true,
+						CntNow = {
 							LINKID_DataType = "Number",
-							INPID_InputControl = "ComboControl",
-							LINKS_Name = "Counts",
-							INP_Default = 0,
-							ICS_ControlPage = "Controls"
-						},
-						Bump = {
-							INP_MaxScale = 1,
-							INP_Integer = false,
-							LINKID_DataType = "Number",
-							INPID_InputControl = "SliderControl",
-							ICS_ControlPage = "Driver",
-							LINKS_Name = "Bump",
-							INP_Default = 0,
-							INP_MinScale = 0
-						},
-						Tal = {
-							LINKID_DataType = "Point",
-							LINKS_Name = "Tal",
-							ICS_ControlPage = "Driver",
-							INPID_InputControl = "OffsetControl"
-						},
-						CntStart = {
-							INP_MaxScale = 1000,
-							INP_Integer = false,
-							LINKID_DataType = "Number",
-							INPID_InputControl = "SliderControl",
 							ICS_ControlPage = "Controls",
-							LINKS_Name = "Start Value",
-							INP_Default = 0,
-							INP_MinScale = 0
-						},
-						CntEnd = {
-							INP_MaxScale = 100000,
-							INP_Integer = false,
-							LINKID_DataType = "Number",
 							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Number (keyframe this)",
+							INP_Default = 100,
+							INP_MinScale = 0,
+							INP_MaxScale = 1000
+						},
+						LkSize = {
+							LINKID_DataType = "Number",
 							ICS_ControlPage = "Controls",
-							LINKS_Name = "End Value",
-							INP_Default = 12500,
-							INP_MinScale = 0
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Size",
+							INP_Default = 0.16,
+							INP_MinScale = 0.01,
+							INP_MaxScale = 0.4
 						},
 						CntDecimals = {
-							INP_MaxScale = 3,
-							INP_Integer = true,
 							LINKID_DataType = "Number",
-							INPID_InputControl = "SliderControl",
 							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = true,
 							LINKS_Name = "Decimals",
 							INP_Default = 0,
-							INP_MinScale = 0
+							INP_MinScale = 0,
+							INP_MaxScale = 3
 						},
-						P = {
-							INP_MaxScale = 1,
-							INP_Integer = false,
+						Bump = {
 							LINKID_DataType = "Number",
-							INPID_InputControl = "SliderControl",
 							ICS_ControlPage = "Driver",
-							LINKS_Name = "P",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Bump",
 							INP_Default = 0,
-							INP_MinScale = 0
+							INP_MinScale = 0,
+							INP_MaxScale = 1
 						},
 						CntSep = {
-							INP_Integer = true,
 							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
 							INPID_InputControl = "CheckboxControl",
 							LINKS_Name = "Thousands Separator",
 							INP_Default = 1,
-							ICS_ControlPage = "Controls"
+							INP_Integer = true
 						},
-						V = {
-							INP_MaxScale = 100000,
-							INP_Integer = false,
+						LkEdge = {
 							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
 							INPID_InputControl = "SliderControl",
-							ICS_ControlPage = "Driver",
-							LINKS_Name = "V",
-							INP_Default = 0,
-							INP_MinScale = 0
+							INP_Integer = false,
+							LINKS_Name = "Outline",
+							INP_Default = 0.006,
+							INP_MinScale = 0,
+							INP_MaxScale = 0.03
+						},
+						CntPos = {
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "Position",
+							INPID_PreviewControl = "CrosshairControl"
 						},
 						CntPrefix = {
-							TEC_Lines = 1,
 							LINKID_DataType = "Text",
+							ICS_ControlPage = "Controls",
 							INPID_InputControl = "TextEditControl",
 							LINKS_Name = "Prefix",
+							INPS_DefaultText = "",
+							TEC_Lines = 1
+						},
+						LkOuter = {
+							LINKID_DataType = "Number",
 							ICS_ControlPage = "Controls",
-							INPS_DefaultText = ""
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Outer Outline",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 0.03
+						},
+						CntPopFr = {
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Pop Frames",
+							INP_Default = 10,
+							INP_MinScale = 2,
+							INP_MaxScale = 40
 						},
 						CntSuffix = {
-							TEC_Lines = 1,
 							LINKID_DataType = "Text",
+							ICS_ControlPage = "Controls",
 							INPID_InputControl = "TextEditControl",
 							LINKS_Name = "Suffix",
-							ICS_ControlPage = "Controls",
-							INPS_DefaultText = ""
+							INPS_DefaultText = "",
+							TEC_Lines = 1
 						},
-						CntFinish = {
-							INP_MaxScale = 1,
-							INP_Integer = false,
+						LkTrack = {
 							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
 							INPID_InputControl = "SliderControl",
-							ICS_ControlPage = "Controls",
-							LINKS_Name = "Count Finishes At",
-							INP_Default = 0.7,
-							INP_MinScale = 0.05
-						},
-						CntTimes = {
-							TEC_Lines = 6,
-							LINKID_DataType = "Text",
-							INPID_InputControl = "TextEditControl",
-							LINKS_Name = "Step Times (0:02, one per line)",
-							ICS_ControlPage = "Controls",
-							INPS_DefaultText = "20%\n40%\n60%\n80%"
-						},
-						CntStep = {
-							INP_MaxScale = 10,
 							INP_Integer = false,
-							LINKID_DataType = "Number",
-							INPID_InputControl = "SliderControl",
-							ICS_ControlPage = "Controls",
-							LINKS_Name = "Each Step Adds",
+							LINKS_Name = "Letter Spacing",
 							INP_Default = 1,
-							INP_MinScale = -10
+							INP_MinScale = 0.5,
+							INP_MaxScale = 2
 						},
-						CntPopTime = {
-							INP_MaxScale = 1,
-							INP_Integer = false,
+						LkDist = {
 							LINKID_DataType = "Number",
-							INPID_InputControl = "SliderControl",
 							ICS_ControlPage = "Controls",
-							LINKS_Name = "Step Pop (seconds)",
-							INP_Default = 0.25,
-							INP_MinScale = 0.02
-						},
-						FpsOverride = {
-							INP_MaxScale = 120,
+							INPID_InputControl = "SliderControl",
 							INP_Integer = false,
-							LINKID_DataType = "Number",
-							INPID_InputControl = "SliderControl",
-							ICS_ControlPage = "Controls",
-							LINKS_Name = "Frame Rate Override",
-							INP_Default = 0,
-							INP_MinScale = 0
+							LINKS_Name = "Shadow Distance",
+							INP_Default = 0.006,
+							INP_MinScale = 0,
+							INP_MaxScale = 0.05
 						},
 						CntPop = {
-							INP_MaxScale = 0.5,
-							INP_Integer = false,
 							LINKID_DataType = "Number",
-							INPID_InputControl = "SliderControl",
 							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
 							LINKS_Name = "Pop",
-							INP_Default = 0.12,
-							INP_MinScale = 0
+							INP_Default = 0.15,
+							INP_MinScale = 0,
+							INP_MaxScale = 0.5
 						},
-						CntSize = {
-							INP_MaxScale = 0.5,
-							INP_Integer = false,
+						LkSoft = {
 							LINKID_DataType = "Number",
-							INPID_InputControl = "SliderControl",
 							ICS_ControlPage = "Controls",
-							LINKS_Name = "Size",
-							INP_Default = 0.18,
-							INP_MinScale = 0.02
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Shadow Softness",
+							INP_Default = 0.3,
+							INP_MinScale = 0,
+							INP_MaxScale = 1
+						},
+						LkShadow = {
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Shadow",
+							INP_Default = 0.5,
+							INP_MinScale = 0,
+							INP_MaxScale = 1
 						}
-					}
+					},
+					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } }
 				},
-				Number = TextPlus {
+				LkFont = TextPlus {
 					Inputs = {
+						GlobalOut = Input { Value = 3534 },
 						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						Style = Input { Value = "Bold" },
-						Font = Input { Value = "Open Sans" },
-						StyledText = Input { Expression = "Text(CountCtrl.CntPrefix.Value .. (function(v, d, sep)\n  local s = string.format(\"%.\" .. d .. \"f\", v)\n  local whole, rest = s:match(\"^(-?%d+)(.*)$\")\n  if sep == 1 then whole = whole:reverse():gsub(\"(%d%d%d)\", \"%1,\"):reverse():gsub(\"^(-?),\", \"%1\") end\n  return whole .. rest\nend)(CountCtrl.V, CountCtrl.CntDecimals, CountCtrl.CntSep) .. CountCtrl.CntSuffix.Value)" },
-						Size = Input { Expression = "CountCtrl.CntSize * (1 + CountCtrl.Bump)" },
 						Width = Input { Value = 1920 },
 						Height = Input { Value = 1080 },
+						Style = Input { Value = "Bold" },
+						Font = Input { Value = "Microsoft JhengHei" },
 						Wrap = Input { Value = 1 },
+						LayoutRotation = Input { Value = 1 },
 						UseFrameFormatSettings = Input { Value = 1 },
-						TransformRotation = Input { Value = 1 },
 						Softness1 = Input { Value = 1 },
 						VerticalJustificationNew = Input { Value = 3 },
 						HorizontalJustificationNew = Input { Value = 3 },
 						GlobalIn = Input { Value = -480 },
-						LayoutRotation = Input { Value = 1 },
-						GlobalOut = Input { Value = 3534 }
+						TransformRotation = Input { Value = 1 }
+					},
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -715, -148.5 } }
+				},
+				LkCol = Background {
+					Inputs = {
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftBlue = Input { Value = 1 },
+						Width = Input { Value = 16 },
+						Height = Input { Value = 16 },
+						TopLeftRed = Input { Value = 1 },
+						GlobalIn = Input { Value = -480 },
+						TopLeftGreen = Input { Value = 1 }
+					},
+					ViewInfo = OperatorInfo { Pos = { -605, -181.5 } }
+				},
+				LkColEdge = Background {
+					Inputs = {
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftBlue = Input { Value = 0.08 },
+						Width = Input { Value = 16 },
+						Height = Input { Value = 16 },
+						TopLeftRed = Input { Value = 0.05 },
+						GlobalIn = Input { Value = -480 },
+						TopLeftGreen = Input { Value = 0.05 }
+					},
+					ViewInfo = OperatorInfo { Pos = { -495, -181.5 } }
+				},
+				LkColOuter = Background {
+					Inputs = {
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						TopLeftBlue = Input { Value = 1 },
+						Width = Input { Value = 16 },
+						Height = Input { Value = 16 },
+						TopLeftRed = Input { Value = 1 },
+						GlobalIn = Input { Value = -480 },
+						TopLeftGreen = Input { Value = 1 }
+					},
+					ViewInfo = OperatorInfo { Pos = { -385, -181.5 } }
+				},
+				CntText = TextPlus {
+					Inputs = {
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Font = Input {
+							Expression = "LkFont.Font",
+							Value = "Microsoft JhengHei"
+						},
+						Wrap = Input { Value = 1 },
+						Style = Input {
+							Expression = "LkFont.Style",
+							Value = "Bold"
+						},
+						TransformRotation = Input { Value = 1 },
+						Softness1 = Input { Value = 1 },
+						VerticalJustificationNew = Input { Value = 3 },
+						HorizontalJustificationNew = Input { Value = 3 },
+						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
+						CharacterSpacing = Input { Expression = "CountCtrl.LkTrack" },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Center = Input { Expression = "CountCtrl.CntPos" },
+						StyledText = Input { Expression = "Text(CountCtrl.CntPrefix.Value .. (function(v, d, sep)\n  local s = string.format(\"%.\" .. d .. \"f\", v)\n  local whole, rest = s:match(\"^(-?%d+)(.*)$\")\n  if sep == 1 then whole = whole:reverse():gsub(\"(%d%d%d)\", \"%1,\"):reverse():gsub(\"^(-?),\", \"%1\") end\n  return whole .. rest\nend)(CountCtrl.CntNow, CountCtrl.CntDecimals, CountCtrl.CntSep) .. CountCtrl.CntSuffix.Value)" },
+						GlobalIn = Input { Value = -480 },
+						Size = Input { Expression = "CountCtrl.LkSize * (1 + CountCtrl.Bump)" },
+						LayoutRotation = Input { Value = 1 }
 					},
 					Version = 1,
 					ViewInfo = OperatorInfo { Pos = { -275, 16.5 } }
+				},
+				CntInkRoom = SetDomain {
+					Inputs = {
+						Mode = Input { Value = FuID { "Set" } },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "CntText"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { -55, 16.5 } }
+				},
+				CntInkGrowB = ErodeDilate {
+					Inputs = {
+						XAmount = Input { Expression = "(CountCtrl.LkEdge) + (CountCtrl.LkOuter)" },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "CntInkRoom"
+						},
+						Filter = Input { Value = 3 }
+					},
+					ViewInfo = OperatorInfo { Pos = { 55, 82.5 } }
+				},
+				CntInkGrowA = ErodeDilate {
+					Inputs = {
+						XAmount = Input { Expression = "CountCtrl.LkEdge" },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "CntInkRoom"
+						},
+						Filter = Input { Value = 3 }
+					},
+					ViewInfo = OperatorInfo { Pos = { 55, 49.5 } }
+				},
+				CntInk = Custom {
+					Inputs = {
+						Intermediate2 = Input { Value = "a3*n8" },
+						RedExpression = Input { Value = "n1*a1 + (1 - a1)*(n4*i1 + (1 - i1)*p1x*i2)" },
+						NumberIn1 = Input { Expression = "LkCol.TopLeftRed" },
+						GreenExpression = Input { Value = "n2*a1 + (1 - a1)*(n5*i1 + (1 - i1)*p1y*i2)" },
+						NumberIn2 = Input { Expression = "LkCol.TopLeftGreen" },
+						BlueExpression = Input { Value = "n3*a1 + (1 - a1)*(n6*i1 + (1 - i1)*p2x*i2)" },
+						NumberIn3 = Input { Expression = "LkCol.TopLeftBlue" },
+						AlphaExpression = Input { Value = "a1 + (1 - a1)*(i1 + (1 - i1)*i2)" },
+						NumberIn4 = Input { Expression = "LkColEdge.TopLeftRed" },
+						NumberIn5 = Input { Expression = "LkColEdge.TopLeftGreen" },
+						NumberIn6 = Input { Expression = "LkColEdge.TopLeftBlue" },
+						LUTIn1 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn1"
+						},
+						LUTIn2 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn2"
+						},
+						LUTIn3 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn3"
+						},
+						LUTIn4 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn4"
+						},
+						Image3 = Input {
+							Source = "Output",
+							SourceOp = "CntInkGrowB"
+						},
+						PointIn1 = Input { Expression = "Point(LkColOuter.TopLeftRed, LkColOuter.TopLeftGreen)" },
+						PointIn2 = Input { Expression = "Point(LkColOuter.TopLeftBlue, 0)" },
+						NumberIn7 = Input { Expression = "iif((CountCtrl.LkEdge) > 0, 1, 0)" },
+						Image2 = Input {
+							Source = "Output",
+							SourceOp = "CntInkGrowA"
+						},
+						Image1 = Input {
+							Source = "Output",
+							SourceOp = "CntInkRoom"
+						},
+						NumberIn8 = Input { Expression = "iif((CountCtrl.LkOuter) > 0, 1, 0)" },
+						Intermediate1 = Input { Value = "a2*n7" }
+					},
+					ViewInfo = OperatorInfo { Pos = { 165, 16.5 } }
+				},
+				CustomTool1LUTIn1 = LUTBezier {
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Blue = 0, Red = 0, Green = 0 }
+				},
+				CustomTool1LUTIn2 = LUTBezier {
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Blue = 0, Red = 0, Green = 0 }
+				},
+				CustomTool1LUTIn3 = LUTBezier {
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Blue = 0, Red = 0, Green = 0 }
+				},
+				CustomTool1LUTIn4 = LUTBezier {
+					NameSet = true,
+					CtrlWZoom = false,
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+						}
+					},
+					SplineColor = { Blue = 0, Red = 0, Green = 0 }
+				},
+				CntDrop = Shadow {
+					Inputs = {
+						ShadowOffset = Input { Expression = "Point(0.5 + CountCtrl.LkDist, 0.5 - CountCtrl.LkDist*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')))" },
+						Softness = Input { Expression = "CountCtrl.LkSoft" },
+						Alpha = Input { Expression = "CountCtrl.LkShadow" },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "CntInk"
+						}
+					},
+					ViewInfo = OperatorInfo { Pos = { 275, 16.5 } }
+				},
+				CntFinal = Merge {
+					Inputs = {
+						Background = Input {
+							Source = "Output",
+							SourceOp = "CountCtrl"
+						},
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "CntDrop"
+						},
+						PerformDepthMerge = Input { Value = 0 }
+					},
+					ViewInfo = OperatorInfo { Pos = { 495, 16.5 } }
 				}
 			
 			}

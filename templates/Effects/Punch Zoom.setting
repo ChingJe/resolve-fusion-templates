@@ -5,20 +5,21 @@
 			Inputs = ordered() {
 				MainInput1 = InstanceInput { SourceOp = "Src", Source = "Input" },
 				Input1 = InstanceInput { SourceOp = "PunchCtrl", Source = "PzList", Name = "Hits (0:00 or 0:00 strength)" },
-				Input2 = InstanceInput { SourceOp = "PunchCtrl", Source = "PzBpm", Name = "Tempo (BPM, 0 = off)" },
-				Input3 = InstanceInput { SourceOp = "PunchCtrl", Source = "PzEvery", Name = "Every N Beats" },
-				Input4 = InstanceInput { SourceOp = "PunchCtrl", Source = "PzBeatOff", Name = "First Beat At (seconds)" },
-				Input5 = InstanceInput { SourceOp = "PunchCtrl", Source = "FpsOverride", Name = "Frame Rate Override" },
-				Input6 = InstanceInput { SourceOp = "PunchCtrl", Source = "PzAmount", Name = "Zoom" },
-				Input7 = InstanceInput { SourceOp = "PunchCtrl", Source = "PzCenter", Name = "Zoom Center" },
-				Input8 = InstanceInput { SourceOp = "PunchCtrl", Source = "PzAttack", Name = "Punch In (seconds)" },
-				Input9 = InstanceInput { SourceOp = "PunchCtrl", Source = "PzRelease", Name = "Spring Back (seconds)" },
-				Input10 = InstanceInput { SourceOp = "PunchCtrl", Source = "PzHold", Name = "Stay Zoomed Until Next Hit" },
-				Input11 = InstanceInput { SourceOp = "PunchCtrl", Source = "PzSplit", Name = "RGB Split" },
-				Input12 = InstanceInput { SourceOp = "PunchCtrl", Source = "PzBlur", Name = "Zoom Blur" },
-				Input13 = InstanceInput { SourceOp = "PunchCtrl", Source = "PzShake", Name = "Shake" },
-				Input14 = InstanceInput { SourceOp = "PunchCtrl", Source = "PzTwist", Name = "Twist" },
-				Input15 = InstanceInput { SourceOp = "PunchCtrl", Source = "PzFlash", Name = "Flash" },
+				Input2 = InstanceInput { SourceOp = "PunchCtrl", Source = "PzKey", Name = "Hits So Far (keyframe 1, 2, 3)" },
+				Input3 = InstanceInput { SourceOp = "PunchCtrl", Source = "PzBpm", Name = "Tempo (BPM, 0 = off)" },
+				Input4 = InstanceInput { SourceOp = "PunchCtrl", Source = "PzEvery", Name = "Every N Beats" },
+				Input5 = InstanceInput { SourceOp = "PunchCtrl", Source = "PzBeatOff", Name = "First Beat At (seconds)" },
+				Input6 = InstanceInput { SourceOp = "PunchCtrl", Source = "FpsOverride", Name = "Frame Rate Override" },
+				Input7 = InstanceInput { SourceOp = "PunchCtrl", Source = "PzAmount", Name = "Zoom" },
+				Input8 = InstanceInput { SourceOp = "PunchCtrl", Source = "PzCenter", Name = "Zoom Center" },
+				Input9 = InstanceInput { SourceOp = "PunchCtrl", Source = "PzAttack", Name = "Punch In (seconds)" },
+				Input10 = InstanceInput { SourceOp = "PunchCtrl", Source = "PzRelease", Name = "Spring Back (seconds)" },
+				Input11 = InstanceInput { SourceOp = "PunchCtrl", Source = "PzHold", Name = "Stay Zoomed Until Next Hit" },
+				Input12 = InstanceInput { SourceOp = "PunchCtrl", Source = "PzSplit", Name = "RGB Split" },
+				Input13 = InstanceInput { SourceOp = "PunchCtrl", Source = "PzBlur", Name = "Zoom Blur" },
+				Input14 = InstanceInput { SourceOp = "PunchCtrl", Source = "PzShake", Name = "Shake" },
+				Input15 = InstanceInput { SourceOp = "PunchCtrl", Source = "PzTwist", Name = "Twist" },
+				Input16 = InstanceInput { SourceOp = "PunchCtrl", Source = "PzFlash", Name = "Flash" },
 			},
 			Outputs = {
 				MainOutput1 = InstanceOutput { SourceOp = "PunchBlur", Source = "Output" }
@@ -27,270 +28,280 @@
 			Tools = ordered() {
 				PunchCtrl = Background {
 					CtrlWZoom = false,
-					Inputs = {
-						Hit = Input { Expression = "(function(txt, fps, len, ts, bpm, every, off, atk, rel, hold)\n  local hits = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local stamp, s = line:match(\"^%s*(%S+)%s*([%d%.]*)\")\n    if stamp then\n      local sec\n      local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n      if pct then sec = tonumber(pct) / 100 * len / fps\n      elseif fr then sec = tonumber(fr) / fps\n      elseif stamp:match(\"^[%d:%.]+$\") then\n        sec = 0\n        for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n      end\n      if sec then hits[#hits + 1] = {sec, tonumber(s) or 1} end\n    end\n  end\n  local beats = 0\n  if bpm > 0 then\n    local iv = 60 / bpm * every\n    beats = math.floor((ts - off) / iv) + 1\n    for k = math.max(beats - 3, 0), beats - 1 do hits[#hits + 1] = {off + k * iv, 1} end\n    beats = math.max(beats - 3, 0)\n  end\n  local kick, passed, last, strength = 0, beats, -1, 1\n  for i = 1, #hits do\n    local dt, s = ts - hits[i][1], hits[i][2]\n    if dt >= 0 then\n      passed = passed + 1\n      if hits[i][1] > last then last, strength = hits[i][1], s end\n      local v = 0\n      if dt < atk then v = 1 - (1 - dt/atk)^2\n      elseif dt < atk + rel then v = (1 - (dt - atk)/rel)^3 end\n      kick = math.max(kick, v * s)\n    end\n  end\n  if hold == 0 then return Point(kick, kick) end\n  if passed == 0 then return Point(0, 0) end\n  local u = math.min((ts - last) / (atk * 2), 1)\n  u = u*u*(3 - 2*u)\n  return Point(kick, passed % 2 == 1 and u * strength or 1 - u)\nend)(PzList.Value, iif(FpsOverride > 0, FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24),\n  max(comp.RenderEnd - comp.RenderStart, 1),\n  (time - comp.RenderStart) / iif(FpsOverride > 0, FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24),\n  PzBpm, PzEvery, PzBeatOff, PzAttack, PzRelease, PzHold)" },
-						Width = Input { Value = 1920 },
-						GlobalIn = Input { Value = -480 },
-						Height = Input { Value = 1080 },
-						GlobalOut = Input { Value = 3534 },
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						UseFrameFormatSettings = Input { Value = 1 },
-						Shift = Input { Expression = "(function(t, a)\n  local function r(s) local v = math.sin(t*12.9898 + s)*43758.5453 return (v - math.floor(v))*2 - 1 end\n  return Point(a*r(1.3), a*r(7.7))\nend)(time, PzShake * Hit.X)" }
-					},
+					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } },
 					UserControls = {
-						PzAttack = {
-							INP_MaxScale = 0.5,
+						FpsOverride = {
+							INPID_InputControl = "SliderControl",
+							INP_Default = 0,
+							LINKS_Name = "Frame Rate Override",
+							INP_MaxScale = 120,
 							INP_Integer = false,
-							LINKS_Name = "Punch In (seconds)",
-							LINKID_DataType = "Number",
+							INP_MinScale = 0,
 							ICS_ControlPage = "Controls",
+							LINKID_DataType = "Number"
+						},
+						PzAmount = {
+							INPID_InputControl = "SliderControl",
+							INP_Default = 0.15,
+							LINKS_Name = "Zoom",
+							INP_MaxScale = 1,
+							INP_Integer = false,
+							INP_MinScale = 0,
+							ICS_ControlPage = "Controls",
+							LINKID_DataType = "Number"
+						},
+						PzAttack = {
 							INPID_InputControl = "SliderControl",
 							INP_Default = 0.05,
-							INP_MinScale = 0.01
+							LINKS_Name = "Punch In (seconds)",
+							INP_MaxScale = 0.5,
+							INP_Integer = false,
+							INP_MinScale = 0.01,
+							ICS_ControlPage = "Controls",
+							LINKID_DataType = "Number"
 						},
 						PzRelease = {
-							INP_MaxScale = 2,
-							INP_Integer = false,
-							LINKS_Name = "Spring Back (seconds)",
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
 							INPID_InputControl = "SliderControl",
 							INP_Default = 0.35,
-							INP_MinScale = 0.02
-						},
-						PzHold = {
-							INP_Integer = true,
-							ICS_ControlPage = "Controls",
-							LINKID_DataType = "Number",
-							INPID_InputControl = "CheckboxControl",
-							INP_Default = 0,
-							LINKS_Name = "Stay Zoomed Until Next Hit"
-						},
-						PzSplit = {
-							INP_MaxScale = 0.08,
-							INP_Integer = false,
-							LINKS_Name = "RGB Split",
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							INP_Default = 0.015,
-							INP_MinScale = 0
-						},
-						PzBlur = {
-							INP_MaxScale = 0.3,
-							INP_Integer = false,
-							LINKS_Name = "Zoom Blur",
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							INP_Default = 0.02,
-							INP_MinScale = 0
-						},
-						PzShake = {
-							INP_MaxScale = 0.05,
-							INP_Integer = false,
-							LINKS_Name = "Shake",
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							INP_Default = 0,
-							INP_MinScale = 0
-						},
-						PzTwist = {
-							INP_MaxScale = 15,
-							INP_Integer = false,
-							LINKS_Name = "Twist",
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							INP_Default = 0,
-							INP_MinScale = -15
-						},
-						PzFlash = {
+							LINKS_Name = "Spring Back (seconds)",
 							INP_MaxScale = 2,
 							INP_Integer = false,
-							LINKS_Name = "Flash",
-							LINKID_DataType = "Number",
+							INP_MinScale = 0.02,
 							ICS_ControlPage = "Controls",
+							LINKID_DataType = "Number"
+						},
+						PzHold = {
+							INPID_InputControl = "CheckboxControl",
+							INP_Default = 0,
+							LINKS_Name = "Stay Zoomed Until Next Hit",
+							INP_Integer = true,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls"
+						},
+						PzSplit = {
+							INPID_InputControl = "SliderControl",
+							INP_Default = 0.015,
+							LINKS_Name = "RGB Split",
+							INP_MaxScale = 0.08,
+							INP_Integer = false,
+							INP_MinScale = 0,
+							ICS_ControlPage = "Controls",
+							LINKID_DataType = "Number"
+						},
+						PzBlur = {
+							INPID_InputControl = "SliderControl",
+							INP_Default = 0.02,
+							LINKS_Name = "Zoom Blur",
+							INP_MaxScale = 0.3,
+							INP_Integer = false,
+							INP_MinScale = 0,
+							ICS_ControlPage = "Controls",
+							LINKID_DataType = "Number"
+						},
+						PzShake = {
 							INPID_InputControl = "SliderControl",
 							INP_Default = 0,
-							INP_MinScale = 0
-						},
-						PzCenter = {
-							INPID_PreviewControl = "CrosshairControl",
+							LINKS_Name = "Shake",
+							INP_MaxScale = 0.05,
+							INP_Integer = false,
+							INP_MinScale = 0,
 							ICS_ControlPage = "Controls",
-							INPID_InputControl = "OffsetControl",
-							LINKID_DataType = "Point",
-							LINKS_Name = "Zoom Center"
+							LINKID_DataType = "Number"
+						},
+						PzTwist = {
+							INPID_InputControl = "SliderControl",
+							INP_Default = 0,
+							LINKS_Name = "Twist",
+							INP_MaxScale = 15,
+							INP_Integer = false,
+							INP_MinScale = -15,
+							ICS_ControlPage = "Controls",
+							LINKID_DataType = "Number"
+						},
+						PzFlash = {
+							INPID_InputControl = "SliderControl",
+							INP_Default = 0,
+							LINKS_Name = "Flash",
+							INP_MaxScale = 2,
+							INP_Integer = false,
+							INP_MinScale = 0,
+							ICS_ControlPage = "Controls",
+							LINKID_DataType = "Number"
 						},
 						PzList = {
 							INPID_InputControl = "TextEditControl",
-							ICS_ControlPage = "Controls",
-							LINKID_DataType = "Text",
-							INPS_DefaultText = "0:00.5\n0:01.5\n0:02.5\n0:03.5 1.5",
 							TEC_Lines = 8,
-							LINKS_Name = "Hits (0:00 or 0:00 strength)"
+							LINKS_Name = "Hits (0:00 or 0:00 strength)",
+							INPS_DefaultText = "0:00.5\n0:01.5\n0:02.5\n0:03.5 1.5",
+							ICS_ControlPage = "Controls",
+							LINKID_DataType = "Text"
+						},
+						PzCenter = {
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "Zoom Center",
+							INPID_PreviewControl = "CrosshairControl",
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Controls"
+						},
+						PzKey = {
+							INPID_InputControl = "SliderControl",
+							INP_Default = 0,
+							LINKS_Name = "Hits So Far (keyframe 1, 2, 3)",
+							INP_MaxScale = 20,
+							INP_Integer = false,
+							INP_MinScale = 0,
+							ICS_ControlPage = "Controls",
+							LINKID_DataType = "Number"
 						},
 						PzBpm = {
+							INPID_InputControl = "SliderControl",
+							INP_Default = 0,
+							LINKS_Name = "Tempo (BPM, 0 = off)",
 							INP_MaxScale = 200,
 							INP_Integer = false,
-							LINKS_Name = "Tempo (BPM, 0 = off)",
-							LINKID_DataType = "Number",
+							INP_MinScale = 0,
 							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							INP_Default = 0,
-							INP_MinScale = 0
+							LINKID_DataType = "Number"
 						},
 						PzEvery = {
-							INP_MaxScale = 8,
-							INP_Integer = true,
-							LINKS_Name = "Every N Beats",
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
 							INPID_InputControl = "SliderControl",
 							INP_Default = 1,
-							INP_MinScale = 1
-						},
-						PzBeatOff = {
-							INP_MaxScale = 5,
-							INP_Integer = false,
-							LINKS_Name = "First Beat At (seconds)",
-							LINKID_DataType = "Number",
+							LINKS_Name = "Every N Beats",
+							INP_MaxScale = 8,
+							INP_Integer = true,
+							INP_MinScale = 1,
 							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							INP_Default = 0,
-							INP_MinScale = 0
-						},
-						PzAmount = {
-							INP_MaxScale = 1,
-							INP_Integer = false,
-							LINKS_Name = "Zoom",
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							INP_Default = 0.15,
-							INP_MinScale = 0
-						},
-						FpsOverride = {
-							INP_MaxScale = 120,
-							INP_Integer = false,
-							LINKS_Name = "Frame Rate Override",
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							INP_Default = 0,
-							INP_MinScale = 0
+							LINKID_DataType = "Number"
 						},
 						Hit = {
-							LINKID_DataType = "Point",
 							INPID_InputControl = "OffsetControl",
 							LINKS_Name = "Hit",
-							ICS_ControlPage = "Driver"
+							ICS_ControlPage = "Driver",
+							LINKID_DataType = "Point"
+						},
+						PzBeatOff = {
+							INPID_InputControl = "SliderControl",
+							INP_Default = 0,
+							LINKS_Name = "First Beat At (seconds)",
+							INP_MaxScale = 5,
+							INP_Integer = false,
+							INP_MinScale = 0,
+							ICS_ControlPage = "Controls",
+							LINKID_DataType = "Number"
 						},
 						Shift = {
-							LINKID_DataType = "Point",
 							INPID_InputControl = "OffsetControl",
 							LINKS_Name = "Shift",
-							ICS_ControlPage = "Driver"
+							ICS_ControlPage = "Driver",
+							LINKID_DataType = "Point"
 						}
 					},
-					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } }
+					Inputs = {
+						Hit = Input { Expression = "(function(txt, fps, len, ts, bpm, every, off, atk, rel, hold, cur, now, t0)\n  local hits = {}\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local stamp, s = line:match(\"^%s*(%S+)%s*([%d%.]*)\")\n    if stamp then\n      local sec\n      local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n      if pct then sec = tonumber(pct) / 100 * len / fps\n      elseif fr then sec = tonumber(fr) / fps\n      elseif stamp:match(\"^[%d:%.]+$\") then\n        sec = 0\n        for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n      end\n      if sec then hits[#hits + 1] = {sec, tonumber(s) or 1} end\n    end\n  end\n  local beats = 0\n  if bpm > 0 then\n    local iv = 60 / bpm * every\n    beats = math.floor((ts - off) / iv) + 1\n    for k = math.max(beats - 3, 0), beats - 1 do hits[#hits + 1] = {off + k * iv, 1} end\n    beats = math.max(beats - 3, 0)\n  end\n  -- the keyframed number: a hit each time it reaches a new whole number. The ones that are too long ago to\n  -- matter are only counted (Stay Zoomed flips on every hit)\n  local function keyed(cur, now, t0, span)\n    local out, a = {}, math.floor(cur + 0.0001)\n    local top = a\n    for k = 0, span do\n      local t = now - k\n      if t - 1 < t0 then break end\n      local b = math.floor(PunchCtrl:GetValue(\"PzKey\", t - 1) + 0.0001)\n      if a > b then out[#out + 1] = t - t0 end\n      a = b\n    end\n    -- counted from what the number was when the clip started, so it does not matter what number that is\n    local first = (now > t0) and math.floor(PunchCtrl:GetValue(\"PzKey\", t0) + 0.0001) or top\n    return out, math.max(top - first, 0)\n  end\n  local at, top = keyed(cur, now, t0, math.ceil((atk + rel)*fps) + 1)\n  for _, f in ipairs(at) do hits[#hits + 1] = {f/fps, 1} end\n  beats = beats + top - #at\n  local kick, passed, last, strength = 0, beats, -1, 1\n  for i = 1, #hits do\n    local dt, s = ts - hits[i][1], hits[i][2]\n    if dt >= 0 then\n      passed = passed + 1\n      if hits[i][1] > last then last, strength = hits[i][1], s end\n      local v = 0\n      if dt < atk then v = 1 - (1 - dt/atk)^2\n      elseif dt < atk + rel then v = (1 - (dt - atk)/rel)^3 end\n      kick = math.max(kick, v * s)\n    end\n  end\n  if hold == 0 then return Point(kick, kick) end\n  if passed == 0 then return Point(0, 0) end\n  local u = math.min((ts - last) / (atk * 2), 1)\n  u = u*u*(3 - 2*u)\n  return Point(kick, passed % 2 == 1 and u * strength or 1 - u)\nend)(PzList.Value, iif(FpsOverride > 0, FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24),\n  max(comp.RenderEnd - comp.RenderStart, 1),\n  (time - comp.RenderStart) / iif(FpsOverride > 0, FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24),\n  PzBpm, PzEvery, PzBeatOff, PzAttack, PzRelease, PzHold, PzKey, time, comp.RenderStart)" },
+						Height = Input { Value = 1080 },
+						Shift = Input { Expression = "(function(t, a)\n  local function r(s) local v = math.sin(t*12.9898 + s)*43758.5453 return (v - math.floor(v))*2 - 1 end\n  return Point(a*r(1.3), a*r(7.7))\nend)(time, PzShake * Hit.X)" },
+						UseFrameFormatSettings = Input { Value = 1 },
+						GlobalIn = Input { Value = -480 },
+						Width = Input { Value = 1920 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } }
+					}
 				},
 				Src = BrightnessContrast {
 					ViewInfo = OperatorInfo { Pos = { -495, 16.5 } }
 				},
 				PunchCam = Custom {
+					ViewInfo = OperatorInfo { Pos = { -165, 16.5 } },
 					Inputs = {
-						Intermediate2 = Input { Value = "(x - p1x)*(w/h)*sin(n3) + (y - p1y)*cos(n3)" },
-						Intermediate3 = Input { Value = "p1x + p2x" },
-						Intermediate4 = Input { Value = "p1y + p2y" },
-						RedExpression = Input { Value = "getr1b(i3 + i1/(n1*(1 + 2*n2)), i4 + i2/(n1*(1 + 2*n2)))*n4" },
 						GreenExpression = Input { Value = "getg1b(i3 + i1/(n1*(1 + 1*n2)), i4 + i2/(n1*(1 + 1*n2)))*n4" },
 						BlueExpression = Input { Value = "getb1b(i3 + i1/(n1*(1 + 0*n2)), i4 + i2/(n1*(1 + 0*n2)))*n4" },
+						LUTIn1 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn1"
+						},
 						LUTIn2 = Input {
-							SourceOp = "CustomTool1LUTIn2",
-							Source = "Value"
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn2"
 						},
 						LUTIn3 = Input {
-							SourceOp = "CustomTool1LUTIn3",
-							Source = "Value"
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn3"
 						},
 						LUTIn4 = Input {
-							SourceOp = "CustomTool1LUTIn4",
-							Source = "Value"
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn4"
 						},
-						NumberIn1 = Input { Expression = "1 + PunchCtrl.PzAmount*PunchCtrl.Hit.Y + 2*PunchCtrl.PzShake*PunchCtrl.Hit.X" },
-						NumberIn2 = Input { Expression = "PunchCtrl.PzSplit * PunchCtrl.Hit.X" },
-						NumberIn3 = Input { Expression = "PunchCtrl.PzTwist * PunchCtrl.Hit.X" },
 						NumberIn4 = Input { Expression = "1 + PunchCtrl.PzFlash * PunchCtrl.Hit.X" },
 						PointIn1 = Input { Expression = "PunchCtrl.PzCenter" },
 						PointIn2 = Input { Expression = "PunchCtrl.Shift" },
-						Image1 = Input {
-							SourceOp = "Src",
-							Source = "Output"
-						},
 						Intermediate1 = Input { Value = "(x - p1x)*cos(n3) - (y - p1y)*(h/w)*sin(n3)" },
-						LUTIn1 = Input {
-							SourceOp = "CustomTool1LUTIn1",
-							Source = "Value"
+						Intermediate2 = Input { Value = "(x - p1x)*(w/h)*sin(n3) + (y - p1y)*cos(n3)" },
+						Intermediate3 = Input { Value = "p1x + p2x" },
+						NumberIn1 = Input { Expression = "1 + PunchCtrl.PzAmount*PunchCtrl.Hit.Y + 2*PunchCtrl.PzShake*PunchCtrl.Hit.X" },
+						Intermediate4 = Input { Value = "p1y + p2y" },
+						NumberIn2 = Input { Expression = "PunchCtrl.PzSplit * PunchCtrl.Hit.X" },
+						NumberIn3 = Input { Expression = "PunchCtrl.PzTwist * PunchCtrl.Hit.X" },
+						RedExpression = Input { Value = "getr1b(i3 + i1/(n1*(1 + 2*n2)), i4 + i2/(n1*(1 + 2*n2)))*n4" },
+						Image1 = Input {
+							Source = "Output",
+							SourceOp = "Src"
 						}
-					},
-					ViewInfo = OperatorInfo { Pos = { -165, 16.5 } }
+					}
 				},
 				CustomTool1LUTIn1 = LUTBezier {
+					NameSet = true,
 					CtrlWZoom = false,
 					KeyColorSplines = {
 						[0] = {
-							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
-							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
 						}
 					},
-					NameSet = true,
-					SplineColor = { Blue = 0, Green = 0, Red = 0 }
+					SplineColor = { Red = 0, Blue = 0, Green = 0 }
 				},
 				CustomTool1LUTIn2 = LUTBezier {
+					NameSet = true,
 					CtrlWZoom = false,
 					KeyColorSplines = {
 						[0] = {
-							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
-							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
 						}
 					},
-					NameSet = true,
-					SplineColor = { Blue = 0, Green = 0, Red = 0 }
+					SplineColor = { Red = 0, Blue = 0, Green = 0 }
 				},
 				CustomTool1LUTIn3 = LUTBezier {
+					NameSet = true,
 					CtrlWZoom = false,
 					KeyColorSplines = {
 						[0] = {
-							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
-							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
 						}
 					},
-					NameSet = true,
-					SplineColor = { Blue = 0, Green = 0, Red = 0 }
+					SplineColor = { Red = 0, Blue = 0, Green = 0 }
 				},
 				CustomTool1LUTIn4 = LUTBezier {
+					NameSet = true,
 					CtrlWZoom = false,
 					KeyColorSplines = {
 						[0] = {
-							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
-							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
 						}
 					},
-					NameSet = true,
-					SplineColor = { Blue = 0, Green = 0, Red = 0 }
+					SplineColor = { Red = 0, Blue = 0, Green = 0 }
 				},
 				PunchBlur = DirectionalBlur {
+					ViewInfo = OperatorInfo { Pos = { 55, 16.5 } },
 					Inputs = {
-						Input = Input {
-							SourceOp = "PunchCam",
-							Source = "Output"
-						},
 						Center = Input { Expression = "PunchCtrl.PzCenter" },
-						Length = Input { Expression = "PunchCtrl.PzBlur * PunchCtrl.Hit.X" }
-					},
-					ViewInfo = OperatorInfo { Pos = { 55, 16.5 } }
+						Length = Input { Expression = "PunchCtrl.PzBlur * PunchCtrl.Hit.X" },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "PunchCam"
+						}
+					}
 				}
 			
 			}

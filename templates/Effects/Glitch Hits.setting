@@ -5,17 +5,18 @@
 			Inputs = ordered() {
 				MainInput1 = InstanceInput { SourceOp = "SrcA", Source = "Input" },
 				Input1 = InstanceInput { SourceOp = "GhCtrl", Source = "GhList", Name = "Hits (0:00 or 0:00 strength)" },
-				Input2 = InstanceInput { SourceOp = "GhCtrl", Source = "GhDur", Name = "Hit Length (seconds)" },
-				Input3 = InstanceInput { SourceOp = "GhCtrl", Source = "GhRandom", Name = "Random Bursts Per 10 Seconds" },
-				Input4 = InstanceInput { SourceOp = "GhCtrl", Source = "FpsOverride", Name = "Frame Rate Override" },
-				Input5 = InstanceInput { SourceOp = "GhCtrl", Source = "GhAmount", Name = "Strength" },
-				Input6 = InstanceInput { SourceOp = "GhCtrl", Source = "GhShift", Name = "Sideways Jump" },
-				Input7 = InstanceInput { SourceOp = "GhCtrl", Source = "GhSplit", Name = "RGB Split" },
-				Input8 = InstanceInput { SourceOp = "GhCtrl", Source = "GhBands", Name = "Bands" },
-				Input9 = InstanceInput { SourceOp = "GhCtrl", Source = "GhBlocks", Name = "Misplaced Blocks" },
-				Input10 = InstanceInput { SourceOp = "GhCtrl", Source = "GhLines", Name = "Scan Lines" },
-				Input11 = InstanceInput { SourceOp = "GhCtrl", Source = "GhHold", Name = "Frames Per Change" },
-				Input12 = InstanceInput { SourceOp = "GhCtrl", Source = "GhSeed", Name = "Pattern" },
+				Input2 = InstanceInput { SourceOp = "GhCtrl", Source = "GhKey", Name = "Hits So Far (keyframe 1, 2, 3)" },
+				Input3 = InstanceInput { SourceOp = "GhCtrl", Source = "GhDur", Name = "Hit Length (seconds)" },
+				Input4 = InstanceInput { SourceOp = "GhCtrl", Source = "GhRandom", Name = "Random Bursts Per 10 Seconds" },
+				Input5 = InstanceInput { SourceOp = "GhCtrl", Source = "FpsOverride", Name = "Frame Rate Override" },
+				Input6 = InstanceInput { SourceOp = "GhCtrl", Source = "GhAmount", Name = "Strength" },
+				Input7 = InstanceInput { SourceOp = "GhCtrl", Source = "GhShift", Name = "Sideways Jump" },
+				Input8 = InstanceInput { SourceOp = "GhCtrl", Source = "GhSplit", Name = "RGB Split" },
+				Input9 = InstanceInput { SourceOp = "GhCtrl", Source = "GhBands", Name = "Bands" },
+				Input10 = InstanceInput { SourceOp = "GhCtrl", Source = "GhBlocks", Name = "Misplaced Blocks" },
+				Input11 = InstanceInput { SourceOp = "GhCtrl", Source = "GhLines", Name = "Scan Lines" },
+				Input12 = InstanceInput { SourceOp = "GhCtrl", Source = "GhHold", Name = "Frames Per Change" },
+				Input13 = InstanceInput { SourceOp = "GhCtrl", Source = "GhSeed", Name = "Pattern" },
 			},
 			Outputs = {
 				MainOutput1 = InstanceOutput { SourceOp = "GhFinal", Source = "Output" }
@@ -23,261 +24,271 @@
 			ViewInfo = GroupInfo { Pos = { 0, 0 } },
 			Tools = ordered() {
 				GhCtrl = Background {
-					CtrlWZoom = false,
-					Inputs = {
-						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
-						TopLeftAlpha = Input { Value = 0 },
-						Width = Input { Value = 1920 },
-						Hit = Input { Expression = "(function(txt, fps, len, ts, dur, shape)\n  local level, n, k = 0, 0, 0\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local stamp, s = line:match(\"^%s*(%S+)%s*([%d%.]*)\")\n    if stamp then\n      local sec\n      local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n      if pct then sec = tonumber(pct) / 100 * len / fps\n      elseif fr then sec = tonumber(fr) / fps\n      elseif stamp:match(\"^[%d:%.]+$\") then\n        sec = 0\n        for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n      end\n      if sec then\n        k = k + 1\n        local dt = ts - sec\n        if dt >= 0 and dt < dur then\n          local v = (tonumber(s) or 1) * (1 - dt/dur)^shape\n          if v > level then level, n = v, k end\n        end\n      end\n    end\n  end\n  return Point(level, n)\nend)(GhList.Value, iif(FpsOverride > 0, FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24),\n  max(comp.RenderEnd - comp.RenderStart, 1),\n  (time - comp.RenderStart) / iif(FpsOverride > 0, FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), GhDur, 0.7)" },
-						UseFrameFormatSettings = Input { Value = 1 },
-						GlobalIn = Input { Value = -480 },
-						Rand = Input { Expression = "(function(ts, per10)\n  if per10 <= 0 then return 0 end\n  local slot = math.floor(ts*3)\n  local v = math.sin(slot*91.17 + GhSeed*7.3)*43758.5453\n  v = v - math.floor(v)\n  return v < per10/30 and (0.5 + v*30/per10*0.5) or 0\nend)((time - comp.RenderStart) / iif(FpsOverride > 0, FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), GhRandom)" },
-						Level = Input { Expression = "GhAmount * max(Hit.X, Rand)" },
-						Height = Input { Value = 1080 },
-						GlobalOut = Input { Value = 3534 }
-					},
-					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } },
 					UserControls = {
-						GhBlocks = {
-							LINKS_Name = "Misplaced Blocks",
-							INP_Default = 0.12,
-							INP_MinScale = 0,
-							INP_MaxScale = 1,
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							INP_Integer = false
-						},
-						GhBands = {
-							LINKS_Name = "Bands",
-							INP_Default = 14,
-							INP_MinScale = 2,
-							INP_MaxScale = 60,
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							INP_Integer = true
-						},
-						GhDur = {
-							LINKS_Name = "Hit Length (seconds)",
-							INP_Default = 0.3,
-							INP_MinScale = 0.03,
-							INP_MaxScale = 3,
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							INP_Integer = false
-						},
-						GhLines = {
-							LINKS_Name = "Scan Lines",
-							INP_Default = 0.3,
-							INP_MinScale = 0,
-							INP_MaxScale = 1,
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							INP_Integer = false
-						},
-						GhRandom = {
-							LINKS_Name = "Random Bursts Per 10 Seconds",
-							INP_Default = 0,
-							INP_MinScale = 0,
-							INP_MaxScale = 30,
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							INP_Integer = false
-						},
-						GhSplit = {
-							LINKS_Name = "RGB Split",
-							INP_Default = 0.02,
-							INP_MinScale = 0,
-							INP_MaxScale = 0.1,
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							INP_Integer = false
-						},
-						GhSeed = {
-							LINKS_Name = "Pattern",
-							INP_Default = 0,
-							INP_MinScale = 0,
-							INP_MaxScale = 50,
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							INP_Integer = false
-						},
-						GhAmount = {
-							LINKS_Name = "Strength",
-							INP_Default = 1,
-							INP_MinScale = 0,
-							INP_MaxScale = 2,
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							INP_Integer = false
-						},
-						Hit = {
-							LINKS_Name = "Hit",
-							ICS_ControlPage = "Driver",
-							INPID_InputControl = "OffsetControl",
-							LINKID_DataType = "Point"
-						},
-						GhHold = {
-							LINKS_Name = "Frames Per Change",
-							INP_Default = 2,
-							INP_MinScale = 1,
-							INP_MaxScale = 12,
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							INP_Integer = true
-						},
 						GhShift = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
 							LINKS_Name = "Sideways Jump",
 							INP_Default = 0.15,
 							INP_MinScale = 0,
 							INP_MaxScale = 1,
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							INP_Integer = false
+							INP_Integer = false,
+							ICS_ControlPage = "Controls"
 						},
 						Rand = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
 							LINKS_Name = "Rand",
 							INP_Default = 0,
 							INP_MinScale = 0,
 							INP_MaxScale = 2,
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Driver",
-							INPID_InputControl = "SliderControl",
-							INP_Integer = false
+							INP_Integer = false,
+							ICS_ControlPage = "Driver"
 						},
-						Level = {
-							LINKS_Name = "Level",
+						GhSplit = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "RGB Split",
+							INP_Default = 0.02,
+							INP_MinScale = 0,
+							INP_MaxScale = 0.1,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls"
+						},
+						GhList = {
+							INPID_InputControl = "TextEditControl",
+							LINKS_Name = "Hits (0:00 or 0:00 strength)",
+							LINKID_DataType = "Text",
+							INPS_DefaultText = "0:00.5\n0:01.5\n0:02.5 1.5\n0:03.5",
+							TEC_Lines = 8,
+							ICS_ControlPage = "Controls"
+						},
+						GhBands = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Bands",
+							INP_Default = 14,
+							INP_MinScale = 2,
+							INP_MaxScale = 60,
+							INP_Integer = true,
+							ICS_ControlPage = "Controls"
+						},
+						GhAmount = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Strength",
+							INP_Default = 1,
+							INP_MinScale = 0,
+							INP_MaxScale = 2,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls"
+						},
+						GhKey = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Hits So Far (keyframe 1, 2, 3)",
 							INP_Default = 0,
 							INP_MinScale = 0,
-							INP_MaxScale = 4,
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Driver",
+							INP_MaxScale = 20,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls"
+						},
+						GhBlocks = {
 							INPID_InputControl = "SliderControl",
-							INP_Integer = false
+							LINKID_DataType = "Number",
+							LINKS_Name = "Misplaced Blocks",
+							INP_Default = 0.12,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls"
+						},
+						GhDur = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Hit Length (seconds)",
+							INP_Default = 0.3,
+							INP_MinScale = 0.03,
+							INP_MaxScale = 3,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls"
 						},
 						FpsOverride = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
 							LINKS_Name = "Frame Rate Override",
 							INP_Default = 0,
 							INP_MinScale = 0,
 							INP_MaxScale = 120,
-							LINKID_DataType = "Number",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "SliderControl",
-							INP_Integer = false
+							INP_Integer = false,
+							ICS_ControlPage = "Controls"
 						},
-						GhList = {
-							LINKS_Name = "Hits (0:00 or 0:00 strength)",
-							INPS_DefaultText = "0:00.5\n0:01.5\n0:02.5 1.5\n0:03.5",
-							LINKID_DataType = "Text",
-							ICS_ControlPage = "Controls",
-							INPID_InputControl = "TextEditControl",
-							TEC_Lines = 8
+						GhHold = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Frames Per Change",
+							INP_Default = 2,
+							INP_MinScale = 1,
+							INP_MaxScale = 12,
+							INP_Integer = true,
+							ICS_ControlPage = "Controls"
+						},
+						GhLines = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Scan Lines",
+							INP_Default = 0.3,
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls"
+						},
+						GhSeed = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Pattern",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 50,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls"
+						},
+						GhRandom = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Random Bursts Per 10 Seconds",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 30,
+							INP_Integer = false,
+							ICS_ControlPage = "Controls"
+						},
+						Hit = {
+							INPID_InputControl = "OffsetControl",
+							LINKID_DataType = "Point",
+							LINKS_Name = "Hit",
+							ICS_ControlPage = "Driver"
+						},
+						Level = {
+							INPID_InputControl = "SliderControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Level",
+							INP_Default = 0,
+							INP_MinScale = 0,
+							INP_MaxScale = 4,
+							INP_Integer = false,
+							ICS_ControlPage = "Driver"
 						}
-					}
+					},
+					Inputs = {
+						Rand = Input { Expression = "(function(ts, per10)\n  if per10 <= 0 then return 0 end\n  local slot = math.floor(ts*3)\n  local v = math.sin(slot*91.17 + GhSeed*7.3)*43758.5453\n  v = v - math.floor(v)\n  return v < per10/30 and (0.5 + v*30/per10*0.5) or 0\nend)((time - comp.RenderStart) / iif(FpsOverride > 0, FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), GhRandom)" },
+						TopLeftAlpha = Input { Value = 0 },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Hit = Input { Expression = "(function(txt, fps, len, ts, dur, shape, cur, now, t0)\n  local level, n, k = 0, 0, 0\n  for line in (txt .. \"\\n\"):gmatch(\"(.-)\\r?\\n\") do\n    local stamp, s = line:match(\"^%s*(%S+)%s*([%d%.]*)\")\n    if stamp then\n      local sec\n      local pct, fr = stamp:match(\"^([%d%.]+)%%$\"), stamp:match(\"^(%d+)[fF]$\")\n      if pct then sec = tonumber(pct) / 100 * len / fps\n      elseif fr then sec = tonumber(fr) / fps\n      elseif stamp:match(\"^[%d:%.]+$\") then\n        sec = 0\n        for part in stamp:gmatch(\"[^:]+\") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end\n      end\n      if sec then\n        k = k + 1\n        local dt = ts - sec\n        if dt >= 0 and dt < dur then\n          local v = (tonumber(s) or 1) * (1 - dt/dur)^shape\n          if v > level then level, n = v, k end\n        end\n      end\n    end\n  end\n  local function keyed(cur, now, t0, span)\n    local out, a = {}, math.floor(cur + 0.0001)\n    local top = a\n    for k = 0, span do\n      local t = now - k\n      if t - 1 < t0 then break end\n      local b = math.floor(GhCtrl:GetValue(\"GhKey\", t - 1) + 0.0001)\n      if a > b then out[#out + 1] = t - t0 end\n      a = b\n    end\n    -- counted from what the number was when the clip started, so it does not matter what number that is\n    local first = (now > t0) and math.floor(GhCtrl:GetValue(\"GhKey\", t0) + 0.0001) or top\n    return out, math.max(top - first, 0)\n  end\n  local at, top = keyed(cur, now, t0, math.ceil(dur*fps))\n  for _, f in ipairs(at) do\n    local dt = (now - t0 - f)/fps\n    if dt >= 0 and dt < dur then\n      local v = (1 - dt/dur)^shape\n      if v > level then level, n = v, k + top end\n    end\n  end\n  return Point(level, n)\nend)(GhList.Value, iif(FpsOverride > 0, FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24),\n  max(comp.RenderEnd - comp.RenderStart, 1),\n  (time - comp.RenderStart) / iif(FpsOverride > 0, FpsOverride, comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24), GhDur, 0.7,\n  GhKey, time, comp.RenderStart)" },
+						Level = Input { Expression = "GhAmount * max(Hit.X, Rand)" },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 }
+					},
+					CtrlWZoom = false,
+					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } }
 				},
 				SrcA = BrightnessContrast {
 					ViewInfo = OperatorInfo { Pos = { -495, 16.5 } }
 				},
 				GhFinal = Custom {
+					ViewInfo = OperatorInfo { Pos = { 165, 49.5 } },
 					Inputs = {
-						GreenExpression = Input { Value = "if(n1 <= 0, if(n2 >= 0.5, g2, g1), if(i8 > 0, getg2b(frac(i6 + 0*n5*n1*(0.5 + i1) + 4), i7), getg1b(frac(i6 + 0*n5*n1*(0.5 + i1) + 4), i7))*(1 - n8*n1*if(frac(y*h/4) < 0.5, 1, 0))*(1 + i5*0.3))" },
+						Image1 = Input {
+							Source = "Output",
+							SourceOp = "SrcA"
+						},
+						LUTIn1 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn1"
+						},
+						LUTIn2 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn2"
+						},
+						PointIn1 = Input { Expression = "Point(GhCtrl.GhSeed, 0)" },
 						NumberIn1 = Input { Expression = "GhCtrl.Level" },
 						NumberIn2 = Input { Expression = "0" },
-						AlphaExpression = Input { Value = "if(n2 >= 0.5, a2, a1)" },
 						NumberIn3 = Input { Expression = "GhCtrl.GhBands" },
-						NumberIn4 = Input { Expression = "GhCtrl.GhShift" },
-						LUTIn1 = Input {
-							SourceOp = "CustomTool1LUTIn1",
-							Source = "Value"
-						},
-						NumberIn6 = Input { Expression = "floor(time/max(GhCtrl.GhHold, 1))" },
-						LUTIn2 = Input {
-							SourceOp = "CustomTool1LUTIn2",
-							Source = "Value"
-						},
-						LUTIn3 = Input {
-							SourceOp = "CustomTool1LUTIn3",
-							Source = "Value"
-						},
-						LUTIn4 = Input {
-							SourceOp = "CustomTool1LUTIn4",
-							Source = "Value"
-						},
-						Image1 = Input {
-							SourceOp = "SrcA",
-							Source = "Output"
-						},
-						Intermediate3 = Input { Value = "n1*n4*(if(frac(i1*7.31) < 0.25 + 0.5*n1, (i1 - 0.5)*2, 0) + if(frac(i2*5.17) < 0.3*n1, (i2 - 0.5)*0.6, 0))" },
-						Intermediate4 = Input { Value = "abs(frac(sin((floor(x*12)*1.37 + floor(y*n3*1.5)*5.11 + 3.3)*12.9898 + n6*78.233 + p1x*3.7)*43758.5453))" },
-						PointIn1 = Input { Expression = "Point(GhCtrl.GhSeed, 0)" },
-						Intermediate5 = Input { Value = "if(i4 < n7*n1, 1, 0)" },
-						Intermediate6 = Input { Value = "frac(x + i3 + i5*(frac(i4*91.3) - 0.5)*0.5 + 4)" },
-						Intermediate8 = Input { Value = "if(frac(i1*3.71 + i2*0.2) < n2, 1, 0)" },
 						NumberIn7 = Input { Expression = "GhCtrl.GhBlocks" },
-						Image2 = Input {
-							SourceOp = "SrcA",
-							Source = "Output"
-						},
+						NumberIn5 = Input { Expression = "GhCtrl.GhSplit" },
+						NumberIn6 = Input { Expression = "floor(time/max(GhCtrl.GhHold, 1))" },
 						NumberIn8 = Input { Expression = "GhCtrl.GhLines" },
 						Intermediate1 = Input { Value = "abs(frac(sin((floor(y*n3 + 10*abs(frac(sin((1)*12.9898 + n6*78.233 + p1x*3.7)*43758.5453))))*12.9898 + n6*78.233 + p1x*3.7)*43758.5453))" },
-						BlueExpression = Input { Value = "if(n1 <= 0, if(n2 >= 0.5, b2, b1), if(i8 > 0, getb2b(frac(i6 + (-1)*n5*n1*(0.5 + i1) + 4), i7), getb1b(frac(i6 + (-1)*n5*n1*(0.5 + i1) + 4), i7))*(1 - n8*n1*if(frac(y*h/4) < 0.5, 1, 0))*(1 + i5*0.3))" },
 						Intermediate2 = Input { Value = "abs(frac(sin((floor(y*n3*5.3) + 31.7)*12.9898 + n6*78.233 + p1x*3.7)*43758.5453))" },
+						Intermediate3 = Input { Value = "n1*n4*(if(frac(i1*7.31) < 0.25 + 0.5*n1, (i1 - 0.5)*2, 0) + if(frac(i2*5.17) < 0.3*n1, (i2 - 0.5)*0.6, 0))" },
+						Intermediate4 = Input { Value = "abs(frac(sin((floor(x*12)*1.37 + floor(y*n3*1.5)*5.11 + 3.3)*12.9898 + n6*78.233 + p1x*3.7)*43758.5453))" },
+						Image2 = Input {
+							Source = "Output",
+							SourceOp = "SrcA"
+						},
+						Intermediate5 = Input { Value = "if(i4 < n7*n1, 1, 0)" },
+						AlphaExpression = Input { Value = "if(n2 >= 0.5, a2, a1)" },
+						Intermediate6 = Input { Value = "frac(x + i3 + i5*(frac(i4*91.3) - 0.5)*0.5 + 4)" },
+						BlueExpression = Input { Value = "if(n1 <= 0, if(n2 >= 0.5, b2, b1), if(i8 > 0, getb2b(frac(i6 + (-1)*n5*n1*(0.5 + i1) + 4), i7), getb1b(frac(i6 + (-1)*n5*n1*(0.5 + i1) + 4), i7))*(1 - n8*n1*if(frac(y*h/4) < 0.5, 1, 0))*(1 + i5*0.3))" },
 						Intermediate7 = Input { Value = "if(i5 > 0, frac(y + (frac(i4*37.7) - 0.5)*0.3 + 4), y)" },
+						GreenExpression = Input { Value = "if(n1 <= 0, if(n2 >= 0.5, g2, g1), if(i8 > 0, getg2b(frac(i6 + 0*n5*n1*(0.5 + i1) + 4), i7), getg1b(frac(i6 + 0*n5*n1*(0.5 + i1) + 4), i7))*(1 - n8*n1*if(frac(y*h/4) < 0.5, 1, 0))*(1 + i5*0.3))" },
+						Intermediate8 = Input { Value = "if(frac(i1*3.71 + i2*0.2) < n2, 1, 0)" },
 						RedExpression = Input { Value = "if(n1 <= 0, if(n2 >= 0.5, r2, r1), if(i8 > 0, getr2b(frac(i6 + 1*n5*n1*(0.5 + i1) + 4), i7), getr1b(frac(i6 + 1*n5*n1*(0.5 + i1) + 4), i7))*(1 - n8*n1*if(frac(y*h/4) < 0.5, 1, 0))*(1 + i5*0.3))" },
-						NumberIn5 = Input { Expression = "GhCtrl.GhSplit" }
-					},
-					ViewInfo = OperatorInfo { Pos = { 165, 49.5 } }
+						LUTIn3 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn3"
+						},
+						NumberIn4 = Input { Expression = "GhCtrl.GhShift" },
+						LUTIn4 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn4"
+						}
+					}
 				},
 				CustomTool1LUTIn1 = LUTBezier {
-					SplineColor = { Green = 0, Red = 0, Blue = 0 },
+					SplineColor = { Blue = 0, Green = 0, Red = 0 },
 					NameSet = true,
 					CtrlWZoom = false,
 					KeyColorSplines = {
 						[0] = {
-							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
-							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
 						}
 					}
 				},
 				CustomTool1LUTIn2 = LUTBezier {
-					SplineColor = { Green = 0, Red = 0, Blue = 0 },
+					SplineColor = { Blue = 0, Green = 0, Red = 0 },
 					NameSet = true,
 					CtrlWZoom = false,
 					KeyColorSplines = {
 						[0] = {
-							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
-							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
 						}
 					}
 				},
 				CustomTool1LUTIn3 = LUTBezier {
-					SplineColor = { Green = 0, Red = 0, Blue = 0 },
+					SplineColor = { Blue = 0, Green = 0, Red = 0 },
 					NameSet = true,
 					CtrlWZoom = false,
 					KeyColorSplines = {
 						[0] = {
-							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
-							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
 						}
 					}
 				},
 				CustomTool1LUTIn4 = LUTBezier {
-					SplineColor = { Green = 0, Red = 0, Blue = 0 },
+					SplineColor = { Blue = 0, Green = 0, Red = 0 },
 					NameSet = true,
 					CtrlWZoom = false,
 					KeyColorSplines = {
 						[0] = {
-							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
-							{ 1, Flags = { Linear = true }, LH = { 0.666666666666667, 0.666666666666667 } }
+							[0] = { 0, Flags = { Linear = true }, RH = { 0.333333333333333, 0.333333333333333 } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
 						}
 					}
 				}

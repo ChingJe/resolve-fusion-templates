@@ -4,3 +4,5 @@ Titles\Typing.setting
 Titles\Karaoke Caption.setting
 # Hidden Word was dropped: too few uses, and a label laid over the word does the same (2026-10-11).
 Titles\Hidden Word.setting
+# Caption became Word By Word: one sentence per clip, typed or filled (2026-10-11).
+Titles\Caption.setting

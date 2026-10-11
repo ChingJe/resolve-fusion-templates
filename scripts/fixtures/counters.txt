@@ -1,10 +1,9 @@
+Number (keyframe this)=KEYS 0=0,60=9000,110=9000,150=12000,220=12500
 Position=0.27,0.5
-Size=0.14
-End Value=12500
+Size=0.12
 
-Counts=1
+Number (keyframe this)=KEYS 0=0,24=0,25=1,49=1,50=2,69=2,70=3,159=3,160=4,199=4,200=5
 Position=0.75,0.5
-Size=0.14
-Prefix=No. 
+Size=0.12
+Prefix=No.
 Pop=0.3
-Step Times (0:02, one per line)=15%|35%|55%|75%

@@ -68,7 +68,7 @@ t.Size:SetExpression("ComicCtrl.TextSize * ComicCtrl.Zoom")
 | `videowall.lua` | Video Wall，拉遠成影片牆、橫移、再推進下一段，螢幕有圓角邊框陰影 | 轉場 |
 | `photostack.lua` | Photo Stack，影片的幾個瞬間變成照片疊起來 | 特效 |
 | `chapterbar.lua` | Chapter Bar，有章節名稱的進度條 | 標題 |
-| `counter.lua` | Number Counter，數字跳動，或照時間點計次 | 標題 |
+| `counter.lua` | Number Counter，用關鍵幀控制的數字，停下來時彈一下 | 標題 |
 | `papertear.lua` | Paper Tear，前一段像紙一樣被撕掉 | 轉場 |
 | `kinetic.lua` | Kinetic Lines，文字照時間清單一行行彈出，或累積成條列 | 標題 |
 | `barchart.lua` | Bar Chart，長條依序長出來的橫向長條圖 | 標題 |
@@ -98,12 +98,12 @@ t.Size:SetExpression("ComicCtrl.TextSize * ComicCtrl.Zoom")
 | `letterbox.lua` | Letterbox，電影黑邊 | 標題 |
 | `splitscreen.lua` | Split Screen，分割畫面的其中一格 | 特效 |
 | `recframe.lua` | Rec Frame，攝影機觀景窗 | 標題 |
-| `caption.lua` | Caption，一次一句的字幕：整句出現、逐字打出來加游標、或逐字填色 | 標題 |
+| `wordbyword.lua` | Word By Word，一個片段一句，逐字打出來加游標，或逐字填色 | 標題 |
 | `commentcard.lua` | Comment Card，留言卡和通知 | 標題 |
 | `chatbubbles.lua` | Chat Bubbles，聊天對話 | 標題 |
 | `subscribe.lua` | Subscribe Reminder，按讚、訂閱、小鈴鐺 | 標題 |
 
-從 `whippan.lua` 開始的腳本用 `lib.lua` 的 `L.panel`（控制項寫成有順序的清單，自動產生匯出規格）、`L.feeds`（影像入口和轉場進度）、`L.ship`（匯出或測試算圖）。新範本照這個寫法，一支腳本可以短很多。**`Custom` 的運算式一律用 `L.cx` 設定**（太長會讓 Resolve 當機，它會擋下來），新腳本先用 `FX_DRY=1` 跑一次量長度。另有 `L.glitch`（故障畫面的 `Custom`）、`L.hits`（時間點清單轉成強度）、`L.mirror`（畫面外鏡像補滿）。
+從 `whippan.lua` 開始的腳本用 `lib.lua` 的 `L.panel`（控制項寫成有順序的清單，自動產生匯出規格）、`L.feeds`（影像入口和轉場進度）、`L.ship`（匯出或測試算圖）。新範本照這個寫法，一支腳本可以短很多。**`Custom` 的運算式一律用 `L.cx` 設定**（太長會讓 Resolve 當機，它會擋下來），新腳本先用 `FX_DRY=1` 跑一次量長度。另有 `L.glitch`（故障畫面的 `Custom`）、`L.hits`（時間點清單轉成強度，也能加上關鍵幀觸發）、`L.keyed`（關鍵幀數字每跨過一個整數算一下）、`L.mirror`（畫面外鏡像補滿）。
 
 一個範本從頭到尾的指令（在 `scripts/` 底下執行，`FU` 是 fuscript 的路徑）：
 
@@ -126,7 +126,7 @@ cmd.exe //c "..\\install.bat install nopause"          # 同步到 Resolve 的�
 
 `FX_SRC=scenes` 會讓測試畫面每 40 格（`FX_SCENE` 可改）換一個場景：底色、球的顏色大小和路徑、橫條的顏色和位置都不同，共六種。同時顯示好幾個時間點的範本（Comic Intro、Photo Stack、Video Wall、Time Slice）要用這個，不然每一格看起來都一樣。
 
-`previews/` 裡放的是 GIF（寬 480、每秒 12 格、整段 5 秒）。**一個範本有好幾種樣式或模式時，全部放在同一張 GIF 裡**，不要一種一張：用 `compose.lua` 把範本貼好幾份、各設一種樣式，設定寫在 `fixtures/` 的文字檔（沒有位置參數的範本用 `@At`、`@Scale` 擺位置；`FX_INPUTS=sticker` 給去背的測試圖，`FX_BACK=1` 在後面墊一張調暗的測試畫面）。改了範本的外觀就跑 `./previews.sh 範本名稱` 重算那一個。
+`previews/` 裡放的是 GIF（寬 480、每秒 12 格、整段 5 秒）。**一個範本有好幾種樣式或模式時，全部放在同一張 GIF 裡**，不要一種一張：用 `compose.lua` 把範本貼好幾份、各設一種樣式，設定寫在 `fixtures/` 的文字檔（沒有位置參數的範本用 `@At`、`@Scale` 擺位置；值寫成 `KEYS 0=0,40=3` 是打關鍵幀；`@Delay=格數` 讓那一份晚一點出現；`FX_INPUTS=sticker` 給去背的測試圖，`FX_BACK=1` 在後面墊一張調暗的測試畫面）。改了範本的外觀就跑 `./previews.sh 範本名稱` 重算那一個。
 
 
 
@@ -212,7 +212,7 @@ cmd.exe //c "..\\install.bat install nopause"          # 同步到 Resolve 的�
 
 ## 文字類標題共用的外觀
 
-以文字為主的標題（Caption、Kinetic Lines、Variety Caption、Side Note、Text Label）不要各自做字型、字級、描邊、陰影、底框的控制項，一律用 `lib.lua` 的 `L.look`。使用者看到的名稱、順序、單位在每個範本都一樣，說明集中在 `docs/text-style.md`。新的文字類標題照做，範例看 `build/caption.lua`。
+以文字為主的標題（Word By Word、Kinetic Lines、Variety Caption、Side Note、Text Label、Number Counter）不要各自做字型、字級、描邊、陰影、底框的控制項，一律用 `lib.lua` 的 `L.look`。使用者看到的名稱、順序、單位在每個範本都一樣，說明集中在 `docs/text-style.md`。新的文字類標題照做，範例看 `build/wordbyword.lua`。
 
 ```lua
 local K = L.look("XxCtrl", {size = 0.07, edge = 0.005, box = {0, {0.05, 0.06, 0.09}, 0.012, 0.3}})

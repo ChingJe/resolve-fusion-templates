@@ -1,6 +1,5 @@
 -- Click Ripple: rings spread out from a point, the way screen recordings show a mouse click or a tap.
--- With the list empty it clicks once when the title starts. With times in the list it clicks at each of them,
--- at wherever Position is at that moment, so one long title can mark every click of a recording.
+-- One clip is one click (or a double click), when the clip starts, at Position. For more clicks, more clips.
 -- A title, so it has no image input. FX_EXPORT=1 dumps the macro source.
 local L = dofile((debug.getinfo(1, "S").source:match("^@(.*[/\\])") or "") .. "../lib.lua")
 local comp = L.comp()
@@ -12,9 +11,8 @@ local add, expr = L.adder(comp), L.expr
 
 local ctrl, spec = L.panel(comp, "RipCtrl", {
   {"RipPos",    L.point("Position", nil, true), {0.5, 0.5}},
-  {"RipList",   L.text("Click Times (one per line, empty = once at the start)", "", nil, 4)},
-  {"RipClicks", L.num("Clicks Each Time", 1, 1, 3, nil, true)},
-  {"RipGap",    L.num("Seconds Between Those Clicks", 0.18, 0.05, 1)},
+  {"RipClicks", L.num("Clicks", 1, 1, 3, nil, true)},
+  {"RipGap",    L.num("Seconds Between Clicks", 0.18, 0.05, 1)},
   {"RipSize",   L.num("Size", 0.14, 0.02, 1)},
   {"RipLife",   L.num("Ripple Lasts (seconds)", 0.5, 0.1, 3)},
   {"RipRings",  L.num("Rings", 2, 0, 3, nil, true)},
@@ -23,50 +21,25 @@ local ctrl, spec = L.panel(comp, "RipCtrl", {
   {"RipDot",    L.num("Centre Dot", 0.025, 0, 0.2)},
   {"RipOpacity", L.num("Opacity", 1, 0, 1)},
   {"RipEdge",   L.num("Outline", 0, 0, 0.01)},
-  {"FpsOverride", L.num("Frame Rate Override", 0, 0, 120)},
   {"Hit",  L.point("Hit", "Driver")},
 })
-local FPS = "iif(FpsOverride > 0, FpsOverride, comp:GetPrefs('Comp.FrameFormat.Rate') or 24)"
+local FPS = "(comp:GetPrefs('Comp.FrameFormat.Rate') or 24)"
 -- Hit: seconds since the latest click and since the one before it (-1 = none), so two ripples can overlap
-expr(ctrl, "Hit", [[(function(txt, fps, len, ts, n, gap, life)
-  local a, b, any = -1, -1, false
-  local function hit(sec)
-    for k = 0, n - 1 do
-      local dt = ts - (sec + k*gap)
-      if dt >= 0 and dt < life then
-        if a < 0 or dt < a then a, b = dt, a elseif b < 0 or dt < b then b = dt end
-      end
+expr(ctrl, "Hit", [[(function(ts, n, gap, life)
+  local a, b = -1, -1
+  for k = 0, n - 1 do
+    local dt = ts - k*gap
+    if dt >= 0 and dt < life then
+      if a < 0 or dt < a then a, b = dt, a elseif b < 0 or dt < b then b = dt end
     end
   end
-  for line in (txt .. "\n"):gmatch("(.-)\r?\n") do
-    local stamp = line:match("^%s*(%S+)")
-    if stamp then
-      local sec
-      local pct, fr = stamp:match("^([%d%.]+)%%$"), stamp:match("^(%d+)[fF]$")
-      if pct then sec = tonumber(pct) / 100 * len / fps
-      elseif fr then sec = tonumber(fr) / fps
-      elseif stamp:match("^[%d:%.]+$") then
-        sec = 0
-        for part in stamp:gmatch("[^:]+") do sec = sec and tonumber(part) and sec * 60 + tonumber(part) end
-      end
-      if sec then any = true; hit(sec) end
-    end
-  end
-  if not any then hit(0) end
   return Point(a, b)
-end)(RipList.Value, ]] .. FPS .. [[, max(comp.RenderEnd - comp.RenderStart, 1), (time - comp.RenderStart)/]] .. FPS .. [[, RipClicks, RipGap, RipLife)]])
+end)((time - comp.RenderStart)/]] .. FPS .. [[, RipClicks, RipGap, RipLife)]])
 -- One node per ripple (an expression may not get long, see L.cx), so two ripples can be on screen at once.
--- Each ripple stays where Position was when it was clicked, even if Position has moved on since. That is asked
--- from the drawing node and not from RipCtrl itself, and never for the frame being worked on.
-local function at(since)
-  return "(function(s) if s <= 0 then return Point(RipCtrl.RipPos.X, RipCtrl.RipPos.Y) end "
-    .. "local v = RipCtrl:GetValue('RipPos', math.floor(time - s*iif(RipCtrl.FpsOverride > 0, RipCtrl.FpsOverride, comp:GetPrefs('Comp.FrameFormat.Rate') or 24) + 0.5)) "
-    .. "return Point(v.X or v[1], v.Y or v[2]) end)(RipCtrl.Hit." .. since .. ")"
-end
 local function ripple(name, since, row)
   local r = add("Custom", name, -2, row)
   r.Image1 = ctrl.Output
-  expr(r, "PointIn1", at(since))
+  expr(r, "PointIn1", "RipCtrl.RipPos")
   expr(r, "NumberIn1", "RipCtrl.RipSize/2")
   expr(r, "NumberIn2", "RipCtrl.RipThick")
   expr(r, "NumberIn3", "RipCtrl.RipRings")
@@ -111,16 +84,4 @@ for i, hd in ipairs({{"ColRip", "Colour"}, {"ColRipEdge", "Outline Colour"}}) do
   spec[#spec + 1] = {"CTL", hd[1], "TopLeftGreen", "", g}
   spec[#spec + 1] = {"CTL", hd[1], "TopLeftBlue", "", g}
 end
-L.ship(comp, {slug = "clickripple", name = "ClickRipple", out = out, ctrl = ctrl, spec = spec, prefix = "cr",
-  before = function()
-    -- test: FX_TEXTFILE holds the list, and Position wanders so each click lands somewhere else
-    local tf = os.getenv("FX_TEXTFILE")
-    if tf then
-      local f = io.open(tf, "r"); ctrl:SetInput("RipList", f:read("*a")); f:close()
-      -- real keyframes, so that asking for Position at an earlier frame is tested the way it will be used
-      ctrl:AddModifier("RipPos", "PolyPath")
-      local a = comp:GetAttrs()
-      ctrl.RipPos[a.COMPN_RenderStart] = {0.2, 0.3, 0}
-      ctrl.RipPos[a.COMPN_RenderEnd] = {0.8, 0.7, 0}
-    end
-  end})
+L.ship(comp, {slug = "clickripple", name = "ClickRipple", out = out, ctrl = ctrl, spec = spec, prefix = "cr"})

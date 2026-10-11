@@ -11,6 +11,7 @@ local add, expr = L.adder(comp), L.expr
 
 local ctrl, spec = L.panel(comp, "GhCtrl", {
   {"GhList",   L.text("Hits (0:00 or 0:00 strength)", "0:00.5\n0:01.5\n0:02.5 1.5\n0:03.5", nil, 8)},
+  {"GhKey",    L.num("Hits So Far (keyframe 1, 2, 3)", 0, 0, 20)},
   {"GhDur",    L.num("Hit Length (seconds)", 0.3, 0.03, 3)},
   {"GhRandom", L.num("Random Bursts Per 10 Seconds", 0, 0, 30)},
   {"FpsOverride", L.num("Frame Rate Override", 0, 0, 120)},
@@ -27,7 +28,7 @@ local ctrl, spec = L.panel(comp, "GhCtrl", {
   {"Level", L.num("Level", 0, 0, 4, "Driver")},
 })
 local srcs, ins = L.feeds(comp, ctrl, 1)
-expr(ctrl, "Hit", L.hits("GhList", "GhDur", "0.7"))
+expr(ctrl, "Hit", L.hits("GhList", "GhDur", "0.7", {"GhCtrl", "GhKey"}))
 -- Random bursts: time is cut into slots of a third of a second and a slot is on when its random number is low enough
 expr(ctrl, "Rand", [[(function(ts, per10)
   if per10 <= 0 then return 0 end
@@ -49,4 +50,5 @@ L.ship(comp, {slug = "glitchhits", name = "GlitchHits", out = g, ctrl = ctrl, sr
   before = function()
     local t = os.getenv("FX_TEXT")
     if t then ctrl:SetInput("GhList", (string.gsub(t, "|", "\n"))) end
+    L.keys(ctrl, "GhKey", os.getenv("FX_CUE"))
   end})

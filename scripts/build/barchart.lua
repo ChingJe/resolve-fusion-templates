@@ -31,6 +31,8 @@ local uc = {
   BcHigh   = L.check("Highlight Largest", 1),
   BcGrow   = L.num("Grow Time", 0.3, 0.02, 1),
   BcDone   = L.num("All Done At", 0.7, 0.05, 1),
+  BcHand   = L.check("Set The Timing By Hand", 0),
+  BcShown  = L.num("Bars Shown (keyframe this)", 0, 0, MAX),
   BcBounce = L.num("Bounce", 0.6, 0, 2),
   BcDecimals = L.num("Decimals", 0, 0, 3, nil, true),
   BcPrefix = L.text("Prefix", ""),
@@ -72,17 +74,19 @@ expr(ctrl, "X0", "BcPos.X - BcW/2 + BcLabelW")
 expr(ctrl, "Len", "max(BcW - BcLabelW - BcValueW, 0.01)")
 expr(ctrl, "RowH", "BcH / max(N, 1)")
 for k = 1, MAX do
-  -- bars start one after another so that the last one finishes at All Done At
-  expr(ctrl, "B" .. k, string.format([[(function(c, p, grow, done, bounce)
+  -- bars start one after another so that the last one finishes at All Done At; timed by hand, bar k grows while
+  -- the keyframed Bars Shown goes from k - 1 to k
+  expr(ctrl, "B" .. k, string.format([[(function(c, p, grow, done, bounce, hand, shown)
   if not c[%d] then return Point(0, 0) end
   local big = 0
   for i = 1, #c do big = math.max(big, c[i][2]) end
   local gap = math.max(done - grow, 0) / math.max(#c - 1, 1)
   local t = math.min(math.max((p - %d*gap) / grow, 0), 1) - 1
+  if hand == 1 then t = math.min(math.max(shown - %d, 0), 1) - 1 end
   local s = 1.70158 * bounce
   local g = 1 + (s + 1)*t*t*t + s*t*t
   return Point(big > 0 and c[%d][2]/big*g or 0, g)
-end)(%s, P, BcGrow, BcDone, BcBounce)]], k, k - 1, k, PARSE))
+end)(%s, P, BcGrow, BcDone, BcBounce, BcHand, BcShown)]], k, k - 1, k - 1, k, PARSE))
 end
 
 local barColor = add("Background", "BarColor", -4, -1)
@@ -172,6 +176,8 @@ if os.getenv("FX_EXPORT") == "1" then
     {"CTL", "TopColor", "TopLeftRed", "Highlight Color", "3"}, {"CTL", "TopColor", "TopLeftGreen", "", "3"}, {"CTL", "TopColor", "TopLeftBlue", "", "3"},
     {"CTL", "BarsCtrl", "BcGrow", "Grow Time"},
     {"CTL", "BarsCtrl", "BcDone", "All Done At"},
+    {"CTL", "BarsCtrl", "BcHand", "Set The Timing By Hand"},
+    {"CTL", "BarsCtrl", "BcShown", "Bars Shown (keyframe this)"},
     {"CTL", "BarsCtrl", "BcBounce", "Bounce"},
     {"CTL", "BarsCtrl", "BcDecimals", "Decimals"},
     {"CTL", "BarsCtrl", "BcPrefix", "Prefix"},
@@ -196,6 +202,7 @@ else
   local file = os.getenv("FX_TEXTFILE") and io.open(os.getenv("FX_TEXTFILE"), "r")
   if file then ctrl:SetInput("BcList", file:read("*a")); file:close() end
   if os.getenv("FX_SUFFIX") then ctrl:SetInput("BcSuffix", os.getenv("FX_SUFFIX")) end
+  L.keys(ctrl, "BcShown", os.getenv("FX_CUE"))
   local a = comp:GetAttrs()
   print("rows", ctrl:GetInput("N", a.COMPN_RenderEnd), "largest", ctrl:GetInput("Top", a.COMPN_RenderEnd))
   comp:Lock()

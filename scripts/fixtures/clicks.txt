@@ -1,4 +1,25 @@
-0:00.5
-0:01.5
-0:02.5
-0:03.5
+@Delay=16
+Position=0.25,0.6
+Size=0.35
+Ring Thickness=0.02
+Centre Dot=0.05
+
+@Delay=70
+Position=0.55,0.35
+Clicks=2
+Size=0.35
+Ring Thickness=0.02
+Centre Dot=0.05
+
+@Delay=125
+Position=0.72,0.62
+Size=0.35
+Ring Thickness=0.02
+Centre Dot=0.05
+
+@Delay=180
+Position=0.4,0.7
+Rings=3
+Size=0.35
+Ring Thickness=0.02
+Centre Dot=0.05

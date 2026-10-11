@@ -1,0 +1,1374 @@
+{
+	Tools = ordered() {
+		WordByWord = MacroOperator {
+			CtrlWZoom = false,
+			Inputs = ordered() {
+				Input1 = InstanceInput { SourceOp = "WbCtrl", Source = "WbSay", Name = "Text" },
+				Input2 = InstanceInput { SourceOp = "WbCtrl", Source = "WbMode", Name = "The Words" },
+				Input3 = InstanceInput { SourceOp = "WbCtrl", Source = "WbEnd", Name = "Done At" },
+				Input4 = InstanceInput { SourceOp = "WbCtrl", Source = "WbStep", Name = "Fill One Character At A Time" },
+				Input5 = InstanceInput { SourceOp = "WbCtrl", Source = "WbExit", Name = "At The End Of A Typed Line" },
+				Input6 = InstanceInput { SourceOp = "WbCtrl", Source = "WbDel", Name = "Deleting Starts At" },
+				Input7 = InstanceInput { SourceOp = "WbCtrl", Source = "WbHand", Name = "Set The Timing By Hand" },
+				Input8 = InstanceInput { SourceOp = "WbCtrl", Source = "WbDone", Name = "Characters Done (keyframe this)" },
+				Input9 = InstanceInput { SourceOp = "WbCtrl", Source = "WbCursor", Name = "Cursor Of A Typed Line" },
+				Input10 = InstanceInput { SourceOp = "WbCtrl", Source = "WbBlink", Name = "Cursor Blinks Per Second" },
+				Input11 = InstanceInput { SourceOp = "WbCtrl", Source = "WbPos", Name = "Position" },
+				Input12 = InstanceInput { SourceOp = "WbCtrl", Source = "WbAlign", Name = "Position Is" },
+				Input13 = InstanceInput { SourceOp = "WbCtrl", Source = "WbIn", Name = "Pop Frames" },
+				Input14 = InstanceInput { SourceOp = "WbCtrl", Source = "WbOut", Name = "Fade Out Frames" },
+				Input15 = InstanceInput { SourceOp = "LkFont", Source = "Font", Name = "Font", ControlGroup = 30 },
+				Input16 = InstanceInput { SourceOp = "LkFont", Source = "Style", ControlGroup = 30 },
+				Input17 = InstanceInput { SourceOp = "WbCtrl", Source = "LkSize", Name = "Size" },
+				Input18 = InstanceInput { SourceOp = "WbCtrl", Source = "LkTrack", Name = "Letter Spacing" },
+				Input19 = InstanceInput { SourceOp = "LkCol", Source = "TopLeftRed", Name = "Colour", ControlGroup = 31 },
+				Input20 = InstanceInput { SourceOp = "LkCol", Source = "TopLeftGreen", ControlGroup = 31 },
+				Input21 = InstanceInput { SourceOp = "LkCol", Source = "TopLeftBlue", ControlGroup = 31 },
+				Input22 = InstanceInput { SourceOp = "WbCtrl", Source = "LkEdge", Name = "Outline" },
+				Input23 = InstanceInput { SourceOp = "LkColEdge", Source = "TopLeftRed", Name = "Outline Colour", ControlGroup = 32 },
+				Input24 = InstanceInput { SourceOp = "LkColEdge", Source = "TopLeftGreen", ControlGroup = 32 },
+				Input25 = InstanceInput { SourceOp = "LkColEdge", Source = "TopLeftBlue", ControlGroup = 32 },
+				Input26 = InstanceInput { SourceOp = "WbCtrl", Source = "LkOuter", Name = "Outer Outline" },
+				Input27 = InstanceInput { SourceOp = "LkColOuter", Source = "TopLeftRed", Name = "Outer Outline Colour", ControlGroup = 33 },
+				Input28 = InstanceInput { SourceOp = "LkColOuter", Source = "TopLeftGreen", ControlGroup = 33 },
+				Input29 = InstanceInput { SourceOp = "LkColOuter", Source = "TopLeftBlue", ControlGroup = 33 },
+				Input30 = InstanceInput { SourceOp = "WbCtrl", Source = "LkShadow", Name = "Shadow" },
+				Input31 = InstanceInput { SourceOp = "WbCtrl", Source = "LkDist", Name = "Shadow Distance" },
+				Input32 = InstanceInput { SourceOp = "WbCtrl", Source = "LkSoft", Name = "Shadow Softness" },
+				Input33 = InstanceInput { SourceOp = "WbCtrl", Source = "LkBox", Name = "Box Opacity" },
+				Input34 = InstanceInput { SourceOp = "LkColBox", Source = "TopLeftRed", Name = "Box Colour", ControlGroup = 34 },
+				Input35 = InstanceInput { SourceOp = "LkColBox", Source = "TopLeftGreen", ControlGroup = 34 },
+				Input36 = InstanceInput { SourceOp = "LkColBox", Source = "TopLeftBlue", ControlGroup = 34 },
+				Input37 = InstanceInput { SourceOp = "WbCtrl", Source = "LkPad", Name = "Box Padding" },
+				Input38 = InstanceInput { SourceOp = "WbCtrl", Source = "LkRound", Name = "Box Roundness" },
+				Input39 = InstanceInput { SourceOp = "ColWbFill", Source = "TopLeftRed", Name = "Fill Colour", ControlGroup = 3 },
+				Input40 = InstanceInput { SourceOp = "ColWbFill", Source = "TopLeftGreen", ControlGroup = 3 },
+				Input41 = InstanceInput { SourceOp = "ColWbFill", Source = "TopLeftBlue", ControlGroup = 3 },
+				Input42 = InstanceInput { SourceOp = "ColWbFillEdge", Source = "TopLeftRed", Name = "Outline Colour Of The Filled Part", ControlGroup = 4 },
+				Input43 = InstanceInput { SourceOp = "ColWbFillEdge", Source = "TopLeftGreen", ControlGroup = 4 },
+				Input44 = InstanceInput { SourceOp = "ColWbFillEdge", Source = "TopLeftBlue", ControlGroup = 4 },
+			},
+			Outputs = {
+				MainOutput1 = InstanceOutput { SourceOp = "WbFinal", Source = "Output" }
+			},
+			ViewInfo = GroupInfo { Pos = { 0, 0 } },
+			Tools = ordered() {
+				WbCtrl = Background {
+					CtrlWZoom = false,
+					ViewInfo = OperatorInfo { Pos = { -495, -82.5 } },
+					UserControls = {
+						Since = {
+							INP_MinScale = 0,
+							INP_MaxScale = 100000,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Since",
+							INP_Default = 0
+						},
+						LkSize = {
+							INP_MinScale = 0.01,
+							INP_MaxScale = 0.4,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Size",
+							INP_Default = 0.065
+						},
+						Cur = {
+							TEC_Lines = 1,
+							LINKID_DataType = "Text",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "TextEditControl",
+							LINKS_Name = "Cur",
+							INPS_DefaultText = ""
+						},
+						LkTrack = {
+							INP_MinScale = 0.5,
+							INP_MaxScale = 2,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Letter Spacing",
+							INP_Default = 1
+						},
+						Prog = {
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Prog",
+							INP_Default = 0
+						},
+						Count = {
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "Count",
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Driver"
+						},
+						Typed = {
+							TEC_Lines = 1,
+							LINKID_DataType = "Text",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "TextEditControl",
+							LINKS_Name = "Typed",
+							INPS_DefaultText = ""
+						},
+						Ahead = {
+							TEC_Lines = 1,
+							LINKID_DataType = "Text",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "TextEditControl",
+							LINKS_Name = "Ahead",
+							INPS_DefaultText = ""
+						},
+						LkOuter = {
+							INP_MinScale = 0,
+							INP_MaxScale = 0.03,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Outer Outline",
+							INP_Default = 0
+						},
+						WidN = {
+							INP_MinScale = 0,
+							INP_MaxScale = 4,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "WidN",
+							INP_Default = 0
+						},
+						WbMode = {
+							{
+								CCS_AddString = "Are Typed Out"
+							},
+							{
+								CCS_AddString = "Fill With A Second Colour"
+							},
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "ComboControl",
+							INP_Integer = true,
+							LINKS_Name = "The Words",
+							INP_Default = 0
+						},
+						LkShadow = {
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Shadow",
+							INP_Default = 0
+						},
+						Wid = {
+							INP_MinScale = 0,
+							INP_MaxScale = 4,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Wid",
+							INP_Default = 0
+						},
+						FullW = {
+							INP_MinScale = 0,
+							INP_MaxScale = 4,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "FullW",
+							INP_Default = 0
+						},
+						LkDist = {
+							INP_MinScale = 0,
+							INP_MaxScale = 0.05,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Shadow Distance",
+							INP_Default = 0.005
+						},
+						Curs = {
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "Curs",
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Driver"
+						},
+						Show = {
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Show",
+							INP_Default = 0
+						},
+						Fade = {
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Fade",
+							INP_Default = 0
+						},
+						Pop = {
+							INP_MinScale = 0,
+							INP_MaxScale = 3,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Pop",
+							INP_Default = 1
+						},
+						LkBox = {
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Box Opacity",
+							INP_Default = 0
+						},
+						WbExit = {
+							{
+								CCS_AddString = "It Stays"
+							},
+							{
+								CCS_AddString = "It Is Deleted Backwards"
+							},
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "ComboControl",
+							INP_Integer = true,
+							LINKS_Name = "At The End Of A Typed Line",
+							INP_Default = 0
+						},
+						LkPad = {
+							INP_MinScale = 0,
+							INP_MaxScale = 0.08,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Box Padding",
+							INP_Default = 0.012
+						},
+						WbDel = {
+							INP_MinScale = 0.1,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Deleting Starts At",
+							INP_Default = 0.85
+						},
+						LkRound = {
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Box Roundness",
+							INP_Default = 0.3
+						},
+						WbHand = {
+							INP_Integer = true,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "CheckboxControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Set The Timing By Hand",
+							INP_Default = 0
+						},
+						WbDone = {
+							INP_MinScale = 0,
+							INP_MaxScale = 60,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Characters Done (keyframe this)",
+							INP_Default = 0
+						},
+						WbCursor = {
+							{
+								CCS_AddString = "Bar"
+							},
+							{
+								CCS_AddString = "Block"
+							},
+							{
+								CCS_AddString = "Underline"
+							},
+							{
+								CCS_AddString = "None"
+							},
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "ComboControl",
+							INP_Integer = true,
+							LINKS_Name = "Cursor Of A Typed Line",
+							INP_Default = 0
+						},
+						WbBlink = {
+							INP_MinScale = 0,
+							INP_MaxScale = 6,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Cursor Blinks Per Second",
+							INP_Default = 1.5
+						},
+						WbPos = {
+							INPID_PreviewControl = "CrosshairControl",
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "Position"
+						},
+						WbAlign = {
+							{
+								CCS_AddString = "Where The Line Starts"
+							},
+							{
+								CCS_AddString = "The Middle Of The Line"
+							},
+							{
+								CCS_AddString = "The Middle Of What Is Typed So Far"
+							},
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "ComboControl",
+							INP_Integer = true,
+							LINKS_Name = "Position Is",
+							INP_Default = 1
+						},
+						LkEdge = {
+							INP_MinScale = 0,
+							INP_MaxScale = 0.03,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Outline",
+							INP_Default = 0.005
+						},
+						Total = {
+							INP_MinScale = 0,
+							INP_MaxScale = 10000,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Total",
+							INP_Default = 0
+						},
+						WbIn = {
+							INP_MinScale = 1,
+							INP_MaxScale = 40,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Pop Frames",
+							INP_Default = 5
+						},
+						Until = {
+							INP_MinScale = 0,
+							INP_MaxScale = 100000,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Until",
+							INP_Default = 0
+						},
+						WbOut = {
+							INP_MinScale = 0,
+							INP_MaxScale = 40,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Fade Out Frames",
+							INP_Default = 3
+						},
+						LkSoft = {
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Shadow Softness",
+							INP_Default = 0
+						},
+						WbSay = {
+							TEC_Lines = 1,
+							LINKID_DataType = "Text",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "TextEditControl",
+							LINKS_Name = "Text",
+							INPS_DefaultText = "One character after another"
+						},
+						Part = {
+							INP_MinScale = 0,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Part",
+							INP_Default = 0
+						},
+						Rule = {
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "Rule",
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Driver"
+						},
+						RuleY = {
+							INPID_InputControl = "OffsetControl",
+							LINKS_Name = "RuleY",
+							LINKID_DataType = "Point",
+							ICS_ControlPage = "Driver"
+						},
+						LineX = {
+							INP_MinScale = -4,
+							INP_MaxScale = 4,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Driver",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "LineX",
+							INP_Default = 0
+						},
+						WbStep = {
+							INP_Integer = true,
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "CheckboxControl",
+							LINKID_DataType = "Number",
+							LINKS_Name = "Fill One Character At A Time",
+							INP_Default = 0
+						},
+						WbEnd = {
+							INP_MinScale = 0.1,
+							INP_MaxScale = 1,
+							LINKID_DataType = "Number",
+							ICS_ControlPage = "Controls",
+							INPID_InputControl = "SliderControl",
+							INP_Integer = false,
+							LINKS_Name = "Done At",
+							INP_Default = 0.75
+						}
+					},
+					Inputs = {
+						Width = Input { Value = 1920 },
+						Height = Input { Value = 1080 },
+						Since = Input { Expression = "time - comp.RenderStart" },
+						Until = Input { Expression = "comp.RenderEnd - time + 1" },
+						Cur = Input { Expression = "Text(WbCtrl.WbSay.Value)" },
+						Total = Input { Expression = "(function(s) local n = 0 for ch in s:gmatch(\"[^\" .. string.char(128) .. \"-\" .. string.char(191) .. \"][\" .. string.char(128) .. \"-\" .. string.char(191) .. \"]*\") do n = n + 1 end return n end)(WbCtrl.Cur.Value)" },
+						Prog = Input { Expression = "iif(WbCtrl.Total < 1, 0, iif(WbCtrl.WbHand == 1, min(max(WbCtrl.WbDone/WbCtrl.Total, 0), 1), min(max((WbCtrl.Since + 1)/max(WbCtrl.WbEnd*(WbCtrl.Since + WbCtrl.Until), 1), 0), 1)))" },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Typed = Input { Expression = "Text((function(s, n) local out, k = {}, 0 for ch in s:gmatch(\"[^\" .. string.char(128) .. \"-\" .. string.char(191) .. \"][\" .. string.char(128) .. \"-\" .. string.char(191) .. \"]*\") do if k >= n then break end k = k + 1 out[k] = ch end return table.concat(out) end)(WbCtrl.Cur.Value, WbCtrl.Count.X))" },
+						Ahead = Input { Expression = "Text((function(s, n) local out, k = {}, 0 for ch in s:gmatch(\"[^\" .. string.char(128) .. \"-\" .. string.char(191) .. \"][\" .. string.char(128) .. \"-\" .. string.char(191) .. \"]*\") do if k >= n then break end k = k + 1 out[k] = ch end return table.concat(out) end)(WbCtrl.Cur.Value, WbCtrl.Count.X + 1))" },
+						Part = Input { Expression = "max(min(max(iif(WbCtrl.WbHand == 1, WbCtrl.WbDone, WbCtrl.Total*WbCtrl.Prog), 0), WbCtrl.Total) - WbCtrl.Count.X, 0)" },
+						WidN = Input { Expression = "max((function() local d = WbAhead.Output.DataWindow if not d then return 0 end local w, h = WbAhead.Output.Width, WbAhead.Output.Height return d.right/w end)() - WbCtrl.Rule.Y, 0)" },
+						Rule = Input { Expression = "(function() local d = WbRuler.Output.DataWindow if not d then return Point(0, 0) end local w, h = WbRuler.Output.Width, WbRuler.Output.Height return Point(d.left/w, d.right/w) end)()" },
+						RuleY = Input { Expression = "(function() local d = WbRuler.Output.DataWindow if not d then return Point(0, 0) end local w, h = WbRuler.Output.Width, WbRuler.Output.Height return Point(d.bottom/h, d.top/h) end)()" },
+						Wid = Input { Expression = "max((function() local d = WbMeasure.Output.DataWindow if not d then return 0 end local w, h = WbMeasure.Output.Width, WbMeasure.Output.Height return d.right/w end)() - WbCtrl.Rule.Y, 0)" },
+						FullW = Input { Expression = "max((function() local d = WbFull.Output.DataWindow if not d then return 0 end local w, h = WbFull.Output.Width, WbFull.Output.Height return d.right/w end)() - WbCtrl.Rule.Y, 0)" },
+						GlobalIn = Input { Value = -480 },
+						Curs = Input { Expression = "Point(WbCtrl.LineX + WbCtrl.Wid + WbCtrl.Rule.X - 0.05 + WbCtrl.LkSize*0.03, iif(WbCtrl.WbCursor == 0, WbCtrl.LkSize*0.07, iif(WbCtrl.WbCursor == 3, 0, WbCtrl.LkSize*0.5)))" },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Pop = Input { Expression = "iif(WbCtrl.WbMode == 0, 1, 1 + 0.25*max(1 - (WbCtrl.Since + 1)/max(WbCtrl.WbIn, 1), 0)^2)" },
+						LineX = Input { Expression = "iif(WbCtrl.WbAlign == 0, WbCtrl.WbPos.X, WbCtrl.WbPos.X - iif(WbCtrl.WbAlign == 2 and WbCtrl.WbMode == 0, WbCtrl.Wid, WbCtrl.FullW)/2)" },
+						Fade = Input { Expression = "iif(WbCtrl.WbMode == 0, 1, min((WbCtrl.Since + 1)/max(WbCtrl.WbIn, 1)*2, 1)) * iif(WbCtrl.WbOut <= 0, 1, min(max(WbCtrl.Until/WbCtrl.WbOut, 0), 1))" },
+						WbPos = Input { Value = { 0.5, 0.14 } },
+						Show = Input { Expression = "iif(WbCtrl.WbMode ~= 0 or WbCtrl.WbCursor == 3, 0, iif(WbCtrl.Count.Y > 0 or WbCtrl.WbBlink <= 0, 1, iif((WbCtrl.Since/(comp:GetPrefs(\"Comp.FrameFormat.Rate\") or 24)*WbCtrl.WbBlink) % 1 < 0.5, 1, 0)))" },
+						TopLeftAlpha = Input { Value = 0 },
+						Count = Input { Expression = "(function(mode, since, untl, n, prog, exit, del, hand, done, before)\n  if n < 1 then return Point(0, 0) end\n  if hand == 1 then return Point(math.floor(math.min(math.max(done, 0), n) + 0.0001), (done ~= before) and 1 or 0) end\n  local c, busy = math.floor(n*prog + 0.0001), 0\n  if prog < 1 then busy = 1 end\n  if mode == 0 and exit == 1 then\n    local span = math.max((1 - del)*(since + untl), 1)\n    if untl - 1 <= span then busy = 1 end\n    c = math.min(c, math.floor(n*math.min((untl - 1)/span, 1) + 0.0001))\n  end\n  return Point(c, busy)\nend)(WbCtrl.WbMode, WbCtrl.Since, WbCtrl.Until, WbCtrl.Total, WbCtrl.Prog, WbCtrl.WbExit, WbCtrl.WbDel, WbCtrl.WbHand, WbCtrl.WbDone, WbCtrl:GetValue(\"WbDone\", time - 1))" }
+					}
+				},
+				LkFont = TextPlus {
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -715, -148.5 } },
+					Inputs = {
+						LayoutRotation = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						Softness1 = Input { Value = 1 },
+						Height = Input { Value = 1080 },
+						HorizontalJustificationNew = Input { Value = 3 },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						VerticalJustificationNew = Input { Value = 3 },
+						Style = Input { Value = "Bold" },
+						UseFrameFormatSettings = Input { Value = 1 },
+						Font = Input { Value = "Microsoft JhengHei" },
+						TransformRotation = Input { Value = 1 },
+						Wrap = Input { Value = 1 }
+					}
+				},
+				LkCol = Background {
+					ViewInfo = OperatorInfo { Pos = { -605, -181.5 } },
+					Inputs = {
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Width = Input { Value = 16 },
+						TopLeftBlue = Input { Value = 1 },
+						Height = Input { Value = 16 },
+						TopLeftGreen = Input { Value = 1 },
+						GlobalIn = Input { Value = -480 },
+						TopLeftRed = Input { Value = 1 },
+						GlobalOut = Input { Value = 3534 }
+					}
+				},
+				LkColEdge = Background {
+					ViewInfo = OperatorInfo { Pos = { -495, -181.5 } },
+					Inputs = {
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Width = Input { Value = 16 },
+						TopLeftBlue = Input { Value = 0.08 },
+						Height = Input { Value = 16 },
+						TopLeftGreen = Input { Value = 0.05 },
+						GlobalIn = Input { Value = -480 },
+						TopLeftRed = Input { Value = 0.05 },
+						GlobalOut = Input { Value = 3534 }
+					}
+				},
+				LkColOuter = Background {
+					ViewInfo = OperatorInfo { Pos = { -385, -181.5 } },
+					Inputs = {
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Width = Input { Value = 16 },
+						TopLeftBlue = Input { Value = 1 },
+						Height = Input { Value = 16 },
+						TopLeftGreen = Input { Value = 1 },
+						GlobalIn = Input { Value = -480 },
+						TopLeftRed = Input { Value = 1 },
+						GlobalOut = Input { Value = 3534 }
+					}
+				},
+				LkColBox = Background {
+					ViewInfo = OperatorInfo { Pos = { -275, -181.5 } },
+					Inputs = {
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Width = Input { Value = 16 },
+						TopLeftBlue = Input { Value = 0.09 },
+						Height = Input { Value = 16 },
+						TopLeftGreen = Input { Value = 0.06 },
+						GlobalIn = Input { Value = -480 },
+						TopLeftRed = Input { Value = 0.05 },
+						GlobalOut = Input { Value = 3534 }
+					}
+				},
+				WbText = TextPlus {
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -275, 16.5 } },
+					Inputs = {
+						LayoutRotation = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						Softness1 = Input { Value = 1 },
+						Height = Input { Value = 1080 },
+						HorizontalJustificationNew = Input { Value = 3 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						CharacterSpacing = Input { Expression = "WbCtrl.LkTrack" },
+						StyledText = Input { Expression = "Text(iif(WbCtrl.WbMode == 0, WbCtrl.Typed.Value, WbCtrl.Cur.Value))" },
+						Size = Input { Expression = "WbCtrl.LkSize" },
+						Center = Input { Expression = "Point(WbCtrl.LineX, WbCtrl.WbPos.Y)" },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						HorizontalLeftCenterRight = Input { Value = -1 },
+						VerticalJustificationNew = Input { Value = 3 },
+						Wrap = Input { Value = 1 },
+						TransformRotation = Input { Value = 1 },
+						Style = Input {
+							Value = "Bold",
+							Expression = "LkFont.Style"
+						},
+						Font = Input {
+							Value = "Microsoft JhengHei",
+							Expression = "LkFont.Font"
+						}
+					}
+				},
+				WbRuler = TextPlus {
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -275, 82.5 } },
+					Inputs = {
+						LayoutRotation = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						Softness1 = Input { Value = 1 },
+						Height = Input { Value = 1080 },
+						HorizontalJustificationNew = Input { Value = 3 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						CharacterSpacing = Input { Expression = "WbCtrl.LkTrack" },
+						StyledText = Input { Expression = "Text(\"|\")" },
+						Size = Input { Expression = "WbCtrl.LkSize" },
+						Center = Input { Expression = "Point(0.05, WbCtrl.WbPos.Y)" },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						HorizontalLeftCenterRight = Input { Value = -1 },
+						VerticalJustificationNew = Input { Value = 3 },
+						Wrap = Input { Value = 1 },
+						TransformRotation = Input { Value = 1 },
+						Style = Input {
+							Value = "Bold",
+							Expression = "LkFont.Style"
+						},
+						Font = Input {
+							Value = "Microsoft JhengHei",
+							Expression = "LkFont.Font"
+						}
+					}
+				},
+				WbMeasure = TextPlus {
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -275, 115.5 } },
+					Inputs = {
+						LayoutRotation = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						Softness1 = Input { Value = 1 },
+						Height = Input { Value = 1080 },
+						HorizontalJustificationNew = Input { Value = 3 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						CharacterSpacing = Input { Expression = "WbCtrl.LkTrack" },
+						StyledText = Input { Expression = "Text(WbCtrl.Typed.Value .. \"|\")" },
+						Size = Input { Expression = "WbCtrl.LkSize" },
+						Center = Input { Expression = "Point(0.05, WbCtrl.WbPos.Y)" },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						HorizontalLeftCenterRight = Input { Value = -1 },
+						VerticalJustificationNew = Input { Value = 3 },
+						Wrap = Input { Value = 1 },
+						TransformRotation = Input { Value = 1 },
+						Style = Input {
+							Value = "Bold",
+							Expression = "LkFont.Style"
+						},
+						Font = Input {
+							Value = "Microsoft JhengHei",
+							Expression = "LkFont.Font"
+						}
+					}
+				},
+				WbFull = TextPlus {
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -275, 148.5 } },
+					Inputs = {
+						LayoutRotation = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						Softness1 = Input { Value = 1 },
+						Height = Input { Value = 1080 },
+						HorizontalJustificationNew = Input { Value = 3 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						CharacterSpacing = Input { Expression = "WbCtrl.LkTrack" },
+						StyledText = Input { Expression = "Text(WbCtrl.Cur.Value .. \"|\")" },
+						Size = Input { Expression = "WbCtrl.LkSize" },
+						Center = Input { Expression = "Point(0.05, WbCtrl.WbPos.Y)" },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						HorizontalLeftCenterRight = Input { Value = -1 },
+						VerticalJustificationNew = Input { Value = 3 },
+						Wrap = Input { Value = 1 },
+						TransformRotation = Input { Value = 1 },
+						Style = Input {
+							Value = "Bold",
+							Expression = "LkFont.Style"
+						},
+						Font = Input {
+							Value = "Microsoft JhengHei",
+							Expression = "LkFont.Font"
+						}
+					}
+				},
+				WbAhead = TextPlus {
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -275, 181.5 } },
+					Inputs = {
+						LayoutRotation = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						Softness1 = Input { Value = 1 },
+						Height = Input { Value = 1080 },
+						HorizontalJustificationNew = Input { Value = 3 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						CharacterSpacing = Input { Expression = "WbCtrl.LkTrack" },
+						StyledText = Input { Expression = "Text(WbCtrl.Ahead.Value .. \"|\")" },
+						Size = Input { Expression = "WbCtrl.LkSize" },
+						Center = Input { Expression = "Point(0.05, WbCtrl.WbPos.Y)" },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						HorizontalLeftCenterRight = Input { Value = -1 },
+						VerticalJustificationNew = Input { Value = 3 },
+						Wrap = Input { Value = 1 },
+						TransformRotation = Input { Value = 1 },
+						Style = Input {
+							Value = "Bold",
+							Expression = "LkFont.Style"
+						},
+						Font = Input {
+							Value = "Microsoft JhengHei",
+							Expression = "LkFont.Font"
+						}
+					}
+				},
+				WbCursorMask = RectangleMask {
+					ViewInfo = OperatorInfo { Pos = { -165, 49.5 } },
+					Inputs = {
+						Width = Input { Expression = "max(WbCtrl.Curs.Y, 0.00001)" },
+						Center = Input { Expression = "Point(WbCtrl.Curs.X + WbCtrl.Curs.Y/2, iif(WbCtrl.WbCursor == 2, WbCtrl.RuleY.X + Height/2, (WbCtrl.RuleY.X + WbCtrl.RuleY.Y)/2))" },
+						Height = Input { Expression = "iif(WbCtrl.WbCursor == 2, WbCtrl.LkSize*0.09*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')), max(WbCtrl.RuleY.Y - WbCtrl.RuleY.X, 0.00001))" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						UseFrameFormatSettings = Input { Value = 1 }
+					}
+				},
+				WbCursorBody = Background {
+					ViewInfo = OperatorInfo { Pos = { -55, 49.5 } },
+					Inputs = {
+						Width = Input { Value = 1920 },
+						TopLeftBlue = Input { Value = 1 },
+						Height = Input { Value = 1080 },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						UseFrameFormatSettings = Input { Value = 1 },
+						EffectMask = Input {
+							Source = "Mask",
+							SourceOp = "WbCursorMask"
+						},
+						TopLeftRed = Input { Value = 1 },
+						TopLeftGreen = Input { Value = 1 }
+					}
+				},
+				WbMatte = Merge {
+					ViewInfo = OperatorInfo { Pos = { -55, 16.5 } },
+					Inputs = {
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "WbText"
+						},
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "WbCursorBody"
+						},
+						Blend = Input { Expression = "WbCtrl.Show" }
+					}
+				},
+				WbFilledRoom = SetDomain {
+					ViewInfo = OperatorInfo { Pos = { -55, 148.5 } },
+					Inputs = {
+						Mode = Input { Value = FuID { "Set" } },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "WbMatte"
+						}
+					}
+				},
+				WbFilledGrowB = ErodeDilate {
+					ViewInfo = OperatorInfo { Pos = { 55, 214.5 } },
+					Inputs = {
+						Input = Input {
+							Source = "Output",
+							SourceOp = "WbFilledRoom"
+						},
+						Filter = Input { Value = 3 },
+						XAmount = Input { Expression = "(WbCtrl.LkEdge) + (WbCtrl.LkOuter)" }
+					}
+				},
+				WbFilledGrowA = ErodeDilate {
+					ViewInfo = OperatorInfo { Pos = { 55, 181.5 } },
+					Inputs = {
+						Input = Input {
+							Source = "Output",
+							SourceOp = "WbFilledRoom"
+						},
+						Filter = Input { Value = 3 },
+						XAmount = Input { Expression = "WbCtrl.LkEdge" }
+					}
+				},
+				WbFilled = Custom {
+					ViewInfo = OperatorInfo { Pos = { 165, 148.5 } },
+					Inputs = {
+						NumberIn4 = Input { Expression = "ColWbFillEdge.TopLeftRed" },
+						BlueExpression = Input { Value = "n3*a1 + (1 - a1)*(n6*i1 + (1 - i1)*p2x*i2)" },
+						NumberIn5 = Input { Expression = "ColWbFillEdge.TopLeftGreen" },
+						AlphaExpression = Input { Value = "a1 + (1 - a1)*(i1 + (1 - i1)*i2)" },
+						NumberIn6 = Input { Expression = "ColWbFillEdge.TopLeftBlue" },
+						LUTIn1 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn11"
+						},
+						LUTIn2 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn21"
+						},
+						LUTIn3 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn31"
+						},
+						LUTIn4 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn41"
+						},
+						PointIn1 = Input { Expression = "Point(LkColOuter.TopLeftRed, LkColOuter.TopLeftGreen)" },
+						PointIn2 = Input { Expression = "Point(LkColOuter.TopLeftBlue, 0)" },
+						Image3 = Input {
+							Source = "Output",
+							SourceOp = "WbFilledGrowB"
+						},
+						NumberIn7 = Input { Expression = "iif((WbCtrl.LkEdge) > 0, 1, 0)" },
+						Image2 = Input {
+							Source = "Output",
+							SourceOp = "WbFilledGrowA"
+						},
+						Image1 = Input {
+							Source = "Output",
+							SourceOp = "WbFilledRoom"
+						},
+						NumberIn8 = Input { Expression = "iif((WbCtrl.LkOuter) > 0, 1, 0)" },
+						Intermediate1 = Input { Value = "a2*n7" },
+						NumberIn1 = Input { Expression = "ColWbFill.TopLeftRed" },
+						Intermediate2 = Input { Value = "a3*n8" },
+						RedExpression = Input { Value = "n1*a1 + (1 - a1)*(n4*i1 + (1 - i1)*p1x*i2)" },
+						NumberIn2 = Input { Expression = "ColWbFill.TopLeftGreen" },
+						NumberIn3 = Input { Expression = "ColWbFill.TopLeftBlue" },
+						GreenExpression = Input { Value = "n2*a1 + (1 - a1)*(n5*i1 + (1 - i1)*p1y*i2)" }
+					}
+				},
+				CustomTool1LUTIn11 = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn21 = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn31 = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn41 = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					NameSet = true
+				},
+				WbPlainRoom = SetDomain {
+					ViewInfo = OperatorInfo { Pos = { -55, 16.5 } },
+					Inputs = {
+						Mode = Input { Value = FuID { "Set" } },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "WbMatte"
+						}
+					}
+				},
+				WbPlainGrowB = ErodeDilate {
+					ViewInfo = OperatorInfo { Pos = { 55, 82.5 } },
+					Inputs = {
+						Input = Input {
+							Source = "Output",
+							SourceOp = "WbPlainRoom"
+						},
+						Filter = Input { Value = 3 },
+						XAmount = Input { Expression = "(WbCtrl.LkEdge) + (WbCtrl.LkOuter)" }
+					}
+				},
+				WbPlainGrowA = ErodeDilate {
+					ViewInfo = OperatorInfo { Pos = { 55, 49.5 } },
+					Inputs = {
+						Input = Input {
+							Source = "Output",
+							SourceOp = "WbPlainRoom"
+						},
+						Filter = Input { Value = 3 },
+						XAmount = Input { Expression = "WbCtrl.LkEdge" }
+					}
+				},
+				WbPlain = Custom {
+					ViewInfo = OperatorInfo { Pos = { 165, 16.5 } },
+					Inputs = {
+						NumberIn4 = Input { Expression = "LkColEdge.TopLeftRed" },
+						BlueExpression = Input { Value = "n3*a1 + (1 - a1)*(n6*i1 + (1 - i1)*p2x*i2)" },
+						NumberIn5 = Input { Expression = "LkColEdge.TopLeftGreen" },
+						AlphaExpression = Input { Value = "a1 + (1 - a1)*(i1 + (1 - i1)*i2)" },
+						NumberIn6 = Input { Expression = "LkColEdge.TopLeftBlue" },
+						LUTIn1 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn1"
+						},
+						LUTIn2 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn2"
+						},
+						LUTIn3 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn3"
+						},
+						LUTIn4 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn4"
+						},
+						PointIn1 = Input { Expression = "Point(LkColOuter.TopLeftRed, LkColOuter.TopLeftGreen)" },
+						PointIn2 = Input { Expression = "Point(LkColOuter.TopLeftBlue, 0)" },
+						Image3 = Input {
+							Source = "Output",
+							SourceOp = "WbPlainGrowB"
+						},
+						NumberIn7 = Input { Expression = "iif((WbCtrl.LkEdge) > 0, 1, 0)" },
+						Image2 = Input {
+							Source = "Output",
+							SourceOp = "WbPlainGrowA"
+						},
+						Image1 = Input {
+							Source = "Output",
+							SourceOp = "WbPlainRoom"
+						},
+						NumberIn8 = Input { Expression = "iif((WbCtrl.LkOuter) > 0, 1, 0)" },
+						Intermediate1 = Input { Value = "a2*n7" },
+						NumberIn1 = Input { Expression = "LkCol.TopLeftRed" },
+						Intermediate2 = Input { Value = "a3*n8" },
+						RedExpression = Input { Value = "n1*a1 + (1 - a1)*(n4*i1 + (1 - i1)*p1x*i2)" },
+						NumberIn2 = Input { Expression = "LkCol.TopLeftGreen" },
+						NumberIn3 = Input { Expression = "LkCol.TopLeftBlue" },
+						GreenExpression = Input { Value = "n2*a1 + (1 - a1)*(n5*i1 + (1 - i1)*p1y*i2)" }
+					}
+				},
+				CustomTool1LUTIn1 = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn2 = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn3 = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn4 = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					NameSet = true
+				},
+				ColWbFill = Background {
+					ViewInfo = OperatorInfo { Pos = { -55, -148.5 } },
+					Inputs = {
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Width = Input { Value = 16 },
+						TopLeftBlue = Input { Value = 0.1 },
+						Height = Input { Value = 16 },
+						TopLeftGreen = Input { Value = 0.85 },
+						GlobalIn = Input { Value = -480 },
+						TopLeftRed = Input { Value = 1 },
+						GlobalOut = Input { Value = 3534 }
+					}
+				},
+				ColWbFillEdge = Background {
+					ViewInfo = OperatorInfo { Pos = { 55, -148.5 } },
+					Inputs = {
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						Width = Input { Value = 16 },
+						TopLeftBlue = Input { Value = 0.05 },
+						Height = Input { Value = 16 },
+						TopLeftGreen = Input { Value = 0.08 },
+						GlobalIn = Input { Value = -480 },
+						TopLeftRed = Input { Value = 0.55 },
+						GlobalOut = Input { Value = 3534 }
+					}
+				},
+				WbWipe = RectangleMask {
+					ViewInfo = OperatorInfo { Pos = { 385, 115.5 } },
+					Inputs = {
+						Width = Input { Value = 3 },
+						Center = Input { Expression = "Point((WbCtrl.LineX + iif(WbCtrl.Prog >= 1, WbCtrl.FullW + 0.2, WbCtrl.Wid + iif(WbCtrl.WbStep == 1, 0, WbCtrl.Part*(WbCtrl.WidN - WbCtrl.Wid)))) - 1.5, 0.5)" },
+						Height = Input { Value = 2 },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						UseFrameFormatSettings = Input { Value = 1 }
+					}
+				},
+				WbBoth = Merge {
+					ViewInfo = OperatorInfo { Pos = { 385, 16.5 } },
+					Inputs = {
+						Background = Input {
+							Source = "Output",
+							SourceOp = "WbPlain"
+						},
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "WbFilled"
+						},
+						Blend = Input { Expression = "iif(WbCtrl.WbMode == 1 and WbCtrl.Prog > 0 and ((WbCtrl.WbStep == 0 and WbCtrl.Part > 0.001) or WbCtrl.Prog >= 1), 1, 0)" },
+						PerformDepthMerge = Input { Value = 0 },
+						EffectMask = Input {
+							Source = "Mask",
+							SourceOp = "WbWipe"
+						}
+					}
+				},
+				WbSome = TextPlus {
+					Version = 1,
+					ViewInfo = OperatorInfo { Pos = { -275, 214.5 } },
+					Inputs = {
+						LayoutRotation = Input { Value = 1 },
+						Width = Input { Value = 1920 },
+						Softness1 = Input { Value = 1 },
+						Height = Input { Value = 1080 },
+						HorizontalJustificationNew = Input { Value = 3 },
+						UseFrameFormatSettings = Input { Value = 1 },
+						CharacterSpacing = Input { Expression = "WbCtrl.LkTrack" },
+						StyledText = Input { Expression = "Text(WbCtrl.Typed.Value)" },
+						Size = Input { Expression = "WbCtrl.LkSize" },
+						Center = Input { Expression = "Point(WbCtrl.LineX, WbCtrl.WbPos.Y)" },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						HorizontalLeftCenterRight = Input { Value = -1 },
+						VerticalJustificationNew = Input { Value = 3 },
+						Wrap = Input { Value = 1 },
+						TransformRotation = Input { Value = 1 },
+						Style = Input {
+							Value = "Bold",
+							Expression = "LkFont.Style"
+						},
+						Font = Input {
+							Value = "Microsoft JhengHei",
+							Expression = "LkFont.Font"
+						}
+					}
+				},
+				WbExactRoom = SetDomain {
+					ViewInfo = OperatorInfo { Pos = { -55, 214.5 } },
+					Inputs = {
+						Mode = Input { Value = FuID { "Set" } },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "WbSome"
+						}
+					}
+				},
+				WbExactGrowB = ErodeDilate {
+					ViewInfo = OperatorInfo { Pos = { 55, 280.5 } },
+					Inputs = {
+						Input = Input {
+							Source = "Output",
+							SourceOp = "WbExactRoom"
+						},
+						Filter = Input { Value = 3 },
+						XAmount = Input { Expression = "(WbCtrl.LkEdge) + (WbCtrl.LkOuter)" }
+					}
+				},
+				WbExactGrowA = ErodeDilate {
+					ViewInfo = OperatorInfo { Pos = { 55, 247.5 } },
+					Inputs = {
+						Input = Input {
+							Source = "Output",
+							SourceOp = "WbExactRoom"
+						},
+						Filter = Input { Value = 3 },
+						XAmount = Input { Expression = "WbCtrl.LkEdge" }
+					}
+				},
+				WbExact = Custom {
+					ViewInfo = OperatorInfo { Pos = { 165, 214.5 } },
+					Inputs = {
+						NumberIn4 = Input { Expression = "ColWbFillEdge.TopLeftRed" },
+						BlueExpression = Input { Value = "n3*a1 + (1 - a1)*(n6*i1 + (1 - i1)*p2x*i2)" },
+						NumberIn5 = Input { Expression = "ColWbFillEdge.TopLeftGreen" },
+						AlphaExpression = Input { Value = "a1 + (1 - a1)*(i1 + (1 - i1)*i2)" },
+						NumberIn6 = Input { Expression = "ColWbFillEdge.TopLeftBlue" },
+						LUTIn1 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn12"
+						},
+						LUTIn2 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn22"
+						},
+						LUTIn3 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn32"
+						},
+						LUTIn4 = Input {
+							Source = "Value",
+							SourceOp = "CustomTool1LUTIn42"
+						},
+						PointIn1 = Input { Expression = "Point(LkColOuter.TopLeftRed, LkColOuter.TopLeftGreen)" },
+						PointIn2 = Input { Expression = "Point(LkColOuter.TopLeftBlue, 0)" },
+						Image3 = Input {
+							Source = "Output",
+							SourceOp = "WbExactGrowB"
+						},
+						NumberIn7 = Input { Expression = "iif((WbCtrl.LkEdge) > 0, 1, 0)" },
+						Image2 = Input {
+							Source = "Output",
+							SourceOp = "WbExactGrowA"
+						},
+						Image1 = Input {
+							Source = "Output",
+							SourceOp = "WbExactRoom"
+						},
+						NumberIn8 = Input { Expression = "iif((WbCtrl.LkOuter) > 0, 1, 0)" },
+						Intermediate1 = Input { Value = "a2*n7" },
+						NumberIn1 = Input { Expression = "ColWbFill.TopLeftRed" },
+						Intermediate2 = Input { Value = "a3*n8" },
+						RedExpression = Input { Value = "n1*a1 + (1 - a1)*(n4*i1 + (1 - i1)*p1x*i2)" },
+						NumberIn2 = Input { Expression = "ColWbFill.TopLeftGreen" },
+						NumberIn3 = Input { Expression = "ColWbFill.TopLeftBlue" },
+						GreenExpression = Input { Value = "n2*a1 + (1 - a1)*(n5*i1 + (1 - i1)*p1y*i2)" }
+					}
+				},
+				CustomTool1LUTIn12 = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn22 = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn32 = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					NameSet = true
+				},
+				CustomTool1LUTIn42 = LUTBezier {
+					KeyColorSplines = {
+						[0] = {
+							[0] = { 0, RH = { 0.333333333333333, 0.333333333333333 }, Flags = { Linear = true } },
+							{ 1, LH = { 0.666666666666667, 0.666666666666667 }, Flags = { Linear = true } }
+						}
+					},
+					CtrlWZoom = false,
+					SplineColor = { Green = 0, Blue = 0, Red = 0 },
+					NameSet = true
+				},
+				WbWhole = Merge {
+					ViewInfo = OperatorInfo { Pos = { 495, 16.5 } },
+					Inputs = {
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "WbBoth"
+						},
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "WbExact"
+						},
+						Blend = Input { Expression = "iif(WbCtrl.WbMode == 1 and WbCtrl.Count.X > 0 and WbCtrl.Prog < 1, 1, 0)" }
+					}
+				},
+				WbDrop = Shadow {
+					ViewInfo = OperatorInfo { Pos = { 605, 16.5 } },
+					Inputs = {
+						Alpha = Input { Expression = "WbCtrl.LkShadow" },
+						Input = Input {
+							Source = "Output",
+							SourceOp = "WbWhole"
+						},
+						ShadowOffset = Input { Expression = "Point(0.5 + WbCtrl.LkDist, 0.5 - WbCtrl.LkDist*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')))" },
+						Softness = Input { Expression = "WbCtrl.LkSoft" }
+					}
+				},
+				WbBoxMask = RectangleMask {
+					ViewInfo = OperatorInfo { Pos = { 495, 115.5 } },
+					Inputs = {
+						Width = Input { Expression = "max((iif(WbCtrl.WbMode == 0, WbCtrl.Curs.X + WbCtrl.Curs.Y, WbCtrl.LineX + WbCtrl.FullW + 2*(WbCtrl.Rule.X - 0.05))) - (WbCtrl.LineX) + 2*WbCtrl.LkPad, 0.00001)" },
+						Center = Input { Expression = "Point(((WbCtrl.LineX) + (iif(WbCtrl.WbMode == 0, WbCtrl.Curs.X + WbCtrl.Curs.Y, WbCtrl.LineX + WbCtrl.FullW + 2*(WbCtrl.Rule.X - 0.05))))/2, ((WbCtrl.RuleY.X) + (WbCtrl.RuleY.Y))/2)" },
+						Height = Input { Expression = "max((WbCtrl.RuleY.Y) - (WbCtrl.RuleY.X) + 2*WbCtrl.LkPad*(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height')), 0.00001)" },
+						CornerRadius = Input { Expression = "WbCtrl.LkRound" },
+						Filter = Input { Value = FuID { "Fast Gaussian" } },
+						MaskWidth = Input { Value = 1920 },
+						MaskHeight = Input { Value = 1080 },
+						PixelAspect = Input { Value = { 1, 1 } },
+						ClippingMode = Input { Value = FuID { "None" } },
+						UseFrameFormatSettings = Input { Value = 1 }
+					}
+				},
+				WbBox = Background {
+					ViewInfo = OperatorInfo { Pos = { 495, 82.5 } },
+					Inputs = {
+						Width = Input { Value = 1920 },
+						TopLeftBlue = Input { Expression = "LkColBox.TopLeftBlue" },
+						Height = Input { Value = 1080 },
+						GlobalIn = Input { Value = -480 },
+						GlobalOut = Input { Value = 3534 },
+						["Gamut.SLogVersion"] = Input { Value = FuID { "SLog2" } },
+						UseFrameFormatSettings = Input { Value = 1 },
+						EffectMask = Input {
+							Source = "Mask",
+							SourceOp = "WbBoxMask"
+						},
+						TopLeftRed = Input { Expression = "LkColBox.TopLeftRed" },
+						TopLeftGreen = Input { Expression = "LkColBox.TopLeftGreen" }
+					}
+				},
+				WbBoxed = Merge {
+					ViewInfo = OperatorInfo { Pos = { 605, 49.5 } },
+					Inputs = {
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "WbCtrl"
+						},
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "WbBox"
+						},
+						Blend = Input { Expression = "WbCtrl.LkBox" }
+					}
+				},
+				WbAll = Merge {
+					ViewInfo = OperatorInfo { Pos = { 605, 16.5 } },
+					Inputs = {
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "WbBoxed"
+						},
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "WbDrop"
+						}
+					}
+				},
+				WbMove = Transform {
+					ViewInfo = OperatorInfo { Pos = { 715, 16.5 } },
+					Inputs = {
+						Input = Input {
+							Source = "Output",
+							SourceOp = "WbAll"
+						},
+						Size = Input { Expression = "WbCtrl.Pop" },
+						Pivot = Input { Expression = "Point(WbCtrl.LineX + WbCtrl.FullW/2, WbCtrl.WbPos.Y)" }
+					}
+				},
+				WbFinal = Merge {
+					ViewInfo = OperatorInfo { Pos = { 825, 16.5 } },
+					Inputs = {
+						PerformDepthMerge = Input { Value = 0 },
+						Background = Input {
+							Source = "Output",
+							SourceOp = "WbCtrl"
+						},
+						Foreground = Input {
+							Source = "Output",
+							SourceOp = "WbMove"
+						},
+						Blend = Input { Expression = "WbCtrl.Fade" }
+					}
+				}
+			
+			}
+		}
+	},
+	ActiveTool = "WordByWord"
+}

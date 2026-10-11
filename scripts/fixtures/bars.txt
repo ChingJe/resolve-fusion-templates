@@ -1,0 +1,10 @@
+Position=0.5,0.73
+Chart Height=0.36
+Text Size=0.05
+
+Rows (Name 42)=Mon 12|Tue 30|Wed 21|Thu 36
+Set The Timing By Hand=1
+Bars Shown (keyframe this)=KEYS 0=0,40=1,90=1,120=3,170=3,215=4
+Position=0.5,0.27
+Chart Height=0.36
+Text Size=0.05

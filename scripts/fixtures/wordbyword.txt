@@ -1,0 +1,31 @@
+Text=Typed at an even speed then deleted
+The Words=0
+Done At=0.5
+Cursor Of A Typed Line=1
+At The End Of A Typed Line=1
+Deleting Starts At=0.72
+Position Is=0
+Position=0.08,0.84
+Size=0.065
+Box Opacity=0.75
+
+Text=打字 用關鍵幀停頓再繼續
+The Words=0
+Set The Timing By Hand=1
+Characters Done (keyframe this)=KEYS 0=0,30=2,45=3,95=3,125=8,175=8,200=12
+Position=0.5,0.6
+Size=0.075
+
+Text=填色 從左到右平均速度
+The Words=1
+Position=0.5,0.36
+Size=0.08
+Outline=0.006
+
+Text=填色 用關鍵幀決定快慢
+The Words=1
+Set The Timing By Hand=1
+Characters Done (keyframe this)=KEYS 0=0,40=2,60=3,120=3,150=8,215=11
+Position=0.5,0.13
+Size=0.08
+Outline=0.006
