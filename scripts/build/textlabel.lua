@@ -26,16 +26,23 @@ local PRESETS = {
 local names, rows = {"Custom"}, {}
 for _, p in ipairs(PRESETS) do names[#names + 1] = p[1]; rows[#rows + 1] = "{" .. table.concat(p[2], ",") .. "}" end
 local TABLE = "({" .. table.concat(rows, ",") .. "})"
-local HOLD = {"ColLblText", "ColLblTextEdge", "ColLblFill", "ColLblBorder", "ColLblShadow"}
-local function col(k, c)
+-- The text and its outline are the colours of the shared look (LkCol, LkColEdge); the other three are the frame's.
+local HOLD = {"LkCol", "LkColEdge", "ColLblFill", "ColLblBorder", "ColLblShadow"}
+local function preset(k, c)
   local ch = ({"Red", "Green", "Blue"})[c]
   return string.format("iif(LblCtrl.LblPreset == 0, %s.TopLeft%s, %s[max(LblCtrl.LblPreset, 1)][%d])", HOLD[k], ch, TABLE, (k - 1)*3 + c)
 end
+local D = PRESETS[1][2]
+local K = L.look("LblCtrl", {size = 0.05, edge = 0, col = {D[1], D[2], D[3]}, colEdge = {D[4], D[5], D[6]},
+  pre = function(key, c) local k = ({col = 1, edge = 2})[key] return k and preset(k, c) end})
+local function col(k, c)
+  if k == 1 then return K.c("col", c) elseif k == 2 then return K.c("edge", c) end
+  return preset(k, c)
+end
 
 local ctrl = add("Background", "LblCtrl", -6, -3)
-ctrl.UserControls = {
+ctrl.UserControls = K.controls({
   LblText   = L.text("Text", "本集主題", nil, 3),
-  LblSize   = L.num("Size", 0.05, 0.01, 0.3),
   LblPos    = L.point("Position", nil, true),
   LblAnchor = L.combo("Position Is The", {"Left Edge", "Middle", "Right Edge"}, 1),
   LblTilt   = L.num("Tilt", 0, -45, 45),
@@ -47,10 +54,9 @@ ctrl.UserControls = {
   LblPreset = L.combo("Colours", names, 1),
   LblFillOp = L.num("Frame Opacity", 1, 0, 1),
   LblBorder = L.num("Border", 0.004, 0, 0.03),
-  LblTextEdge = L.num("Text Outline", 0, 0, 0.02),
-  LblShadowX = L.num("Shadow X", 0.007, -0.05, 0.05),
-  LblShadowY = L.num("Shadow Y", -0.007, -0.05, 0.05),
-  LblShadowOp = L.num("Shadow Opacity", 1, 0, 1),
+  LblShadowX = L.num("Frame Shadow X", 0.007, -0.05, 0.05),
+  LblShadowY = L.num("Frame Shadow Y", -0.007, -0.05, 0.05),
+  LblShadowOp = L.num("Frame Shadow Opacity", 1, 0, 1),
   LblEnter  = L.combo("Entrance", {"None", "Pop", "From Left", "From Right", "From Below", "From Above", "Wipe"}, 1),
   LblIn     = L.num("Entrance Frames", 8, 1, 60),
   LblDist   = L.num("Slide Distance", 0.15, 0, 1),
@@ -62,11 +68,12 @@ ctrl.UserControls = {
   Scale = L.num("Scale", 1, 0, 3, "Driver"),
   Fade = L.num("Fade", 1, 0, 1, "Driver"),
   Wipe = L.num("Wipe", 1, 0, 1, "Driver"),
-}
+})
 ctrl = ctrl:Refresh()
 ctrl:SetInput("UseFrameFormatSettings", 1)
 ctrl:SetInput("LblPos", {0.5, 0.5})
 L.color(ctrl, 0, 0, 0, 0)
+K.setup(comp)
 local ASPECT = "(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height'))"
 
 -- Show: 0 when away, 1 when in place
@@ -86,9 +93,9 @@ expr(ctrl, "Wipe", "iif(LblEnter == 6, (function(t) return t*t*(3 - 2*t) end)(Sh
 -- the words, rendered in the middle of the frame so they can be measured, then moved into place
 local words = add("TextPlus", "LblWords", -4, 0)
 words:SetInput("UseFrameFormatSettings", 1)
-words:SetInput("Font", "Microsoft JhengHei"); words:SetInput("Style", "Bold")
+K.font(words)
 expr(words, "StyledText", "Text(LblCtrl.LblText.Value)")
-expr(words, "Size", "LblCtrl.LblSize")
+expr(words, "Size", K.v.size)
 
 -- Half: half the width and height of the frame, in units of the picture height.
 -- One line of text always gets the same height whatever the letters are, so labels line up when stacked.
@@ -97,8 +104,8 @@ expr(ctrl, "Half", string.format([[(function()
   local tw, th = 0, 0
   local d = LblWords.StyledText.Value ~= "" and LblWords.Output.DataWindow
   if d then tw, th = (d.right - d.left)/LblWords.Output.Height, (d.top - d.bottom)/LblWords.Output.Height end
-  th = math.max(th, LblSize*asp*0.6)
-  return Point(tw/2 + LblPadX*LblSize*asp, th/2 + LblPadY*LblSize*asp)
+  th = math.max(th, LblCtrl.LkSize*asp*0.6)
+  return Point(tw/2 + LblPadX*LblCtrl.LkSize*asp, th/2 + LblPadY*LblCtrl.LkSize*asp)
 end)()]], ASPECT))
 expr(ctrl, "Ctr", "Point(LblPos.X - (LblAnchor - 1)*Half.X/" .. ASPECT .. ", LblPos.Y)")
 
@@ -107,15 +114,13 @@ put.Background = ctrl.Output; put.Foreground = words.Output
 expr(put, "Center", "LblCtrl.Ctr")
 
 for i, name in ipairs(HOLD) do
-  local h = add("Background", name, -6 + i, -5)
-  h:SetInput("UseFrameFormatSettings", 0); h:SetInput("Width", 16); h:SetInput("Height", 16)
-  local d = PRESETS[1][2]
-  L.color(h, d[(i - 1)*3 + 1], d[(i - 1)*3 + 2], d[(i - 1)*3 + 3], 1)
+  if name:sub(1, 2) ~= "Lk" then
+    local h = add("Background", name, -6 + i, -5)
+    h:SetInput("UseFrameFormatSettings", 0); h:SetInput("Width", 16); h:SetInput("Height", 16)
+    L.color(h, D[(i - 1)*3 + 1], D[(i - 1)*3 + 2], D[(i - 1)*3 + 3], 1)
+  end
 end
-local tc = {}
-for k = 1, 2 do for c = 1, 3 do tc[#tc + 1] = col(k, c) end end
-tc[7], tc[8], tc[9] = "0", "0", "0"
-local inked = L.inked(comp, "LblInk", -1, 0, put.Output, "LblCtrl.LblTextEdge", "0", tc)
+local inked = K.drop(comp, "LblDrop", 0, 0, K.ink(comp, "LblInk", -1, 0, put.Output).Output)
 
 -- The frame. Red carries the fill, green the border, blue the shadow; LblPaint colours them.
 -- Shapes: 0 rectangle, 1 rounded, 2 pill, 3 slanted, 4 ribbon, 5 underline, 6 corner marks, 7 speech bubble, 8 none
@@ -132,7 +137,7 @@ expr(draw, "NumberIn7", string.format("iif(%s == 6 or %s == 8, 0, 1)", S, S))
 expr(draw, "NumberIn8", string.format("iif(%s == 5 or %s == 8 or LblCtrl.LblBorder <= 0, 0, 1)", S, S))
 -- the underline is a thin bar along the bottom, the ribbon is longer so the notches clear the text
 expr(draw, "PointIn1", string.format("iif(%s == 5, Point(LblCtrl.Ctr.X, LblCtrl.Ctr.Y - LblCtrl.Half.Y), LblCtrl.Ctr)", S))
-expr(draw, "PointIn2", string.format("iif(%s == 5, Point(LblCtrl.Half.X, 0.07*LblCtrl.LblSize*%s), iif(%s == 4, Point(LblCtrl.Half.X + 0.7*LblCtrl.Half.Y, LblCtrl.Half.Y), LblCtrl.Half))", S, ASPECT, S))
+expr(draw, "PointIn2", string.format("iif(%s == 5, Point(LblCtrl.Half.X, 0.07*LblCtrl.LkSize*%s), iif(%s == 4, Point(LblCtrl.Half.X + 0.7*LblCtrl.Half.Y, LblCtrl.Half.Y), LblCtrl.Half))", S, ASPECT, S))
 expr(draw, "PointIn3", "Point(LblCtrl.LblShadowX, LblCtrl.LblShadowY)")
 expr(draw, "PointIn4", string.format("Point(iif(%s == 6 or %s == 8, 0, 1), 0)", S, S))
 -- distance to the edge of the shape, negative inside, for a point (U, V) whose corner offsets are QX, QY
@@ -203,8 +208,6 @@ if os.getenv("FX_EXPORT") == "1" then
     {"NAME", "TextLabel"},
     {"OUT", "LblFinal", "Output"},
     {"CTL", "LblCtrl", "LblText", "Text"},
-    {"CTL", "LblWords", "Font", "Font", "2"}, {"CTL", "LblWords", "Style", "", "2"},
-    {"CTL", "LblCtrl", "LblSize", "Size"},
     {"CTL", "LblCtrl", "LblPos", "Position"},
     {"CTL", "LblCtrl", "LblAnchor", "Position Is The"},
     {"CTL", "LblCtrl", "LblTilt", "Tilt"},
@@ -215,10 +218,9 @@ if os.getenv("FX_EXPORT") == "1" then
     {"CTL", "LblCtrl", "LblSlant", "Slant"},
     {"CTL", "LblCtrl", "LblBorder", "Border"},
     {"CTL", "LblCtrl", "LblFillOp", "Frame Opacity"},
-    {"CTL", "LblCtrl", "LblTextEdge", "Text Outline"},
-    {"CTL", "LblCtrl", "LblShadowX", "Shadow X"},
-    {"CTL", "LblCtrl", "LblShadowY", "Shadow Y"},
-    {"CTL", "LblCtrl", "LblShadowOp", "Shadow Opacity"},
+    {"CTL", "LblCtrl", "LblShadowX", "Frame Shadow X"},
+    {"CTL", "LblCtrl", "LblShadowY", "Frame Shadow Y"},
+    {"CTL", "LblCtrl", "LblShadowOp", "Frame Shadow Opacity"},
     {"CTL", "LblCtrl", "LblEnter", "Entrance"},
     {"CTL", "LblCtrl", "LblIn", "Entrance Frames"},
     {"CTL", "LblCtrl", "LblDist", "Slide Distance"},
@@ -226,12 +228,15 @@ if os.getenv("FX_EXPORT") == "1" then
     {"CTL", "LblCtrl", "LblOut", "Leave Frames"},
     {"CTL", "LblCtrl", "LblPreset", "Colours"},
   }
-  local labels = {"Custom Text", "Custom Text Outline", "Custom Frame", "Custom Border", "Custom Shadow"}
+  K.rows(spec)
+  local labels = {[3] = "Custom Frame", [4] = "Custom Border", [5] = "Custom Frame Shadow"}
   for i, name in ipairs(HOLD) do
-    local g = tostring(10 + i)
-    spec[#spec + 1] = {"CTL", name, "TopLeftRed", labels[i], g}
-    spec[#spec + 1] = {"CTL", name, "TopLeftGreen", "", g}
-    spec[#spec + 1] = {"CTL", name, "TopLeftBlue", "", g}
+    if labels[i] then
+      local g = tostring(10 + i)
+      spec[#spec + 1] = {"CTL", name, "TopLeftRed", labels[i], g}
+      spec[#spec + 1] = {"CTL", name, "TopLeftGreen", "", g}
+      spec[#spec + 1] = {"CTL", name, "TopLeftBlue", "", g}
+    end
   end
   L.export(comp, "textlabel", spec)
 else

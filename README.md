@@ -16,7 +16,7 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 
 ## 範本
 
-依用途分成七類。點範本名稱看預覽圖、用法和完整的參數說明。
+依用途分成九類。點範本名稱看預覽圖、用法和完整的參數說明。
 
 ### 開場
 
@@ -54,19 +54,27 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 | [Stripe Wipe](docs/templates/stripe-wipe.md) | 轉場 | 幾條純色的色帶依序掃過畫面，掃完換成下一段 |
 | [Glitch Cut](docs/templates/glitch-cut.md) | 轉場 | 畫面像訊號不良一樣碎掉，恢復時是下一段 |
 
-### 綜藝字幕
+### 字幕與文字
 
-綜藝節目常見的字卡、效果符號和子畫面。疊在影片上方的軌道，背景透明。
+以文字為主的標題。疊在影片上方的軌道，背景透明。這五個的字型、字級、描邊、陰影是同一組欄位，見[文字外觀](docs/text-style.md)。
 
 | 範本 | 類型 | 說明 |
 |---|---|---|
+| [Caption](docs/templates/caption.md) | 標題 | 一次一句的字幕，照時間換句。整句出現、一個字一個字打出來加游標、或從左到右填色（卡拉 OK），三種方式選一種 |
 | [Variety Caption](docs/templates/variety-caption.md) | 標題 | 厚描邊的綜藝字卡，標起來的詞放大換色。一個片段放很多句，用關鍵幀換句 |
+| [Kinetic Lines](docs/templates/kinetic-lines.md) | 標題 | 一行行文字彈出來，照寫好的時間或照關鍵幀換句。也可以讓前面的行留著，變成逐條出現的條列 |
 | [Side Note](docs/templates/side-note.md) | 標題 | 歪歪的吐槽小字，加一支手繪箭頭指向畫面上的東西 |
 | [Text Label](docs/templates/text-label.md) | 標題 | 文字加自動貼合的外框，九種形狀。通用的積木，疊幾個就能拼出主題框、人名條、對話泡泡 |
+
+### 綜藝效果
+
+綜藝節目常見的效果符號、貼圖和子畫面。
+
+| 範本 | 類型 | 說明 |
+|---|---|---|
 | [Reaction Mark](docs/templates/reaction-mark.md) | 標題 | 怒氣記號、汗滴、問號、驚嘆號、集中線 |
-| [Hidden Word](docs/templates/hidden-word.md) | 標題 | 字幕裡一個詞先被貼紙蓋住，到時間貼紙掉下來，答案彈出來 |
-| [Sub Window](docs/templates/sub-window.md) | 特效 | 把上層軌道的片段縮成帶外框和陰影的小窗，放反應畫面、相片、截圖用。七種外框（拍立得、視窗、手機、膠帶、底片等），可以放大成全畫面 |
 | [Sticker Pop](docs/templates/sticker-pop.md) | 特效 | 去背的圖片彈進來、停留時輕輕晃動、再彈走，可加貼紙白邊和陰影 |
+| [Sub Window](docs/templates/sub-window.md) | 特效 | 把上層軌道的片段縮成帶外框和陰影的小窗，放反應畫面、相片、截圖用。七種外框（拍立得、視窗、手機、膠帶、底片等），可以放大成全畫面 |
 
 ### 標記與說明
 
@@ -91,26 +99,23 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 | [Split Screen](docs/templates/split-screen.md) | 特效 | 幾個片段各佔畫面的一格，分隔線可以是斜的 |
 | [Rec Frame](docs/templates/rec-frame.md) | 標題 | 攝影機觀景窗：四角框線、REC 紅點、時間碼、電池 |
 
-### 文字與資訊
+### 數字與資訊
 
-疊在影片上方的軌道，背景透明。
+數字、圖表、進度。疊在影片上方的軌道，背景透明。
 
 | 範本 | 類型 | 說明 |
 |---|---|---|
-| [Kinetic Lines](docs/templates/kinetic-lines.md) | 標題 | 一行行文字彈出來，照寫好的時間或照關鍵幀換句。也可以讓前面的行留著，變成逐條出現的條列 |
 | [Number Counter](docs/templates/number-counter.md) | 標題 | 數字從一個值跳到另一個值，或當計次器，每到一個時間點加一 |
+| [Countdown](docs/templates/countdown.md) | 標題 | 倒數計時的時鐘和圓環，最後幾秒變色跳動 |
 | [Bar Chart](docs/templates/bar-chart.md) | 標題 | 橫向長條圖，長條依序長出來，數字跟著跳 |
 | [Chapter Bar](docs/templates/chapter-bar.md) | 標題 | 有章節名稱的進度條 |
-| [Karaoke Caption](docs/templates/karaoke-caption.md) | 標題 | 字幕從左到右填上另一個顏色，跟著講話的速度走 |
-| [Countdown](docs/templates/countdown.md) | 標題 | 倒數計時的時鐘和圓環，最後幾秒變色跳動 |
 
 ### 對話與社群
 
-打字、留言、聊天、訂閱按鈕這類畫面。疊在影片上方的軌道，背景透明。
+留言、聊天、訂閱按鈕這類畫面。逐字打出來的效果在 [Caption](docs/templates/caption.md)。疊在影片上方的軌道，背景透明。
 
 | 範本 | 類型 | 說明 |
 |---|---|---|
-| [Typing](docs/templates/typing.md) | 標題 | 文字一個字一個字打出來，後面跟著游標，可以倒著刪掉再換下一句 |
 | [Comment Card](docs/templates/comment-card.md) | 標題 | 一張留言卡：頭像、名字、內文、會往上跳的愛心數。也可以當通知橫幅 |
 | [Chat Bubbles](docs/templates/chat-bubbles.md) | 標題 | 聊天對話：訊息一則則彈出來把舊的往上推，可以放「輸入中」的三個點 |
 | [Subscribe Reminder](docs/templates/subscribe-reminder.md) | 標題 | 按讚、訂閱、開啟小鈴鐺：一排按鈕彈出來，依序被按下 |
@@ -122,7 +127,8 @@ DaVinci Resolve 的 Fusion 範本：特效、轉場、標題。裝好之後會�
 | 文件 | 內容 |
 |---|---|
 | [安裝與移除](docs/install.md) | 範本包、安裝程式、手動安裝、移除，三種類型各自怎麼拖 |
-| [時間清單的寫法](docs/time-list.md) | Chapter Bar、Kinetic Lines、Punch Zoom、Variety Caption、Side Note、Glitch Hits、Freeze Frame、Karaoke Caption、Number Counter、Typing、Chat Bubbles 共用的時間點寫法 |
+| [時間清單的寫法](docs/time-list.md) | Chapter Bar、Kinetic Lines、Punch Zoom、Variety Caption、Side Note、Glitch Hits、Freeze Frame、Caption、Number Counter、Chat Bubbles 共用的時間點寫法 |
+| [文字外觀](docs/text-style.md) | Caption、Kinetic Lines、Variety Caption、Side Note、Text Label 共用的字型、描邊、陰影、底框設定 |
 | [docs/templates/](docs/templates) | 每個範本一份：預覽圖、用法、參數、注意事項 |
 | [做法與踩過的坑](skills/resolve-fusion/SKILL.md) | 這些範本是怎麼用腳本做出來的，想自己改範本時看這份 |
 

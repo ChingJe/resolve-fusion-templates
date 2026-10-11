@@ -23,7 +23,7 @@
 | `Line Number` | 現在顯示第幾行。打關鍵幀來換句，0 是不顯示 |
 | `Lines Start With A Time` | 勾選後改用時間清單：每行開頭寫時間，不看 `Line Number` |
 | `Frame Rate Override` | 用時間清單而且時間點不對時，填上時間軸的影格率。0 是自動 |
-| `Font`、`Size`、`Position` | 字型、大小、位置 |
+| `Position` | 位置 |
 | `Marked Word Size` | 標起來的詞放大幾倍 |
 | `Marked Word Gap` | 標起來的詞和前後文字的間距 |
 | `Tilt` | 傾斜角度，單數行和雙數行往相反方向歪 |
@@ -32,10 +32,10 @@
 | `Entrance Frames` | 進場花幾格 |
 | `Entrance Strength` | 進場的誇張程度 |
 | `Fade Out Frames` | 下一句出現前花幾格淡出。0 是直接換 |
-| `Inner Outline`、`Middle Outline`、`Outer Outline` | 三層描邊各自的粗細，0 是不要那一層 |
-| `Shadow`、`Shadow Distance` | 陰影的濃度和距離 |
 | `Colours` | 配色：`Yellow / Red`、`White / Blue`、`White / Pink`、`Lime / Green`、`White / Black`，或 `Custom` |
-| `Custom …` 七個顏色 | `Colours` 選 `Custom` 時才有作用：字的上下漸層、標記詞的上下漸層、三層描邊 |
+| `Font` 到 `Shadow Softness` | 字的外觀：字型、字級、字距、顏色、兩層描邊、陰影。每個文字類標題都是同一組，見[文字外觀](../text-style.md) |
+| `Third Outline` | 第三層描邊的粗細，包在 `Outer Outline` 外面。0 是不要那一層 |
+| `Custom …` 四個顏色 | `Colours` 選 `Custom` 時才有作用：字的下緣顏色（上緣是 `Colour`，兩個之間是漸層）、標記詞的上下漸層、第三層描邊 |
 
 `Lines` 的寫法：
 
@@ -60,5 +60,6 @@
 - 片段開頭就要有字的話，第一個關鍵幀設 1 就好，它之前也是 1。開頭不要有字，就在片段最前面先打一個 0。
 - 一行只能標一個詞。沒有標記的行可以用 `|` 換行，有標記的行只能是單行。
 - 同一時間只會有一句。要兩句同時出現，就在另一條軌道再放一個。
+- `Colours` 選了預設配色時，`Colour`、`Outline Colour`、`Outer Outline Colour` 三個欄位不起作用，要選 `Custom` 才看它們。
 - 預設字型是微軟正黑體粗體。換成更粗的字型（例如思源黑體 Heavy）會更像綜藝字卡，但要選有中文字的字型，不然中文會變成方塊。
 - 描邊很粗、字很大時算圖會變慢。

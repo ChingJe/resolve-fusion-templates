@@ -9,7 +9,7 @@ set "RESOLVE=%APPDATA%\Blackmagic Design\DaVinci Resolve"
 set "DEST=%RESOLVE%\Support\Fusion\Templates\Edit"
 set "MODE=%~1"
 set "NOPAUSE=%~2"
-set /a NEW=0, UPDATED=0, SAME=0, FAILED=0, REMOVED=0, TOTAL=0, INSTALLED=0
+set /a NEW=0, UPDATED=0, SAME=0, FAILED=0, REMOVED=0, TOTAL=0, INSTALLED=0, RETIRED=0
 
 echo.
 echo  ==============================================
@@ -57,13 +57,14 @@ echo.
 echo  開始安裝……
 echo.
 for %%T in (Titles Effects Transitions) do call :install_folder %%T
+call :retire_all
 echo.
 echo  ----------------------------------------------
 echo   新安裝 %NEW% 個，更新 %UPDATED% 個，原本就是最新的 %SAME% 個。
 if not "%FAILED%"=="0" goto :install_failed
 echo  ----------------------------------------------
 echo.
-set /a CHANGED=NEW+UPDATED
+set /a CHANGED=NEW+UPDATED+RETIRED
 if "%CHANGED%"=="0" goto :nothing_changed
 if "%RUNNING%"=="1" goto :need_restart
 echo  完成。下次開啟 Resolve 就會看到。
@@ -108,6 +109,7 @@ if errorlevel 2 goto :end
 :remove
 echo.
 for %%T in (Titles Effects Transitions) do call :remove_folder %%T
+call :retire_all
 echo.
 echo  ----------------------------------------------
 echo   移除了 %REMOVED% 個。
@@ -194,6 +196,24 @@ if errorlevel 1 (
 )
 if "%LABEL%"=="更新" (set /a UPDATED+=1) else (set /a NEW+=1)
 echo   [%LABEL%]   %~1\%~4
+exit /b
+
+rem templates\retired.txt lists templates that this package used to have (merged into another one or renamed),
+rem one per line as Type\Name.setting. They are taken out of Resolve's folder so no stale copy stays behind.
+:retire_all
+if not exist "%SRC%\retired.txt" exit /b
+for /f "usebackq eol=# delims=" %%R in ("%SRC%\retired.txt") do call :retire_one "%%R"
+exit /b
+
+:retire_one
+if not exist "%DEST%\%~1" exit /b
+del /Q "%DEST%\%~1" >nul 2>&1
+if exist "%DEST%\%~1" (
+  echo   [刪不掉]   %~1
+  exit /b
+)
+set /a RETIRED+=1
+echo   [已淘汰]   %~1
 exit /b
 
 :remove_folder

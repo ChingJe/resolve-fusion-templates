@@ -5,8 +5,8 @@ Position Is The=2
 Frame=2
 Colours=2
 Entrance=3
-Shadow X=0.004
-Shadow Y=-0.004
+Frame Shadow X=0.004
+Frame Shadow Y=-0.004
 
 Text=挑戰超辣火鍋
 Size=0.09

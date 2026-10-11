@@ -29,8 +29,8 @@ shot chapter-bar     chapterbar.lua FX_TEXTFILE=$X/chapters.txt FX_SET="BarH=0.0
 shot number-counter  compose.lua "FX_TEMPLATE=$T/Titles/Number Counter.setting" FX_SPEC=$X/counters.txt
 shot bar-chart       barchart.lua   FX_SET="BcTextSize=0.06"
 shot kinetic-lines   compose.lua "FX_TEMPLATE=$T/Titles/Kinetic Lines.setting" FX_SPEC=$X/kinetics.txt
-shot variety-caption variety.lua    FX_TEXTFILE=$X/captions.txt FX_CUE="4=1,80=2,160=3" FX_SET="CapSize=0.13"
-shot side-note       sidenote.lua   FX_SET="NoteSize=0.09,NoteThick=0.012"
+shot variety-caption variety.lua    FX_TEXTFILE=$X/captions.txt FX_CUE="4=1,80=2,160=3" FX_SET="LkSize=0.13"
+shot side-note       sidenote.lua   FX_SET="LkSize=0.09,NoteThick=0.012"
 shot text-label      compose.lua "FX_TEMPLATE=$T/Titles/Text Label.setting" FX_SPEC=$X/shapes.txt
 shot text-label-combined compose.lua "FX_TEMPLATE=$T/Titles/Text Label.setting" FX_SPEC=$X/labels.txt
 shot reaction-mark   compose.lua    "FX_TEMPLATE=$T/Titles/Reaction Mark.setting" FX_SPEC=$X/marks.txt
@@ -47,8 +47,6 @@ shot freeze-frame    freezeframe.lua
 shot echo            echo.lua
 shot handmade        handmade.lua
 shot countdown       countdown.lua  FX_SET="CdSize=0.14,CdRingSize=0.6"
-shot karaoke-caption karaoke.lua    FX_TEXTFILE=$X/karaoke.txt FX_SET="KaSize=0.14"
-shot hidden-word     hiddenword.lua FX_TEXTFILE=$X/hidden.txt FX_SET="HidSize=0.12"
 shot pen-mark        compose.lua "FX_TEMPLATE=$T/Titles/Pen Mark.setting" FX_SPEC=$X/pens.txt
 shot censor-patch    censor.lua     FX_SET="CzW=0.6,CzH=0.4,CzCell=0.06"
 shot zoom-callout    zoomcallout.lua FX_PT="CoSrc=0.5:0.2" FX_SET="CoBorder=0.012,CoLineW=0.006"
@@ -58,7 +56,7 @@ shot dimension-line  dimension.lua  FX_SET="DimSize=0.09,DimThick=0.01,DimEndSiz
 shot letterbox       letterbox.lua
 shot split-screen    compose.lua "FX_TEMPLATE=$T/Effects/Split Screen.setting" FX_SPEC=$X/panes.txt FX_INPUTS=1
 shot rec-frame       recframe.lua   FX_SET="RecSize=0.055,RecThick=0.007,RecCorners=0.12"
-shot typing          compose.lua "FX_TEMPLATE=$T/Titles/Typing.setting" FX_SPEC=$X/typings.txt
+shot caption         compose.lua "FX_TEMPLATE=$T/Titles/Caption.setting" FX_SPEC=$X/captionmodes.txt
 shot comment-card    compose.lua "FX_TEMPLATE=$T/Titles/Comment Card.setting" FX_SPEC=$X/comments.txt
 shot chat-bubbles    compose.lua "FX_TEMPLATE=$T/Titles/Chat Bubbles.setting" FX_SPEC=$X/chats.txt
 shot subscribe-reminder compose.lua "FX_TEMPLATE=$T/Titles/Subscribe Reminder.setting" FX_SPEC=$X/subscribes.txt

@@ -15,9 +15,10 @@ local mediaIn, mediaOut = L.clear(comp)
 local add, expr = L.adder(comp), L.expr
 
 local cur = L.cur("KinCtrl", "LineList", "KinTimed", "KinCue")
+local K = L.look("KinCtrl", {size = 0.11, edge = 0, box = {0, {0.93, 0.16, 0.16}, 0.02, 0.2}})
 
 local ctrl = add("Background", "KinCtrl", -5, -3)
-ctrl.UserControls = {
+ctrl.UserControls = K.controls({
   LineList    = L.text("Lines (0:00 Text)", "0% FIRST LINE\n25% THEN THIS\n50% TWO LINES|IN ONE\n75% LAST ONE", nil, 8),
   KinTimed    = L.check("Lines Start With A Time (0:02 Text)", 1),
   KinCue      = L.num("Line Number (keyframe 1, 2, 3)", 1, 0, 20),
@@ -25,16 +26,12 @@ ctrl.UserControls = {
   KinKeep   = L.combo("Earlier Lines", {"Are Replaced", "Stay On Screen (A List)"}, 0),
   KinDim    = L.num("Earlier Lines Brightness", 0.45, 0, 1),
   KinAlign  = L.combo("Alignment", {"Centre", "Left", "Right"}, 0),
-  KinSize   = L.num("Size", 0.11, 0.02, 0.4),
   KinIn     = L.num("Pop Frames", 8, 1, 40),
   KinOut    = L.num("Fade Out Frames", 3, 0, 40),
   KinBounce = L.num("Bounce", 1, 0, 3),
   KinGrow   = L.num("Grow From", 0.6, 0, 1.5),
   KinRise   = L.num("Rise", 0.04, -0.3, 0.3),
   KinTilt   = L.num("Tilt", 0, -30, 30),
-  KinBox    = L.num("Box Opacity", 0, 0, 1),
-  KinPadX   = L.num("Box Padding X", 0.25, 0, 1),
-  KinPadY   = L.num("Box Padding Y", 0.15, 0, 1),
   KinPos = {LINKID_DataType = "Point", INPID_InputControl = "OffsetControl", LINKS_Name = "Position",
             INPID_PreviewControl = "CrosshairControl", ICS_ControlPage = "Controls"},
   T    = L.num("T", 0, 0, 1, "Driver"),
@@ -43,11 +40,12 @@ ctrl.UserControls = {
   Idx   = L.num("Idx", 0, 0, 100, "Driver"),
   Since = L.num("Since", 0, 0, 100, "Driver"),
   Until = L.num("Until", 0, 0, 100, "Driver"),
-}
+})
 ctrl = ctrl:Refresh()
 ctrl:SetInput("UseFrameFormatSettings", 1)
 ctrl:SetInput("KinPos", {0.5, 0.5})
 L.color(ctrl, 0, 0, 0, 0)
+K.setup(comp)
 -- Idx: which line is on screen (0 for none). Since, Until: frames since it appeared and until the next one.
 expr(ctrl, "Idx", cur(1))
 expr(ctrl, "Since", cur(2))
@@ -77,12 +75,11 @@ end)(KinCtrl.LineList.Value, KinCtrl.KinTimed, KinCtrl.Idx, MODE, UPTO))]]):gsub
 end
 
 local text = add("TextPlus", "Line", -3, 0)
-text:SetInput("Font", "Microsoft JhengHei") -- Open Sans has no Chinese glyphs and Text+ does not fall back
-text:SetInput("Style", "Bold")
 text:SetInput("UseFrameFormatSettings", 1)
+K.font(text)
 -- two expressions cannot share one input, so the mode is chosen inside: a list keeps the text the same size
 expr(text, "StyledText", "iif(KinCtrl.KinKeep == 1, " .. LIST("1") .. ", " .. LINE .. ")")
-expr(text, "Size", "KinCtrl.KinSize * iif(KinCtrl.KinKeep == 1, 1, KinCtrl.KinGrow + (1 - KinCtrl.KinGrow)*KinCtrl.Back)")
+expr(text, "Size", K.v.size .. " * iif(KinCtrl.KinKeep == 1, 1, KinCtrl.KinGrow + (1 - KinCtrl.KinGrow)*KinCtrl.Back)")
 expr(text, "HorizontalLeftCenterRight", "({0, -1, 1})[KinCtrl.KinAlign + 1]")
 expr(text, "Center", "Point(KinCtrl.KinPos.X, KinCtrl.KinPos.Y - KinCtrl.KinRise*(1 - KinCtrl.Back))")
 -- odd lines lean one way, even lines the other
@@ -93,8 +90,9 @@ expr(text, "AngleZ", "iif(KinCtrl.KinKeep == 1, 0, KinCtrl.KinTilt * iif(KinCtrl
 local earlier = add("TextPlus", "Earlier", -3, 4)
 earlier:SetInput("UseFrameFormatSettings", 1)
 expr(earlier, "StyledText", LIST("2", "KinCtrl.Idx - iif(KinCtrl.T < 1, 1, 0)"))
-for _, k in ipairs({"Font", "Style", "HorizontalLeftCenterRight", "Red1", "Green1", "Blue1"}) do expr(earlier, k, "Line." .. k) end
-expr(earlier, "Size", "KinCtrl.KinSize")
+K.font(earlier)
+expr(earlier, "HorizontalLeftCenterRight", "Line.HorizontalLeftCenterRight")
+expr(earlier, "Size", K.v.size)
 expr(earlier, "Center", "KinCtrl.KinPos")
 
 -- optional box behind the text: a second Text+ that only draws its border fill, so it always fits the words
@@ -102,37 +100,44 @@ local box = add("TextPlus", "Box", -3, 2)
 box:SetInput("UseFrameFormatSettings", 1)
 expr(box, "StyledText", "iif(KinCtrl.KinKeep == 1, " .. LIST("3") .. ", Line.StyledText)")
 expr(box, "HorizontalLeftCenterRight", "Line.HorizontalLeftCenterRight")
-expr(box, "Font", "Line.Font")
-expr(box, "Style", "Line.Style")
+K.font(box)
 expr(box, "Size", "Line.Size")
 expr(box, "Center", "iif(KinCtrl.KinKeep == 1, KinCtrl.KinPos, Line.Center)")
 expr(box, "AngleZ", "Line.AngleZ")
 box:SetInput("ElementShape1", 2)
 box:SetInput("Level1", 0)
-box:SetInput("Red1", 0.93); box:SetInput("Green1", 0.16); box:SetInput("Blue1", 0.16)
-expr(box, "ExtendHorizontal1", "KinCtrl.KinPadX")
-expr(box, "ExtendVertical1", "KinCtrl.KinPadY")
+for i, ch in ipairs({"Red", "Green", "Blue"}) do expr(box, ch .. "1", K.c("box", i)) end
+-- the text tool measures this padding in text sizes; the look gives it in frame widths
+expr(box, "ExtendHorizontal1", K.v.pad .. "/max(Size, 0.001)")
+expr(box, "ExtendVertical1", K.v.pad .. "/max(Size, 0.001)")
+expr(box, "Round1", K.v.round)
 
 local boxed = add("Merge", "Boxed", -1, 2)
 boxed.Background = ctrl.Output
 boxed.Foreground = box.Output
 -- in a list the box holds the whole list, and comes in with the first row
-expr(boxed, "Blend", "KinCtrl.KinBox * iif(KinCtrl.KinKeep == 1, iif(KinCtrl.Idx < 1, 0, iif(KinCtrl.Idx < 2, min(KinCtrl.T*3, 1), 1)), KinCtrl.Fade)")
-local listed = add("Merge", "Listed", -1, 4)
-listed.Background = boxed.Output
-listed.Foreground = earlier.Output
+expr(boxed, "Blend", K.v.box .. " * iif(KinCtrl.KinKeep == 1, iif(KinCtrl.Idx < 1, 0, iif(KinCtrl.Idx < 2, min(KinCtrl.T*3, 1), 1)), KinCtrl.Fade)")
+local earlierInk = K.ink(comp, "EarlierInk", -1, 5, earlier.Output)
+local listed = add("Merge", "Listed", 2, 5)
+listed.Background = ctrl.Output
+listed.Foreground = earlierInk.Output
 expr(listed, "Blend", "iif(KinCtrl.KinKeep == 1, KinCtrl.KinDim, 0)")
-local out = add("Merge", "KinFinal", 0, 2)
-out.Background = listed.Output
-out.Foreground = text.Output
-expr(out, "Blend", "KinCtrl.Fade")
+local lineInk = K.ink(comp, "LineInk", -1, 9, text.Output)
+local words = add("Merge", "Words", 3, 5)
+words.Background = listed.Output
+words.Foreground = lineInk.Output
+expr(words, "Blend", "KinCtrl.Fade")
+local drop = K.drop(comp, "KinDrop", 4, 5, words.Output)
+local out = add("Merge", "KinFinal", 5, 2)
+out.Background = boxed.Output
+out.Foreground = drop.Output
 
 mediaOut.Input = out.Output
 comp:EndUndo(true)
 comp:Unlock()
 
 if os.getenv("FX_EXPORT") == "1" then
-  L.export(comp, "kinetic", {
+  L.export(comp, "kinetic", K.rows({
     {"NAME", "KineticLines"},
     {"OUT", "KinFinal", "Output"},
     {"CTL", "KinCtrl", "LineList", "Lines (0:00 Text)"},
@@ -142,9 +147,6 @@ if os.getenv("FX_EXPORT") == "1" then
     {"CTL", "KinCtrl", "KinKeep", "Earlier Lines"},
     {"CTL", "KinCtrl", "KinDim", "Earlier Lines Brightness"},
     {"CTL", "KinCtrl", "KinAlign", "Alignment"},
-    {"CTL", "Line", "Font", "Font", "2"}, {"CTL", "Line", "Style", "", "2"},
-    {"CTL", "KinCtrl", "KinSize", "Size"},
-    {"CTL", "Line", "Red1", "Color", "3"}, {"CTL", "Line", "Green1", "", "3"}, {"CTL", "Line", "Blue1", "", "3"},
     {"CTL", "KinCtrl", "KinPos", "Position"},
     {"CTL", "KinCtrl", "KinIn", "Pop Frames"},
     {"CTL", "KinCtrl", "KinOut", "Fade Out Frames"},
@@ -152,11 +154,7 @@ if os.getenv("FX_EXPORT") == "1" then
     {"CTL", "KinCtrl", "KinGrow", "Grow From"},
     {"CTL", "KinCtrl", "KinRise", "Rise"},
     {"CTL", "KinCtrl", "KinTilt", "Tilt"},
-    {"CTL", "KinCtrl", "KinBox", "Box Opacity"},
-    {"CTL", "Box", "Red1", "Box Color", "4"}, {"CTL", "Box", "Green1", "", "4"}, {"CTL", "Box", "Blue1", "", "4"},
-    {"CTL", "KinCtrl", "KinPadX", "Box Padding X"},
-    {"CTL", "KinCtrl", "KinPadY", "Box Padding Y"},
-  })
+  }))
 else
   for name, value in string.gmatch(os.getenv("FX_SET") or "", "(%w+)=([%d%.%-]+)") do ctrl:SetInput(name, tonumber(value)) end
   for name, a, b in string.gmatch(os.getenv("FX_PT") or "", "(%w+)=([%d%.]+):([%d%.]+)") do ctrl:SetInput(name, {tonumber(a), tonumber(b)}) end

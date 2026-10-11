@@ -49,7 +49,7 @@ t.Size:SetExpression("ComicCtrl.TextSize * ComicCtrl.Zoom")
 
 | 檔案 | 用途 |
 |---|---|
-| `lib.lua` | 建置腳本共用的函式：確認專案與時間軸、清空節點、自訂控制項、程序產生的測試畫面、算圖、匯出。另有 `L.cur`（清單目前輪到哪一行，時間清單或關鍵幀兩種模式）和 `L.inked`（把白色形狀上色並加兩層描邊） |
+| `lib.lua` | 建置腳本共用的函式：確認專案與時間軸、清空節點、自訂控制項、程序產生的測試畫面、算圖、匯出。另有 `L.cur`（清單目前輪到哪一行，時間清單或關鍵幀兩種模式）、`L.inked`（把白色形狀上色並加兩層描邊）和 `L.look`（文字類標題共用的外觀控制項，見「文字類標題共用的外觀」） |
 | `lab.lua` | 開啟實驗用時間軸 `FX Lab`，把播放頭移到帶 Fusion 合成的那個片段上，切到 Fusion 頁面。時間軸或片段不存在就建立（`local.lua` 有填 `media` 就用那支影片，沒有就插入空的 Fusion 合成，不需要素材）。建置腳本印 `NOT_ON_FUSION_PAGE` 或 `NO_COMP` 時先跑它 |
 | `macro.py` | 把 `lib.lua` 匯出的節點和規格包成巨集範本 |
 | `check.lua` | 把範本貼進清空的實驗合成、接上測試畫面（`FX_SRC=media` 改接真實片段）、算圖 |
@@ -89,8 +89,6 @@ t.Size:SetExpression("ComicCtrl.TextSize * ComicCtrl.Zoom")
 | `echo.lua` | Echo，殘影 | 特效 |
 | `handmade.lua` | Handmade，定格動畫的手作感 | 特效 |
 | `countdown.lua` | Countdown，倒數計時 | 標題 |
-| `karaoke.lua` | Karaoke Caption，逐字填色的字幕 | 標題 |
-| `hiddenword.lua` | Hidden Word，貼紙蓋住的詞到時間揭曉 | 標題 |
 | `penmark.lua` | Pen Mark，手繪的圈、線、框、箭頭、勾叉 | 標題 |
 | `censor.lua` | Censor Patch，馬賽克、模糊、色塊遮蔽 | 特效 |
 | `zoomcallout.lua` | Zoom Callout，小圈拉線到放大視窗 | 特效 |
@@ -100,7 +98,7 @@ t.Size:SetExpression("ComicCtrl.TextSize * ComicCtrl.Zoom")
 | `letterbox.lua` | Letterbox，電影黑邊 | 標題 |
 | `splitscreen.lua` | Split Screen，分割畫面的其中一格 | 特效 |
 | `recframe.lua` | Rec Frame，攝影機觀景窗 | 標題 |
-| `typing.lua` | Typing，文字逐字打出來加游標 | 標題 |
+| `caption.lua` | Caption，一次一句的字幕：整句出現、逐字打出來加游標、或逐字填色 | 標題 |
 | `commentcard.lua` | Comment Card，留言卡和通知 | 標題 |
 | `chatbubbles.lua` | Chat Bubbles，聊天對話 | 標題 |
 | `subscribe.lua` | Subscribe Reminder，按讚、訂閱、小鈴鐺 | 標題 |
@@ -159,6 +157,9 @@ cmd.exe //c "..\\install.bat install nopause"          # 同步到 Resolve 的�
 - `Custom` 最多三張輸入圖，另有四個 `PointIn`（`p1x`、`p1y`…）可以當額外的數值輸入。
 - 運算式可以是立即呼叫的匿名函式：`(function(t) return t*t*(3-2*t) end)(...)`，需要區域變數或字串處理時用這個。
 - 文字輸入的運算式要回傳 `Text(...)`，讀其他節點的文字用 `節點.欄位.Value`。
+- **緊接在 `Font` 後面設的 `Style` 不會生效**：`t:SetInput("Font", "Microsoft JhengHei"); t:SetInput("Style", "Bold")` 之後，讀回來是 `Bold`，算出來卻是一般字重（不是每次都發生）。先設成別的字重再設回來就會生效：`SetInput("Style", "Regular"); SetInput("Style", "Bold")`。`L.look` 的 `K.font` 已經這樣做。匯出的 `.setting` 裡存的值是對的，所以只影響在實驗合成裡直接算的測試圖。
+- `Text+` 的 `Font`、`Style` 在運算式裡是 Text 物件，要當字串用得加 `.Value`（`LkFont.Font.Value`）；反過來，運算式回傳字串或 `Text("Arial")` 都能設定字型。
+- `Text+` 自帶底框的留白 `ExtendHorizontal1`、`ExtendVertical1` 是以字級為單位：每邊多出「數值 × `Size`」個畫面寬度，垂直方向也是。要用畫面寬度指定留白就除以 `Size`。
 - `Text+` 的對齊要設 `HorizontalLeftCenterRight`：`1` 是文字的尾端貼在 `Center`（靠右對齊），`-1` 是開頭貼在 `Center`（靠左對齊），`0` 置中。`HorizontalJustificationNew` 用腳本設定沒有效果。
 - 巨集需要單一輸入點時，放一個不改任何設定的 `BrightnessContrast` 當入口，其他節點都接它。
 - `tool:AddModifier("輸入ID", "修改器ID")` 可以掛修改器，再用 `tool.輸入:GetConnectedOutput():GetTool()` 取得它。
@@ -208,6 +209,25 @@ cmd.exe //c "..\\install.bat install nopause"          # 同步到 Resolve 的�
 
 - 標題沒有影像輸入，輸出要帶透明度。控制節點的 `Background` 記得把 Alpha 設成 0。
 - 進度同樣用 `comp.RenderStart`、`comp.RenderEnd` 算，標題片段拉多長動畫就走多久。
+
+## 文字類標題共用的外觀
+
+以文字為主的標題（Caption、Kinetic Lines、Variety Caption、Side Note、Text Label）不要各自做字型、字級、描邊、陰影、底框的控制項，一律用 `lib.lua` 的 `L.look`。使用者看到的名稱、順序、單位在每個範本都一樣，說明集中在 `docs/text-style.md`。新的文字類標題照做，範例看 `build/caption.lua`。
+
+```lua
+local K = L.look("XxCtrl", {size = 0.07, edge = 0.005, box = {0, {0.05, 0.06, 0.09}, 0.012, 0.3}})
+local ctrl, spec = L.panel(comp, "XxCtrl", K.add({ ...這個範本自己的控制項... }))
+K.setup(comp)                 -- 建字型和顏色的替身節點
+K.font(text)                  -- Text+ 的字型、字重、字距
+expr(text, "Size", K.v.size)  -- 數值：K.v.size、edge、outer、shadow、dist、soft、box、pad、round，顏色用 K.c("col", 1..3)
+local ink = K.ink(comp, "XxInk", 0, 0, text.Output)   -- 上色加兩層描邊，第六個參數可以換掉某一組顏色
+local drop = K.drop(comp, "XxDrop", 2, 0, ink.Output) -- 陰影
+local plate = K.plate(comp, "XxBox", 2, 2, 左, 右, 下, 上) -- 底框，Merge 的 Blend 用 K.v.box
+```
+
+- 控制項的 ID 是 `LkSize`、`LkTrack`、`LkEdge`、`LkOuter`、`LkShadow`、`LkDist`、`LkSoft`、`LkBox`、`LkPad`、`LkRound`，字型在 `LkFont`，顏色在 `LkCol`、`LkColEdge`、`LkColOuter`、`LkColBox` 這幾個替身節點上。測試時用 `FX_SET="LkSize=0.1"`。
+- **有配色選單的範本**（Variety Caption、Text Label）：用 `o.pre(key, channel)` 回傳「預設配色或自訂顏色」的運算式，`K.c` 就會給這個。
+- 手寫 `UserControls` 和匯出清單的舊腳本用 `K.controls(uc)` 和 `K.rows(spec)`。
 
 ## 打包成範本
 

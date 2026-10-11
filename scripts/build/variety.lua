@@ -24,28 +24,33 @@ local PRESETS = {
 local names, rows = {"Custom"}, {}
 for _, p in ipairs(PRESETS) do names[#names + 1] = p[1]; rows[#rows + 1] = "{" .. table.concat(p[2], ",") .. "}" end
 local TABLE = "({" .. table.concat(rows, ",") .. "})"
-local HOLD = {"ColFillTop", "ColFillBottom", "ColMarkTop", "ColMarkBottom", "ColInner", "ColMiddle", "ColOuter"}
+-- The fill at the top and the two inner outlines are the colours of the shared look (LkCol, LkColEdge,
+-- LkColOuter); the other four are this template's own.
+local HOLD = {"LkCol", "ColFillBottom", "ColMarkTop", "ColMarkBottom", "LkColEdge", "LkColOuter", "ColOuter"}
 -- colour number k (1..7), channel c (1..3): from the preset, or from the colour holder when Custom is chosen
-local function col(k, c)
+local function preset(k, c)
   local ch = ({"Red", "Green", "Blue"})[c]
   return string.format("iif(VarCtrl.CapPreset == 0, %s.TopLeft%s, %s[max(VarCtrl.CapPreset, 1)][%d])", HOLD[k], ch, TABLE, (k - 1)*3 + c)
 end
+local D = PRESETS[1][2]
+local K = L.look("VarCtrl", {size = 0.09, edge = 0.006, outer = 0.004, shadow = 0.6, dist = 0.006,
+  col = {D[1], D[2], D[3]}, colEdge = {D[13], D[14], D[15]}, colOuter = {D[16], D[17], D[18]},
+  pre = function(key, c) return preset(({col = 1, edge = 5, outer = 6})[key], c) end})
+local function col(k, c)
+  if k == 1 then return K.c("col", c) elseif k == 5 then return K.c("edge", c) elseif k == 6 then return K.c("outer", c) end
+  return preset(k, c)
+end
 
 local ctrl = add("Background", "VarCtrl", -6, -3)
-ctrl.UserControls = {
+ctrl.UserControls = K.controls({
   CapList  = L.text("Lines (mark one word with *stars*)", "今天要挑戰\n*超級*辣的火鍋\n結果*完全*不行", nil, 8),
   CapCue   = L.num("Line Number (keyframe 1, 2, 3)", 1, 0, 20),
   CapTimed = L.check("Lines Start With A Time (0:02 Text)", 0),
   FpsOverride = L.num("Frame Rate Override", 0, 0, 120),
   CapPreset = L.combo("Colours", names, 1),
-  CapSize  = L.num("Size", 0.09, 0.02, 0.3),
   CapMark  = L.num("Marked Word Size", 1.35, 0.5, 3),
   CapGap   = L.num("Marked Word Gap", 0.12, 0, 1),
-  CapInner = L.num("Inner Outline", 0.006, 0, 0.03),
-  CapMiddle = L.num("Middle Outline", 0.004, 0, 0.03),
-  CapOuter = L.num("Outer Outline", 0.003, 0, 0.03),
-  CapShadow = L.num("Shadow", 0.6, 0, 1),
-  CapShadowOff = L.num("Shadow Distance", 0.006, 0, 0.05),
+  CapOuter = L.num("Third Outline", 0.003, 0, 0.03),
   CapEnter = L.combo("Entrance", {"Pop", "Slam", "Shake", "Slide Up", "None"}, 0),
   CapIn    = L.num("Entrance Frames", 8, 1, 40),
   CapOut   = L.num("Fade Out Frames", 2, 0, 40),
@@ -65,11 +70,13 @@ ctrl.UserControls = {
   Off = {LINKID_DataType = "Point", INPID_InputControl = "OffsetControl", LINKS_Name = "Off", ICS_ControlPage = "Driver"},
   WA = L.num("WA", 0, 0, 2, "Driver"), WB = L.num("WB", 0, 0, 2, "Driver"), WC = L.num("WC", 0, 0, 2, "Driver"),
   Gap = {LINKID_DataType = "Point", INPID_InputControl = "OffsetControl", LINKS_Name = "Gap", ICS_ControlPage = "Driver"},
-}
+})
 ctrl = ctrl:Refresh()
 ctrl:SetInput("UseFrameFormatSettings", 1)
 ctrl:SetInput("CapPos", {0.5, 0.2})
 L.color(ctrl, 0, 0, 0, 0)
+K.setup(comp)
+local SIZE = K.v.size
 expr(ctrl, "Idx", cur(1))
 expr(ctrl, "Since", cur(2))
 expr(ctrl, "Until", cur(3))
@@ -115,10 +122,9 @@ local seg = {}
 for n, tag in ipairs({"A", "B", "C"}) do
   local t = add("TextPlus", "Seg" .. tag, -4, n - 1)
   t:SetInput("UseFrameFormatSettings", 1)
-  t:SetInput("Font", "Microsoft JhengHei"); t:SetInput("Style", "Bold")
+  K.font(t)
   expr(t, "StyledText", piece(n))
-  expr(t, "Size", n == 2 and "VarCtrl.CapSize * VarCtrl.CapMark" or "VarCtrl.CapSize")
-  if n > 1 then expr(t, "Font", "SegA.Font"); expr(t, "Style", "SegA.Style") end
+  expr(t, "Size", n == 2 and SIZE .. " * VarCtrl.CapMark" or SIZE)
   seg[n] = t
   -- how wide the piece came out, as a fraction of the frame width
   expr(ctrl, "W" .. tag, string.format([[(function()
@@ -129,7 +135,7 @@ for n, tag in ipairs({"A", "B", "C"}) do
 end)()]], tag, tag, tag))
 end
 -- gaps left and right of the marked word, only where there is something next to it
-expr(ctrl, "Gap", "Point(iif(WA > 0 and WB > 0, CapGap*CapSize, 0), iif(WB > 0 and WC > 0, CapGap*CapSize, 0))")
+expr(ctrl, "Gap", "Point(iif(WA > 0 and WB > 0, CapGap*" .. SIZE .. ", 0), iif(WB > 0 and WC > 0, CapGap*" .. SIZE .. ", 0))")
 
 local X0 = "(VarCtrl.CapPos.X - (VarCtrl.WA + VarCtrl.WB + VarCtrl.WC + VarCtrl.Gap.X + VarCtrl.Gap.Y)/2)"
 local ASPECT = "VarCtrl.Output.Width/VarCtrl.Output.Height"
@@ -139,7 +145,7 @@ expr(putA, "Center", "Point(" .. X0 .. " + VarCtrl.WA/2, VarCtrl.CapPos.Y)")
 -- the marked word sits on the same baseline as the rest, so it is lifted by part of what it gained in height
 local mark = add("Merge", "MarkOnly", -2, 1)
 mark.Background = ctrl.Output; mark.Foreground = seg[2].Output
-expr(mark, "Center", "Point(" .. X0 .. " + VarCtrl.WA + VarCtrl.Gap.X + VarCtrl.WB/2, VarCtrl.CapPos.Y + 0.28*VarCtrl.CapSize*(VarCtrl.CapMark - 1)*" .. ASPECT .. ")")
+expr(mark, "Center", "Point(" .. X0 .. " + VarCtrl.WA + VarCtrl.Gap.X + VarCtrl.WB/2, VarCtrl.CapPos.Y + 0.28*" .. SIZE .. "*(VarCtrl.CapMark - 1)*" .. ASPECT .. ")")
 local putB = add("Merge", "PutB", -1, 0)
 putB.Background = putA.Output; putB.Foreground = mark.Output
 local glyph = add("Merge", "Glyphs", 0, 0)
@@ -148,10 +154,11 @@ expr(glyph, "Center", "Point(" .. X0 .. " + VarCtrl.WA + VarCtrl.Gap.X + VarCtrl
 
 -- colour holders for the Custom preset
 for i, name in ipairs(HOLD) do
-  local h = add("Background", name, -6 + i, -5)
-  h:SetInput("UseFrameFormatSettings", 0); h:SetInput("Width", 16); h:SetInput("Height", 16)
-  local d = PRESETS[1][2]
-  L.color(h, d[(i - 1)*3 + 1], d[(i - 1)*3 + 2], d[(i - 1)*3 + 3], 1)
+  if name:sub(1, 2) ~= "Lk" then
+    local h = add("Background", name, -6 + i, -5)
+    h:SetInput("UseFrameFormatSettings", 0); h:SetInput("Width", 16); h:SetInput("Height", 16)
+    L.color(h, D[(i - 1)*3 + 1], D[(i - 1)*3 + 2], D[(i - 1)*3 + 3], 1)
+  end
 end
 
 -- a vertical gradient cut out by the letters
@@ -163,7 +170,7 @@ local function paint(name, src, k, x, y)
     expr(c, "NumberIn" .. (ch + 3), col(k + 1, ch))
   end
   -- bottom and top of the letters
-  expr(c, "PointIn1", "Point(VarCtrl.CapPos.Y - 0.3*VarCtrl.CapSize*" .. ASPECT .. ", VarCtrl.CapPos.Y + 0.3*VarCtrl.CapSize*" .. ASPECT .. ")")
+  expr(c, "PointIn1", "Point(VarCtrl.CapPos.Y - 0.3*" .. SIZE .. "*" .. ASPECT .. ", VarCtrl.CapPos.Y + 0.3*" .. SIZE .. "*" .. ASPECT .. ")")
   c:SetInput("Intermediate1", "min(max((y - p1x)/max(p1y - p1x, 0.0001), 0), 1)")
   c:SetInput("RedExpression", "(n4 + (n1 - n4)*i1)*a1")
   c:SetInput("GreenExpression", "(n5 + (n2 - n5)*i1)*a1")
@@ -176,7 +183,8 @@ local markFill = paint("MarkPaint", mark.Output, 3, 2, 1)
 
 -- three outlines, each one the letters grown a bit further
 local grown = {}
-local widths = {"VarCtrl.CapInner", "VarCtrl.CapInner + VarCtrl.CapMiddle", "VarCtrl.CapInner + VarCtrl.CapMiddle + VarCtrl.CapOuter"}
+local INNER, MIDDLE = K.v.edge, K.v.outer
+local widths = {INNER, INNER .. " + " .. MIDDLE, INNER .. " + " .. MIDDLE .. " + VarCtrl.CapOuter"}
 for i = 1, 3 do
   local g = add("ErodeDilate", "Grow" .. ({"Inner", "Middle", "Outer"})[i], 1, 2 + i)
   g.Input = glyph.Output
@@ -193,9 +201,9 @@ end
 expr(stroke, "PointIn1", "Point(" .. col(7, 1) .. ", " .. col(7, 2) .. ")")
 expr(stroke, "PointIn2", "Point(" .. col(7, 3) .. ", 0)")
 -- an outline of zero width is left out, otherwise it would cover the one inside it
-expr(stroke, "NumberIn7", "iif(VarCtrl.CapMiddle > 0, 1, 0)")
+expr(stroke, "NumberIn7", "iif(" .. MIDDLE .. " > 0, 1, 0)")
 expr(stroke, "NumberIn8", "iif(VarCtrl.CapOuter > 0, 1, 0)")
-expr(stroke, "PointIn3", "Point(iif(VarCtrl.CapInner > 0, 1, 0), 0)")
+expr(stroke, "PointIn3", "Point(iif(" .. INNER .. " > 0, 1, 0), 0)")
 stroke:SetInput("Intermediate1", "a1*p3x")
 stroke:SetInput("Intermediate2", "a2*n7")
 stroke:SetInput("Intermediate3", "a3*n8")
@@ -208,11 +216,7 @@ local m1 = add("Merge", "OverStroke", 4, 2)
 m1.Background = stroke.Output; m1.Foreground = fill.Output
 local m2 = add("Merge", "OverMark", 5, 2)
 m2.Background = m1.Output; m2.Foreground = markFill.Output
-local shadow = add("Shadow", "CapDrop", 6, 2)
-shadow.Input = m2.Output
-expr(shadow, "ShadowOffset", "Point(0.5 + VarCtrl.CapShadowOff, 0.5 - VarCtrl.CapShadowOff*" .. ASPECT .. ")")
-shadow:SetInput("Softness", 0)
-expr(shadow, "Alpha", "VarCtrl.CapShadow")
+local shadow = K.drop(comp, "CapDrop", 6, 2, m2.Output)
 local move = add("Transform", "CapMove", 7, 2)
 move.Input = shadow.Output
 expr(move, "Pivot", "VarCtrl.CapPos")
@@ -235,8 +239,6 @@ if os.getenv("FX_EXPORT") == "1" then
     {"CTL", "VarCtrl", "CapCue", "Line Number (keyframe 1, 2, 3)"},
     {"CTL", "VarCtrl", "CapTimed", "Lines Start With A Time (0:02 Text)"},
     {"CTL", "VarCtrl", "FpsOverride", "Frame Rate Override"},
-    {"CTL", "SegA", "Font", "Font", "2"}, {"CTL", "SegA", "Style", "", "2"},
-    {"CTL", "VarCtrl", "CapSize", "Size"},
     {"CTL", "VarCtrl", "CapMark", "Marked Word Size"},
     {"CTL", "VarCtrl", "CapGap", "Marked Word Gap"},
     {"CTL", "VarCtrl", "CapPos", "Position"},
@@ -246,20 +248,18 @@ if os.getenv("FX_EXPORT") == "1" then
     {"CTL", "VarCtrl", "CapIn", "Entrance Frames"},
     {"CTL", "VarCtrl", "CapPower", "Entrance Strength"},
     {"CTL", "VarCtrl", "CapOut", "Fade Out Frames"},
-    {"CTL", "VarCtrl", "CapInner", "Inner Outline"},
-    {"CTL", "VarCtrl", "CapMiddle", "Middle Outline"},
-    {"CTL", "VarCtrl", "CapOuter", "Outer Outline"},
-    {"CTL", "VarCtrl", "CapShadow", "Shadow"},
-    {"CTL", "VarCtrl", "CapShadowOff", "Shadow Distance"},
     {"CTL", "VarCtrl", "CapPreset", "Colours"},
   }
-  local labels = {"Custom Fill Top", "Custom Fill Bottom", "Custom Marked Top", "Custom Marked Bottom",
-                  "Custom Inner Outline", "Custom Middle Outline", "Custom Outer Outline"}
+  K.rows(spec)
+  spec[#spec + 1] = {"CTL", "VarCtrl", "CapOuter", "Third Outline"}
+  local labels = {[2] = "Custom Fill At The Bottom", [3] = "Custom Marked Top", [4] = "Custom Marked Bottom", [7] = "Custom Third Outline"}
   for i, name in ipairs(HOLD) do
-    local g = tostring(10 + i)
-    spec[#spec + 1] = {"CTL", name, "TopLeftRed", labels[i], g}
-    spec[#spec + 1] = {"CTL", name, "TopLeftGreen", "", g}
-    spec[#spec + 1] = {"CTL", name, "TopLeftBlue", "", g}
+    if labels[i] then
+      local g = tostring(10 + i)
+      spec[#spec + 1] = {"CTL", name, "TopLeftRed", labels[i], g}
+      spec[#spec + 1] = {"CTL", name, "TopLeftGreen", "", g}
+      spec[#spec + 1] = {"CTL", name, "TopLeftBlue", "", g}
+    end
   end
   L.export(comp, "variety", spec)
 else

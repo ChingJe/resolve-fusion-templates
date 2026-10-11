@@ -192,6 +192,130 @@ function L.inked(comp, name, x, y, matte, w1, w2, c)
   L.cx(p, "AlphaExpression", "a1 + (1 - a1)*(i1 + (1 - i1)*i2)")
   return p
 end
+-- The look of the words, the same block of controls in every title that is mostly text: font, size, letter spacing,
+-- colour, two outlines, a shadow and (with o.box) a box behind. Same names, same order, same units everywhere, so
+-- what is learnt in one template holds in the others, and the same numbers give the same look.
+--   local K = L.look("XxCtrl", {size = 0.07, edge = 0.005, box = {0, {0.05, 0.06, 0.09}, 0.012, 0.3}, ...})
+--   K.list            entries for the L.panel list (K.add(list) appends them)
+--   K.setup(comp)     makes the font and colour holders
+--   K.font(tool)      a Text+ takes its font, style and letter spacing from the look
+--   K.v.size ...      expressions for the values: size track edge outer shadow dist soft box pad round
+--   K.c("col", 1..3)  the same for a colour channel: col, edge, outer, box
+--   K.ink / K.drop / K.plate   outlines, shadow, box
+-- o.pre(key, channel) may return an expression that stands in for a colour control (colour presets).
+function L.look(cn, o)
+  o = o or {}
+  local K = {cn = cn, v = {}}
+  local box = o.box or nil
+  local ASP = "(comp:GetPrefs('Comp.FrameFormat.Width')/comp:GetPrefs('Comp.FrameFormat.Height'))"
+  local nums = { -- key, control, label, default, low, high
+    {"size", "LkSize", "Size", o.size or 0.07, 0.01, 0.4},
+    {"track", "LkTrack", "Letter Spacing", o.track or 1, 0.5, 2},
+    {"edge", "LkEdge", "Outline", o.edge or 0.005, 0, 0.03},
+    {"outer", "LkOuter", "Outer Outline", o.outer or 0, 0, 0.03},
+    {"shadow", "LkShadow", "Shadow", o.shadow or 0, 0, 1},
+    {"dist", "LkDist", "Shadow Distance", o.dist or 0.005, 0, 0.05},
+    {"soft", "LkSoft", "Shadow Softness", o.soft or 0, 0, 1},
+    {"box", "LkBox", "Box Opacity", box and box[1] or 0, 0, 1},
+    {"pad", "LkPad", "Box Padding", box and box[3] or 0.012, 0, 0.08},
+    {"round", "LkRound", "Box Roundness", box and box[4] or 0.3, 0, 1},
+  }
+  local cols = { -- key, holder, label, default, control group
+    {"col", "LkCol", "Colour", o.col or {1, 1, 1}, "31"},
+    {"edge", "LkColEdge", "Outline Colour", o.colEdge or {0.05, 0.05, 0.08}, "32"},
+    {"outer", "LkColOuter", "Outer Outline Colour", o.colOuter or {1, 1, 1}, "33"},
+    {"box", "LkColBox", "Box Colour", box and box[2] or {0.05, 0.06, 0.09}, "34"},
+  }
+  local CH = {"Red", "Green", "Blue"}
+  local holder = {}
+  for _, c in ipairs(cols) do holder[c[1]] = c[2] end
+  for _, n in ipairs(nums) do K.v[n[1]] = cn .. "." .. n[2] end
+  function K.c(key, ch) return o.pre and o.pre(key, ch) or (holder[key] .. ".TopLeft" .. CH[ch]) end
+
+  local list = {}
+  local function ctl(n) list[#list + 1] = {n[2], L.num(n[3], n[4], n[5], n[6])} end
+  local function hold(c)
+    for i, ch in ipairs(CH) do list[#list + 1] = {spec = {"CTL", c[2], "TopLeft" .. ch, i == 1 and c[3] or "", c[5]}} end
+  end
+  list[#list + 1] = {spec = {"CTL", "LkFont", "Font", "Font", "30"}}
+  list[#list + 1] = {spec = {"CTL", "LkFont", "Style", "", "30"}}
+  ctl(nums[1]); ctl(nums[2]); hold(cols[1])
+  ctl(nums[3]); hold(cols[2]); ctl(nums[4]); hold(cols[3])
+  ctl(nums[5]); ctl(nums[6]); ctl(nums[7])
+  if box then ctl(nums[8]); hold(cols[4]); ctl(nums[9]); ctl(nums[10]) end
+  K.list = list
+  function K.add(to) for _, e in ipairs(list) do to[#to + 1] = e end return to end
+  -- for the scripts that write their UserControls table and their export rows by hand
+  function K.controls(uc) for _, e in ipairs(list) do if e[1] then uc[e[1]] = e[2] end end return uc end
+  function K.rows(spec)
+    for _, e in ipairs(list) do spec[#spec + 1] = e.spec or {"CTL", cn, e[1], e[2].LINKS_Name} end
+    return spec
+  end
+
+  -- A style set right after the font is stored but not used: the tool reads Bold and renders Regular. Setting
+  -- another style first and then the wanted one makes it take.
+  function K.face(tool)
+    if L.DRY then return end
+    tool:SetInput("Font", o.font or "Microsoft JhengHei")
+    tool:SetInput("Style", "Regular"); tool:SetInput("Style", o.style or "Bold")
+  end
+  function K.setup(comp)
+    local add = L.adder(comp)
+    K.face(add("TextPlus", "LkFont", -7, -5))
+    for i, c in ipairs(cols) do
+      if box or c[1] ~= "box" then
+        local b = add("Background", c[2], -7 + i, -6)
+        b:SetInput("UseFrameFormatSettings", 0); b:SetInput("Width", 16); b:SetInput("Height", 16)
+        L.color(b, c[4][1], c[4][2], c[4][3], 1)
+      end
+    end
+  end
+  function K.font(tool)
+    K.face(tool)
+    L.expr(tool, "Font", "LkFont.Font"); L.expr(tool, "Style", "LkFont.Style")
+    L.expr(tool, "CharacterSpacing", K.v.track)
+  end
+  -- white-on-clear shape -> coloured, with the two outlines. over.fill / over.edge / over.outer: three expressions
+  -- each, for a part that has colours of its own
+  function K.ink(comp, name, x, y, matte, over)
+    over = over or {}
+    local c = {}
+    for i = 1, 3 do
+      c[i] = over.fill and over.fill[i] or K.c("col", i)
+      c[i + 3] = over.edge and over.edge[i] or K.c("edge", i)
+      c[i + 6] = over.outer and over.outer[i] or K.c("outer", i)
+    end
+    -- a text tool's picture ends at the edge of its letters, and nothing downstream draws outside that: the
+    -- outlines, the shadow and anything scaled up would be cut off along a rectangle. Give it the whole frame.
+    local room = L.adder(comp)("SetDomain", name .. "Room", x - 1, y)
+    room.Input = matte; room:SetInput("Mode", "Set")
+    return L.inked(comp, name, x, y, room.Output, K.v.edge, K.v.outer, c)
+  end
+  function K.drop(comp, name, x, y, input)
+    local s = L.adder(comp)("Shadow", name, x, y)
+    s.Input = input
+    L.expr(s, "ShadowOffset", "Point(0.5 + " .. K.v.dist .. ", 0.5 - " .. K.v.dist .. "*" .. ASP .. ")")
+    L.expr(s, "Softness", K.v.soft)
+    L.expr(s, "Alpha", K.v.shadow)
+    return s
+  end
+  -- the box: a rounded rectangle from left to right and bottom to top (expressions, x in frame widths and y in
+  -- frame heights), grown by the padding. Returns the coloured Background; its Merge takes K.v.box as Blend.
+  function K.plate(comp, name, x, y, left, right, bottom, top)
+    local add = L.adder(comp)
+    local m = add("RectangleMask", name .. "Mask", x, y + 1)
+    L.expr(m, "Width", "max((" .. right .. ") - (" .. left .. ") + 2*" .. K.v.pad .. ", 0.00001)")
+    L.expr(m, "Height", "max((" .. top .. ") - (" .. bottom .. ") + 2*" .. K.v.pad .. "*" .. ASP .. ", 0.00001)")
+    L.expr(m, "Center", "Point(((" .. left .. ") + (" .. right .. "))/2, ((" .. bottom .. ") + (" .. top .. "))/2)")
+    L.expr(m, "CornerRadius", K.v.round)
+    local b = add("Background", name, x, y)
+    b:SetInput("UseFrameFormatSettings", 1)
+    for ch = 1, 3 do L.expr(b, "TopLeft" .. CH[ch], K.c("box", ch)) end
+    b.EffectMask = m.Mask
+    return b
+  end
+  return K
+end
 -- test helper: FX_<env>="10=1,60=2" keyframes a number control on those frames
 function L.keys(tool, id, spec)
   if not spec then return end
@@ -328,14 +452,18 @@ function L.panel(comp, name, list)
   local ctrl = L.adder(comp)("Background", name, -5, -3)
   local uc, spec = {}, {}
   for _, c in ipairs(list) do
-    uc[c[1]] = c[2]
-    if c[2].ICS_ControlPage ~= "Driver" then spec[#spec + 1] = {"CTL", name, c[1], c[2].LINKS_Name} end
+    -- {spec = {...}} is a control of some other tool that is published at this place in the order
+    if c.spec then spec[#spec + 1] = c.spec
+    else
+      uc[c[1]] = c[2]
+      if c[2].ICS_ControlPage ~= "Driver" then spec[#spec + 1] = {"CTL", name, c[1], c[2].LINKS_Name} end
+    end
   end
   ctrl.UserControls = uc
   ctrl = ctrl:Refresh()
   ctrl:SetInput("UseFrameFormatSettings", 1)
   L.color(ctrl, 0, 0, 0, 0)
-  for _, c in ipairs(list) do if c[3] then ctrl:SetInput(c[1], c[3]) end end
+  for _, c in ipairs(list) do if c[1] and c[3] then ctrl:SetInput(c[1], c[3]) end end
   return ctrl, spec
 end
 -- L.feeds: n pass-through entry nodes (SrcA, SrcB) fed by the stand-ins. With n = 2 the controller also gets

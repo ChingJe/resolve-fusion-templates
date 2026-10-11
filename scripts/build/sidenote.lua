@@ -11,14 +11,14 @@ comp:StartUndo("Build Side Note")
 local mediaIn, mediaOut = L.clear(comp)
 local add, expr = L.adder(comp), L.expr
 local cur = L.cur("NoteCtrl", "NoteList", "NoteTimed", "NoteCue")
+local K = L.look("NoteCtrl", {size = 0.05, edge = 0.003, colEdge = {0.08, 0.08, 0.1}})
 
 local ctrl = add("Background", "NoteCtrl", -6, -3)
-ctrl.UserControls = {
+ctrl.UserControls = K.controls({
   NoteList  = L.text("Remarks", "其實超怕的\n根本沒在聽", nil, 6),
   NoteCue   = L.num("Line Number (keyframe 1, 2, 3)", 1, 0, 20),
   NoteTimed = L.check("Lines Start With A Time (0:02 Text)", 0),
   FpsOverride = L.num("Frame Rate Override", 0, 0, 120),
-  NoteSize  = L.num("Size", 0.05, 0.01, 0.2),
   NoteTilt  = L.num("Tilt", -6, -45, 45),
   NotePos    = L.point("Text Position", nil, true),
   NoteTarget = L.point("Arrow Points At", nil, true),
@@ -27,7 +27,6 @@ ctrl.UserControls = {
   NoteThick = L.num("Arrow Thickness", 0.007, 0.001, 0.03),
   NoteHead  = L.num("Arrow Head", 0.035, 0, 0.15),
   NoteShort = L.num("Arrow Stops Short", 0.02, 0, 0.2),
-  NoteEdge  = L.num("Outline", 0.003, 0, 0.02),
   NoteIn    = L.num("Pop Frames", 6, 1, 40),
   NoteDraw  = L.num("Arrow Draw Frames", 8, 1, 60),
   NoteOut   = L.num("Fade Out Frames", 3, 0, 40),
@@ -40,12 +39,13 @@ ctrl.UserControls = {
   Draw  = L.num("Draw", 0, 0, 1, "Driver"),
   From = L.point("From", "Driver"), To = L.point("To", "Driver"),
   HeadA = L.point("HeadA", "Driver"), HeadB = L.point("HeadB", "Driver"),
-}
+})
 ctrl = ctrl:Refresh()
 ctrl:SetInput("UseFrameFormatSettings", 1)
 ctrl:SetInput("NotePos", {0.74, 0.72})
 ctrl:SetInput("NoteTarget", {0.5, 0.5})
 L.color(ctrl, 0, 0, 0, 0)
+K.setup(comp)
 expr(ctrl, "Idx", cur(1))
 expr(ctrl, "Since", cur(2))
 expr(ctrl, "Until", cur(3))
@@ -57,9 +57,9 @@ expr(ctrl, "Draw", "iif(Idx < 1, 0, min(max((Since + 1 - NoteIn)/max(NoteDraw, 1
 
 local text = add("TextPlus", "NoteText", -4, 0)
 text:SetInput("UseFrameFormatSettings", 1)
-text:SetInput("Font", "Microsoft JhengHei"); text:SetInput("Style", "Bold")
+K.font(text)
 expr(text, "StyledText", "Text((function(s) return (s:gsub('%s*|%s*', '\\n')) end)(" .. cur(4) .. "))")
-expr(text, "Size", "NoteCtrl.NoteSize * (0.6 + 0.4*NoteCtrl.Back)")
+expr(text, "Size", K.v.size .. " * (0.6 + 0.4*NoteCtrl.Back)")
 expr(text, "Center", "NoteCtrl.NotePos")
 expr(text, "AngleZ", "NoteCtrl.NoteTilt")
 
@@ -73,7 +73,7 @@ local BOX = [[(function(pick)
   if d then hw, hh = (d.right - d.left)/NoteText.Output.Width/2*asp, (d.top - d.bottom)/NoteText.Output.Height/2 end
   local dx, dy = (tx - px)*asp, ty - py
   local len = math.max(math.sqrt(dx*dx + dy*dy), 0.0001)
-  local pad = NoteCtrl.NoteSize*0.5
+  local pad = NoteCtrl.LkSize*0.5
   local k = math.min((hw + pad)/math.max(math.abs(dx), 0.0001), (hh + pad)/math.max(math.abs(dy), 0.0001), 0.8)
   local ax, ay = px + dx*k/asp, py + dy*k
   local bx, by = tx - dx/len*NoteCtrl.NoteShort/asp, ty - dy/len*NoteCtrl.NoteShort
@@ -125,15 +125,11 @@ arrow:SetInput("BlueExpression", A); arrow:SetInput("AlphaExpression", A)
 local ink = add("Merge", "NoteInk", 0, 0)
 ink.Background = arrow.Output; ink.Foreground = text.Output
 
-local inkCol = add("Background", "ColInk", -3, -5)
-local edgeCol = add("Background", "ColEdge", -2, -5)
-for _, h in ipairs({inkCol, edgeCol}) do h:SetInput("UseFrameFormatSettings", 0); h:SetInput("Width", 16); h:SetInput("Height", 16) end
-L.color(inkCol, 1, 1, 1, 1); L.color(edgeCol, 0.08, 0.08, 0.1, 1)
-local painted = L.inked(comp, "NotePaint", 1, 0, ink.Output, "NoteCtrl.NoteEdge", "0", {
-  "ColInk.TopLeftRed", "ColInk.TopLeftGreen", "ColInk.TopLeftBlue",
-  "ColEdge.TopLeftRed", "ColEdge.TopLeftGreen", "ColEdge.TopLeftBlue", "0", "0", "0"})
+-- the arrow is drawn with the same ink as the words: same colour, same outline, same shadow
+local painted = K.ink(comp, "NotePaint", 1, 0, ink.Output)
+local drop = K.drop(comp, "NoteDrop", 3, 0, painted.Output)
 local out = add("Merge", "NoteFinal", 4, 0)
-out.Background = ctrl.Output; out.Foreground = painted.Output
+out.Background = ctrl.Output; out.Foreground = drop.Output
 expr(out, "Blend", "NoteCtrl.Fade")
 
 mediaOut.Input = out.Output
@@ -141,15 +137,13 @@ comp:EndUndo(true)
 comp:Unlock()
 
 if os.getenv("FX_EXPORT") == "1" then
-  L.export(comp, "sidenote", {
+  L.export(comp, "sidenote", K.rows({
     {"NAME", "SideNote"},
     {"OUT", "NoteFinal", "Output"},
     {"CTL", "NoteCtrl", "NoteList", "Remarks"},
     {"CTL", "NoteCtrl", "NoteCue", "Line Number (keyframe 1, 2, 3)"},
     {"CTL", "NoteCtrl", "NoteTimed", "Lines Start With A Time (0:02 Text)"},
     {"CTL", "NoteCtrl", "FpsOverride", "Frame Rate Override"},
-    {"CTL", "NoteText", "Font", "Font", "2"}, {"CTL", "NoteText", "Style", "", "2"},
-    {"CTL", "NoteCtrl", "NoteSize", "Size"},
     {"CTL", "NoteCtrl", "NoteTilt", "Tilt"},
     {"CTL", "NoteCtrl", "NotePos", "Text Position"},
     {"CTL", "NoteCtrl", "NoteTarget", "Arrow Points At"},
@@ -158,13 +152,10 @@ if os.getenv("FX_EXPORT") == "1" then
     {"CTL", "NoteCtrl", "NoteThick", "Arrow Thickness"},
     {"CTL", "NoteCtrl", "NoteHead", "Arrow Head"},
     {"CTL", "NoteCtrl", "NoteShort", "Arrow Stops Short"},
-    {"CTL", "ColInk", "TopLeftRed", "Color", "3"}, {"CTL", "ColInk", "TopLeftGreen", "", "3"}, {"CTL", "ColInk", "TopLeftBlue", "", "3"},
-    {"CTL", "ColEdge", "TopLeftRed", "Outline Color", "4"}, {"CTL", "ColEdge", "TopLeftGreen", "", "4"}, {"CTL", "ColEdge", "TopLeftBlue", "", "4"},
-    {"CTL", "NoteCtrl", "NoteEdge", "Outline"},
     {"CTL", "NoteCtrl", "NoteIn", "Pop Frames"},
     {"CTL", "NoteCtrl", "NoteDraw", "Arrow Draw Frames"},
     {"CTL", "NoteCtrl", "NoteOut", "Fade Out Frames"},
-  })
+  }))
 else
   for name, value in string.gmatch(os.getenv("FX_SET") or "", "(%w+)=([%d%.%-]+)") do ctrl:SetInput(name, tonumber(value)) end
   local file = os.getenv("FX_TEXTFILE") and io.open(os.getenv("FX_TEXTFILE"), "r")

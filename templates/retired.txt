@@ -1,0 +1,6 @@
+# Templates this package used to have. install.bat removes them from Resolve's folder.
+# Typing and Karaoke Caption became Caption (2026-10-11).
+Titles\Typing.setting
+Titles\Karaoke Caption.setting
+# Hidden Word was dropped: too few uses, and a label laid over the word does the same (2026-10-11).
+Titles\Hidden Word.setting

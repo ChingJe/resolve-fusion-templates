@@ -17,7 +17,6 @@
 | 參數 | 作用 |
 |---|---|
 | `Text` | 文字，可以多行 |
-| `Font`、`Size` | 字型、大小 |
 | `Position` | 位置 |
 | `Position Is The` | `Position` 指的是外框的哪裡：`Left Edge` 左緣、`Middle` 中間、`Right Edge` 右緣。字數改變時，外框會從這個點往另一邊長 |
 | `Tilt` | 傾斜角度 |
@@ -27,16 +26,16 @@
 | `Slant` | 斜切的程度，負數往另一邊斜（`Slanted`） |
 | `Border` | 邊線的粗細，0 是沒有邊線。`Corner Marks` 的線條粗細也是它 |
 | `Frame Opacity` | 外框底色的不透明度。調低就是半透明的底 |
-| `Text Outline` | 文字描邊的粗細，0 是沒有 |
-| `Shadow X`、`Shadow Y` | 外框陰影往右、往上偏移多少。都設 0 就沒有陰影 |
-| `Shadow Opacity` | 陰影的不透明度 |
+| `Frame Shadow X`、`Frame Shadow Y` | 外框陰影往右、往上偏移多少。都設 0 就沒有陰影 |
+| `Frame Shadow Opacity` | 外框陰影的不透明度 |
 | `Entrance` | 進場：`None` 直接出現、`Pop` 彈出、`From Left`／`From Right`／`From Below`／`From Above` 從某一邊滑進來、`Wipe` 從左到右揭開 |
 | `Entrance Frames` | 進場花幾格 |
 | `Slide Distance` | 滑進來的距離 |
 | `Leave The Same Way At The End` | 勾選後，片段結尾用同樣的方式離開 |
 | `Leave Frames` | 離開花幾格 |
 | `Colours` | 配色：八組預設，或 `Custom` |
-| `Custom …` 五個顏色 | `Colours` 選 `Custom` 時才有作用：文字、文字描邊、外框底色、邊線、陰影 |
+| `Font` 到 `Shadow Softness` | 字的外觀：字型、字級、字距、顏色、兩層描邊、陰影（這裡的陰影是字自己的，和外框陰影分開）。每個文字類標題都是同一組，見[文字外觀](../text-style.md) |
+| `Custom …` 三個顏色 | `Colours` 選 `Custom` 時才有作用：外框底色、邊線、外框陰影 |
 
 **拼接的訣竅**
 
@@ -50,4 +49,6 @@
 - `Underline`、`No Frame` 沒有邊線，`Corner Marks`、`No Frame` 沒有底色和陰影。
 - `Slanted` 只有外框是斜的，文字不會跟著斜。想要斜體字就換字型的樣式。
 - 一個片段就是一張標籤，文字不會中途更換。要換字就放下一個片段，或改用 [Variety Caption](variety-caption.md)。
+- `Colours` 選了預設配色時，`Colour` 和 `Outline Colour` 兩個欄位不起作用，要選 `Custom` 才看它們。
+- 預設沒有文字描邊（`Outline` 是 0）。
 - 預設字型是微軟正黑體粗體。換字型時要選有中文字的，不然中文會變成方塊。

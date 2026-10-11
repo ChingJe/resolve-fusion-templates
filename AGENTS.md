@@ -25,7 +25,7 @@ DaVinci Resolve 的 Fusion 範本（特效、轉場、標題），以及用腳�
 - **動 Resolve 前先確認目前開的是哪個專案**。腳本改的是使用者正在用的那個 Resolve，不是預期的專案就停下來問。不要自行切換、關閉或刪除專案。
 - **預覽圖和任何進 git 的檔案都不能含使用者的私人素材**。需要預覽時用程序產生的畫面。
 - 影片等大型素材不進 git，也不要搬動位置，Resolve 專案是用絕對路徑連結的。
-- `templates/` 是原始檔，Resolve 實際讀的是 `%APPDATA%\Blackmagic Design\DaVinci Resolve\Support\Fusion\Templates\Edit\` 底下那份。改完範本要複製過去（執行 `install.bat install nopause`），並提醒使用者重啟 Resolve。新增範本時放進對應類型的子資料夾，安裝程式就會自動帶到，不用改它。
+- `templates/` 是原始檔，Resolve 實際讀的是 `%APPDATA%\Blackmagic Design\DaVinci Resolve\Support\Fusion\Templates\Edit\` 底下那份。改完範本要複製過去（執行 `install.bat install nopause`），並提醒使用者重啟 Resolve。新增範本時放進對應類型的子資料夾，安裝程式就會自動帶到，不用改它。**移除或改名範本時，把舊的檔名加進 `templates/retired.txt`**，安裝程式才會把使用者電腦裡的舊檔清掉。
 - 回報時，沒有實測過的部分要明講沒測過。
 - 用繁體中文和使用者溝通。
 
